@@ -20,7 +20,7 @@
     &:hover {
       opacity: 1;
     }
-    & .pt-icon-standard {
+    & .bp3-icon-standard {
       color: white;
       margin: 7px;
       transition: transform 0.25s ease-in-out;
@@ -28,12 +28,12 @@
     }
     &.active {
       opacity: 1;
-      & .pt-icon-standard {
+      & .bp3-icon-standard {
         transform: rotate(90deg);
       }
     }
   }
-  & .pt-input-group {
+  & .bp3-input-group {
     flex: 1;
     & input {
       background-color: transparent;

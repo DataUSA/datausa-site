@@ -80,9 +80,12 @@
     right: 0;
     top: 0;
     & span {
+      margin: auto;
+    }
+    & > span {
       margin: 8px 5px;
       &:only-child {
-        margin-right: 10px;
+        margin-right: 0;
       }
     }
     & .cart-icon {
@@ -108,6 +111,12 @@
           animation-duration: 0.5s;
           animation-iteration-count: 1;
         }
+      }
+    }
+    & .ClosedButton {
+      margin-top: 1px;
+      & .bp3-icon-search {
+        color: white;
       }
     }
   }
@@ -171,7 +180,7 @@
       }
     }
   }
-  & .pt-button {
+  & .bp3-button {
     background: none;
     border: 1px solid var(--red);
     border-radius: 0;
@@ -197,7 +206,7 @@
   }
 }
 
-.pt-dialog.nav-menu {
+.bp3-dialog.nav-menu {
   background-color: var(--black);
   display: flex;
   flex-direction: column;
@@ -272,7 +281,7 @@
   }
 }
 
-.pt-dialog-container {
+.bp3-dialog-container {
   outline: 0;
   transform: translateX(0);
   transition: transform 0.25s ease-in-out;
@@ -285,7 +294,7 @@
   }
 }
 
-.pt-overlay-backdrop {
+.bp3-overlay-backdrop {
   opacity: 1;
   transition: opacity 0.25s ease-in-out;
   &.slide-enter, &.slide-leave.slide-leave-active {

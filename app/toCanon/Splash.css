@@ -35,7 +35,7 @@
       width: 100%;
       z-index: 1;
     }
-    & .pt-button {
+    & .bp3-button {
       cursor: auto;
       opacity: 0;
       position: absolute;
@@ -46,7 +46,7 @@
       &:before {
         color: white;
       }
-      &:hover, &.pt-active {
+      &:hover, &.bp3-active {
         opacity: 1;
       }
       &:focus {
@@ -63,7 +63,7 @@
     transition: opacity 0.25s;
     width: 100%;
   }
-  & .profile-title, & .profile-subtitle {
+  & .profile-title p, & .profile-subtitle p {
     color: white;
     flex: 1;
     font-family: "Pathway Gothic One", sans-serif;
@@ -74,14 +74,14 @@
     text-shadow: 0 2px 6px black;
     text-transform: uppercase;
   }
-  & .profile-title {
+  & .profile-title p {
     font-size: 60px;
     line-height: 1.1;
     @media (max-width: 800px) {
       font-size: 40px;
     }
   }
-  & .profile-subtitle {
+  & .profile-subtitle p {
     font-size: 18px;
     line-height: 1.2;
     & a {
@@ -96,7 +96,7 @@
     transition: opacity 0.25s;
     width: 250px;
     z-index: 1;
-    & .pt-input {
+    & .bp3-input {
       padding-left: 10px;
       z-index: 1;
     }

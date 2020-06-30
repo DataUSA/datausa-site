@@ -10,7 +10,7 @@ const {CANON_LOGICLAYER_CUBE} = process.env;
 
 module.exports = function(app) {
 
-  const {db} = app.settings;
+  const {db} = app.settings
 
   app.get("/api/civic/:type/:geo", async(req, res) => {
 

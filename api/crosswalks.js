@@ -14,7 +14,7 @@ const geoOrder = ["Nation", "State", "County", "MSA", "Place", "PUMA"];
 
 module.exports = function(app) {
 
-  const {cache, db} = app.settings;
+  const {cache, db} = app.settings
 
   app.get("/api/geo/children/:id/", async(req, res) => {
 
@@ -139,14 +139,12 @@ module.exports = function(app) {
 
     const {limit, slug, urlId} = req.params;
 
-    const profile = await db.profiles
-      .findOne({where: {slug}})
-      .catch(() => false);
+    const meta = await db.profile_meta.findOne({where: {slug}}).catch(() => false);
 
-    if (!profile) res.json({error: "Not a valid profile type"});
+    if (!meta) res.json({error: "Not a valid profile type"});
     else {
 
-      const {dimension} = profile;
+      const {dimension} = meta;
 
       const attr = await db.search
         .findOne({where: {[sequelize.Op.or]: {id: urlId, slug: urlId}, dimension}})
@@ -412,12 +410,9 @@ module.exports = function(app) {
 
     const {slug, id} = req.params;
 
-    const profile = await db.profiles
-      .findOne({where: {slug}})
-      .catch(() => false);
-    if (!profile) res.json({error: "Not a valid profile type"});
-
-    const {dimension} = profile;
+    const meta = await db.profile_meta.findOne({where: {slug}}).catch(() => false);
+    if (!meta) res.json({error: "Not a valid profile type"});
+    const {dimension} = meta;
 
     const attr = await db.search
       .findOne({where: {[sequelize.Op.or]: {id, slug: id}, dimension}})

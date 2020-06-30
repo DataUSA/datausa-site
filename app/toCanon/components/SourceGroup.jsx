@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
-import {Tooltip2} from "@blueprintjs/labs";
+import {Tooltip} from "@blueprintjs/core";
 import "./SourceGroup.css";
 
 class SourceGroup extends Component {
@@ -30,13 +30,13 @@ class SourceGroup extends Component {
         return <span key={i} className="source">
           { i && i === sources.length - 1 ? <span> and</span> : null }
           { org && <span>&nbsp;</span> }
-          { org && <Tooltip2 content={orgDesc} className={orgDesc ? "active" : ""} disabled={!orgDesc}>
+          { org && <Tooltip content={orgDesc} className={orgDesc ? "active" : ""} disabled={!orgDesc}>
             { orgLink ? <a href={orgLink} target="_blank" rel="noopener noreferrer" dangerouslySetInnerHTML={{__html: orgName}} /> : <span dangerouslySetInnerHTML={{__html: orgName}} /> }
-          </Tooltip2> }
+          </Tooltip> }
           { dataset && <span>&nbsp;</span> }
-          { dataset && <Tooltip2 content={datasetDesc} className={datasetDesc ? "active" : ""} disabled={!datasetDesc}>
+          { dataset && <Tooltip content={datasetDesc} className={datasetDesc ? "active" : ""} disabled={!datasetDesc}>
             { datasetLink ? <a href={datasetLink} target="_blank" rel="noopener noreferrer" dangerouslySetInnerHTML={{__html: datasetName}} /> : <span dangerouslySetInnerHTML={{__html: datasetName}} /> }
-          </Tooltip2> }
+          </Tooltip> }
           { i < sources.length - 1 && <span>,</span> }
         </span>;
       })}

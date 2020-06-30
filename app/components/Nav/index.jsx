@@ -1,8 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router";
-import {Dialog, PopoverInteractionKind} from "@blueprintjs/core";
-import {Popover2} from "@blueprintjs/labs";
+import {Dialog, Popover, PopoverInteractionKind} from "@blueprintjs/core";
 import "./index.css";
 
 import Hamburger from "./Hamburger";
@@ -76,10 +75,10 @@ class Nav extends Component {
             <div className="title">{d.title}</div>
             <img src="/images/viz/remove.svg" className="remove" onClick={this.onRemove.bind(this, d)} />
           </div>) }
-          <a href="/cart" className="pt-button pt-fill pt-icon-download">
+          <a href="/cart" className="bp3-button bp3-fill bp3-icon-download">
             View Data
           </a>
-          <div className="pt-button pt-fill pt-icon-trash" onClick={this.onClear.bind(this)}>
+          <div className="bp3-button bp3-fill bp3-icon-trash" onClick={this.onClear.bind(this)}>
             Clear Cart
           </div>
         </div>
@@ -104,7 +103,7 @@ class Nav extends Component {
         : null }
 
       <div className="right-buttons">
-        <Popover2
+        <Popover
           hoverOpenDelay={0}
           hoverCloseDelay={150}
           interactionKind={PopoverInteractionKind.HOVER}
@@ -114,7 +113,7 @@ class Nav extends Component {
             { cart && cart.data.length ? <span className="cart-size">{cart.data.length}</span> : null }
             <img src={ `/images/cart${cart && cart.data.length ? "-red" : ""}.svg` } />
           </a>
-        </Popover2>
+        </Popover>
         { search && <SearchButton /> }
       </div>
 

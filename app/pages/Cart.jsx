@@ -4,10 +4,9 @@ import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
 
 import {fetchData} from "@datawheel/canon-core";
-import {Checkbox, Icon} from "@blueprintjs/core";
-import {Tooltip2} from "@blueprintjs/labs";
+import {Checkbox, Icon, Tooltip} from "@blueprintjs/core";
 import {Cell, Column, SelectionModes, Table} from "@blueprintjs/table";
-import "@blueprintjs/table/dist/table.css";
+import "@blueprintjs/table/lib/css/table.css";
 import axios from "axios";
 import {max, merge} from "d3-array";
 import {nest} from "d3-collection";
@@ -17,7 +16,6 @@ import {saveAs} from "file-saver";
 import "./Cart.css";
 
 import Loading from "components/Loading";
-import {Object} from "es6-shim";
 import {updateTitle} from "actions/title";
 import {addToCart, clearCart, removeFromCart, toggleCartSetting} from "actions/cart";
 // import libs from "../../utils/libs";
@@ -122,7 +120,7 @@ class Cart extends Component {
     }
   }
 
-  async reload() {
+  reload() {
 
     // const {formatters} = this.context;
     const {cart} = this.props;
@@ -161,8 +159,10 @@ class Cart extends Component {
       }));
 
     this.setState({loading: true, results: false, progress: 0, total: promises.length + 1});
-    const responses = await Promise.all(promises);
-    this.formatData.bind(this)(responses.filter(resp => resp.data), stickies);
+    Promise.all(promises)
+      .then(responses => {
+        this.formatData.bind(this)(responses.filter(resp => resp.data), stickies);
+      });
 
   }
 
@@ -374,8 +374,8 @@ class Cart extends Component {
         <div className="examples">
           { examples.map((d, i) => <div key={i}
             onClick={this.gotoExample.bind(this, d)}
-            className="pt-card pt-interactive">
-            <Icon iconName={d.icon} />
+            className="bp3-card bp3-interactive">
+            <Icon icon={d.icon} />
             { d.title }
           </div>) }
         </div>
@@ -393,15 +393,15 @@ class Cart extends Component {
           </div>
           { cart.data.map(d => <div key={d.slug} className="dataset">
             <div className="title">{d.title}</div>
-            <Tooltip2 content="Remove from Cart">
+            <Tooltip content="Remove from Cart">
               <img src="/images/viz/remove.svg" className="remove" onClick={this.onRemove.bind(this, d)} />
-            </Tooltip2>
+            </Tooltip>
           </div>) }
           { cart.settings.map(s => s.key !== "showMOE" || Object.keys(moe).length ? <Checkbox key={s.key} checked={s.value} label={s.label} onChange={this.toggleSetting.bind(this, s.key)} /> : null) }
-          <div className="pt-button pt-fill pt-icon-download" onClick={this.onCSV.bind(this)}>
+          <div className="bp3-button bp3-fill bp3-icon-download" onClick={this.onCSV.bind(this)}>
             Download Full Table as CSV File
           </div>
-          <div className="pt-button pt-fill pt-icon-trash" onClick={this.onClear.bind(this)}>
+          <div className="bp3-button bp3-fill bp3-icon-trash" onClick={this.onClear.bind(this)}>
             Remove All Items from Cart
           </div>
         </div>

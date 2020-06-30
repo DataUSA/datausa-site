@@ -12,7 +12,7 @@ const SubList = ({active, dimension, totals}) => <ul>
     .sort((a, b) => totals[a] - totals[b])
     .filter(key => totals[key] > 1)
     .map(key => <li className={active === key ? "active" : ""} key={key}>
-      <span className="pt-icon-standard pt-icon-dot"></span>
+      <span className="bp3-icon-standard bp3-icon-dot"></span>
       <Link className="title" to={`/about/classifications/${dimension}/${key}`}>{key}</Link>
       <span className="num">{commas(totals[key])}</span>
     </li>) }

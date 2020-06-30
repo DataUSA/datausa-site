@@ -6,8 +6,7 @@ import SVG from "react-inlinesvg";
 import {nest} from "d3-collection";
 
 import Vizbuilder from "@datawheel/canon-vizbuilder";
-import {Icon} from "@blueprintjs/core";
-import {Tooltip2} from "@blueprintjs/labs";
+import {Icon, Tooltip} from "@blueprintjs/core";
 import "./Visualize.css";
 import {badMeasures} from "d3plus.js";
 import {titleCase} from "d3plus-text";
@@ -167,13 +166,13 @@ class Visualize extends Component {
       prevArrow:
         <SlickButtonFix>
           <button className="slick-arrow-button" onClick={this.previous.bind(this)}>
-            <Icon iconName="chevron-left" />
+            <Icon icon="chevron-left" />
           </button>
         </SlickButtonFix>,
       nextArrow:
         <SlickButtonFix>
           <button className="slick-arrow-button" onClick={this.next.bind(this)}>
-            <Icon iconName="chevron-right" />
+            <Icon icon="chevron-right" />
           </button>
         </SlickButtonFix>,
       // layout (desktop first)
@@ -239,7 +238,7 @@ class Visualize extends Component {
           <p>
             The examples {position} are a small sample of what is possible with the Viz Builder. Click on one to get started!
           </p>
-          <div className="pt-button pt-fill pt-icon-settings" onClick={this.closeIntro.bind(this)}>
+          <div className="bp3-button bp3-fill bp3-icon-settings" onClick={this.closeIntro.bind(this)}>
             Go directly to interface
           </div>
         </div>
@@ -247,7 +246,7 @@ class Visualize extends Component {
           { exampleGroups.map(d =>
             <div key={d.key} className="carousel">
               <h2><SVG src={`/icons/sections/${groupIcons[d.key]}.svg`} />{ d.key }</h2>
-              <Carousel {...carouselSettings} ref={c => this.carousel = c}>
+              <Carousel key="carousel" {...carouselSettings} ref={c => this.carousel = c}>
                 {d.values.map(example => <Tile key={example.title} new={example.new} onClick={this.gotoExample.bind(this, example.link)} image={example.image} title={example.title} />)}
               </Carousel>
             </div>) }
@@ -316,8 +315,8 @@ class Visualize extends Component {
             "stacked"
           ]}>
           <div className="custom-controls">
-            <Tooltip2 placement="top-end">
-              <div className={ `pt-button pt-fill pt-icon-shopping-cart ${ cartSize >= cartMax ? "pt-disabled" : "" }` } onClick={this.onCart.bind(this)}>
+            <Tooltip placement="top-end">
+              <div className={ `bp3-button bp3-fill bp3-icon-shopping-cart ${ cartSize >= cartMax ? "bp3-disabled" : "" }` } onClick={this.onCart.bind(this)}>
                 { !cart ? "Loading Cart..." : inCart ? "Remove from Cart" : "Add Data to Cart" }
               </div>
               <span>
@@ -325,15 +324,15 @@ class Visualize extends Component {
                   : cartSize !== undefined && cartSize >= cartMax ? `Cart limit of ${cartSize} has been reached. Please visit the cart page to download the current cart and/or remove data.`
                     : "Add the underlying data to the cart, and merge with any existing cart data." }
               </span>
-            </Tooltip2>
-            <Tooltip2 className="absolute-title" placement="bottom">
+            </Tooltip>
+            <Tooltip className="absolute-title" placement="bottom">
               <h1 onClick={this.showIntro.bind(this)}>
                 Viz Builder
               </h1>
               <span>
                 Click to show some example queries.
               </span>
-            </Tooltip2>
+            </Tooltip>
           </div>
         </Vizbuilder>
 

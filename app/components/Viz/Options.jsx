@@ -11,10 +11,8 @@ import axios from "axios";
 import {formatAbbreviate} from "d3plus-format";
 import {dataLoad} from "d3plus-viz";
 
-import {Checkbox, Dialog, Icon, NonIdealState, Spinner, Tab2, Tabs2} from "@blueprintjs/core";
+import {Checkbox, Dialog, Icon, NonIdealState, Spinner, Tab, Tabs, Tooltip} from "@blueprintjs/core";
 import {Cell, Column, SelectionModes, Table} from "@blueprintjs/table";
-import {Tooltip2} from "@blueprintjs/labs";
-import {Object} from "es6-shim";
 import {addToCart, removeFromCart} from "actions/cart";
 
 const FORMATTERS = {
@@ -117,7 +115,7 @@ class Options extends Component {
     if (JSON.stringify(dataURLs) !== JSON.stringify(this.state.data)) this.setState({data: dataURLs, results: false});
   }
 
-  async onCart() {
+  onCart() {
 
     const {addToCart, cart, removeFromCart, topic} = this.props;
     const {cartSlug} = this.state;
@@ -197,6 +195,8 @@ class Options extends Component {
       });
 
       const groupBy = config.groupBy instanceof Array ? config.groupBy : [config.groupBy];
+      const levelPromises = [];
+
       for (let i = 0; i < groupBy.length; i++) {
         const group = groupBy[i];
         if (typeof group === "string") {
@@ -220,55 +220,62 @@ class Options extends Component {
               slices = slices.concat(uniques);
             }
             else {
-              const levels = await axios.get(`/api/cart/levels/${group}`);
+              levelPromises.push(axios.get(`/api/cart/levels/${group}`));
               delete params[group];
-              slices = slices.concat(levels);
             }
 
           }
         }
       }
 
-      // TODO check axes groupings
-      // TODO check stats
-      // TODO check dropdowns
+      Promise.all(levelPromises)
+        .then(levelResponses => {
+          levelResponses.forEach(levels => {
+            slices = slices.concat(levels);
+          });
 
-      const urls = [];
-      const drilldowns = params.drilldowns.concat(slices);
+          // TODO check axes groupings
+          // TODO check stats
+          // TODO check dropdowns
 
-      if (slices.length) {
-        slices.forEach(slice => {
-          params.drilldowns.push(slice);
-          const url = `${base}?${Object.entries(params).map(([key, val]) => `${key}=${val.join(",")}`).join("&")}`;
-          console.log(url);
-          urls.push(url);
-          params.drilldowns.pop();
+          const urls = [];
+          const drilldowns = params.drilldowns.concat(slices);
+
+          if (slices.length) {
+            slices.forEach(slice => {
+              params.drilldowns.push(slice);
+              const url = `${base}?${Object.entries(params).map(([key, val]) => `${key}=${val.join(",")}`).join("&")}`;
+              console.log(url);
+              urls.push(url);
+              params.drilldowns.pop();
+            });
+          }
+          else {
+            if (!params.drilldowns.length) delete params.drilldowns;
+            const url = `${base}?${Object.entries(params).map(([key, val]) => `${key}=${val.join(",")}`).join("&")}`;
+            console.log(url);
+            urls.push(url);
+          }
+
+          const format = `${dataFormat}`;
+          let measures = params.measures
+            .map(measure => {
+              const d = measure.toLowerCase();
+              if (d.includes("tuition")) return "Tuition";
+              else if (d.includes("graduate")) return "Graduates";
+              else if (d.includes(" moe") || d.includes(" rca") || d === "record count") return false;
+              else return measure;
+            });
+          measures = list(Array.from(new Set(measures.filter(Boolean))));
+          const cartTitle =
+            urls.some(d => d.includes("covid19/employment")) ? "Unemployment Claims by State"
+              : urls.some(d => d.includes("covid19")) ? "COVID-19 by State"
+                : `${measures}${drilldowns ? ` by ${list(drilldowns)}` : ""}`;
+          console.log(cartTitle);
+
+          addToCart({urls, format, slug: cartSlug, title: cartTitle});
+
         });
-      }
-      else {
-        if (!params.drilldowns.length) delete params.drilldowns;
-        const url = `${base}?${Object.entries(params).map(([key, val]) => `${key}=${val.join(",")}`).join("&")}`;
-        console.log(url);
-        urls.push(url);
-      }
-
-      const format = `${dataFormat}`;
-      let measures = params.measures
-        .map(measure => {
-          const d = measure.toLowerCase();
-          if (d.includes("tuition")) return "Tuition";
-          else if (d.includes("graduate")) return "Graduates";
-          else if (d.includes(" moe") || d.includes(" rca") || d === "record count") return false;
-          else return measure;
-        });
-      measures = list(Array.from(new Set(measures.filter(Boolean))));
-      const cartTitle =
-        urls.some(d => d.includes("covid19/employment")) ? "Unemployment Claims by State"
-          : urls.some(d => d.includes("covid19")) ? "COVID-19 by State"
-            : `${measures}${drilldowns ? ` by ${list(drilldowns)}` : ""}`;
-      console.log(cartTitle);
-
-      addToCart({urls, format, slug: cartSlug, title: cartTitle});
 
     }
     else {
@@ -360,16 +367,16 @@ class Options extends Component {
     const profileURL = `${baseURL}#${topic.slug}`;
     const embedURL = `${baseURL}/${topic.section}/${topic.slug}`;
 
-    const ImagePanel = () => <div className="pt-dialog-body save-image">
+    const ImagePanel = () => <div className="bp3-dialog-body save-image">
       <div className="save-image-btn" onClick={this.onSave.bind(this, "png")}>
-        <Icon iconName="media" />PNG
+        <Icon icon="media" />PNG
       </div>
       <div className="save-image-btn" onClick={this.onSave.bind(this, "svg")}>
-        <Icon iconName="code-block" />SVG
+        <Icon icon="code-block" />SVG
       </div>
     </div>;
 
-    const SharePanel = () => <div className="pt-dialog-body share vertical">
+    const SharePanel = () => <div className="bp3-dialog-body share vertical">
       <div className="horizontal social">
         <div className="networks">
           <a href={ `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(profileURL)}` } target="_blank" rel="noopener noreferrer">
@@ -386,7 +393,7 @@ class Options extends Component {
         <div className="info">
           <p>Copy and paste the following code to place an interactive version of this visualization on your website.</p>
           <Checkbox checked={includeText} label="Include paragraph and stats" onChange={this.toggleText.bind(this)} />
-          <div className="pt-select">
+          <div className="bp3-select">
             <select value={sizes.indexOf(embedSize)} onChange={this.changeSize.bind(this)}>
               { sizes.map((size, i) => <option key={i} value={i}>{size.label}</option>) }
             </select>
@@ -422,9 +429,9 @@ class Options extends Component {
     };
 
     const DataPanel = () => results
-      ? <div className="pt-dialog-body view-table vertical">
+      ? <div className="bp3-dialog-body view-table vertical">
         <div className={`download ${data.length > 1 ? "vertical" : "horizontal"}`}>
-          <button type="button" className="pt-button pt-icon-download pt-minimal" onClick={this.onCSV.bind(this)}>
+          <button type="button" className="bp3-button bp3-icon-download bp3-minimal" onClick={this.onCSV.bind(this)}>
             Download as CSV
           </button>
           { data.map((d, i) => <input key={i} type="text" ref={input => this.dataLink = input} onClick={this.onFocus.bind(this, "dataLink")} onMouseLeave={this.onBlur.bind(this, "dataLink")} readOnly="readonly" value={`${location.origin}${d}`} />)}
@@ -442,34 +449,34 @@ class Options extends Component {
           </Table>
         </div>
       </div>
-      : <div className="pt-dialog-body view-table vertical">
+      : <div className="bp3-dialog-body view-table vertical">
         <NonIdealState title="Loading Data" visual={<Spinner />} />
       </div>;
 
     return <div className="Options">
 
-      <Tooltip2 tooltipClassName="option-tooltip" placement="top-end">
+      <Tooltip tooltipClassName="option-tooltip" placement="top-end">
         <div className="option view-table" onClick={this.toggleDialog.bind(this, "view-table")}>
           <span className="option-label">View Data</span>
         </div>
         <span>View and download the underlying dataset used to create this visualization.</span>
-      </Tooltip2>
+      </Tooltip>
 
-      <Tooltip2 tooltipClassName="option-tooltip" placement="top-end">
+      <Tooltip tooltipClassName="option-tooltip" placement="top-end">
         <div className="option save-image" onClick={this.toggleDialog.bind(this, "save-image")}>
           <span className="option-label">Save Image</span>
         </div>
         <span>Download this visualization as a PNG image or SVG code.</span>
-      </Tooltip2>
+      </Tooltip>
 
-      { shareEnabled ? <Tooltip2 tooltipClassName="option-tooltip" placement="top-end">
+      { shareEnabled ? <Tooltip tooltipClassName="option-tooltip" placement="top-end">
         <div className="option share" onClick={this.toggleDialog.bind(this, "share")}>
           <span className="option-label">Share / Embed</span>
         </div>
         <span>Share this visualization on Twitter, Facebook, or on your personal website.</span>
-      </Tooltip2> : null }
+      </Tooltip> : null }
 
-      { cartEnabled && data.length === 1 ? <Tooltip2 tooltipClassName="option-tooltip" placement="top-end">
+      { cartEnabled && data.length === 1 ? <Tooltip tooltipClassName="option-tooltip" placement="top-end">
         <div className={ `option add-to-cart ${ cartSize >= cartMax ? "disabled" : "" }` } onClick={this.onCart.bind(this)}>
           <span className="option-label">{ cartSize === undefined ? "Loading Cart" : inCart ? "Remove from Cart" : "Add Data to Cart" }</span>
         </div>
@@ -478,15 +485,15 @@ class Options extends Component {
             : cartSize !== undefined && cartSize >= cartMax ? `Cart limit of ${cartSize} has been reached. Please visit the cart page to download the current cart and/or remove data.`
               : "Add the underlying data to the cart, and merge with any existing cart data." }
         </span>
-      </Tooltip2> : null }
+      </Tooltip> : null }
 
       <Dialog className="options-dialog" isOpen={openDialog} onClose={this.toggleDialog.bind(this, false)}>
-        <Tabs2 onChange={this.toggleDialog.bind(this)} selectedTabId={openDialog}>
-          <Tab2 id="view-table" title="View Data" panel={<DataPanel />} />
-          <Tab2 id="save-image" title="Save Image" panel={<ImagePanel />} />
-          { shareEnabled ? <Tab2 id="share" title="Share / Embed" panel={<SharePanel />} /> : null }
-          <button aria-label="Close" className="close-button pt-dialog-close-button pt-icon-small-cross" onClick={this.toggleDialog.bind(this, false)}></button>
-        </Tabs2>
+        <Tabs onChange={this.toggleDialog.bind(this)} selectedTabId={openDialog}>
+          <Tab id="view-table" title="View Data" panel={<DataPanel />} />
+          <Tab id="save-image" title="Save Image" panel={<ImagePanel />} />
+          { shareEnabled ? <Tab id="share" title="Share / Embed" panel={<SharePanel />} /> : null }
+          <button aria-label="Close" className="close-button bp3-dialog-close-button bp3-icon-small-cross" onClick={this.toggleDialog.bind(this, false)}></button>
+        </Tabs>
       </Dialog>
 
     </div>;

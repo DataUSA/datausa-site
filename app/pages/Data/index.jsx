@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
 import SubNav from "components/SubNav/index";
 import NavLink from "components/NavLink";
@@ -22,7 +22,7 @@ class Data extends Component {
           <NavLink to="/about/api/">API</NavLink>
           <NavLink to="/about/classifications/">Classifications</NavLink>
         </SubNav>
-        { this.props.children }
+        <Fragment>{ this.props.children }</Fragment>
       </div>
     );
 

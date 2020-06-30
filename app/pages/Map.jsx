@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import {Link} from "react-router";
 import {connect} from "react-redux";
 import Vizbuilder from "@datawheel/canon-vizbuilder";
-import {Tooltip2} from "@blueprintjs/labs";
+import {Tooltip} from "@blueprintjs/core";
 import "./Visualize.css";
 import "./Map.css";
 import {badMeasures} from "d3plus.js";
@@ -133,8 +133,8 @@ class Map extends Component {
           "Destination State": {topojson: "/topojson/State.json"}
         }}>
         <div className="custom-controls">
-          <Tooltip2 placement="top-end">
-            <div className={ `pt-button pt-fill pt-icon-shopping-cart ${ cartSize >= cartMax ? "pt-disabled" : "" }` } onClick={this.onCart.bind(this)}>
+          <Tooltip placement="top-end">
+            <div className={ `bp3-button bp3-fill bp3-icon-shopping-cart ${ cartSize >= cartMax ? "bp3-disabled" : "" }` } onClick={this.onCart.bind(this)}>
               { !cart ? "Loading Cart..." : inCart ? "Remove from Cart" : "Add Data to Cart" }
             </div>
             <span>
@@ -142,8 +142,8 @@ class Map extends Component {
                 : cartSize !== undefined && cartSize >= cartMax ? `Cart limit of ${cartSize} has been reached. Please visit the cart page to download the current cart and/or remove data.`
                   : "Add the underlying data to the cart, and merge with any existing cart data." }
             </span>
-          </Tooltip2>
-          <Link className="pt-button pt-fill pt-icon-series-derived" to={vizbuilder}>
+          </Tooltip>
+          <Link className="bp3-button bp3-fill bp3-icon-series-derived" to={vizbuilder}>
             Explore in Viz Builder
           </Link>
           <h1 className="absolute-title">

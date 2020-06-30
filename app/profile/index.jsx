@@ -2,13 +2,15 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
+import {hot} from "react-hot-loader/root";
 
-import {AnchorLink, CanonProfile, fetchData, SubNav} from "@datawheel/canon-core";
+import {AnchorLink, CanonProfile, fetchData} from "@datawheel/canon-core";
+import SubNav from "toCanon/SubNav";
 import Splash from "toCanon/Splash";
 import SectionIcon from "toCanon/SectionIcon";
 import Topic from "toCanon/Topic";
 
-import {Tooltip2} from "@blueprintjs/labs";
+import {Tooltip} from "@blueprintjs/core";
 import axios from "axios";
 import {select} from "d3-selection";
 import "./index.css";
@@ -101,10 +103,11 @@ class Profile extends Component {
     const {pslug} = this.props.params;
     const {comparisons} = this.state;
     this.setState({loading: true});
-    axios.get(`/api/profile/${pslug}/${id}`)
+    axios.get(`/api/profile?slug=${pslug}&id=${id}`)
       .then(resp => {
         const newComparisons = comparisons.concat([resp.data]);
         this.setState({comparisons: newComparisons, loading: false});
+
         const {router} = this.props;
         const {location} = router;
 
@@ -160,38 +163,38 @@ class Profile extends Component {
 
   handleScroll() {
 
-    const {sections} = this.props.profile;
-    const {activeSection, activeSidenav, showSidenav, sidenav} = this.state;
-    const navHeight = 85;
+    // const {sections} = this.props.profile;
+    // const {activeSection, activeSidenav, showSidenav, sidenav} = this.state;
+    // const navHeight = 85;
 
-    let newActiveSection = false;
-    const elem = document.getElementById("about");
-    const top = elem ? elem.getBoundingClientRect().top : 1;
-    if (top <= navHeight) newActiveSection = "about";
-    sections.forEach(section => {
-      const elem = document.getElementById(section.slug);
-      const top = elem ? elem.getBoundingClientRect().top : 1;
-      if (top <= navHeight) newActiveSection = section.slug;
-    });
+    // let newActiveSection = false;
+    // const elem = document.getElementById("about");
+    // const top = elem ? elem.getBoundingClientRect().top : 1;
+    // if (top <= navHeight) newActiveSection = "about";
+    // sections.forEach(section => {
+    //   const elem = document.getElementById(section.slug);
+    //   const top = elem ? elem.getBoundingClientRect().top : 1;
+    //   if (top <= navHeight) newActiveSection = section.slug;
+    // });
 
-    let newActiveSidenav = false;
-    sidenav.forEach(section => {
-      section.forEach(category => {
-        const elem = document.getElementById(category.slug);
-        const top = elem ? elem.getBoundingClientRect().top : 1;
-        if (top <= navHeight) newActiveSidenav = category.slug;
-      });
-    });
+    // let newActiveSidenav = false;
+    // sidenav.forEach(section => {
+    //   section.forEach(category => {
+    //     const elem = document.getElementById(category.slug);
+    //     const top = elem ? elem.getBoundingClientRect().top : 1;
+    //     if (top <= navHeight) newActiveSidenav = category.slug;
+    //   });
+    // });
 
-    const newShowSidenav = newActiveSection && newActiveSection !== "about" && document.getElementById("keep-exploring").getBoundingClientRect().top > window.innerHeight;
+    // const newShowSidenav = newActiveSection && newActiveSection !== "about" && document.getElementById("keep-exploring").getBoundingClientRect().top > window.innerHeight;
 
-    if (activeSection !== newActiveSection || activeSidenav !== newActiveSidenav || showSidenav !== newShowSidenav) {
-      this.setState({
-        activeSection: newActiveSection,
-        activeSidenav: newActiveSidenav,
-        showSidenav: newShowSidenav
-      });
-    }
+    // if (activeSection !== newActiveSection || activeSidenav !== newActiveSidenav || showSidenav !== newShowSidenav) {
+    //   this.setState({
+    //     activeSection: newActiveSection,
+    //     activeSidenav: newActiveSidenav,
+    //     showSidenav: newShowSidenav
+    //   });
+    // }
 
   }
 
@@ -213,33 +216,35 @@ class Profile extends Component {
 
     const topics = [];
     const cats = categories[pslug] || [];
-    profile.sections
-      .forEach(s => {
-        const arr = [];
-        const sectionCompares = comparisons.map(c => c.sections.find(ss => ss.id === s.id)).filter(Boolean);
-        s.topics.forEach(t => {
-          const cat = cats.find(c => c.topic === t.slug);
-          if (cat) {
-            arr.push([
-              <h2 id={`category_${cat.slug}`} className="category" key={`category_${cat.slug}`}>
-                <AnchorLink to={`category_${cat.slug}`}>{cat.title}</AnchorLink>
-              </h2>
-            ]);
-          }
-          if (comparisons.length) t.titleCompare = t.title.replace("</p>", ` ${joiner} ${stripHTML(profile.title)}</p>`);
-          arr.push(<Topic key={`topic_${t.id}${comparisons.length ? "_orig" : ""}`} contents={t} />);
-          sectionCompares
-            .map(ss => ss.topics.find(tt => tt.id === t.id))
-            .forEach(tt => {
-              tt.titleCompare = tt.title.replace("</p>", ` ${joiner} ${stripHTML(comparisons[0].title)}</p>`);
-              arr.push(<Topic variables={comparisons[0].variables} key={`topic_${tt.id}_comp`} contents={tt} />);
-            });
-        });
-        topics.push(arr);
-      });
+    console.log(profile);
+    // profile.sections
+    //   .forEach(s => {
+    //     const arr = [];
+    //     const sectionCompares = comparisons.map(c => c.sections.find(ss => ss.id === s.id)).filter(Boolean);
+    //     s.topics.forEach(t => {
+    //       const cat = cats.find(c => c.topic === t.slug);
+    //       if (cat) {
+    //         arr.push([
+    //           <h2 id={`category_${cat.slug}`} className="category" key={`category_${cat.slug}`}>
+    //             <AnchorLink to={`category_${cat.slug}`}>{cat.title}</AnchorLink>
+    //           </h2>
+    //         ]);
+    //       }
+    //       if (comparisons.length) t.titleCompare = t.title.replace("</p>", ` ${joiner} ${stripHTML(profile.title)}</p>`);
+    //       arr.push(<Topic key={`topic_${t.id}${comparisons.length ? "_orig" : ""}`} contents={t} />);
+    //       sectionCompares
+    //         .map(ss => ss.topics.find(tt => tt.id === t.id))
+    //         .forEach(tt => {
+    //           tt.titleCompare = tt.title.replace("</p>", ` ${joiner} ${stripHTML(comparisons[0].title)}</p>`);
+    //           arr.push(<Topic variables={comparisons[0].variables} key={`topic_${tt.id}_comp`} contents={tt} />);
+    //         });
+    //     });
+    //     topics.push(arr);
+    //   });
 
     const metaTitle = stripHTML(profiles.map(d => d.title).join(" & "));
-    const metaDesc = profile.descriptions.length ? stripHTML(profile.descriptions[0].description) : false;
+    const aboutSection = profile.sections.find(s => s.slug === "about");
+    const metaDesc = aboutSection.descriptions.length ? stripHTML(aboutSection.descriptions[0].description) : false;
 
     return (
       <CanonProfile>
@@ -254,31 +259,21 @@ class Profile extends Component {
 
         <Splash data={profile} comparisons={comparisons} />
 
-        <Section data={{...profile, title: "About", slug: "about", profileSlug: profile.slug} } comparisons={comparisons} breadcrumbs={true} photo={true} />
-        {/* <div className="toc">
-          { profile.sections.map((s, i) => {
-            let subs = sidenav[i];
-            if (subs.length === 1) subs = [{title: "Start Exploring", slug: s.slug}];
-            return <div key={i} className="toc-category">
-              <a className="toc-title">
-                <img src={ `/icons/sections/${s.slug}.svg` } />
-                <span dangerouslySetInnerHTML={{__html: stripHTML(s.title)}} />
-              </a>
-              <div className="toc-list">
-                { subs.map(sub => <AnchorLink key={sub.slug} to={sub.slug}>{sub.title}</AnchorLink>) }
-              </div>
-            </div>;
-          }) }
-        </div> */}
+        {/* <Section
+          data={{...aboutSection, title: "About", slug: "about", profileSlug: profile.slug} }
+          comparisons={comparisons}
+          breadcrumbs={true}
+          photo={true}
+        /> */}
 
-        { profile.sections.map((s, i) => {
+        {/* { profile.sections.map((s, i) => {
           const compares = comparisons.map(c => c.sections[i]);
           return <Section key={i} data={s} comparisons={compares}>
             { topics[i] }
           </Section>;
-        }) }
+        }) } */}
 
-        <SubNav type="scroll" anchor="top" visible={() => {
+        {/* <SubNav type="scroll" anchor="top" visible={() => {
           if (typeof window === undefined) return false;
           const elem = select("#Splash .profile-sections").node();
           const top = elem.getBoundingClientRect().top;
@@ -286,22 +281,22 @@ class Profile extends Component {
         }}>
           <SectionIcon slug="about" title="About" active={ activeSection === "about" } />
           { profile.sections.map((s, i) => <SectionIcon key={i} {...s} active={ activeSection === s.slug } />) }
-        </SubNav>
+        </SubNav> */}
 
-        { similar.length && <div id="keep-exploring" className="keep-exploring">
+        {/* { similar.length && <div id="keep-exploring" className="keep-exploring">
           <h2>Keep Exploring</h2>
           <div className="tiles">
             { similar.map(d => <Tile key={d.slug || d.id} title={d.display || d.name} subtitle={d.hierarchy} image={`/api/profile/${profile.slug}/${d.id}/thumb`} url={`/profile/${profile.slug}/${d.slug || d.id}`} />) }
           </div>
-        </div> }
+        </div> } */}
 
-        <div className={`sidenav ${showSidenav ? "visible" : ""}`}>
+        {/* <div className={`sidenav ${showSidenav ? "visible" : ""}`}>
           { sidenav.map((s, i) => <div key={i} className="sidenav-section">
-            {s.map(t => <Tooltip2 className={`sidenav-circle ${t.slug === activeSidenav ? "active" : ""}`} key={t.slug} content={<span className="sidenav-label">{t.title}</span>}>
+            {s.map(t => <Tooltip className={`sidenav-circle ${t.slug === activeSidenav ? "active" : ""}`} key={t.slug} content={<span className="sidenav-label">{t.title}</span>}>
               <AnchorLink to={t.slug}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</AnchorLink>
-            </Tooltip2>)}
+            </Tooltip>)}
           </div>) }
-        </div>
+        </div> */}
 
         { loading ? <Loading /> : null }
 
@@ -324,7 +319,7 @@ Profile.contextTypes = {
 };
 
 Profile.need = [
-  fetchData("profile", "/api/profile/<pslug>/<pid>"),
+  fetchData("profile", "/api/profile?slug=<pslug>&id=<pid>"),
   fetchData("similar", "/api/<pslug>/similar/<pid>")
 ];
 
@@ -335,4 +330,4 @@ export default connect(state => ({
   similar: state.data.similar
 }), dispatch => ({
   updateTitle: title => dispatch(updateTitle(title))
-}))(Profile);
+}))(hot(Profile));
