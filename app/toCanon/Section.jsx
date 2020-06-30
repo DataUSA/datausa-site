@@ -25,11 +25,11 @@ class Section extends Component {
           { d.visualizations || photo || breadcrumbs ? <div className="section-visualizations">
             { photo && d.image
               ? <a className="photo-attribution" href={d.image.url} target="_blank" rel="noopener noreferrer">
-                <Icon iconName="camera" />
+                <Icon icon="camera" />
                 <p>Photo by {d.image.author}</p>
               </a>
               : null }
-            { breadcrumbs && d.breadcrumbs.length
+            { breadcrumbs && d.breadcrumbs && d.breadcrumbs.length
               ? <div className="breadcrumbs">
                 <img src="/images/go-to-link.svg" />
                 <div className="links">

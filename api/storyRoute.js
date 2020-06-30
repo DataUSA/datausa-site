@@ -13,7 +13,7 @@ const bubleSwap = str => {
 
 module.exports = function(app) {
 
-  app.get("/api/story", (req, res) => {
+  app.get("/api/storyLegacy", (req, res) => {
 
     const stories = [];
     shell.ls(`${storyDir}*.yml`).forEach(file => {
@@ -34,7 +34,7 @@ module.exports = function(app) {
 
   });
 
-  app.get("/api/story/:id", (req, res) => {
+  app.get("/api/storyLegacy/:id", (req, res) => {
     const {id} = req.params;
 
     if (shell.test("-f", `${storyDir}${id}.yml`)) {

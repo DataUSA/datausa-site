@@ -41,8 +41,8 @@
       &:before {
         content: " ";
         display: block;
-        height: calc(var(--subnav-size) + 10px);
-        margin-top: calc(calc(var(--subnav-size) + 10px) * -1);
+        height: calc(var(--subnav-height) + 10px);
+        margin-top: calc(calc(var(--subnav-height) + 10px) * -1);
         pointer-events: none;
         visibility: hidden;
         width: 1px;
@@ -87,7 +87,7 @@
       & p {
         margin-bottom: 10px;
       }
-      & .pt-button {
+      & .bp3-button {
         background: none;
         border: 1px solid var(--red);
         border-radius: 0;
@@ -138,7 +138,7 @@
     }
   }
 
-  & .pt-non-ideal-state {
+  & .bp3-non-ideal-state {
     left: 0;
     position: absolute;
     top: 0;

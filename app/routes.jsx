@@ -29,7 +29,7 @@ import DataSources from "./pages/Data/DataSources";
 import API from "./pages/Data/API";
 import Classifications from "./pages/Data/Classifications";
 
-import Builder from "./cms/Builder";
+import {Builder} from "@datawheel/canon-cms";
 
 import napcs2sctg from "../static/data/nacps2sctg.json";
 const sctg2napcs = Object.keys(napcs2sctg)

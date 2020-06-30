@@ -2,8 +2,7 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import axios from "axios";
-import {Icon, NonIdealState, Slider, Spinner, Button, Checkbox, PopoverInteractionKind} from "@blueprintjs/core";
-import {Popover2} from "@blueprintjs/labs";
+import {Icon, NonIdealState, Slider, Spinner, Button, Checkbox, Popover, PopoverInteractionKind} from "@blueprintjs/core";
 import {Helmet} from "react-helmet";
 import {AnchorLink} from "@datawheel/canon-core";
 import {Sparklines, SparklinesCurve} from "react-sparklines";
@@ -938,26 +937,26 @@ class Coronavirus extends Component {
     const StateSelector = () =>
       currentStates.length
         ? <AnchorLink to="cases" className="topic-subtitle">
-          Click here to return to the table to select multiple states. <Icon iconName="arrow-up" iconSize={8} />
+          Click here to return to the table to select multiple states. <Icon icon="arrow-up" iconSize={8} />
         </AnchorLink>
         : <AnchorLink to="cases" className="topic-subtitle">
-          Click a line in the chart to filter by an individual state,<br />or click here to return to the table to select multiple states. <Icon iconName="arrow-up" iconSize={8} />
+          Click a line in the chart to filter by an individual state,<br />or click here to return to the table to select multiple states. <Icon icon="arrow-up" iconSize={8} />
         </AnchorLink>
       ;
 
     const NationStateSelector = () =>
       <AnchorLink to="cases" className="topic-subtitle">
-        Click here to return to the table to select individual states. <Icon iconName="arrow-up" iconSize={8} />
+        Click here to return to the table to select individual states. <Icon icon="arrow-up" iconSize={8} />
       </AnchorLink>
       ;
 
     const AxisToggle = () =>
       <div>
-        <label className="pt-label pt-inline">
+        <label className="bp3-label bp3-inline">
           Y-Axis Scale
-          <div className="pt-button-group pt-fill">
-            <Button className={scale === "linear" ? "pt-active pt-fill" : "pt-fill"} onClick={this.changeScale.bind(this, "linear")}>Linear</Button>
-            <Button className={scale === "log" ? "pt-active pt-fill" : "pt-fill"} onClick={this.changeScale.bind(this, "log")}>Logarithmic</Button>
+          <div className="bp3-button-group bp3-fill">
+            <Button className={scale === "linear" ? "bp3-active bp3-fill" : "bp3-fill"} onClick={this.changeScale.bind(this, "linear")}>Linear</Button>
+            <Button className={scale === "log" ? "bp3-active bp3-fill" : "bp3-fill"} onClick={this.changeScale.bind(this, "log")}>Logarithmic</Button>
           </div>
         </label>
       </div>
@@ -1480,9 +1479,9 @@ class Coronavirus extends Component {
 
     const CaseSelector = () =>
       <div>
-        <label className="pt-label pt-inline">
+        <label className="bp3-label bp3-inline">
           Indicator
-          <div className="pt-select">
+          <div className="bp3-select">
             <select value={currentCaseSlug} onChange={this.changeCaseSlug.bind(this)}>
               {Object.keys(caseSections).map(d => <option key={d} value={d}>{caseSections[d].option}</option>)}
             </select>
@@ -1676,54 +1675,54 @@ class Coronavirus extends Component {
                       <th></th>
                       <th className="Geography" onClick={this.updateTableSort.bind(this, "Geography")}>
                         State
-                        <Icon className={`sort-caret ${tableOrder === "Geography" ? "active" : ""}`} iconName={tableOrder === "Geography" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
+                        <Icon className={`sort-caret ${tableOrder === "Geography" ? "active" : ""}`} icon={tableOrder === "Geography" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
                       <th className="Trend" onClick={this.updateTableSort.bind(this, "Trend")}>
                         14-day Trend of New Cases
-                        <Icon className={`sort-caret ${tableOrder === "Trend" ? "active" : ""}`} iconName={tableOrder === "Trend" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
+                        <Icon className={`sort-caret ${tableOrder === "Trend" ? "active" : ""}`} icon={tableOrder === "Trend" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
                       <th className="ConfirmedGrowth14" onClick={this.updateTableSort.bind(this, "ConfirmedGrowth14")}>
                         14-Day New<br />Cases
-                        <Icon className={`sort-caret ${tableOrder === "ConfirmedGrowth14" ? "active" : ""}`} iconName={tableOrder === "ConfirmedGrowth14" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
+                        <Icon className={`sort-caret ${tableOrder === "ConfirmedGrowth14" ? "active" : ""}`} icon={tableOrder === "ConfirmedGrowth14" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
                       <th className="ConfirmedGrowth14PC" onClick={this.updateTableSort.bind(this, "ConfirmedGrowth14PC")}>
                         14-Day New Cases<br />per 100,000
-                        <Icon className={`sort-caret ${tableOrder === "ConfirmedGrowth14PC" ? "active" : ""}`} iconName={tableOrder === "ConfirmedGrowth14PC" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
+                        <Icon className={`sort-caret ${tableOrder === "ConfirmedGrowth14PC" ? "active" : ""}`} icon={tableOrder === "ConfirmedGrowth14PC" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
                       <th className="Confirmed" onClick={this.updateTableSort.bind(this, "Confirmed")}>
                         Confirmed<br />Cases
-                        <Icon className={`sort-caret ${tableOrder === "Confirmed" ? "active" : ""}`} iconName={tableOrder === "Confirmed" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
+                        <Icon className={`sort-caret ${tableOrder === "Confirmed" ? "active" : ""}`} icon={tableOrder === "Confirmed" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
                       <th className="ConfirmedPC" onClick={this.updateTableSort.bind(this, "ConfirmedPC")}>
                         Cases per<br />100,000
-                        <Icon className={`sort-caret ${tableOrder === "ConfirmedPC" ? "active" : ""}`} iconName={tableOrder === "ConfirmedPC" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
+                        <Icon className={`sort-caret ${tableOrder === "ConfirmedPC" ? "active" : ""}`} icon={tableOrder === "ConfirmedPC" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
                       <th className="Deaths" onClick={this.updateTableSort.bind(this, "Deaths")}>
                         Confirmed<br />Deaths
-                        <Icon className={`sort-caret ${tableOrder === "Deaths" ? "active" : ""}`} iconName={tableOrder === "Deaths" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
+                        <Icon className={`sort-caret ${tableOrder === "Deaths" ? "active" : ""}`} icon={tableOrder === "Deaths" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
                       <th className="PositivePct" onClick={this.updateTableSort.bind(this, "PositivePct")}>
                         % Positive<br />Tests
-                        <Icon className={`sort-caret ${tableOrder === "PositivePct" ? "active" : ""}`} iconName={tableOrder === "PositivePct" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
+                        <Icon className={`sort-caret ${tableOrder === "PositivePct" ? "active" : ""}`} icon={tableOrder === "PositivePct" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
                       <th className="Tests" onClick={this.updateTableSort.bind(this, "Tests")}>
                         Total<br />Tests
-                        <Icon className={`sort-caret ${tableOrder === "Tests" ? "active" : ""}`} iconName={tableOrder === "Tests" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
+                        <Icon className={`sort-caret ${tableOrder === "Tests" ? "active" : ""}`} icon={tableOrder === "Tests" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
                       <th className="Hospitalized" onClick={this.updateTableSort.bind(this, "Hospitalized")}>
                         Total<br />Hospitalized
-                        <Icon className={`sort-caret ${tableOrder === "Hospitalized" ? "active" : ""}`} iconName={tableOrder === "Hospitalized" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
+                        <Icon className={`sort-caret ${tableOrder === "Hospitalized" ? "active" : ""}`} icon={tableOrder === "Hospitalized" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
                       <th className="Curve">
                         Total vs New Cases
-                        <Popover2
+                        <Popover
                           hoverOpenDelay={0}
                           hoverCloseDelay={0}
                           interactionKind={PopoverInteractionKind.HOVER}
                           placement="bottom-end"
                           content="This curve show daily new cases vs total confirmed cases (both logarithmic) since reaching 100 confirmed cases. This gives us a good look at how the outbreak is slowing down (decreasing slope), stabilizing (straight horizontal line), or spreading (increasing slope).">
-                          <Icon iconSize="inherit" iconName="help" />
-                        </Popover2>
+                          <Icon iconSize="inherit" icon="help" />
+                        </Popover>
                       </th>
                     </tr>
                   </thead>
@@ -1733,7 +1732,7 @@ class Coronavirus extends Component {
                         <tr key={i} className={`state-table-row ${currentStates.find(s => s["ID Geography"] === d["ID Geography"]) ? "selected" : ""}`} onClick={this.updateStates.bind(this, d)}>
                           <td className="checkbox">
                             <div className="checkbox-fake">
-                              <Icon iconName="small-tick" />
+                              <Icon icon="small-tick" />
                             </div>
                           </td>
                           <td className="Geography">{d.Geography}</td>
@@ -1771,7 +1770,7 @@ class Coronavirus extends Component {
                       : range(0, 56, 1).map((d, i) =>
                         <tr key={i} className="state-table-row">
                           <td colSpan={15} className="spinner">
-                            <Spinner className="pt-small" />
+                            <Spinner className="bp3-small" />
                           </td>
                         </tr>
                       )
@@ -1854,9 +1853,9 @@ class Coronavirus extends Component {
                     slug="community-mobility"
                     title="Community Mobility"
                   />
-                  <label className="pt-label pt-inline">
+                  <label className="bp3-label bp3-inline">
                     Place Category
-                    <div className="pt-select">
+                    <div className="bp3-select">
                       <select
                         onChange={evt =>
                           this.setState({mobilityType: evt.target.value})

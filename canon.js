@@ -1,5 +1,6 @@
 const d3Array = require("d3-array");
-const {CANON_API, CANON_LOGICLAYER_CUBE} = process.env;
+// const {vizbuilderMiddleware} = require("@datawheel/canon-vizbuilder");
+const {CANON_API, CANON_LOGICLAYER_CUBE} = process ? process.env : {};
 
 module.exports = {
   logiclayer: {
@@ -231,4 +232,11 @@ module.exports = {
       }
     }
   }
+  // reduxMiddleware(applyMiddleware, middleware) {
+  //   middleware = middleware.filter(fn => `${fn}`.indexOf(".startedTime") === -1);
+  //   return applyMiddleware(
+  //     vizbuilderMiddleware,
+  //     ...middleware
+  //   );
+  // }
 };

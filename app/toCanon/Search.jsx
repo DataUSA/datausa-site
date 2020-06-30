@@ -160,12 +160,12 @@ class Search extends Component {
     const {active, results, userQuery} = this.state;
 
     return (
-      <div ref={comp => this.container = comp} className={ `pt-control-group ${className} ${ active ? "active" : "" }` }>
+      <div ref={comp => this.container = comp} className={ `bp3-control-group ${className} ${ active ? "active" : "" }` }>
         { InactiveComponent && <InactiveComponent active={ active } onClick={ this.onToggle.bind(this) } /> }
-        <div className={ `pt-input-group pt-fill ${ active ? "active" : "" }` }>
-          { icon && <span className="pt-icon pt-icon-search"></span> }
-          <input type="text" className="pt-input" ref={ input => this.input = input } onChange={ this.onChange.bind(this) } onFocus={ this.onFocus.bind(this) } placeholder={placeholder} defaultValue={userQuery} />
-          { buttonLink && <a href={ `${buttonLink}?q=${userQuery}` } className="pt-button">{ buttonText }</a> }
+        <div className={ `bp3-input-group bp3-fill ${ active ? "active" : "" }` }>
+          { icon && <span className="bp3-icon bp3-icon-search"></span> }
+          <input key="search-input" type="text" className="bp3-input" ref={ input => this.input = input } onChange={ this.onChange.bind(this) } onFocus={ this.onFocus.bind(this) } placeholder={placeholder} defaultValue={userQuery} />
+          { buttonLink && <a href={ `${buttonLink}?q=${userQuery}` } className="bp3-button">{ buttonText }</a> }
         </div>
         { searchEmpty || active && userQuery.length
           ? <ul className={ active ? "results active" : "results" }>
@@ -175,7 +175,7 @@ class Search extends Component {
               </li>
             )}
             { !results.length && <li className="no-results">No Results Found</li> }
-            { results.length && buttonLink ? <a className="all-results pt-button pt-fill" href={ `${buttonLink}?q=${userQuery}` }>Show All Results</a> : null }
+            { results.length && buttonLink ? <a className="all-results bp3-button bp3-fill" href={ `${buttonLink}?q=${userQuery}` }>Show All Results</a> : null }
           </ul>
           : null }
       </div>

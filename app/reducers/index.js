@@ -1,3 +1,5 @@
+import {cmsReducer} from "@datawheel/canon-cms";
+// import {vizbuilderReducer} from "@datawheel/canon-vizbuilder";
 import {vbStateReducer} from "@datawheel/canon-vizbuilder";
 
 export default {
@@ -8,6 +10,7 @@ export default {
       default: return state;
     }
   },
+  cms: cmsReducer,
   title: (state = false, action) => {
     switch (action.type) {
       case "TITLE_UPDATE":

@@ -16,7 +16,7 @@ const slugMap = {
 
 module.exports = function(app) {
 
-  const {db} = app.settings;
+  const {db} = app.settings
   const {parents} = app.settings.cache;
 
   app.get("/api/candidate/:type/:id", (req, res) => {

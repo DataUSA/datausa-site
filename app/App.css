@@ -47,9 +47,12 @@
     opacity: 0.5;
     position: absolute;
     right: 10px;
-    top: 7px;
+    top: 5px;
     transition: opacity 0.2s;
     vertical-align: top;
+    & .bp3-icon {
+      color: white;
+    }
     &:before {
       color: white;
     }
@@ -68,7 +71,6 @@ html {
 
 body {
   background-color: transparent;
-  font-family: "Palanquin", sans-serif;
   /* Adjust font size */
   font-size: 100%;
   -webkit-text-size-adjust: 100%;
@@ -100,19 +102,19 @@ body {
   }
 }
 
-.pt-spinner {
-  & .pt-spinner-head {
+.bp3-spinner {
+  & .bp3-spinner-head {
     stroke: var(--red);
   }
 }
 
-.pt-dialog {
+.bp3-dialog {
   background-color: #F6F6F6;
   border-radius: 0;
   max-width: 584px;
   min-height: 100px;
   width: 100%;
-  & .pt-dialog-header {
+  & .bp3-dialog-header {
     background: none;
     box-shadow: none;
     & img {
@@ -126,11 +128,11 @@ body {
       opacity: 0.4;
       text-transform: uppercase;
     }
-    & .pt-dialog-close-button {
+    & .bp3-dialog-close-button {
       outline: 0;
     }
   }
-  & .pt-dialog-body {
+  & .bp3-dialog-body {
     align-items: center;
     display: flex;
     justify-content: center;
@@ -138,20 +140,20 @@ body {
   }
 }
 
-.pt-overlay-backdrop {
+.bp3-overlay-backdrop {
   background-color: rgba(233, 233, 233, 0.4);
 }
 
-.pt-popover {
-  & .pt-popover-arrow {
-    & .pt-popover-arrow-border {
+.bp3-popover {
+  & .bp3-popover-arrow {
+    & .bp3-popover-arrow-border {
       stroke-width: 0;
     }
-    & .pt-popover-arrow-fill {
+    & .bp3-popover-arrow-fill {
       fill: white;
     }
   }
-  & .pt-popover-content {
+  & .bp3-popover-content {
     border: 0;
     border-radius: 0;
     background: white;
@@ -175,28 +177,28 @@ input[type="text"] {
   }
 }
 
-.pt-transition-container {
+.bp3-transition-container {
   z-index: 30;
 }
 
-.pt-control.pt-checkbox {
+.bp3-control.bp3-checkbox {
   padding-left: 22px;
-  & .pt-control-indicator {
+  & .bp3-control-indicator {
     border-radius: 0;
     box-shadow: inset 0 0 0 1px var(--red);
   }
-  & input:checked ~ .pt-control-indicator {
+  & input:checked ~ .bp3-control-indicator {
     background-color: var(--red);
     box-shadow: inset 0 0 0 1px var(--red);
   }
   &:hover {
-    & input:checked ~ .pt-control-indicator {
+    & input:checked ~ .bp3-control-indicator {
       background-color: var(--red);
     }
   }
 }
 
-.pt-select {
+.bp3-select {
   position: relative;
   margin-bottom: 5px;
   & select {
@@ -297,4 +299,14 @@ input[type="text"] {
       }
     }
   }
+}
+
+.cms {
+  min-height: calc(100vh - var(--nav-height));
+  margin-top: var(--nav-height);
+}
+
+.cms-ace-container.is-fullscreen {
+  height: calc(100vh - var(--nav-height)) !important;
+  top: var(--nav-height) !important;
 }

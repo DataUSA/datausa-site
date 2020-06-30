@@ -32,12 +32,12 @@ class Column extends Component {
 
     return (
       <div className={ `column ${className} rank-${data.rank}` }>
-        <h3 className={ `column-title ${ data.new ? "new" : "" }` }>
+        <h2 className={ `column-title ${ data.new ? "new" : "" }` }>
           <Link to={data.url}>
             <img className="icon" src={ data.icon } />
             { data.title }
           </Link>
-        </h3>
+        </h2>
         { data.tiles.map((tile, i) => {
           if (tile.cart) return <Tile key={i} {...tile} onClick={this.onCart.bind(this, tile)} />;
           else return <Tile key={i} {...tile} />;

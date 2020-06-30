@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-const {Client} = require("mondrian-rest-client"),
+const {Client, MondrianDataSource} = require("@datawheel/olap-client"),
       PromiseThrottle = require("promise-throttle"),
       d3Array = require("d3-array"),
       fs = require("fs");
@@ -16,9 +16,10 @@ function parse(str) {
 
 const {CANON_LOGICLAYER_CUBE} = process.env;
 
-const client = new Client(CANON_LOGICLAYER_CUBE);
+const datasource = new MondrianDataSource(CANON_LOGICLAYER_CUBE);
+const client = new Client(datasource);
 
-client.cubes()
+client.getCubes()
   .then(cubes => {
 
     const measures = {};
@@ -63,10 +64,12 @@ client.cubes()
 
     const cubeQueries = cubes
       .filter(cube => cube.dimensions.find(d => d.name === "Year"))
-      .map(cube => throttle.add(() => client.cube(cube.name)
+      .map(cube => throttle.add(() => client.getCube(cube.name)
         .then(c => {
-          const query = c.query.drilldown("Year", "Year");
-          return client.query(query, "jsonrecords");
+          const query = c.query
+            .addDrilldown("Year", "Year")
+            .setFormat("jsonrecords");
+          return client.execQuery(query);
         })
         .then(resp => {
           const years = resp.data.data.map(d => d["ID Year"]).sort();
