@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import PropTypes from "prop-types";
 import {hot} from "react-hot-loader/root";
 import Viz from "components/Viz/index";
 import {Link} from "react-router";
@@ -10,13 +11,13 @@ class Section extends Component {
 
   render() {
     const {children, data: profile, comparisons, breadcrumbs, photo} = this.props;
+    const {stripP} = this.context.formatters;
     const {slug, title} = profile;
     const data = [profile].concat(comparisons).filter(Boolean);
-    console.log("section", profile);
 
     return <div className={ `Section ${slug} ${ comparisons.length ? "compare" : "" }` }>
       <h2 className="section-title">
-        <AnchorLink to={ slug } id={ slug } className="anchor" dangerouslySetInnerHTML={{__html: title}}></AnchorLink>
+        <AnchorLink to={ slug } id={ slug } className="anchor" dangerouslySetInnerHTML={{__html: stripP(title)}}></AnchorLink>
       </h2>
       <div className="section-body">
         { data.map((d, i) => <div className="section-content" key={i}>
@@ -57,6 +58,10 @@ Section.defaultProps = {
   photo: false,
   slug: "",
   visualizations: []
+};
+
+Section.contextTypes = {
+  formatters: PropTypes.object
 };
 
 export default hot(Section);
