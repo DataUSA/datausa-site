@@ -25,7 +25,7 @@ class Section extends Component {
             { d.descriptions.map((content, ii) => <div key={ii} dangerouslySetInnerHTML={{__html: content.description}} />) }
             { photo && d.image && d.image.meta ? <div className="image-meta">About the photo: <span>{ d.image.meta }</span></div> : null }
           </div>
-          { d.visualizations || photo || breadcrumbs ? <div className="section-visualizations">
+          { d.visualizations.length || photo || breadcrumbs ? <div className="section-visualizations">
             { photo && d.image
               ? <a className="photo-attribution" href={d.image.url} target="_blank" rel="noopener noreferrer">
                 <Icon iconSize={12} icon="camera" />Photo by {d.image.author}

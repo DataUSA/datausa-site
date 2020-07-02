@@ -43,7 +43,6 @@
         column-gap: 20px;
         flex: 2 1 auto;
         font-family: "Palanquin", sans-serif;
-        font-size: 17px;
         font-weight: 400;
         line-height: 1.7;
         margin: 3px auto 12px;
@@ -53,6 +52,9 @@
         & a {
           color: #32415A;
           text-decoration: underline;
+        }
+        & p {
+          font-size: 17px;
         }
       }
       & .image-meta {
