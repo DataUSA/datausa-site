@@ -13,7 +13,7 @@ module.exports = async function() {
         const query = c.query
           .addDrilldown(level)
           .addMeasure("Population")
-          .addCut("[Year].[Year]", ["2016"])
+          .addCut("[Year].[Year]", ["2018"])
           .setFormat("jsonrecords");
         return client.execQuery(query);
       })
