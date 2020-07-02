@@ -375,7 +375,7 @@ class Cart extends Component {
           { examples.map((d, i) => <div key={i}
             onClick={this.gotoExample.bind(this, d)}
             className="bp3-card bp3-interactive">
-            <Icon icon={d.icon} />
+            <Icon iconSize={80} icon={d.icon} />
             { d.title }
           </div>) }
         </div>
@@ -407,6 +407,7 @@ class Cart extends Component {
         </div>
         { !results ? null : <div className="cart-table">
           <Table
+            key={ `${results.length}_${columns.length}_${showMOE}` }
             enableMultipleSelection={false}
             columnWidths={columnWidths}
             enableGhostCells={true}
@@ -416,7 +417,7 @@ class Cart extends Component {
             // numFrozenColumns={stickies.length}
             rowHeights={results.map(() => 30)}
             selectionModes={SelectionModes.NONE}>
-            { columns.map(c => <Column id={ c } key={ c } name={ c } renderCell={ renderCell } />) }
+            { columns.map(c => <Column id={ c } key={ c } name={ c } cellRenderer={ renderCell } />) }
           </Table>
         </div> }
       </div>;
