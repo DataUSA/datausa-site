@@ -129,9 +129,12 @@ module.exports = function(app) {
     const depth = parseInt(level.slice(3), 10);
     const parentId = id.slice(0, depth);
     const cip = await db.search
-      .findOne({where: {id: parentId, dimension: "CIP"}})
+      .findOne({
+        where: {id: parentId, dimension: "CIP"},
+        include: [{association: "content"}]
+      })
       .catch(err => res.json(err));
-    res.json(cip);
+    res.json(cip.map(d => (d.name = d.content[0].name, d)));
 
   });
 
@@ -169,7 +172,10 @@ module.exports = function(app) {
               .catch(() => []);
 
             attrs = states.length ? await db.search
-              .findAll({where: {id: states.map(d => d["ID State"]), dimension}})
+              .findAll({
+                where: {id: states.map(d => d["ID State"]), dimension},
+                include: [{association: "content"}]
+              })
               .catch(() => []) : [];
 
           }
@@ -207,7 +213,10 @@ module.exports = function(app) {
             if (cache.pops[id] > 250000) ids = ids.filter(d => cache.pops[d] > 250000);
 
             attrs = await db.search
-              .findAll({where: {id: ids, dimension}})
+              .findAll({
+                where: {id: ids, dimension},
+                include: [{association: "content"}]
+              })
               .catch(() => []);
 
             const neighbors = ["160"].includes(prefix) ? [] : await axios.get(`${CANON_API}/api/neighbors?dimension=Geography&id=${id}`)
@@ -224,12 +233,18 @@ module.exports = function(app) {
               .slice(0, limit || 5)
               .map(d => d.university);
             attrs = await db.search
-              .findAll({where: {id: ids, dimension}})
+              .findAll({
+                where: {id: ids, dimension},
+                include: [{association: "content"}]
+              })
               .catch(() => []);
           }
           else {
             attrs = await db.search
-              .findAll({where: {dimension, hierarchy}})
+              .findAll({
+                where: {dimension, hierarchy},
+                include: [{association: "content"}]
+              })
               .catch(() => []);
           }
         }
@@ -240,7 +255,10 @@ module.exports = function(app) {
             .catch(() => []);
 
           attrs = parents.length ? await db.search
-            .findAll({where: {id: parents.map(d => d.id), dimension}})
+            .findAll({
+              where: {id: parents.map(d => d.id), dimension},
+              include: [{association: "content"}]
+            })
             .catch(() => []) : [];
 
           const measures = {
@@ -254,14 +272,22 @@ module.exports = function(app) {
             .catch(() => []) : [];
 
           const neighborAttrs = neighbors.length ? await db.search
-            .findAll({where: {id: neighbors.filter(d => d !== id).map(String), dimension, hierarchy}})
+            .findAll({
+              where: {id: neighbors.filter(d => d !== id).map(String), dimension, hierarchy},
+              include: [{association: "content"}]
+            })
             .catch(() => []) : [];
 
           attrs = attrs.concat(neighborAttrs)
             .filter((d, i, arr) => arr.indexOf(arr.find(a => a.id === d.id && a.hierarchy === d.hierarchy)) === i);
         }
 
-        res.json(attrs.sort((a, b) => b.zvalue - a.zvalue).slice(0, limit || 6));
+        const retArray = attrs
+          .sort((a, b) => b.zvalue - a.zvalue)
+          .slice(0, limit || 6)
+          .map(d => (d.name = d.content[0].name, d));
+
+        res.json(retArray);
 
       }
 
@@ -424,7 +450,7 @@ module.exports = function(app) {
         return false;
       });
 
-    attr.name = attr.content[0].title;
+    attr.name = attr.content[0].name;
 
     if (attr) {
       if (dimension === "Geography") {
@@ -530,10 +556,13 @@ module.exports = function(app) {
         .catch(() => []);
 
       const attrs = await db.search
-        .findAll({where: {dimension, id: neighbors}})
+        .findAll({
+          where: {dimension, id: neighbors},
+          include: [{association: "content"}]
+        })
         .catch(() => []);
 
-      res.json({data: attrs});
+      res.json({data: attrs.map(d => (d.name = d.content[0].name, d))});
 
     }
     else {

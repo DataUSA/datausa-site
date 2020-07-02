@@ -55,11 +55,17 @@ module.exports = function(app) {
       }
 
       if (states.length) {
-        const attrs = await db.search.findAll({where: {dimension: "Geography", hierarchy: "State", id: states}});
-        const names = attrs.map(d => d.name);
+
+        const attrs = await db.search
+          .findAll({
+            where: {dimension: "Geography", hierarchy: "State", id: states},
+            include: [{association: "content"}]
+          });
+
+        const names = attrs.map(d => d.content[0].name);
         retArray = retArray.filter(d => names.includes(d.State));
         retArray.forEach(r => {
-          r["ID State"] = attrs.find(d => d.name === r.State).id;
+          r["ID State"] = attrs.find(d => d.content[0].name === r.State).id;
         });
         retArray = retArray.sort((a, b) => states.indexOf(a["ID State"]) - states.indexOf(b["ID State"]));
       }
