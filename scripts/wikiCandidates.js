@@ -47,7 +47,8 @@ async function run() {
       row.childNodes
         .filter(d => d.nodeType !== 3)
         .forEach((column, i) => {
-          const header = headers[i + colOffset];
+          const header = headers[i + colOffset]
+            .replace(/<br[^>]*>/g, " ");
           let data = column;
           while (data.querySelector(".cx-segment") || data.querySelector(".cx-link")) {
             data = data.querySelector(".cx-segment") || data.querySelector(".cx-link");

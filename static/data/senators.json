@@ -10,9 +10,9 @@
   {
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Senator_Doug_Jones_official_photo_%28cropped_2%29.jpg/95px-Senator_Doug_Jones_official_photo_%28cropped_2%29.jpg",
     "Senator": "Doug Jones",
-    "note": "Elected to the seat to succeed Luther Strange, who had been appointed to the seat following Jeff Sessions's resignation.",
     "Party": "Democratic",
     "Assumed office": "January 3, 2018",
+    "note": "Elected to the seat to succeed Luther Strange, who had been appointed to the seat following Jeff Sessions's resignation.",
     "Term up": "2020",
     "State": "Alabama"
   },
@@ -43,9 +43,9 @@
   {
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Sen._Martha_McSally_official_Senate_headshot_116th_congress_%28cropped%29.jpg/95px-Sen._Martha_McSally_official_Senate_headshot_116th_congress_%28cropped%29.jpg",
     "Senator": "Martha McSally",
-    "note": "Appointed to the seat after Jon Kyl's resignation following the death of John McCain.",
     "Party": "Republican",
     "Assumed office": "January 3, 2019",
+    "note": "Appointed to the seat after Jon Kyl's resignation following the death of John McCain.",
     "Term up": "2020",
     "State": "Arizona"
   },
@@ -158,6 +158,7 @@
     "Senator": "Kelly Loeffler",
     "Party": "Republican",
     "Assumed office": "January 6, 2020",
+    "note": "Appointed to the seat after Johnny Isakson's resignation",
     "Term up": "2020",
     "State": "Georgia"
   },
@@ -234,7 +235,7 @@
     "Term up": "2022"
   },
   {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Joni_Ernst_official_portrait_%28cropped%29.jpg/95px-Joni_Ernst_official_portrait_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Joni_Ernst%2C_official_portrait%2C_116th_Congress_3.jpg/95px-Joni_Ernst%2C_official_portrait%2C_116th_Congress_3.jpg",
     "Senator": "Joni Ernst",
     "Party": "Republican",
     "Assumed office": "January 3, 2015",
@@ -334,6 +335,7 @@
     "Senator": "Ed Markey",
     "Party": "Democratic",
     "Assumed office": "July 16, 2013",
+    "note": "Elected to the seat to succeed John Kerry, who resigned to become Secretary of State.",
     "Term up": "2020",
     "State": "Massachusetts"
   },
@@ -480,6 +482,7 @@
     "Senator": "Cory Booker",
     "Party": "Democratic",
     "Assumed office": "October 31, 2013",
+    "note": "Elected to succeed Jeffrey Chiesa, who was appointed to the seat following the death of Frank Lautenberg.",
     "Term up": "2020",
     "State": "New Jersey"
   },
@@ -620,7 +623,7 @@
     "Term up": "2020"
   },
   {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Sheldon_Whitehouse_2010_%28cropped%29.jpg/95px-Sheldon_Whitehouse_2010_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Sheldon_Whitehouse%2C_official_portrait%2C_116th_congress.jpg/95px-Sheldon_Whitehouse%2C_official_portrait%2C_116th_congress.jpg",
     "Senator": "Sheldon Whitehouse",
     "Party": "Democratic",
     "Assumed office": "January 3, 2007",

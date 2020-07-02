@@ -362,9 +362,10 @@
   {
     "District": "25",
     "State": "California",
-    "Member": "Vacant",
-    "Party": "",
-    "Assumed office": ""
+    "Member": "Mike Garcia",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Mike_Garcia_%28CA-25%29.jpg/75px-Mike_Garcia_%28CA-25%29.jpg",
+    "Party": "Republican",
+    "Assumed office": "2020"
   },
   {
     "District": "26",
@@ -1409,7 +1410,7 @@
     "District": "4",
     "State": "Louisiana",
     "Member": "Mike Johnson",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Congressman_Mike_Johnson_%28cropped%29.jpg/75px-Congressman_Mike_Johnson_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Mike_Johnson%2C_official_portrait%2C_116th_Congress_%28cropped%29.jpg/75px-Mike_Johnson%2C_official_portrait%2C_116th_Congress_%28cropped%29.jpg",
     "Party": "Republican",
     "Assumed office": "2017"
   },
@@ -1496,9 +1497,10 @@
   {
     "District": "7",
     "State": "Maryland",
-    "Member": "Vacant",
-    "Party": "",
-    "Assumed office": ""
+    "Member": "Kweisi Mfume",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Kweisi_Mfume_%28MD-7%29.jpg/75px-Kweisi_Mfume_%28MD-7%29.jpg",
+    "Party": "Democratic",
+    "Assumed office": "2020"
   },
   {
     "District": "8",
@@ -1601,7 +1603,7 @@
     "State": "Michigan",
     "Member": "Justin Amash",
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Justin_Amash_official_photo_%28cropped%29.jpg/75px-Justin_Amash_official_photo_%28cropped%29.jpg",
-    "Party": "Independent",
+    "Party": "Libertarian",
     "Assumed office": "2011"
   },
   {
@@ -2263,9 +2265,10 @@
   {
     "District": "27",
     "State": "New York",
-    "Member": "Vacant",
-    "Party": "",
-    "Assumed office": ""
+    "Member": "Chris Jacobs",
+    "Image": "https://upload.wikimedia.org/wikipedia/en/thumb/6/67/CountyCLERKJacobs.jpeg/75px-CountyCLERKJacobs.jpeg",
+    "Party": "Republican",
+    "Assumed office": "2020"
   },
   {
     "District": "1",
@@ -2289,7 +2292,7 @@
     "Member": "Greg Murphy",
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Rep._Greg_Murphy_116th_Congress_Portrait_%28cropped%29.jpg/75px-Rep._Greg_Murphy_116th_Congress_Portrait_%28cropped%29.jpg",
     "Party": "Republican",
-    "Assumed office": "2019 (Special)"
+    "Assumed office": "2019"
   },
   {
     "District": "4",
@@ -2337,7 +2340,7 @@
     "Member": "Dan Bishop",
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Representative_Dan_Bishop_of_NC_%28cropped_2%29.jpg/75px-Representative_Dan_Bishop_of_NC_%28cropped_2%29.jpg",
     "Party": "Republican",
-    "Assumed office": "2019 (Special)"
+    "Assumed office": "2019"
   },
   {
     "District": "10",
@@ -2350,10 +2353,9 @@
   {
     "District": "11",
     "State": "North Carolina",
-    "Member": "Mark Meadows",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Mark_Meadows%2C_Official_Portrait%2C_113th_Congress_%28cropped%29.jpg/75px-Mark_Meadows%2C_Official_Portrait%2C_113th_Congress_%28cropped%29.jpg",
-    "Party": "Republican",
-    "Assumed office": "2013"
+    "Member": "Vacant",
+    "Party": "",
+    "Assumed office": ""
   },
   {
     "District": "12",
@@ -2775,7 +2777,7 @@
     "District": "4",
     "State": "South Carolina",
     "Member": "William Timmons",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/William_Timmons_116_pic_%28cropped%29.jpg/75px-William_Timmons_116_pic_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/William_Timmons%2C_official_portrait%2C_116th_Congress_%28cropped%29.jpg/75px-William_Timmons%2C_official_portrait%2C_116th_Congress_%28cropped%29.jpg",
     "Party": "Republican",
     "Assumed office": "2019"
   },
@@ -2910,10 +2912,9 @@
   {
     "District": "4",
     "State": "Texas",
-    "Member": "John Ratcliffe",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Congressman_John_Lee_Ratcliffe_%28cropped%29.jpg/75px-Congressman_John_Lee_Ratcliffe_%28cropped%29.jpg",
-    "Party": "Republican",
-    "Assumed office": "2015"
+    "Member": "Vacant",
+    "Party": "",
+    "Assumed office": ""
   },
   {
     "District": "5",
@@ -2998,7 +2999,7 @@
   {
     "District": "15",
     "State": "Texas",
-    "Member": "Vicente González",
+    "Member": "Vicente Gonzalez",
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Vicente_Gonzalez_115th_congress_photo_%28cropped%29.jpg/75px-Vicente_Gonzalez_115th_congress_photo_%28cropped%29.jpg",
     "Party": "Democratic",
     "Assumed office": "2017"
@@ -3454,9 +3455,10 @@
   {
     "District": "7",
     "State": "Wisconsin",
-    "Member": "Vacant",
-    "Party": "",
-    "Assumed office": ""
+    "Member": "Tom Tiffany",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Tom_Tiffany_%28WI-07%29.jpg/75px-Tom_Tiffany_%28WI-07%29.jpg",
+    "Party": "Republican",
+    "Assumed office": "2020"
   },
   {
     "District": "8",
