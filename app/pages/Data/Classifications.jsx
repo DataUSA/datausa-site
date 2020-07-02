@@ -110,7 +110,7 @@ class Classifications extends Component {
             numRows={ results.length }
             rowHeights={ results.map(() => 30) }
             selectionModes={SelectionModes.NONE}>
-            { columns.map(c => <Column id={ c } key={ c } name={ c } renderCell={ renderCell } />) }
+            { columns.map(c => <Column id={ c } key={ c } name={ c } cellRenderer={ renderCell } />) }
           </Table>
         </div>
       </div>
