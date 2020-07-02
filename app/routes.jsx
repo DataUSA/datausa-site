@@ -69,7 +69,7 @@ export default function RouteCreate() {
       <IndexRoute component={Home} />
 
       <Route path="/search" component={SearchPage} />
-      <Route path="/profile/:pslug/:pid" onEnter={crosswalk} component={Profile} />
+      <Route path="/profile/:pslug/:pid" isProfile={true} onEnter={crosswalk} component={Profile} />
       <Route path="/profile/:pslug/:pid/:sslug/:tslug" component={Embed} />
 
       <Route path="/story" component={Stories} />
