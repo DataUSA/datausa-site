@@ -142,12 +142,14 @@
       font-weight: 400;
       line-height: 1.1;
       width: 200px;
-      & .bp3-icon-standard {
+      & .bp3-icon {
         color: var(--red);
         display: block;
-        font-size: 80px;
         margin-bottom: 15px;
         opacity: 0.9;
+        & svg {
+          margin: 0 auto;
+        }
       }
     }
   }
