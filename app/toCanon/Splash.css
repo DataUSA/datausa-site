@@ -163,18 +163,16 @@
         }
       }
       & .stat-value {
+        align-items: center;
+        display: flex;
         font-family: "Lato", sans-serif;
+        justify-content: center;
         text-shadow: 0 2px 12px black;
-        & > p {
-          align-items: center;
-          display: flex;
-          justify-content: center;
-          & .candidate-name {
-            flex: 0 0 0;
-            text-align: left;
-            @media (max-width: 400px) {
-              font-size: 16px;
-            }
+        & .candidate-name {
+          flex: 0 0 0;
+          text-align: left;
+          @media (max-width: 400px) {
+            font-size: 16px;
           }
         }
       }
