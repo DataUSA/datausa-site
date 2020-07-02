@@ -82,6 +82,7 @@ class Profile extends Component {
       activeSidenav: false,
       comparisons: [],
       loading: false,
+      profile: props.profile,
       showSidenav: false,
       sidenav
     };
@@ -90,10 +91,11 @@ class Profile extends Component {
 
   getChildContext() {
     const {formatters} = this.context;
-    const {variables} = this.props.profile;
+    const {variables} = this.state.profile;
     return {
       addComparison: this.addComparison.bind(this),
       formatters,
+      onSelector: this.onSelector.bind(this),
       removeComparison: this.removeComparison.bind(this),
       variables
     };
@@ -112,7 +114,7 @@ class Profile extends Component {
         const {location} = router;
 
         const {stripHTML} = this.context.formatters;
-        const {profile} = this.props;
+        const {profile} = this.state;
         const profiles = [profile].concat(newComparisons);
         const title = stripHTML(profiles.map(d => d.title).join(" & "));
         this.props.updateTitle(title);
@@ -127,7 +129,7 @@ class Profile extends Component {
     const {location} = router;
 
     const {stripHTML} = this.context.formatters;
-    const {profile} = this.props;
+    const {profile} = this.state;
     const title = stripHTML(profile.title);
     this.props.updateTitle(title);
 
@@ -136,10 +138,10 @@ class Profile extends Component {
 
   componentDidMount() {
 
-    if (!this.props.profile.error) {
+    if (!this.state.profile.error) {
 
       const {stripHTML} = this.context.formatters;
-      const {profile} = this.props;
+      const {profile} = this.state;
       const {comparisons} = this.state;
       const profiles = [profile].concat(comparisons);
       const title = stripHTML(profiles.map(d => d.title).join(" & "));
@@ -156,14 +158,14 @@ class Profile extends Component {
 
   componentWillUnmount() {
     this.props.updateTitle(false);
-    if (!this.props.profile.error) {
+    if (!this.state.profile.error) {
       window.removeEventListener("scroll", this.scrollBind);
     }
   }
 
   handleScroll() {
 
-    // const {sections} = this.props.profile;
+    // const {sections} = this.state.profile;
     // const {activeSection, activeSidenav, showSidenav, sidenav} = this.state;
     // const navHeight = 85;
 
@@ -198,9 +200,26 @@ class Profile extends Component {
 
   }
 
+  onSelector(name, value, callback) {
+
+    const {profile} = this.state;
+    const {id, variables} = profile;
+    const {params} = this.props;
+
+    const payload = {variables};
+    const url = `/api/profile?profile=${id}&slug=${params.pslug}&id=${params.pid}&${name}=${value}`;
+
+    axios.post(url, payload)
+      .then(resp => {
+        this.setState({profile: resp.data});
+        if (callback) callback();
+      });
+  }
+
   render() {
 
-    const {origin, params, profile, similar} = this.props;
+    const {origin, params, similar} = this.props;
+    const {profile} = this.state;
 
     if (profile.error) return <NotFound />;
 
@@ -283,7 +302,7 @@ class Profile extends Component {
           photo={true}
         />
 
-        { GroupingSections.slice(0, 1).map((s, i) => {
+        { GroupingSections.map((s, i) => {
           const compares = comparisons.map(c => c.sections.filter(d => d.type === "Grouping")[i]);
           return <Section key={i} data={s} comparisons={compares}>
             { topics[i] }
@@ -327,6 +346,7 @@ class Profile extends Component {
 Profile.childContextTypes = {
   addComparison: PropTypes.func,
   formatters: PropTypes.object,
+  onSelector: PropTypes.func,
   removeComparison: PropTypes.func,
   variables: PropTypes.object
 };
