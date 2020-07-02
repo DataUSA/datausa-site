@@ -61,7 +61,7 @@ class Splash extends Component {
 
     const data = [profile].concat(comparisons);
 
-    return <div id="Splash" style={{height}} className={`splash-${profile.slug}${revealPhoto ? " reveal-photo" : ""}`}>
+    return <div id="Splash" style={{height}} className={`splash-${profile.meta[0].slug}${revealPhoto ? " reveal-photo" : ""}`}>
       <div className="image-container" style={{height}}>
         { data.map((d, i) => <div key={i} className="image" style={{backgroundImage: `url("/api/profile/${d.dims[0].slug}/${d.variables.slug1}/splash")`}}></div>) }
         <Button onClick={this.revealPhoto.bind(this)} icon="camera" className={ `bp3-minimal ${revealPhoto ? "bp3-active" : ""}` } />
