@@ -10,29 +10,23 @@ class Column extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      contents: props.contents,
       loading: false
     };
   }
 
   onSelector(name, value) {
-    const {router, updateSource} = this.context;
-    const {pid, pslug} = router.params;
-    const {id} = this.state.contents;
+    const {onSelector, updateSource} = this.context;
     this.setState({loading: true});
     if (updateSource) updateSource(false);
-    axios.get(`/api/topic/${pslug}/${pid}/${id}?${name}=${value}`)
-      .then(resp => {
-        this.setState({contents: resp.data, loading: false});
-      });
+    onSelector(name, value, () => this.setState({loading: false}));
   }
 
   render() {
 
     const {formatters, router, variables} = this.context;
     const {stripP} = formatters;
-    const {sources} = this.props;
-    const {contents, loading} = this.state;
+    const {contents, sources} = this.props;
+    const {loading} = this.state;
     const {descriptions, selectors, slug, subtitles, title, titleCompare, visualizations} = contents;
 
     const hideText = router.location.query.viz === "true";
@@ -61,6 +55,7 @@ class Column extends Component {
 
 Column.contextTypes = {
   formatters: PropTypes.object,
+  onSelector: PropTypes.func,
   router: PropTypes.object,
   updateSource: PropTypes.func,
   variables: PropTypes.object
