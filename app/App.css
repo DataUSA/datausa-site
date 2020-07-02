@@ -304,8 +304,8 @@ input[type="text"] {
 }
 
 .cms {
-  min-height: calc(100vh - var(--nav-height));
-  margin-top: var(--nav-height);
+  min-height: calc(100vh - var(--nav-height)) !important;
+  margin-top: var(--nav-height) !important;
 }
 
 .cms-ace-container.is-fullscreen {
