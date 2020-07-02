@@ -423,7 +423,7 @@ module.exports = function(app) {
         res.json(err);
         return false;
       });
-    console.log(attr);
+
     attr.name = attr.content[0].title;
 
     if (attr) {
