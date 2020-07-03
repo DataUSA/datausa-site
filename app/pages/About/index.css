@@ -28,7 +28,7 @@
       & .bp3-table-container {
         height: 420px;
         overflow: scroll;
-        & .bp3-table-column-name-text {
+        & .bp3-table-column-name-text, & .bp3-table-menu {
           height: 45px;
         }
       }
@@ -69,7 +69,7 @@
     text-transform: uppercase;
   }
   & h2, & h3 {
-    & .bp3-icon-standard {
+    & .bp3-icon {
       color: var(--red);
       font-size: 14px;
       margin: 0 0 0 -20px;
@@ -79,7 +79,7 @@
       vertical-align: middle;
     }
     &:hover {
-      & .bp3-icon-standard {
+      & .bp3-icon {
         opacity: 1;
       }
     }
@@ -113,7 +113,7 @@
   & ul {
     list-style: none;
     padding-left: 20px;
-    & .bp3-icon-standard {
+    & .bp3-icon {
       display: inline-block;
       font-size: 10px;
       line-height: 22px;
@@ -132,6 +132,9 @@
       margin: 0;
       padding: 0 25px;
       width: 100%;
+      & li {
+        font-size: 13px;
+      }
       & .title {
         flex: 1;
       }
@@ -236,13 +239,14 @@
     box-shadow: none;
     color: var(--red);
     display: flex;
+    font-family: "Palanquin", sans-serif;
     font-size: 13px;
     font-weight: 600;
     justify-content: space-between;
     margin: 10px 0 0;
     text-align: center;
     transition: background 0.1s, color 0.1s;
-    & .bp3-icon-standard {
+    & .bp3-icon {
       color: var(--red);
       font-size: 13px;
       transition: color 0.1s;
@@ -250,7 +254,7 @@
     &.bp3-active, &:hover {
       background: var(--red);
       color: white;
-      & .bp3-icon-standard {
+      & .bp3-icon {
         color: white;
       }
     }

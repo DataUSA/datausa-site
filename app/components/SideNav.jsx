@@ -105,7 +105,7 @@ class SideNav extends Component {
                 { topic.sections && topic.sections.length
                   ? <ul>{ topic.sections.map((section, i) => <li key={i} className={ activeSection === section.slug ? "active" : "" }>
                     <AnchorLink to={ section.slug }>
-                      <span className="bp3-icon-standard bp3-icon-dot"></span>
+                      <span className="bp3-icon bp3-icon-dot"></span>
                       { section.title }
                     </AnchorLink>
                   </li>) }

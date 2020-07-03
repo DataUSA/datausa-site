@@ -164,7 +164,7 @@
               display: block;
               height: 16px;
               width: 16px;
-              & .bp3-icon-standard {
+              & .bp3-icon {
                 vertical-align: top;
               }
             }

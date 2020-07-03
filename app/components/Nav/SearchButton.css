@@ -20,7 +20,7 @@
     &:hover {
       opacity: 1;
     }
-    & .bp3-icon-standard {
+    & .bp3-icon {
       color: white;
       margin: 7px;
       transition: transform 0.25s ease-in-out;
@@ -28,7 +28,7 @@
     }
     &.active {
       opacity: 1;
-      & .bp3-icon-standard {
+      & .bp3-icon {
         transform: rotate(90deg);
       }
     }

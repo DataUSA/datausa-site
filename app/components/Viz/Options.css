@@ -247,7 +247,7 @@
           font-weight: 600;
           opacity: 0.5;
           transition: opacity 0.1s;
-          & .bp3-icon-standard {
+          & .bp3-icon {
             color: black;
           }
           &:hover {
