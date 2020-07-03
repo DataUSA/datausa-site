@@ -184,7 +184,7 @@
     background: none !important;
     border: 1px solid var(--red);
     border-radius: 0;
-    box-shadow: none;
+    box-shadow: none !important;
     color: var(--red) !important;
     font-size: 13px;
     font-weight: 600;
@@ -207,7 +207,7 @@
 }
 
 .bp3-dialog.nav-menu {
-  background-color: var(--black);
+  background-color: var(--black) !important;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -286,10 +286,10 @@
   transform: translateX(0);
   transition: transform 0.25s ease-in-out;
   will-change: transform;
-  &.slide-enter, &.slide-leave.slide-leave-active {
+  &.slide-enter, &.slide-exit.slide-exit-active {
     transform: translateX(-300px);
   }
-  &.slide-enter.slide-enter-active, &.slide-leave {
+  &.slide-enter.slide-enter-active, &.slide-exit {
     transform: translateX(0);
   }
 }
@@ -297,10 +297,10 @@
 .bp3-overlay-backdrop {
   opacity: 1;
   transition: opacity 0.25s ease-in-out;
-  &.slide-enter, &.slide-leave.slide-leave-active {
+  &.slide-enter, &.slide-exit.slide-exit-active {
     opacity: 0;
   }
-  &.slide-enter.slide-enter-active, &.slide-leave {
+  &.slide-enter.slide-enter-active, &.slide-exit {
     opacity: 1;
   }
 }
