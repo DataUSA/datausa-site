@@ -103,7 +103,7 @@ class Map extends Component {
       </Helmet>
 
       <Vizbuilder
-        src={[cube]}
+        src={cube}
         defaultGroup={["Geography.County", "Geography.State", "Origin State.Origin State"]}
         defaultMeasure="Poverty Rate"
         measureConfig={measureConfig}
