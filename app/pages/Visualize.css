@@ -584,7 +584,7 @@
           &:focus {
             outline: none;
           }
-          & .bp3-icon-standard {
+          & .bp3-icon {
             font-size: 20px;
           }
         }

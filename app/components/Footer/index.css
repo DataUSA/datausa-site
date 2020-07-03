@@ -69,7 +69,7 @@
           border-bottom: 1px solid white;
           display: flex;
           padding: 5px 0 10px;
-          & .bp3-icon-standard {
+          & .bp3-icon {
             font-size: 16px;
             margin-top: 8px;
             width: 35px;
