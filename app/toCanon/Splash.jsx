@@ -84,7 +84,7 @@ class Splash extends Component {
             <div className="sumlevel">{ d.hierarchy }</div>
           </div>
         </div>}
-        url={ `/api/search/?dimension=${profile.dimension}` } /> }
+        url={ `/api/searchLegacy/?dimension=${profile.dimension}` } /> }
       { !story && <div className="content-container">
         { data.map((d, i) => d.sections[0].stats.length && <div key={i} className="profile-stats">
           { d.sections[0].stats.map((s, ii) => <Stat key={ii} data={s} />) }

@@ -9,7 +9,7 @@ const commas = format(",");
 
 import "./SearchPage.css";
 
-const rawUrl = "/api/search/?limit=100";
+const rawUrl = "/api/searchLegacy/?limit=100";
 
 const formatSubLabel = key => key
   .replace(/^Industry\s/g, "")
