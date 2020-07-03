@@ -40,7 +40,7 @@ export default class SearchButton extends Component {
             <div className="sumlevel">{ d.hierarchy }</div>
           </div>
         </Link>}
-        url={ "/api/search/" } />
+        url={ "/api/searchLegacy/" } />
     );
   }
 

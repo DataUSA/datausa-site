@@ -56,7 +56,7 @@ class Home extends Component {
               <div className="sumlevel">{ d.hierarchy }</div>
             </div>
           </Link>}
-          url="/api/search/"
+          url="/api/searchLegacy/"
         />
 
         { banner ? <div className="subtitle">You are viewing a prototype for the new Data USA.<br />Beta testing will end on Wednesday May 1st at 8am EST.</div> : null }
