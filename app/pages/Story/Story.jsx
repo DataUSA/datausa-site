@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {hot} from "react-hot-loader/root";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
@@ -38,6 +39,8 @@ class Story extends Component {
 
     const metaTitle = formatters.stripHTML(title);
     const metaDesc = formatters.stripHTML(topics[0].descriptions[0].description);
+
+    console.log(story);
 
     return (
       <div id="Story">
@@ -92,4 +95,4 @@ export default connect(state => ({
   story: state.data.story
 }), dispatch => ({
   updateTitle: title => dispatch(updateTitle(title))
-}))(Story);
+}))(hot(Story));
