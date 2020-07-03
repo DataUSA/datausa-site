@@ -12,7 +12,7 @@ const SubList = ({active, dimension, totals}) => <ul>
     .sort((a, b) => totals[a] - totals[b])
     .filter(key => totals[key] > 1)
     .map(key => <li className={active === key ? "active" : ""} key={key}>
-      <span className="bp3-icon-standard bp3-icon-dot"></span>
+      <span className="bp3-icon bp3-icon-dot"></span>
       <Link className="title" to={`/about/classifications/${dimension}/${key}`}>{key}</Link>
       <span className="num">{commas(totals[key])}</span>
     </li>) }
@@ -121,7 +121,7 @@ class Classifications extends Component {
 }
 
 Classifications.need = [
-  fetchData("search", "/api/search?dimension=<dimension>&hierarchy=<hierarchy>&limit=50000", resp => {
+  fetchData("search", "/api/searchLegacy?dimension=<dimension>&hierarchy=<hierarchy>&limit=50000", resp => {
     resp.results.sort((a, b) => a.name.localeCompare(b.name));
     return resp;
   })

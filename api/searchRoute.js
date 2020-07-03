@@ -9,7 +9,7 @@ module.exports = function(app) {
     res.json(totals);
   });
 
-  app.get("/api/search", (req, res) => {
+  app.get("/api/searchLegacy", (req, res) => {
 
     let {limit = "10"} = req.query;
     limit = parseInt(limit, 10);
