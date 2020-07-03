@@ -262,7 +262,7 @@ class Visualize extends Component {
         </Helmet>
 
         <Vizbuilder
-          src={[cube]}
+          src={cube}
           defaultGroup={["Geography.State", "Origin State.Origin State", "Gender.Gender", "Age.Age"]}
           defaultMeasure="Total Population"
           groupLimit={4}
