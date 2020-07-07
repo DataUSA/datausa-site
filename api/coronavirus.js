@@ -27,9 +27,9 @@ module.exports = function(app) {
       .findAll({
         where: {
           dimension: "Geography",
-          hierarchy: !levels.includes(level) ? levels.map(titleCase) : titleCase(level),
-          include: [{association: "content"}]
-        }
+          hierarchy: !levels.includes(level) ? levels.map(titleCase) : titleCase(level)
+        },
+        include: [{association: "content"}]
       })
       .then(rows => rows.reduce((obj, d) => {
         obj[d.content[0].name] = d.id;

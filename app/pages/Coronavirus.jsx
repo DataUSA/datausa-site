@@ -1566,12 +1566,14 @@ class Coronavirus extends Component {
           <div className="image" style={{backgroundImage: "url('')"}}></div>
         </div> */}
           <div className="content-container">
-            <h1 className="profile-title">{title}</h1>
+            <h1 className="profile-title">
+              <p>{title}</p>
+            </h1>
           </div>
           <div className="content-container">
             {today &&
               <div className="profile-subtitle">
-                Latest Data from {dayFormat(today)}
+                <p>Latest Data from {dayFormat(today)}</p>
               </div>
             }
           </div>
@@ -1721,7 +1723,7 @@ class Coronavirus extends Component {
                           interactionKind={PopoverInteractionKind.HOVER}
                           placement="bottom-end"
                           content="This curve show daily new cases vs total confirmed cases (both logarithmic) since reaching 100 confirmed cases. This gives us a good look at how the outbreak is slowing down (decreasing slope), stabilizing (straight horizontal line), or spreading (increasing slope).">
-                          <Icon iconSize="inherit" icon="help" />
+                          <Icon iconSize={12} icon="help" />
                         </Popover>
                       </th>
                     </tr>
