@@ -1,11 +1,11 @@
 #Coronavirus {
   & .splash-coronavirus {
     padding: calc(var(--nav-height) * 2) 0 var(--nav-height);
-    & .profile-title {
+    & .profile-title p {
       margin-bottom: 0;
       padding: 0 50px;
     }
-    & .profile-subtitle {
+    & .profile-subtitle p {
       color: var(--red);
       font-size: 24px;
       padding: 0 75px;
@@ -19,6 +19,9 @@
       column-gap: 20px;
       padding: 25px;
       max-width: 800px;
+      & p {
+        font-size: 16px;
+      }
       & p:not(:first-child) {
         margin-top: 20px;
       }
@@ -110,9 +113,8 @@
         @media (max-width: 575px) {
           padding: 20px 5px 10px;
         }
-        & .bp3-icon-help {
+        & .bp3-icon-help svg {
           cursor: help;
-          font-size: 12px;
           margin-left: 5px;
           margin-top: 3px;
           opacity: 0.75;
@@ -286,6 +288,7 @@
       margin-bottom: 5px;
       margin-top: 10px;
       text-transform: uppercase;
+      white-space: nowrap;
       & .bp3-select {
         flex: 1 1 auto;
       }
@@ -307,6 +310,7 @@
       box-shadow: none;
       color: var(--red);
       display: block;
+      font-family: "Palanquin", sans-serif;
       font-size: 13px;
       font-weight: 600;
       margin-top: 0;
