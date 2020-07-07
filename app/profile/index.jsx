@@ -230,7 +230,7 @@ class Profile extends Component {
 
     const profiles = [profile].concat(comparisons);
     profiles.forEach(d => {
-      d.imageURL = `/api/profile/${pslug}/${d.id}/splash`;
+      d.imageURL = `/api/profile/${pslug}/${d.variables.slug}/splash`;
     });
 
     const GroupingSections = profile.sections.filter(d => d.type === "Grouping");
