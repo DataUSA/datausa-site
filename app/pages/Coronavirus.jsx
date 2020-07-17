@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {hot} from "react-hot-loader/root";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import axios from "axios";
@@ -7,7 +8,7 @@ import {Helmet} from "react-helmet";
 import {AnchorLink} from "@datawheel/canon-core";
 import {Sparklines, SparklinesCurve} from "react-sparklines";
 
-import {extent, max, merge, range, sum} from "d3-array";
+import {extent, max, mean, merge, range, sum} from "d3-array";
 import {nest} from "d3-collection";
 import {timeFormat} from "d3-time-format";
 import {format} from "d3-format";
@@ -66,6 +67,7 @@ const stateAbbreviations = {
   "South Dakota": "SD",
   "Tennessee": "TN",
   "Texas": "TX",
+  "United States": "US",
   "U.S. Virgin Islands": "VI",
   "Utah": "UT",
   "Vermont": "VT",
@@ -437,15 +439,46 @@ class Coronavirus extends Component {
             }))
             .filter(d => d.Date > cutoffDate);
 
-          const mobilityData = resp[4].data.data.map(d => ({
+          const nationDivision = divisions.find(x => x["ID Region"] === 5);
+          const employmentTotals = nest()
+            .key(d => d.Date)
+            .entries(employmentData)
+            .map(group => {
+              const d = Object.assign({}, group.values[0], nationDivision);
+              d.Geography = "United States";
+              d["ID Geography"] = "01000US";
+              [
+                "initial_claims",
+                "continued_claims",
+                "covered_employment"
+              ].forEach(key => {
+                d[key] = sum(group.values, d => d[key]);
+              });
+              return d;
+            });
+
+          let mobilityData = resp[4].data.data.map(d => ({
             ...d,
             ...divisions.find(
               x => x["ID Division"] === stateToDivision[d["ID Geography"]]
             )
           }));
-          const mobilityLatestDate = mobilityData
-            .map(d => d.Date)
-            .sort((a, b) => b > a ? 1 : -1)[0];
+          const mobilityTotals = nest()
+            .key(d => `${d.Date}_${d.Type}`)
+            .entries(mobilityData)
+            .map(group => {
+              const d = Object.assign({}, group.values[0], nationDivision);
+              d.Geography = "United States";
+              d["ID Geography"] = "01000US";
+              [
+                "Percent Change from Baseline"
+              ].forEach(key => {
+                d[key] = mean(group.values, d => d[key]);
+              });
+              return d;
+            });
+          mobilityData = mobilityData.concat(mobilityTotals);
+          const mobilityLatestDate = max(mobilityData, d => d.Date);
           const mobilityDataLatest = mobilityData.filter(
             d => d.Date === mobilityLatestDate
           );
@@ -460,9 +493,9 @@ class Coronavirus extends Component {
               mobilityData,
               mobilityDataLatest,
               mobilityLatestDate,
-              pops: data.population,
+              pops: resp[0].data.population,
               stateTestData,
-              employmentData
+              employmentData: employmentData.concat(employmentTotals)
             },
             this.prepData.bind(this)
           );
@@ -554,7 +587,7 @@ class Coronavirus extends Component {
       min: 0,
       stepSize: cutoffStepSize,
       labelStepSize: cutoffLabelStepSize,
-      renderLabel: label => formatAbbreviate(label)
+      labelRenderer: label => formatAbbreviate(label)
     };
 
     const stateCutoffData = merge(
@@ -640,9 +673,12 @@ class Coronavirus extends Component {
   updateStates(d) {
     const {currentStates, currentStatesHash} = this.state;
     if (currentStatesHash[d["ID Geography"]]) {
-      const newCurrentStates = currentStates.filter(
+      let newCurrentStates = currentStates.filter(
         o => o["ID Geography"] !== d["ID Geography"]
       );
+      if (newCurrentStates.length === 0) {
+        newCurrentStates = currentStates.filter(o => o["ID Geography"] === "01000US");
+      }
       const newCurrentStatesHash = newCurrentStates.reduce(
         (acc, d) => ({[d["ID Geography"]]: true, ...acc}),
         {}
@@ -700,16 +736,14 @@ class Coronavirus extends Component {
       title
     } = this.state;
 
-    const stateFilter = d =>
-      currentStates.length > 0
-        ? currentStatesHash[d["ID Geography"]] || d.Region === "International"
-        : true;
+
+    const onlyNational = currentStates.find(d => d["ID Geography"] === "01000US") && currentStates.length === 1;
+
+    const stateFilter = d => currentStatesHash[d["ID Geography"]] || d.Region === "International";
     const stateTestDataFiltered = stateTestData.filter(stateFilter);
     const stateCutoffDataFiltered = stateCutoffData.filter(stateFilter);
     const countryCutoffDataFiltered = countryCutoffData.filter(stateFilter);
-    const countryCutoffDeathDataFiltered = countryCutoffDeathData.filter(
-      stateFilter
-    );
+    const countryCutoffDeathDataFiltered = countryCutoffDeathData.filter(stateFilter);
 
     const mobilityDataFiltered = mobilityData
       .filter(stateFilter)
@@ -728,24 +762,23 @@ class Coronavirus extends Component {
 
     // const scaleLabel = scale === "log" ? "Logarithmic" : "Linear";
 
-    const lineColor =
-      currentStates.length === 0
-        ? d => colors.Region[d["ID Region"]]
-        : d => {
-          if (d.Region === "International") return "#ccc";
-          return colorArray[
-            currentStates.indexOf(
-              currentStates.find(
-                s => s["ID Geography"] === d["ID Geography"]
-              )
-            ) % colorArray.length
-          ];
-        };
+    const lineColor = d => {
+      if (d.Region === "International") return "#ccc";
+      if (currentStates.length === 1) return colorArray[0];
+      if (d["ID Geography"] === "01000US") return "#aaa";
+      return colorArray[
+        currentStates.indexOf(
+          currentStates.find(
+            s => s["ID Geography"] === d["ID Geography"]
+          )
+        ) % colorArray.length
+      ];
+    };
 
     const sharedConfig = {
       aggs: {
-        "ID Division": arr => arr[0],
-        "ID Region": arr => arr[0]
+        "ID Division": (arr, acc) => acc(arr[0]),
+        "ID Region": (arr, acc) => acc(arr[0])
       },
       discrete: "x",
       groupBy: ["ID Region", "ID Geography"],
@@ -772,7 +805,7 @@ class Coronavirus extends Component {
         tbody: []
       },
       on: {
-        click: currentStates.length ? false : this.updateStates.bind(this),
+        // click: this.updateStates.bind(this),
         mouseenter(d) {
           if (d["ID Geography"] instanceof Array) {
             this.hover(h => (h.data || h)["ID Region"] === d["ID Region"]);
@@ -789,36 +822,32 @@ class Coronavirus extends Component {
             fontFamily: () => ["Pathway Gothic One", "Arial Narrow", "sans-serif"],
             fontSize: () => 12
           },
-          sort: a => a["ID Region"] !== 6 ? 1 : -1,
+          sort: a => a["ID Region"] !== 6 ? -1 : 1,
           stroke: lineColor,
           strokeWidth: 2
         }
       },
       tooltipConfig: {
-        footer: currentStates.length ? false : d => `Click to select ${d.Geography}`,
         tbody: d => {
           const arr = [["Date", dateFormat(new Date(d.Date))]];
-          if (d.Confirmed !== undefined) {
-            arr.push(["Confirmed Cases", commas(d.Confirmed)]);
-          }
-          if (d.ConfirmedGrowth !== undefined) {
-            arr.push(["New Cases", commas(d.ConfirmedGrowth)]);
-          }
-          if (d.ConfirmedPC !== undefined) {
-            arr.push(["Cases per 100,000", commas(Math.round(d.ConfirmedPC))]);
-          }
-          if (d.ConfirmedPC !== undefined) {
-            arr.push(["% Positive Tests", `${formatAbbreviate(d.PositivePct)}%`]);
-          }
-          if (d.initial_claims !== undefined) {
-            arr.push(["Initial Claims", formatAbbreviate(d.initial_claims)]);
-          }
+          if (d.ConfirmedGrowth !== undefined) arr.push(["Daily New Cases", commas(d.ConfirmedGrowth)]);
+          if (d.Confirmed !== undefined) arr.push(["Confirmed Cases", commas(d.Confirmed)]);
+          if (d.ConfirmedPC !== undefined) arr.push(["Cases per 100,000", commas(Math.round(d.ConfirmedPC))]);
+          if (d.ConfirmedPC !== undefined) arr.push(["% Positive Tests", `${formatAbbreviate(d.PositivePct)}%`]);
+          if (d.Deaths !== undefined) arr.push(["Deaths", commas(d.Deaths)]);
+          if (d.DeathsPC !== undefined) arr.push(["Deaths per 100,000", formatAbbreviate(d.DeathsPC)]);
+          if (d.Tests !== undefined) arr.push(["Tests", commas(d.Tests)]);
+          if (d.Hospitalized !== undefined) arr.push(["Hospitalizations", commas(d.Hospitalized)]);
+          if (d.initial_claims !== undefined) arr.push(["Initial Claims", formatAbbreviate(d.initial_claims)]);
           return arr;
         },
         title: d =>
           d["ID Region"] === 6
             ? `${countryMeta[d.Geography] ? countryMeta[d.Geography].emoji : ""}${d.Geography}`
-            : d.Geography
+            : d.Geography,
+        titleStyle: {
+          color: d => colorLegible(lineColor(d)),
+        }
       },
       titleConfig: {
         fontSize: 21
@@ -900,55 +929,22 @@ class Coronavirus extends Component {
       }
     };
 
-    const nationDivision = divisions.find(x => x["ID Region"] === 5);
-    const employmentDataFiltered = currentStates.length
-      ? employmentData.filter(stateFilter)
-      : nest()
-        .key(d => d.Date)
-        .entries(employmentData)
-        .map(group => {
-          const d = Object.assign({}, group.values[0], nationDivision);
-          d.Geography = "United States";
-          d["ID Geography"] = "01000US";
-          [
-            "initial_claims",
-            "continued_claims",
-            "covered_employment"
-          ].forEach(key => {
-            d[key] = sum(group.values, d => d[key]);
-          });
-          return d;
-        });
+    const employmentDataFiltered = employmentData.filter(stateFilter);
 
-    // const latestEmployment = max(employmentDataFiltered, d => d.Date);
-    // const latestEmploymentData = employmentData.filter(
-    //   d => d.Date === latestEmployment
-    // );
     const employmentDate = new Date("03/21/2020");
     const employmentStat = sum(
-      employmentData.filter(d => d.Date >= employmentDate),
+      employmentData.filter(d => d.Date >= employmentDate && d["ID Geography"] === "01000US"),
       d => d.initial_claims
     );
     const employmentStatStates = sum(
-      employmentDataFiltered.filter(d => d.Date >= employmentDate),
+      employmentDataFiltered.filter(d => d.Date >= employmentDate && d["ID Geography"] !== "01000US"),
       d => d.initial_claims
     );
 
     const StateSelector = () =>
-      currentStates.length
-        ? <AnchorLink to="cases" className="topic-subtitle">
-          Click here to return to the table to select multiple states. <Icon icon="arrow-up" iconSize={8} />
-        </AnchorLink>
-        : <AnchorLink to="cases" className="topic-subtitle">
-          Click a line in the chart to filter by an individual state,<br />or click here to return to the table to select multiple states. <Icon icon="arrow-up" iconSize={8} />
-        </AnchorLink>
-      ;
-
-    const NationStateSelector = () =>
       <AnchorLink to="cases" className="topic-subtitle">
-        Click here to return to the table to select individual states. <Icon icon="arrow-up" iconSize={8} />
-      </AnchorLink>
-      ;
+        <Icon icon="arrow-up" iconSize={8} /> click here to return to the table and change state selection <Icon icon="arrow-up" iconSize={8} />
+      </AnchorLink>;
 
     const AxisToggle = () =>
       <div>
@@ -1009,31 +1005,30 @@ class Coronavirus extends Component {
 
     // top-level stats
     const stats = {};
-    const totalCases = sum(latest, d => d.Confirmed);
+    const latestNational = latest.filter(d => d["ID Geography"] === "01000US");
+    const totalCases = sum(latestNational, d => d.Confirmed);
     stats.totalCases = commas(totalCases);
-    const totalPopulation = sum(latest, d => d.Population);
+    const totalPopulation = pops["01000US"];
     stats.totalPC = formatAbbreviate(totalCases / totalPopulation * 100000);
-    const totalDeaths = sum(latest, d => d.Deaths);
+    const totalDeaths = sum(latestNational, d => d.Deaths);
     stats.totalDeaths = commas(totalDeaths);
     stats.totalDeathsPC = formatAbbreviate(
       totalDeaths / totalPopulation * 100000
     );
-    stats.totalHospitalizations = commas(sum(latest, d => d.Hospitalized));
-    const totalTests = sum(latest, d => d.Tests);
+    stats.totalHospitalizations = commas(sum(latestNational, d => d.Hospitalized));
+    const totalTests = sum(latestNational, d => d.Tests);
     stats.totalTests = formatAbbreviate(totalTests);
-    const totalPositive = sum(latest, d => d.Confirmed);
+    const totalPositive = sum(latestNational, d => d.Confirmed);
     stats.totalPositivePercent = `${formatAbbreviate(
       totalPositive / totalTests * 100
     )}% Tested Positive`;
 
     // topic stats
     const topicStats = {};
-    const latestFiltered = latest.filter(d =>
-      currentStates.length > 0 ? currentStatesHash[d["ID Geography"]] : true
-    );
+    const latestFiltered = latest.filter(d => currentStatesHash[d["ID Geography"]] && d["ID Geography"] !== "01000US");
     const totalCasesFiltered = sum(latestFiltered, d => d.Confirmed);
     topicStats.totalCases = commas(totalCasesFiltered);
-    const totalPopulationFiltered = sum(latestFiltered, d => d.Population);
+    const totalPopulationFiltered = sum(latestFiltered, d => pops[d["ID Geography"]]);
     topicStats.totalPC = formatAbbreviate(
       totalCasesFiltered / totalPopulationFiltered * 100000
     );
@@ -1133,7 +1128,7 @@ class Coronavirus extends Component {
                 ? topicStats.totalPC
                 : topicStats.totalCases
               : <Spinner />,
-            title: `${currentCasePC ? "Confirmed Cases per 100,000" : "Confirmed Cases"} in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
+            title: `${currentCasePC ? "Confirmed Cases per 100,000" : "Confirmed Cases"} in ${!onlyNational ? list(currentStates.filter(d => d["ID Geography"] !== "01000US").map(o => o.Geography)) : "the USA"}`,
             subtitle: show ? `as of ${dayFormat(today)}` : ""
           },
         descriptions: currentCaseInternational
@@ -1228,7 +1223,7 @@ class Coronavirus extends Component {
                 ? topicStats.totalDeathsPC
                 : topicStats.totalDeaths
               : <Spinner />,
-            title: `${currentCasePC ? "Deaths per 100,000" : "Total Deaths"} in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
+            title: `${currentCasePC ? "Deaths per 100,000" : "Total Deaths"} in ${!onlyNational ? list(currentStates.filter(d => d["ID Geography"] !== "01000US").map(o => o.Geography)) : "the USA"}`,
             subtitle: show ? `as of ${dayFormat(today)}` : ""
           },
         descriptions: currentCaseInternational
@@ -1310,7 +1305,7 @@ class Coronavirus extends Component {
                 ? topicStats.totalHospitalizationsPC
                 : topicStats.totalHospitalizations
               : <Spinner />,
-            title: `${currentCasePC ? "Hospitalizations per 100,000" : "Hospitalizations"} in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
+            title: `${currentCasePC ? "Hospitalizations per 100,000" : "Hospitalizations"} in ${!onlyNational ? list(currentStates.filter(d => d["ID Geography"] !== "01000US").map(o => o.Geography)) : "the USA"}`,
             subtitle: show ? `as of ${dayFormat(today)}` : ""
           },
         descriptions: currentCaseReach
@@ -1377,7 +1372,7 @@ class Coronavirus extends Component {
                 ? topicStats.totalTestsPC
                 : topicStats.totalTests
               : <Spinner />,
-            title: `${currentCasePC ? "Tests per 100,000" : "Total Tests"} in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
+            title: `${currentCasePC ? "Tests per 100,000" : "Total Tests"} in ${!onlyNational ? list(currentStates.filter(d => d["ID Geography"] !== "01000US").map(o => o.Geography)) : "the USA"}`,
             subtitle: show ? `as of ${dayFormat(today)}` : ""
           },
         descriptions: currentCaseReach
@@ -1434,7 +1429,7 @@ class Coronavirus extends Component {
           ? false
           : {
             value: show ? topicStats.totalPositive : <Spinner />,
-            title: `Positive Test Results in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
+            title: `Positive Test Results in ${!onlyNational ? list(currentStates.filter(d => d["ID Geography"] !== "01000US").map(o => o.Geography)) : "the USA"}`,
             subtitle: show ? `as of ${dayFormat(today)}` : ""
           },
         descriptions: currentCaseReach
@@ -1731,9 +1726,9 @@ class Coronavirus extends Component {
                   <tbody>
                     { tableData.length
                       ? tableData.map((d, i) =>
-                        <tr key={i} className={`state-table-row ${currentStates.find(s => s["ID Geography"] === d["ID Geography"]) ? "selected" : ""}`} onClick={this.updateStates.bind(this, d)}>
+                        <tr key={i} id={`state-${d["ID Geography"]}`} className={`state-table-row ${currentStates.find(s => s["ID Geography"] === d["ID Geography"]) ? "selected" : ""}`} onClick={this.updateStates.bind(this, d)}>
                           <td className="checkbox">
-                            <div className="checkbox-fake">
+                            <div className={`checkbox-fake ${d["ID Geography"] === "01000US" && currentStates.length === 1 && currentStates.find(s => s["ID Geography"] === d["ID Geography"]) ? "disabled" : ""}`}>
                               <Icon icon="small-tick" />
                             </div>
                           </td>
@@ -1756,8 +1751,8 @@ class Coronavirus extends Component {
                           <td className="ConfirmedPC">{commas(Math.round(d.ConfirmedPC))}</td>
                           <td className="Deaths">{commas(d.Deaths)}</td>
                           <td className="PositivePct">{formatAbbreviate(d.PositivePct)}%</td>
-                          <td className="Tests">{commas(d.Tests)}</td>
-                          <td className="Hospitalized">{typeof d.Hospitalized === "number" ? commas(d.Hospitalized) : "N/A"}</td>
+                          <td className="Tests">{formatAbbreviate(d.Tests)}</td>
+                          <td className="Hospitalized">{typeof d.Hospitalized === "number" ? commas(d.Hospitalized) : <span className="state-table-na">N/A</span>}</td>
                           <td className="Curve">
                             <Sparklines svgWidth={100} svgHeight={30} data={d.Curve}>
                               <SparklinesCurve style={{
@@ -1996,7 +1991,7 @@ class Coronavirus extends Component {
                           : ""}
                       </div>
                     </div>
-                    {currentStates.length
+                    { !onlyNational
                       ? <div className="StatGroup single">
                         <div className="stat-value">
                           {show
@@ -2006,7 +2001,7 @@ class Coronavirus extends Component {
                         </div>
                         <div className="stat-title">
                         Initial Unemployment insurance claims in{" "}
-                          {list(currentStates.map(o => o.Geography))}
+                          {list(currentStates.filter(d => d["ID Geography"] !== "01000US").map(o => o.Geography))}
                         </div>
                         <div className="stat-subtitle">
                           {show
@@ -2014,7 +2009,7 @@ class Coronavirus extends Component {
                             : ""}
                         </div>
                       </div>
-                      : null}
+                      : null }
                   </div>
                   <div className="topic-description">
                     <p>
@@ -2068,7 +2063,7 @@ class Coronavirus extends Component {
                       icon={<Spinner />}
                     />
                   }
-                  <NationStateSelector />
+                  <StateSelector />
                 </div>
                 {/* <div className="visualization topic-visualization">
                   {employmentData.length
@@ -2522,4 +2517,4 @@ export default connect(
   dispatch => ({
     updateTitle: title => dispatch(updateTitle(title))
   })
-)(Coronavirus);
+)(hot(Coronavirus));
