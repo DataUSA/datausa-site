@@ -59,34 +59,10 @@ module.exports = function(app) {
         return arr;
       }, []);
 
-
-    // POPULATION LOOKUP
-    const requestedLevels = (level === "all" ? levels : [level]).map(titleCase);
-    const origin = `${ req.protocol }://${ req.headers.host }`;
-    const popRequests = requestedLevels.map(level => throttle.add(() => axios.get(`${origin}/api/data?measures=Population&drilldowns=${level}&year=latest`)
-      .then(resp => resp.data.data)
-      .then(data => data.map(d => {
-        d["ID Geography"] = d[`ID ${level}`];
-        return d;
-      }))));
-
-    const popPayload = await Promise.all(popRequests);
-
-    const populationLookup = merge(popPayload)
-      .reduce((obj, d) => {
-        obj[d["ID Geography"]] = d.Population;
-        return obj;
-      }, {
-        "04000US66": 165768, // Guam
-        "04000US69": 56882,  // Northern Mariana Islands
-        "04000US78": 106977  // Virgin Islands
-      });
-
     // RETURN PAYLOAD
     res.json({
       beds: formattedBeds,
       icu: formattedICU,
-      population: populationLookup
     });
 
   });

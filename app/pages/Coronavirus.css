@@ -151,6 +151,14 @@
           background: #fff;
           cursor: pointer;
         }
+        &#state-01000US {
+          background: white;
+          font-weight: bold;
+          height: 55px;
+          & td {
+            font-size: 16px !important;
+          }
+        }
         & td {
           font-size: 14px;
           padding: 5px 10px;
@@ -166,6 +174,10 @@
               display: block;
               height: 16px;
               width: 16px;
+              &.disabled {
+                background: var(--gray) !important;
+                opacity: 0.5;
+              }
               & .bp3-icon {
                 vertical-align: top;
               }
@@ -194,6 +206,9 @@
             &.decreasing {
               color: var(--soc);
             }
+          }
+          & .state-table-na {
+            opacity: 0.5;
           }
           & > div {
             display: inline-block;
@@ -406,6 +421,9 @@
         width: 100%;
         & a {
           color: var(--red);
+        }
+        & .bp3-icon {
+          vertical-align: middle;
         }
       }
       margin-left: 10px;
