@@ -1,5 +1,6 @@
 import styles from "./style.yml";
 import colors from "../static/data/colors.json";
+import {colorLegible} from "d3plus-color";
 
 const bad = "#cf5555";
 const good = "#3182bd";
@@ -116,8 +117,8 @@ const axisStyles = {
 
 export default {
   aggs: {
-    "ID Group": arr => {
-      const uniques = Array.from(new Set(arr));
+    "ID Group": (arr, acc) => {
+      const uniques = Array.from(new Set(arr.map(acc)));
       return uniques.length === 1 ? uniques[0] : uniques;
     }
   },
@@ -296,7 +297,7 @@ export default {
     },
     padding: "10px",
     titleStyle: {
-      "color": "#888",
+      "color": d => colorLegible(findColor(d)),
       "font-family": "'Palanquin', sans-serif",
       "font-size": "16px",
       "font-weight": "300"
