@@ -71,11 +71,14 @@ class Profile extends Component {
 
     const cats = categories[pslug] || [];
     const sidenav = [];
-    (!props.profile.error ? props.profile.sections : []).forEach(s => {
-      const sectionCats = cats.filter(c => c.section === s.slug);
-      if (sectionCats.length) sidenav.push(sectionCats.map(s => ({title: s.title, slug: `category_${s.slug}`})));
-      else sidenav.push([{title: s.title.replace(/<[^>]+>/g, ""), slug: s.slug}]);
-    });
+    (!props.profile.error ? props.profile.sections : [])
+      .slice(2)
+      .filter(d => d.type === "Grouping")
+      .forEach(s => {
+        const sectionCats = cats.filter(c => c.section === s.slug);
+        if (sectionCats.length) sidenav.push(sectionCats.map(s => ({title: s.title, slug: `category_${s.slug}`})));
+        else sidenav.push([{title: s.title.replace(/<[^>]+>/g, ""), slug: s.slug}]);
+      });
 
     this.state = {
       activeSection: false,
@@ -165,38 +168,41 @@ class Profile extends Component {
 
   handleScroll() {
 
-    // const {sections} = this.state.profile;
-    // const {activeSection, activeSidenav, showSidenav, sidenav} = this.state;
-    // const navHeight = 85;
+    const sections = this.state.profile.sections
+      .slice(2)
+      .filter(d => d.type === "Grouping");
 
-    // let newActiveSection = false;
-    // const elem = document.getElementById("about");
-    // const top = elem ? elem.getBoundingClientRect().top : 1;
-    // if (top <= navHeight) newActiveSection = "about";
-    // sections.forEach(section => {
-    //   const elem = document.getElementById(section.slug);
-    //   const top = elem ? elem.getBoundingClientRect().top : 1;
-    //   if (top <= navHeight) newActiveSection = section.slug;
-    // });
+    const {activeSection, activeSidenav, showSidenav, sidenav} = this.state;
+    const navHeight = 85;
 
-    // let newActiveSidenav = false;
-    // sidenav.forEach(section => {
-    //   section.forEach(category => {
-    //     const elem = document.getElementById(category.slug);
-    //     const top = elem ? elem.getBoundingClientRect().top : 1;
-    //     if (top <= navHeight) newActiveSidenav = category.slug;
-    //   });
-    // });
+    let newActiveSection = false;
+    const elem = document.getElementById("about");
+    const top = elem ? elem.getBoundingClientRect().top : 1;
+    if (top <= navHeight) newActiveSection = "about";
+    sections.forEach(section => {
+      const elem = document.getElementById(section.slug);
+      const top = elem ? elem.getBoundingClientRect().top : 1;
+      if (top <= navHeight) newActiveSection = section.slug;
+    });
 
-    // const newShowSidenav = newActiveSection && newActiveSection !== "about" && document.getElementById("keep-exploring").getBoundingClientRect().top > window.innerHeight;
+    let newActiveSidenav = false;
+    sidenav.forEach(section => {
+      section.forEach(category => {
+        const elem = document.getElementById(category.slug);
+        const top = elem ? elem.getBoundingClientRect().top : 1;
+        if (top <= navHeight) newActiveSidenav = category.slug;
+      });
+    });
 
-    // if (activeSection !== newActiveSection || activeSidenav !== newActiveSidenav || showSidenav !== newShowSidenav) {
-    //   this.setState({
-    //     activeSection: newActiveSection,
-    //     activeSidenav: newActiveSidenav,
-    //     showSidenav: newShowSidenav
-    //   });
-    // }
+    const newShowSidenav = newActiveSection && newActiveSection !== "about" && document.getElementById("keep-exploring").getBoundingClientRect().top > window.innerHeight;
+
+    if (activeSection !== newActiveSection || activeSidenav !== newActiveSidenav || showSidenav !== newShowSidenav) {
+      this.setState({
+        activeSection: newActiveSection,
+        activeSidenav: newActiveSidenav,
+        showSidenav: newShowSidenav
+      });
+    }
 
   }
 
@@ -309,7 +315,7 @@ class Profile extends Component {
           </Section>;
         }) }
 
-        {/* <SubNav type="scroll" anchor="top" visible={() => {
+        <SubNav type="scroll" anchor="top" visible={() => {
           if (typeof window === undefined) return false;
           const elem = select("#Splash .profile-sections").node();
           const top = elem.getBoundingClientRect().top;
@@ -317,22 +323,22 @@ class Profile extends Component {
         }}>
           <SectionIcon slug="about" title="About" active={ activeSection === "about" } />
           { GroupingSections.map((s, i) => <SectionIcon key={i} {...s} active={ activeSection === s.slug } />) }
-        </SubNav> */}
+        </SubNav>
 
-        {/* { similar.length && <div id="keep-exploring" className="keep-exploring">
+        { similar.length && <div id="keep-exploring" className="keep-exploring">
           <h2>Keep Exploring</h2>
           <div className="tiles">
             { similar.map(d => <Tile key={d.slug || d.id} title={d.display || d.name} subtitle={d.hierarchy} image={`/api/profile/${pslug}/${d.id}/thumb`} url={`/profile/${pslug}/${d.slug || d.id}`} />) }
           </div>
-        </div> } */}
+        </div> }
 
-        {/* <div className={`sidenav ${showSidenav ? "visible" : ""}`}>
+        <div className={`sidenav ${showSidenav ? "visible" : ""}`}>
           { sidenav.map((s, i) => <div key={i} className="sidenav-section">
             {s.map(t => <Tooltip className={`sidenav-circle ${t.slug === activeSidenav ? "active" : ""}`} key={t.slug} content={<span className="sidenav-label">{t.title}</span>}>
               <AnchorLink to={t.slug}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</AnchorLink>
             </Tooltip>)}
           </div>) }
-        </div> */}
+        </div>
 
         { loading ? <Loading /> : null }
 
