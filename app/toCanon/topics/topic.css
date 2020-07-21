@@ -160,4 +160,15 @@
     }
   }
 
+  &.house .StatGroup.single, &.senate .StatGroup.single {
+    margin-bottom: 0;
+    min-width: 100%;
+    &:last-child {
+      margin-bottom: 10px;
+    }
+    & .stat-value {
+      font-size: 24px;
+    }
+  }
+
 }
