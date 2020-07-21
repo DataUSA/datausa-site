@@ -134,7 +134,10 @@ module.exports = function(app) {
         include: [{association: "content"}]
       })
       .catch(err => res.json(err));
-    res.json(cip.map(d => (d.name = d.content[0].name, d)));
+    const ret = cip.toJSON();
+    ret.name = ret.content[0].name;
+    delete ret.content;
+    res.json(ret);
 
   });
 
@@ -285,7 +288,15 @@ module.exports = function(app) {
         const retArray = attrs
           .sort((a, b) => b.zvalue - a.zvalue)
           .slice(0, limit || 6)
-          .map(d => (d.name = d.content[0].name, d));
+          .map(row => {
+            if (row.toJSON) {
+              const d = row.toJSON();
+              d.name = d.content[0].name
+              delete d.content;
+              return d;
+            }
+            return row;
+          });
 
         res.json(retArray);
 
@@ -555,14 +566,21 @@ module.exports = function(app) {
         .then(resp => resp.map(d => d.geoid))
         .catch(() => []);
 
-      const attrs = await db.search
+      let attrs = await db.search
         .findAll({
           where: {dimension, id: neighbors},
-          include: [{association: "content"}]
+          include: [{association: "content"}],
         })
         .catch(() => []);
 
-      res.json({data: attrs.map(d => (d.name = d.content[0].name, d))});
+      attrs = attrs.map(row => {
+        const d = row.toJSON();
+        d.name = d.content[0].name;
+        delete d.content;
+        return d;
+      });
+
+      res.json({data: attrs});
 
     }
     else {
