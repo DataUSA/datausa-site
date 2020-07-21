@@ -11,7 +11,7 @@ class SourceGroup extends Component {
     const embed = pathname.includes("profile") && pathname.split("/").filter(Boolean).length === 5;
     if (!embed && (!sources || !sources.length)) return null;
 
-    return <div className="SourceGroup">
+    return sources.length ? <div className="SourceGroup">
       Data from
       { sources.map((source, i) => {
 
@@ -41,7 +41,7 @@ class SourceGroup extends Component {
         </span>;
       })}
       <span>.</span>
-    </div>;
+    </div> : <div className="SourceGroup"></div>;
   }
 
 }
