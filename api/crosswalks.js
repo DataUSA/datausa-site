@@ -57,7 +57,7 @@ module.exports = function(app) {
           })
           .then(arr => arr.sort((a, b) => b.overlap_size - a.overlap_size))
           .catch(() => []);
-        cut = cuts.length ? cuts[0].geoid : "01000US";
+        cut = cuts.length ? cuts.every(d => d.level === "state") ? cuts.map(d => d.geoid) : cuts[0].geoid : "01000US";
         drilldown = level || "County";
       }
     }
@@ -111,7 +111,7 @@ module.exports = function(app) {
         })
         .then(arr => arr.sort((a, b) => b.overlap_size - a.overlap_size))
         .catch(() => []);
-      parent = parents.length ? parents[0].geoid : "01000US";
+      parent = parents.length ? parents.map(d => d.geoid) : "01000US";
       level = "County";
     }
     else {
