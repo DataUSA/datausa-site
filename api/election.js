@@ -37,7 +37,7 @@ module.exports = function(app) {
               return resp || [];
             }
           })
-          .then(arr => arr.sort((a, b) => b.overlap_size - a.overlap_size))
+          .then(arr => arr.filter(d => d.overlap_size > 0.00001).sort((a, b) => b.overlap_size - a.overlap_size))
           .catch(() => []);
         states = parents
           .filter(d => d.level === "state")
