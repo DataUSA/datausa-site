@@ -2,6 +2,45 @@ const d3Array = require("d3-array");
 // const {vizbuilderMiddleware} = require("@datawheel/canon-vizbuilder");
 const {CANON_API, CANON_LOGICLAYER_CUBE} = process ? process.env : {};
 
+const geoRelations = {
+  children: {
+    url: id => `${CANON_API}/api/geo/children/${id}/`
+  },
+  districts: {
+    url: id => `${CANON_API}/api/geo/children/${id}/?level=Congressional District`
+  },
+  tracts: {
+    url: id => `${CANON_API}/api/geo/children/${id}/?level=Tract`
+  },
+  places: {
+    url: id => `${CANON_API}/api/geo/children/${id}/?level=Place`
+  },
+  childrenCounty: {
+    url: id => `${CANON_API}/api/geo/childrenCounty/${id}/`
+  },
+  neighbors: {
+    url: id => `${CANON_LOGICLAYER_CUBE}/geoservice-api/neighbors/${id}`,
+    callback: resp => {
+      if (resp.error) {
+        console.error("[geoservice error]");
+        console.error(resp.error);
+        return [];
+      }
+      else {
+        return (resp  || []).map(d => d.geoid);
+      }
+    }
+  },
+  parents: {
+    url: id => `${CANON_API}/api/parents/geo/${id}`,
+    callback: arr => arr.map(d => d.id)
+  },
+  similar: {
+    url: id => `${CANON_API}/api/geo/similar/${id}`,
+    callback: arr => arr.map(d => d.id)
+  }
+};
+
 module.exports = {
   logiclayer: {
     aliases: {
@@ -65,67 +104,9 @@ module.exports = {
       "Origin State": "Geography"
     },
     relations: {
-      "Origin State": {
-        neighbors: {
-          url: id => `${CANON_LOGICLAYER_CUBE}/geoservice-api/neighbors/${id}`,
-          callback: resp => {
-            if (resp.error) {
-              console.error("[geoservice error]");
-              console.error(resp.error);
-              return [];
-            }
-            else {
-              return (resp  || []).map(d => d.geoid);
-            }
-          }
-        },
-        parents: {
-          url: id => `${CANON_API}/api/parents/geo/${id}`,
-          callback: arr => arr.map(d => d.id)
-        },
-        similar: {
-          url: id => `${CANON_API}/api/geo/similar/${id}`,
-          callback: arr => arr.map(d => d.id)
-        }
-      },
-      "Geography": {
-        children: {
-          url: id => `${CANON_API}/api/geo/children/${id}/`
-        },
-        districts: {
-          url: id => `${CANON_API}/api/geo/children/${id}/?level=Congressional District`
-        },
-        tracts: {
-          url: id => `${CANON_API}/api/geo/children/${id}/?level=Tract`
-        },
-        places: {
-          url: id => `${CANON_API}/api/geo/children/${id}/?level=Place`
-        },
-        childrenCounty: {
-          url: id => `${CANON_API}/api/geo/childrenCounty/${id}/`
-        },
-        neighbors: {
-          url: id => `${CANON_LOGICLAYER_CUBE}/geoservice-api/neighbors/${id}`,
-          callback: resp => {
-            if (resp.error) {
-              console.error("[geoservice error]");
-              console.error(resp.error);
-              return [];
-            }
-            else {
-              return (resp  || []).map(d => d.geoid);
-            }
-          }
-        },
-        parents: {
-          url: id => `${CANON_API}/api/parents/geo/${id}`,
-          callback: arr => arr.map(d => d.id)
-        },
-        similar: {
-          url: id => `${CANON_API}/api/geo/similar/${id}`,
-          callback: arr => arr.map(d => d.id)
-        }
-      },
+      "Destination State": geoRelations,
+      "Origin State": geoRelations,
+      "Geography": geoRelations,
       "CIP": {
         parents: {
           url: id => `${CANON_API}/api/parents/cip/${id}`,
@@ -165,10 +146,10 @@ module.exports = {
       "Geography": {
         levels: {
           State: ["Nation"],
-          County: ["MSA", "State", "Nation"],
-          MSA: ["State", "Nation"],
-          Place: ["County", "MSA", "State", "Nation"],
-          PUMA: ["State", "Nation"]
+          County: ["MSA", "State", "Origin State", "Destination State", "Nation"],
+          MSA: ["State", "Origin State", "Destination State", "Nation"],
+          Place: ["County", "MSA", "State", "Origin State", "Destination State", "Nation"],
+          PUMA: ["State", "Origin State", "Destination State", "Nation"]
         },
         url: (id, level) => {
           const targetLevel = level.toLowerCase();
@@ -184,7 +165,7 @@ module.exports = {
             arr = resp  || [];
           }
           arr = arr.sort((a, b) => b.overlap_size - a.overlap_size);
-          return arr.length ? arr[0].geoid : "01000US";
+          return arr.length ? arr.every(d => d.level === "state") ? arr.filter(d => d.level === "state").map(d => d.geoid) : arr[0].geoid : "01000US";
         }
       },
       "CIP": {
