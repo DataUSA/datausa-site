@@ -33,7 +33,7 @@
     "@blueprintjs/table": "^3.8.10",
     "@datawheel/canon-cms": "^0.13.33",
     "@datawheel/canon-core": "^0.18.28",
-    "@datawheel/canon-logiclayer": "^0.4.6",
+    "@datawheel/canon-logiclayer": "^0.4.7",
     "@datawheel/canon-vizbuilder": "^0.3.10",
     "@datawheel/olap-client": "^1.3.3",
     "buble": "^0.19.3",
