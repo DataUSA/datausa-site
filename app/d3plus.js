@@ -259,7 +259,7 @@ export default {
       labelConfig: {
         fontColor(d) {
           const n = parseInt(d.text, 10);
-          return isNaN(n) || n <= currentYear ? "#888" : styles.red;
+          return isNaN(n) || n <= currentYear - 2 ? "#888" : styles.red;
         },
         fontFamily: () => "Palanquin",
         fontSize: () => 12,
