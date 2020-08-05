@@ -833,7 +833,7 @@ class Coronavirus extends Component {
           if (d.ConfirmedGrowth !== undefined) arr.push(["Daily New Cases", commas(d.ConfirmedGrowth)]);
           if (d.Confirmed !== undefined) arr.push(["Confirmed Cases", commas(d.Confirmed)]);
           if (d.ConfirmedPC !== undefined) arr.push(["Cases per 100,000", commas(Math.round(d.ConfirmedPC))]);
-          if (d.ConfirmedPC !== undefined) arr.push(["% Positive Tests", `${formatAbbreviate(d.PositivePct)}%`]);
+          if (d.PositivePct !== undefined) arr.push(["% Positive Tests", `${formatAbbreviate(d.PositivePct)}%`]);
           if (d.Deaths !== undefined) arr.push(["Deaths", commas(d.Deaths)]);
           if (d.DeathsPC !== undefined) arr.push(["Deaths per 100,000", formatAbbreviate(d.DeathsPC)]);
           if (d.Tests !== undefined) arr.push(["Tests", commas(d.Tests)]);
