@@ -425,7 +425,7 @@ class Coronavirus extends Component {
           const data = resp[2].data;
           const icuData = data.icu;
 
-          const cutoffDate = new Date("2007/01/01").getTime();
+          const cutoffDate = new Date("2018/01/01").getTime();
 
           const employmentData = resp[3].data.data
             .map(d => ({
