@@ -2048,9 +2048,6 @@ class Coronavirus extends Component {
                           ]
                         },
                         x: "Date",
-                        xConfig: {
-                          tickFormat: yearFormat
-                        },
                         y: "initial_claims",
                         yConfig: {
                           scale,
