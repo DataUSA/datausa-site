@@ -44,7 +44,7 @@ export const usage = {
     "Various health indicators are featured in the Health section of the geography profiles."
   ],
   "mit-election-lab": [
-    "Presidential, Senate, and Respresentative voting results are featured in the Civics section of the geography profiles."
+    "Presidential, Senate, and Representative voting results are featured in the Civics section of the geography profiles."
   ],
   "onet-online": [
     "The O*Net Skills dataset is used on both the Occupation and Course profile pages giving a detailed breakdown of the skills required for the specified occupation or course."
@@ -88,7 +88,7 @@ export const caveats = {
   ],
   "mit-election-lab": [
     "We have paired MIT's election results data with our own manual supplement for any special elections that have occured since the previously collected regular election (as in the case of resignations and deaths).",
-    "The land boundaries for a portion of the geographical profiles featured in Data USA do not line up perfectly with congressional districts. In this case, when displaying respresentatives for the given location, we include any congressional district whose geographical boundaries overlap the given location's boundaries."
+    "The land boundaries for a portion of the geographical profiles featured in Data USA do not line up perfectly with congressional districts. In this case, when displaying representatives for the given location, we include any congressional district whose geographical boundaries overlap the given location's boundaries."
   ],
   "onet-online": [
     "Some occupations do not have directly corresponding data available in O*Net. For more detailed technical information on how we handle these cases, please visit our <a href=\"https://github.com/DataUSA/datausa-api/wiki/Data API#onet\">O*Net Aggregation Methodology</a> page."
