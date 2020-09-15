@@ -945,10 +945,9 @@
   {
     "District": "5",
     "State": "Georgia",
-    "Member": "John Lewis",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/John_Lewis_%28cropped%29.jpg/75px-John_Lewis_%28cropped%29.jpg",
-    "Party": "Democratic",
-    "Assumed office": "1987"
+    "Member": "Vacant",
+    "Party": "",
+    "Assumed office": ""
   },
   {
     "District": "6",
@@ -2266,7 +2265,7 @@
     "District": "27",
     "State": "New York",
     "Member": "Chris Jacobs",
-    "Image": "https://upload.wikimedia.org/wikipedia/en/thumb/6/67/CountyCLERKJacobs.jpeg/75px-CountyCLERKJacobs.jpeg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Chris_Jacobs_%28NY-27%29.jpg/75px-Chris_Jacobs_%28NY-27%29.jpg",
     "Party": "Republican",
     "Assumed office": "2020"
   },
@@ -3456,7 +3455,7 @@
     "District": "7",
     "State": "Wisconsin",
     "Member": "Tom Tiffany",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Tom_Tiffany_%28WI-07%29.jpg/75px-Tom_Tiffany_%28WI-07%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Tom_Tiffany.jpg/75px-Tom_Tiffany.jpg",
     "Party": "Republican",
     "Assumed office": "2020"
   },
