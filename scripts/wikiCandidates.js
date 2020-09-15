@@ -24,7 +24,12 @@ if (!level || !urls[level]) {
 async function run() {
 
   const wikiURL = urls[level];
-  const {segmentedContent} = await axios.get(wikiURL).then(resp => resp.data);
+  const {segmentedContent} = await axios.get(wikiURL, {headers: {"User-Agent": "hello@datausa.io"}})
+    .then(resp => resp.data)
+    .catch(err => {
+      console.log(err);
+      shell.exit(1);
+    });
   const table = parse(segmentedContent).querySelector(`#${tableIDs[level]}`);
 
   const headers = table.querySelector("tbody tr")
