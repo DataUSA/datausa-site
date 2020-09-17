@@ -63,6 +63,12 @@
     transition: opacity 0.25s;
     width: 100%;
   }
+  & .profile-title {
+    margin-bottom: 0;
+  }
+  & .profile-subtitle {
+    margin-bottom: 20px;
+  }
   & .profile-title p, & .profile-subtitle p {
     color: white;
     flex: 1;
@@ -264,11 +270,23 @@
       opacity: 0;
     }
   }
-  &.splash-8 {
+  &.splash-7, &.splash-8 {
     & .Stat {
       max-width: 25%;
       min-width: 25%;
       width: 25%;
+      @media (max-width: 600px) {
+        max-width: 30%;
+        min-width: 30%;
+        width: 30%;
+      }
+    }
+  }
+  &.splash-9, &.splash-10 {
+    & .Stat {
+      max-width: 20%;
+      min-width: 20%;
+      width: 20%;
       @media (max-width: 600px) {
         max-width: 30%;
         min-width: 30%;

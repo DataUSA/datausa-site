@@ -145,11 +145,12 @@ module.exports = {
     substitutions: {
       "Geography": {
         levels: {
-          State: ["Nation"],
-          County: ["MSA", "State", "Origin State", "Destination State", "Nation"],
-          MSA: ["State", "Origin State", "Destination State", "Nation"],
-          Place: ["County", "MSA", "State", "Origin State", "Destination State", "Nation"],
-          PUMA: ["State", "Origin State", "Destination State", "Nation"]
+          "State": ["Nation"],
+          "County": ["MSA", "State", "Origin State", "Destination State", "Nation"],
+          "MSA": ["State", "Origin State", "Destination State", "Nation"],
+          "Place": ["County", "MSA", "State", "Origin State", "Destination State", "Nation"],
+          "PUMA": ["State", "Origin State", "Destination State", "Nation"],
+          "Congressional District": ["State", "Nation"]
         },
         url: (id, level) => {
           const targetLevel = level.toLowerCase();
@@ -164,7 +165,7 @@ module.exports = {
           else {
             arr = resp  || [];
           }
-          arr = arr.sort((a, b) => b.overlap_size - a.overlap_size);
+          arr = arr.filter(d => d.overlap_size > 0.00001).sort((a, b) => b.overlap_size - a.overlap_size);
           return arr.length ? arr.every(d => d.level === "state") ? arr.filter(d => d.level === "state").map(d => d.geoid) : arr[0].geoid : "01000US";
         }
       },

@@ -10,6 +10,11 @@ module.exports = function(app) {
 
     const carousels = [];
     const newProfiles = [
+      "congressional-district-5-ga",
+      "congressional-district-50-ca",
+      "congressional-district-4-tx",
+      "congressional-district-11-nc",
+      "congressional-district-1-oh", // congressional districts
       "6222", "45221", "7112", "517311", "5241", // 2018 PUMS Industries
       "311131", "15124X", "395092", "253041", "271024" // 2018 PUMS Occupations
     ];
@@ -56,11 +61,11 @@ module.exports = function(app) {
     });
 
     const geoSlugs = [
-      "minneapolis-mn",
-      "philadelphia-pa",
-      "los-angeles-ca",
-      "louisvillejefferson-county-ky-in",
-      "dallas-fort-worth-arlington-tx"
+      "congressional-district-5-ga",
+      "congressional-district-50-ca",
+      "congressional-district-4-tx",
+      "congressional-district-11-nc",
+      "congressional-district-1-oh"
     ];
 
     const geos = await db.search
@@ -69,6 +74,7 @@ module.exports = function(app) {
         .sort((a, b) => geoSlugs.indexOf(a.slug) - geoSlugs.indexOf(b.slug))
         .map(a => ({
           title: a.content[0].name,
+          new: newProfiles.includes(a.slug) || newProfiles.includes(a.id),
           url: `/profile/geo/${a.slug || a.id}`,
           image: `/api/profile/geo/${a.slug || a.id}/thumb`
         }))
@@ -79,8 +85,8 @@ module.exports = function(app) {
       title: "Cities & Places",
       icon: "/icons/dimensions/Geography - White.svg",
       rank: 2,
-      footer: "36,185 more",
-      url: "/search/?kind=geo",
+      footer: "36,911 more",
+      url: "/search/?dimension=Geography",
       tiles: geos
     });
 
@@ -112,8 +118,8 @@ module.exports = function(app) {
       title: "Industries",
       icon: "/icons/dimensions/PUMS Industry - White.svg",
       rank: 3,
-      footer: "296 more",
-      url: "/search/?kind=naics",
+      footer: "314 more",
+      url: "/search/?dimension=PUMS Industry",
       tiles: industries
     });
 
@@ -142,8 +148,8 @@ module.exports = function(app) {
       title: "Jobs",
       icon: "/icons/dimensions/PUMS Occupation - White.svg",
       rank: 4,
-      footer: "520 more",
-      url: "/search/?kind=soc",
+      footer: "659 more",
+      url: "/search/?dimension=PUMS Occupation",
       tiles: occupations
     });
 
@@ -171,8 +177,8 @@ module.exports = function(app) {
       title: "Universities",
       icon: "/icons/dimensions/University - White.svg",
       rank: 5,
-      footer: "7,358 more",
-      url: "/search/?kind=university",
+      footer: "7,190 more",
+      url: "/search/?dimension=University",
       tiles: universities
     });
 
@@ -201,7 +207,7 @@ module.exports = function(app) {
       icon: "/icons/dimensions/CIP - White.svg",
       rank: 7,
       footer: "2,314 more",
-      url: "/search/?kind=cip",
+      url: "/search/?dimension=CIP",
       tiles: courses
     });
 

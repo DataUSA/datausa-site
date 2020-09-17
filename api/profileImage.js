@@ -101,7 +101,7 @@ module.exports = function(app) {
         }
         else if (pslug === "geo") {
 
-          const parents = await axios.get(`${CANON_API}/api/parents/geo/${id}`)
+          const parents = await axios.get(`${CANON_API}/api/parents/geo/${id}?loose=true`)
             .then(d => d.data.reverse().map(p => p.id))
             .catch(err => {
               console.error(`[api/profileImage] geo parents error for ${pslug}/${pid}: (${err.status ? `${err.status} - ` : ""}${err.message})}`);

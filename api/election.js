@@ -43,11 +43,12 @@ module.exports = function(app) {
           .filter(d => d.level === "state")
           .sort((a, b) => b.overlap_size - a.overlap_size)
           .map(d => d.geoid);
-        districts = parents.filter(d => d.level === "congressionaldistrict")
-          .map(d => {
-            const district = +d.geoid.slice(-2);
-            return district ? `${district}` : "at-large";
-          });
+        if (geo.startsWith("500")) districts = [`${+geo.slice(-2)}`];
+        // districts = parents.filter(d => d.level === "congressionaldistrict")
+        //   .map(d => {
+        //     const district = +d.geoid.slice(-2);
+        //     return district ? `${district}` : "at-large";
+        //   });
 
       }
       else {
@@ -69,8 +70,27 @@ module.exports = function(app) {
         });
         retArray = retArray.sort((a, b) => states.indexOf(a["ID State"]) - states.indexOf(b["ID State"]));
       }
-      if (districts.length) {
+
+      if (districts.length && retArray[0].District) {
         retArray = retArray.filter(d => districts.includes(d.District));
+      }
+
+      if (type === "representative") {
+
+        const rows = await db.search
+          .findAll({where: {dimension: "Geography", hierarchy: "Congressional District"}});
+
+        const districtLookup = rows.reduce((obj, d) => {
+          const state = d.id.slice(0, -2).replace("500", "040");
+          if (!obj[state]) obj[state] = {};
+          obj[state][`${+d.id.slice(-2)}`] = d;
+          return obj;
+        }, {});
+
+        retArray.forEach(r => {
+          r["Slug District"] = districtLookup[r["ID State"]][r.District].slug;
+        });
+
       }
 
     }

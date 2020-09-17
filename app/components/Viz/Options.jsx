@@ -46,7 +46,8 @@ const geographyLevels = {
   "160": "Place",
   "860": "Zip",
   "140": "Tract",
-  "795": "PUMA"
+  "795": "PUMA",
+  "500": "Congressional District"
 };
 
 const slugMap = {
