@@ -6,7 +6,7 @@ module.exports = async function() {
   const datasource = new MondrianDataSource(CANON_LOGICLAYER_CUBE);
   const client = new Client(datasource);
 
-  const levels = ["Nation", "State", "County", "MSA", "Place", "PUMA"];
+  const levels = ["Nation", "State", "County", "MSA", "Place", "PUMA", "Congressional District"];
   const popQueries = levels
     .map(level => client.getCube("acs_yg_total_population_5")
       .then(c => {

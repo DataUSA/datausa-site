@@ -73,7 +73,7 @@ class Splash extends Component {
         { data.map((d, i) => <h1 key={i} className="profile-title" dangerouslySetInnerHTML={{__html: d.title}} />) }
       </div>
       <div className="content-container">
-        { data.map((d, i) => <div key={i} className="profile-subtitle" dangerouslySetInnerHTML={{__html: d.subtitle}} />) }
+        { data.map((d, i) => <div key={i} className="profile-subtitle" dangerouslySetInnerHTML={{__html: d.sections[0].subtitles.length ? d.sections[0].subtitles[0].subtitle : null}} />) }
       </div>
       { !story && <Search className="SearchButton"
         icon={ false }

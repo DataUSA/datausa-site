@@ -71,9 +71,13 @@ module.exports = function(app) {
         drilldown = level || "Place";
       }
     }
-    else if (prefix === "795") { // Puma
+    else if (prefix === "795") { // PUMA
       cut = `040${id.slice(3, 9)}`;
       drilldown = level || "PUMA";
+    }
+    else if (prefix === "500") { // Congressional District
+      cut = `040${id.slice(3, 9)}`;
+      drilldown = level || "Congressional District";
     }
     else {
       cut = false;
@@ -190,7 +194,8 @@ module.exports = function(app) {
                 : prefix === "310" ? "state" /* msa */
                   : prefix === "160" ? "state,msa,county" /* place */
                     : prefix === "795" ? "state,msa,county" /* puma */
-                      : false;
+                      : prefix === "500" ? "state,msa,county" /* district */
+                        : false;
 
             const url = targetLevels
               ? `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}?targetLevels=${targetLevels}`
@@ -446,6 +451,7 @@ module.exports = function(app) {
   app.get("/api/parents/:slug/:id", async(req, res) => {
 
     const {slug, id} = req.params;
+    const {loose} = req.query;
 
     const meta = await db.profile_meta.findOne({where: {slug}}).catch(() => false);
     if (!meta) res.json({error: "Not a valid profile type"});
@@ -473,7 +479,8 @@ module.exports = function(app) {
             : prefix === "310" ? "state" /* msa */
               : prefix === "160" ? "state,county,msa,puma" /* place */
                 : prefix === "795" ? "state" /* puma */
-                  : false;
+                  : prefix === "500" ? loose ? "place,msa,county,state" : "state" /* district */
+                    : false;
 
         const url = targetLevels
           ? `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${attr.id}?targetLevels=${targetLevels}&overlapSize=true`
