@@ -241,24 +241,24 @@
         text-decoration: none;
         text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.8);
       }
-      &.covid:after {
+      &.civics:after {
         background-color: var(--red);
         border: 1px solid white;
-        border-radius: 50%;
+        border-radius: 10px;
         color: white;
-        content: " ";
-        font-size: 12px;
+        content: "NEW";
+        font-size: 10px;
         font-weight: 800;
-        height: 10px;
+        height: auto;
         left: calc(50% + 10px);
         right: auto;
         letter-spacing: 1px;
         opacity: 0.75;
-        padding: 0 4px 2px;
+        padding: 0 3px 1px 4px;
         position: absolute;
         text-transform: uppercase;
         top: -5px;
-        width: 10px;
+        width: auto;
       }
     }
   }

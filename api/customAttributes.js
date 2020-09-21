@@ -7,7 +7,7 @@ module.exports = function(app) {
 
   app.post("/api/cms/customAttributes/:pid", async(req, res) => {
 
-    const {id, dimension} = req.body.variables;
+    const {id, dimension, hierarchy} = req.body.variables;
     const meta = await db.profile_meta.findOne({where: {dimension}}).catch(() => false);
     const {slug} = meta;
 
@@ -17,10 +17,17 @@ module.exports = function(app) {
         .then(resp => resp.data)
         .catch(() => []);
 
-    return res.json({
+    const retObj = {
       breadcrumbs,
       stem: dimension === "CIP" && stems.includes(id) ? 1 : 0
-    });
+    };
+
+    if (dimension === "Geography") {
+      if (["Congressional District"].includes(hierarchy)) retObj.stateId = breadcrumbs.find(d => d.hierarchy === "State").id;
+      else retObj.stateId = id;
+    }
+
+    return res.json(retObj);
 
   });
 

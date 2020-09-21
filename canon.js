@@ -149,8 +149,7 @@ module.exports = {
           "County": ["MSA", "State", "Origin State", "Destination State", "Nation"],
           "MSA": ["State", "Origin State", "Destination State", "Nation"],
           "Place": ["County", "MSA", "State", "Origin State", "Destination State", "Nation"],
-          "PUMA": ["State", "Origin State", "Destination State", "Nation"],
-          "Congressional District": ["State", "Nation"]
+          "PUMA": ["State", "Origin State", "Destination State", "Nation"]
         },
         url: (id, level) => {
           const targetLevel = level.toLowerCase();
