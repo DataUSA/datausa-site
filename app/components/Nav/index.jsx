@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router";
-import {Dialog, Popover, PopoverInteractionKind} from "@blueprintjs/core";
+import {Dialog, Popover, PopoverInteractionKind, Position} from "@blueprintjs/core";
 import "./index.css";
 
 import Hamburger from "./Hamburger";
@@ -107,7 +107,7 @@ class Nav extends Component {
           hoverOpenDelay={0}
           hoverCloseDelay={150}
           interactionKind={PopoverInteractionKind.HOVER}
-          placement="bottom-end"
+          position={Position.BOTTOM_RIGHT}
           content={<Cart />}>
           <a href="/cart" key={ `cart-size-${cart ? cart.data.length : 0}` } className={ `cart-icon cart-size-${cart ? cart.data.length : 0}` }>
             { cart && cart.data.length ? <span className="cart-size">{cart.data.length}</span> : null }
