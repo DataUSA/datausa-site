@@ -120,7 +120,18 @@ export default class Glossary extends Component {
             <Anchor slug="place">Census Place</Anchor>
           </h3>
           <p>
-            As defined by the <a href="https://www.census.gov/geo/reference/gtc/gtc_place.html" target="_blank" rel="noopener noreferrer">Census Bureau</a>, &#34;Incorporated Places are those reported to the Census Bureau as legally in existence as of January 1, 2010, as reported in the latest Boundary and Annexation Survey (BAS), under the laws of their respective states. An incorporated place is established to provide governmental functions for a concentration of people as opposed to a minor civil division, which generally is created to provide services or administer an area without regard, necessarily, to population. Places always are within a single state or equivalent entity, but may extend across county and county subdivision boundaries. An incorporated place usually is a city, town, village, or borough, but can have other legal descriptions.&#34;
+            <b>Incorporated Places</b> are those reported to the Census Bureau as legally in existence as of January 1, 2010, as reported in the latest Boundary and Annexation Survey (BAS), under the laws of their respective states. An incorporated place is established to provide governmental functions for a concentration of people as opposed to a minor civil division, which generally is created to provide services or administer an area without regard, necessarily, to population. Places always are within a single state or equivalent entity, but may extend across county and county subdivision boundaries. An incorporated place usually is a city, town, village, or borough, but can have other legal descriptions. For Census Bureau data tabulation and presentation purposes, incorporated places exclude:
+          </p>
+          <ul>
+            <li><span className="bp3-icon bp3-icon-dot"></span>Boroughs in Alaska (treated as statistical equivalents of counties)</li>
+            <li><span className="bp3-icon bp3-icon-dot"></span>Towns in the New England states, New York, and Wisconsin (treated as MCDs)</li>
+            <li><span className="bp3-icon bp3-icon-dot"></span>Boroughs in New York (treated as MCDs)</li>
+          </ul>
+          <p>
+            <b>Census Designated Places (CDPs)</b> are the statistical counterparts of incorporated places, and are delineated to provide data for settled concentrations of population that are identifiable by name but are not legally incorporated under the laws of the state in which they are located. The boundaries usually are defined in cooperation with local or tribal officials and generally updated prior to each decennial census. These boundaries, which usually coincide with visible features or the boundary of an adjacent incorporated place or another legal entity boundary, have no legal status, nor do these places have officials elected to serve traditional municipal functions. CDP boundaries may change from one decennial census to the next with changes in the settlement pattern; a CDP with the same name as in an earlier census does not necessarily have the same boundary. CDPs must be contained within a single state and may not extend into an incorporated place. There are no population size requirements for CDPs.
+          </p>
+          <p>
+            Hawaii is the only state that has no incorporated places recognized by the Census Bureau. All places shown in decennial census data products for Hawaii are CDPs. By agreement with the state of Hawaii, the Census Bureau does not show data separately for the city of Honolulu, which is coextensive with Honolulu County. In Puerto Rico, which also does not have incorporated places, the Census Bureau recognizes only CDPs and refers to them as comunidades or zonas urbanas. Guam also has only CDPs.
           </p>
           <h3 id="msa">
             <Anchor slug="msa">MSA</Anchor>
