@@ -247,7 +247,6 @@ class Profile extends Component {
     GroupingSections
       .forEach((s, i) => {
         const arr = [];
-        const sectionCompares = comparisons.map(c => c.sections.find(ss => ss.id === s.id)).filter(Boolean);
 
         profile.sections
           .slice(GroupingIndices[i] + 1, GroupingIndices[i + 1])
@@ -261,13 +260,13 @@ class Profile extends Component {
               ]);
             }
             t.section = s.slug;
+            const sectionCompares = comparisons.map(c => c.sections.find(ss => ss.id === t.id)).filter(Boolean);
             if (comparisons.length) t.titleCompare = t.title.replace("</p>", ` ${joiner} ${stripHTML(profile.title)}</p>`);
             arr.push(<Topic key={`topic_${t.id}${comparisons.length ? "_orig" : ""}`} contents={t} />);
             sectionCompares
-              .map(ss => ss.topics.find(tt => tt.id === t.id))
-              .forEach(tt => {
-                tt.titleCompare = tt.title.replace("</p>", ` ${joiner} ${stripHTML(comparisons[0].title)}</p>`);
-                arr.push(<Topic variables={comparisons[0].variables} key={`topic_${tt.id}_comp`} contents={tt} />);
+              .forEach((tt, i) => {
+                tt.titleCompare = tt.title.replace("</p>", ` ${joiner} ${stripHTML(comparisons[i].title)}</p>`);
+                arr.push(<Topic variables={comparisons[i].variables} key={`topic_${tt.id}_comp`} contents={tt} />);
               });
           });
         topics.push(arr);
@@ -300,7 +299,7 @@ class Profile extends Component {
             breadcrumbs: profile.variables.breadcrumbs
           }}
           comparisons={comparisons.length ? [{
-            ...comparisons[0],
+            ...comparisons[0].sections.find(s => s.slug === "about"),
             image: comparisons[0].images[0],
             breadcrumbs: comparisons[0].variables.breadcrumbs
           }] : []}
