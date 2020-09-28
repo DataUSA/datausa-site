@@ -63,6 +63,7 @@ class Splash extends Component {
     const data = [profile].concat(comparisons);
 
     const slug = story ? "" : profile.meta[0].slug;
+    const dimension = story ? "" : profile.meta[0].dimension;
 
     return <div id="Splash" style={{height}} className={`splash-${slug} splash-${data[0].sections[0].stats.length}${revealPhoto ? " reveal-photo" : ""}`}>
       <div className="image-container" style={{height}}>
@@ -87,7 +88,7 @@ class Splash extends Component {
             <div className="sumlevel">{ d.hierarchy }</div>
           </div>
         </div>}
-        url={ `/api/searchLegacy/?dimension=${profile.dimension}` } /> }
+        url={ `/api/searchLegacy/?dimension=${dimension}` } /> }
       { !story && <div className="content-container">
         { data.map((d, i) => d.sections[0].stats.length && <div key={i} className="profile-stats">
           { d.sections[0].stats.map((s, ii) => <Stat key={ii} data={s} />) }
