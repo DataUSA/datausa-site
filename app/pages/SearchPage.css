@@ -121,6 +121,7 @@
         color: white;
         font-size: 27px;
         line-height: 35px;
+        margin-top: 0;
       }
       & input {
         background-color: var(--dark);
