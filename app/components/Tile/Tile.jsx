@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {Link} from "react-router";
+import {LazyImage} from "@datawheel/canon-core";
 
 import "./Tile.css";
 
@@ -10,7 +11,7 @@ class Contents extends Component {
     const {image, subtitle, title} = this.props;
 
     return <div className="contents">
-      { image && <div className="image" style={{backgroundImage: `url(${image})`}}></div> }
+      { image && <LazyImage imageProps={{className: "image", src: image, alt: title}} backgroundImage={true} /> }
       <div className="title">{ title }</div>
       { subtitle && <div className="subtitle">{ subtitle }</div> }
     </div>;
