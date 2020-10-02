@@ -922,7 +922,7 @@ class Coronavirus extends Component {
           ["Date", dateFormat(new Date(d.Date))],
           ["Total Deaths", commas(d.Deaths)]
         ];
-        if (d.DeathsConfirmed !== undefined && d.DeathsProbable !== undefined) {
+        if (d.DeathsConfirmed && d.DeathsProbable) {
           arr.push(["Confirmed Deaths", commas(d.DeathsConfirmed)]);
           arr.push(["Probable Deaths", commas(d.DeathsProbable)]);
         }
