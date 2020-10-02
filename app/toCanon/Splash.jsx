@@ -65,7 +65,7 @@ class Splash extends Component {
     const slug = story ? "" : profile.meta[0].slug;
     const dimension = story ? "" : profile.meta[0].dimension;
 
-    return <div id="Splash" style={{height}} className={`splash-${slug} splash-${data[0].sections[0].stats.length}${revealPhoto ? " reveal-photo" : ""}`}>
+    return <div id="Splash" style={{height}} className={`splash-${slug} splash-${(data[0].sections || data[0].topics)[0].stats.length}${revealPhoto ? " reveal-photo" : ""}`}>
       <div className="image-container" style={{height}}>
         { data.map((d, i) => <div key={i} className="image" style={{backgroundImage: `url("${story ? d.image : `/api/profile/${d.dims[0].slug}/${d.variables.slug1}/splash`}")`}}></div>) }
         <Button onClick={this.revealPhoto.bind(this)} icon="camera" className={ `bp3-minimal ${revealPhoto ? "bp3-active" : ""}` } />
@@ -74,7 +74,7 @@ class Splash extends Component {
         { data.map((d, i) => <h1 key={i} className="profile-title" dangerouslySetInnerHTML={{__html: d.title}} />) }
       </div>
       <div className="content-container">
-        { data.map((d, i) => <div key={i} className="profile-subtitle" dangerouslySetInnerHTML={{__html: d.sections[0].subtitles.length ? d.sections[0].subtitles[0].subtitle : null}} />) }
+        { data.map((d, i) => <div key={i} className="profile-subtitle" dangerouslySetInnerHTML={{__html: (d.sections || d.topics)[0].subtitles.length ? (d.sections || d.topics)[0].subtitles[0].subtitle : null}} />) }
       </div>
       { !story && <Search className="SearchButton"
         icon={ false }
@@ -90,8 +90,8 @@ class Splash extends Component {
         </div>}
         url={ `/api/searchLegacy/?dimension=${dimension}` } /> }
       { !story && <div className="content-container">
-        { data.map((d, i) => d.sections[0].stats.length && <div key={i} className="profile-stats">
-          { d.sections[0].stats.map((s, ii) => <Stat key={ii} data={s} />) }
+        { data.map((d, i) => (d.sections || d.topics)[0].stats.length && <div key={i} className="profile-stats">
+          { (d.sections || d.topics)[0].stats.map((s, ii) => <Stat key={ii} data={s} />) }
         </div>) }
       </div> }
       { !story && profile.sections &&

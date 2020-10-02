@@ -40,8 +40,6 @@ class Story extends Component {
     const metaTitle = formatters.stripHTML(title);
     const metaDesc = formatters.stripHTML(topics[0].descriptions[0].description);
 
-    console.log(story);
-
     return (
       <div id="Story">
         <Helmet title={metaTitle}>
