@@ -315,6 +315,7 @@ module.exports = function(app) {
         if (raw.total < prev.total) raw.total = prev.total;
         if (raw.hospitalized < prev.hospitalized) raw.hospitalized = prev.hospitalized;
         d.ConfirmedGrowth = raw.positive - prev.positive;
+        d.DailyDeaths = raw.death - prev.death;
       }
 
       d.Confirmed = raw.positive;
@@ -350,7 +351,7 @@ module.exports = function(app) {
         data.push(us);
       });
 
-    const measures = ["Confirmed", "Deaths", "Tests", "Hospitalized", "ConfirmedGrowth"];
+    const measures = ["Confirmed", "DailyDeaths", "Deaths", "Tests", "Hospitalized", "ConfirmedGrowth"];
     data.forEach(d => {
       measures.forEach(measure => {
         d[`${measure}PC`] = d[measure] ? d[measure] * 100000 / populationLookup[d["ID Geography"]] : null;

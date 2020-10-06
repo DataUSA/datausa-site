@@ -121,7 +121,8 @@ const caseSlugLookup = {
   hospitalizations: "Hospitalized",
   tests: "Tests",
   positive: "Tests",
-  daily: "ConfirmedGrowth"
+  daily: "ConfirmedGrowth",
+  dailyDeaths: "DailyDeaths"
 };
 
 const justDayFormat = timeFormat("%A");
@@ -920,10 +921,14 @@ class Coronavirus extends Component {
       tbody: d => {
         const arr = [
           ["Date", dateFormat(new Date(d.Date))],
+          ["Daily Deaths", commas(d.DailyDeaths)],
           ["Total Deaths", commas(d.Deaths)]
         ];
+        if (d.DailyDeathsPC !== undefined) {
+          arr.push(["Daily Deaths per 100,000", formatAbbreviate(d.DailyDeathsPC)]);
+        }
         if (d.DeathsPC !== undefined) {
-          arr.push(["Deaths per 100,000", formatAbbreviate(d.DeathsPC)]);
+          arr.push(["Total Deaths per 100,000", formatAbbreviate(d.DeathsPC)]);
         }
         return arr;
       }
@@ -1200,6 +1205,80 @@ class Coronavirus extends Component {
           currentStates, // currentState is a no-op key to force a re-render when currentState changes.
           colorScale: currentCasePC ? "ConfirmedPC" : "Confirmed",
           data: currentCasePC ? latest.filter(d => d.ConfirmedPC) : latest.filter(d => d.Confirmed)
+        }
+      },
+      dailyDeaths: {
+        title: currentCaseInternational
+          ? "International Comparison (Deaths)"
+          : currentCasePC
+            ? currentCaseReach
+              ? `Daily Deaths Since Reaching ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"} Per 100,000`
+              : "Daily Deaths per 100,000"
+            : currentCaseReach
+              ? `Daily Deaths Since Reaching ${cutoffFormatted} Deaths`
+              : "Daily Deaths by State",
+        showCharts: currentCaseInternational
+          ? countryCutoffDeathData.length > 0
+          : stateTestData.length > 0,
+        // no stat!
+        descriptions: currentCaseReach
+          ? [`Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as ${example} cases.`]
+          : [
+            "Because of the exponential nature of early epidemic spreading, it is important to track not only the total number of COVID-19 deaths, but their growth.",
+            "This chart presents the number of new deaths reported daily by each U.S. state."
+          ],
+        sources: currentCaseInternational
+          ? [ctSource, acs1Source, wbSource]
+          : currentCasePC
+            ? [ctSource, acs1Source]
+            : [ctSource],
+        option: "Daily Deaths",
+        lineConfig: {
+          data: currentCaseInternational
+            ? countryCutoffDeathDataFiltered
+            : currentCaseReach
+              ? stateCutoffDataFiltered.filter(d => d[`DailyDeaths${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`])
+              : stateTestDataFiltered.filter(d => d[`DailyDeaths${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`]),
+          // title: `${currentCasePC || currentCaseInternational ? "Deaths per 100,000" : "Deaths"} (${scaleLabel})`,
+          tooltipConfig: deathTooltip,
+          time: "Date",
+          timeline: false,
+          x: currentCaseInternational || currentCaseReach ? "Days" : "Date",
+          xConfig: {
+            title: currentCaseInternational
+              ? `Days Since ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"} Per 100,000`
+              : currentCaseReach
+                ? currentCasePC
+                  ? `Days Since ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"} Per 100,000`
+                  : `Days Since ${cutoffFormatted} Deaths`
+                : "",
+            labels: currentCaseInternational
+              ? calculateDailyTicks(countryCutoffDeathDataFiltered, d => d.Days)
+              : currentCaseReach
+                ? currentCasePC
+                  ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.DailyDeathsPC), d => d.Days)
+                  : calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.DailyDeaths), d => d.Days)
+                : currentCasePC
+                  ? calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.DailyDeathsPC), d => d.Date)
+                  : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.DailyDeaths), d => d.Date),
+            ticks: currentCaseInternational
+              ? calculateDailyTicks(countryCutoffDeathDataFiltered, d => d.Days)
+              : currentCaseReach
+                ? currentCasePC
+                  ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.DailyDeathsPC), d => d.Days)
+                  : calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.DailyDeaths), d => d.Days)
+                : currentCasePC
+                  ? calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.DailyDeathsPC), d => d.Date)
+                  : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.DailyDeaths), d => d.Date),
+            tickFormat: currentCaseInternational || currentCaseReach ? daysFormat : dateFormat
+          },
+          y: `DailyDeaths${currentCaseInternational || currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`
+        },
+        geoConfig: {
+          currentStates, // currentState is a no-op key to force a re-render when currentState changes.
+          colorScale: currentCasePC || currentCaseInternational ? "DailyDeathsPC" : "DailyDeaths",
+          data: currentCasePC || currentCaseInternational ? latest.filter(d => d.DailyDeathsPC) : latest.filter(d => d.DailyDeaths),
+          tooltipConfig: deathTooltip
         }
       },
       deaths: {
@@ -1488,7 +1567,7 @@ class Coronavirus extends Component {
     const isDeaths = currentCaseSlug === "deaths";
     const isTests = currentCaseSlug === "tests";
     const isHospitalizations = currentCaseSlug === "hospitalizations";
-    const isDaily = currentCaseSlug === "daily";
+    const isDaily = currentCaseSlug === "daily" || currentCaseSlug === "dailyDeaths";
     const allowPC = isCases || isDeaths || isTests || isHospitalizations || isDaily;
     const allowSmooth = isCases || isDeaths || isTests || isHospitalizations || isDaily;
 
