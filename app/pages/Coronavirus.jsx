@@ -923,8 +923,8 @@ class Coronavirus extends Component {
           ["Total Deaths", commas(d.Deaths)]
         ];
         if (d.DeathsConfirmed && d.DeathsProbable) {
-          arr.push(["Confirmed Deaths", commas(d.DeathsConfirmed)]);
-          arr.push(["Probable Deaths", commas(d.DeathsProbable)]);
+          arr.push(["&nbsp;&nbsp;&nbsp;Confirmed Deaths", commas(d.DeathsConfirmed)]);
+          arr.push(["&nbsp;&nbsp;&nbsp;Probable Deaths", commas(d.DeathsProbable)]);
         }
         if (d.DeathsPC !== undefined) {
           arr.push(["Deaths per 100,000", formatAbbreviate(d.DeathsPC)]);
@@ -987,14 +987,14 @@ class Coronavirus extends Component {
           ]);
         }
         if (d.Hospitalized) {
-          arr.push(["Hospitalized patients", commas(d.Hospitalized)]);
+          arr.push(["Total Hospitalizations", commas(d.Hospitalized)]);
         }
         if (d.HospitalizedPC) {
-          arr.push(["Hospitalized patients per 100,000", formatAbbreviate(d.HospitalizedPC)]);
+          arr.push(["Hospitalizations per 100,000", formatAbbreviate(d.HospitalizedPC)]);
         }
-        if (d.CurrentlyHospitalized) arr.push(["Patients in hospital on this date", formatAbbreviate(d.CurrentlyHospitalized)]);
-        if (d.CurrentlyInICU) arr.push(["Patients in ICU on this date", formatAbbreviate(d.CurrentlyInICU)]);
-        if (d.CurrentlyOnVentilator) arr.push(["Patients on ventilator on this date", formatAbbreviate(d.CurrentlyOnVentilator)]);
+        if (d.CurrentlyHospitalized) arr.push(["Currently Hospitalized", formatAbbreviate(d.CurrentlyHospitalized)]);
+        if (d.CurrentlyInICU) arr.push(["Currently in ICU", formatAbbreviate(d.CurrentlyInICU)]);
+        if (d.CurrentlyOnVentilator) arr.push([`Currently on Ventilator${d.CurrentlyOnVentilator !== 1 ? "s" : ""}`, formatAbbreviate(d.CurrentlyOnVentilator)]);
         return arr;
       }
     };
@@ -1316,7 +1316,7 @@ class Coronavirus extends Component {
                     ? topicStats.totalHospitalizationsPC
                     : topicStats.totalHospitalizations
                   : <Spinner />,
-                title: `${currentCasePC ? "Hospitalizations per 100,000" : "Hospitalizations"} in ${!onlyNational ? list(currentStates.filter(d => d["ID Geography"] !== "01000US").map(o => o.Geography)) : "the USA"}`,
+                title: `${currentCasePC ? "Hospitalizations per 100,000" : "Total Hospitalizations"} in ${!onlyNational ? list(currentStates.filter(d => d["ID Geography"] !== "01000US").map(o => o.Geography)) : "the USA"}`,
                 subtitle: show ? `as of ${dayFormat(today)}` : ""
               }
             ],
@@ -1517,7 +1517,7 @@ class Coronavirus extends Component {
       const subtitle = show ? `${dayFormat(today)}` : "";
       if (topicStats.totalCurrentlyHospitalized) caseSections.hospitalizations.stat.push({value: topicStats.totalCurrentlyHospitalized, title: `Currently Hospitalized ${titlesuffix}`, subtitle});
       if (topicStats.totalCurrentlyInICU) caseSections.hospitalizations.stat.push({value: topicStats.totalCurrentlyInICU, title: `Currently in ICU ${titlesuffix}`, subtitle});
-      if (topicStats.totalCurrentlyOnVentilator) caseSections.hospitalizations.stat.push({value: topicStats.totalCurrentlyOnVentilator, title: `Currently on Ventilator ${titlesuffix}`, subtitle});
+      if (topicStats.totalCurrentlyOnVentilator) caseSections.hospitalizations.stat.push({value: topicStats.totalCurrentlyOnVentilator, title: `Currently on Ventilator${topicStats.totalCurrentlyOnVentilator !== 1 ? "s" : ""} ${titlesuffix}`, subtitle});
     }
 
     const sparklineBuckets = 20;
