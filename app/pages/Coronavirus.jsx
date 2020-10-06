@@ -124,7 +124,8 @@ const caseSlugLookup = {
   // don't use dailies for cutoffs, only cumulative
   daily: "Confirmed",
   dailyDeaths: "Deaths",
-  dailyHospitalizations: "Hospitalized"
+  dailyHospitalizations: "Hospitalized",
+  dailyTests: "Tests"
 };
 
 const justDayFormat = timeFormat("%A");
@@ -980,6 +981,9 @@ class Coronavirus extends Component {
         const arr = [
           ["Date", dateFormat(d.Date)]
         ];
+        if (d.DailyTests) {
+          arr.push(["Daily Tests", commas(d.DailyTests)]);
+        }
         if (d.Tests) {
           arr.push(["Total Tests", commas(d.Tests)]);
         }
@@ -989,17 +993,17 @@ class Coronavirus extends Component {
             `${formatAbbreviate(d.PositivePct)}%`
           ]);
         }
-        if (d.Hospitalized) {
-          arr.push(["Hospitalized patients", commas(d.Hospitalized)]);
-        }
-        if (d.HospitalizedPC) {
-          arr.push(["Hospitalized patients per 100,000", formatAbbreviate(d.HospitalizedPC)]);
-        }
         if (d.DailyHospitalized) {
           arr.push(["Daily Hospitalized patients", commas(d.DailyHospitalized)]);
         }
         if (d.DailyHospitalizedPC) {
           arr.push(["Daily Hospitalized patients per 100,000", formatAbbreviate(d.DailyHospitalizedPC)]);
+        }
+        if (d.Hospitalized) {
+          arr.push(["Total Hospitalized patients", commas(d.Hospitalized)]);
+        }
+        if (d.HospitalizedPC) {
+          arr.push(["Total Hospitalized patients per 100,000", formatAbbreviate(d.HospitalizedPC)]);
         }
 
         return arr;
@@ -1500,6 +1504,61 @@ class Coronavirus extends Component {
           tooltipConfig: tooltipConfigTracker
         }
       },
+      dailyTests: {
+        title: currentCasePC
+          ? currentCaseReach
+            ? `Daily Tests Since Reaching ${cutoffFormatted} Total Tests Per 100,000`
+            : "Daily Tests per 100,000"
+          : currentCaseReach
+            ? `Daily Tests Since Reaching ${cutoffFormatted} Total Tests`
+            : "Daily Tests by State",
+        showCharts: stateTestData.length > 0,
+        // no stat!
+        descriptions: currentCaseReach
+          ? [`Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as ${example} tests${currentCasePC ? " per 100,000" : ""}.`]
+          : ["Testing is central in the fight against a pandemic such as COVID-19."],
+        sources: [ctSource],
+        option: "Daily Tests",
+        lineConfig: {
+          data: currentCaseReach
+            ? stateCutoffDataFiltered.filter(d => d[`DailyTests${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`])
+            : stateTestDataFiltered.filter(d => d[`DailyTests${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`]),
+          // title: `Number of Tests ${currentCasePC ? "per 100,000" : ""} (${scaleLabel})`,
+          tooltipConfig: tooltipConfigTracker,
+          time: "Date",
+          timeline: false,
+          x: currentCaseReach ? "Days" : "Date",
+          xConfig: {
+            title: currentCaseReach
+              ? currentCasePC
+                ? `Days Since Reaching ${cutoffFormatted} Total Tests Per 100,000`
+                : `Days Since Reaching ${cutoffFormatted} Total Tests`
+              : "",
+            labels: currentCaseReach
+              ? currentCasePC
+                ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.DailyTestsPC), d => d.Days)
+                : calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.DailyTests), d => d.Days)
+              : currentCasePC
+                ? calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.DailyTestsPC), d => d.Date)
+                : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.DailyTests), d => d.Date),
+            ticks: currentCaseReach
+              ? currentCasePC
+                ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.DailyTestsPC), d => d.Days)
+                : calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.DailyTests), d => d.Days)
+              : currentCasePC
+                ? calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.DailyTestsPC), d => d.Date)
+                : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.DailyTests), d => d.Date),
+            tickFormat: currentCaseReach ? daysFormat : dateFormat
+          },
+          y: `DailyTests${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`
+        },
+        geoConfig: {
+          currentStates, // currentState is a no-op key to force a re-render when currentState changes.
+          colorScale: currentCasePC ? "DailyTestsPC" : "DailyTests",
+          data: currentCasePC ? latest.filter(d => d.DailyTestsPC) : latest.filter(d => d.DailyTests),
+          tooltipConfig: tooltipConfigTracker
+        }
+      },
       tests: {
         title: currentCasePC
           ? currentCaseReach
@@ -1633,7 +1692,7 @@ class Coronavirus extends Component {
     const isDeaths = currentCaseSlug === "deaths";
     const isTests = currentCaseSlug === "tests";
     const isHospitalizations = currentCaseSlug === "hospitalizations";
-    const isDaily = currentCaseSlug === "daily" || currentCaseSlug === "dailyDeaths" || currentCaseSlug === "dailyHospitalizations";
+    const isDaily = currentCaseSlug === "daily" || currentCaseSlug === "dailyDeaths" || currentCaseSlug === "dailyHospitalizations" || currentCaseSlug === "dailyTests";
     const allowPC = isCases || isDeaths || isTests || isHospitalizations || isDaily;
     const allowSmooth = isCases || isDeaths || isTests || isHospitalizations || isDaily;
 
