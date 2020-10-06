@@ -121,8 +121,10 @@ const caseSlugLookup = {
   hospitalizations: "Hospitalized",
   tests: "Tests",
   positive: "Tests",
-  daily: "ConfirmedGrowth",
-  dailyDeaths: "DailyDeaths"
+  // don't use dailies for cutoffs, only cumulative
+  daily: "Confirmed",
+  dailyDeaths: "Deaths",
+  dailyHospitalizations: "Hospitalized"
 };
 
 const justDayFormat = timeFormat("%A");
@@ -993,6 +995,12 @@ class Coronavirus extends Component {
         if (d.HospitalizedPC) {
           arr.push(["Hospitalized patients per 100,000", formatAbbreviate(d.HospitalizedPC)]);
         }
+        if (d.DailyHospitalized) {
+          arr.push(["Daily Hospitalized patients", commas(d.DailyHospitalized)]);
+        }
+        if (d.DailyHospitalizedPC) {
+          arr.push(["Daily Hospitalized patients per 100,000", formatAbbreviate(d.DailyHospitalizedPC)]);
+        }
 
         return arr;
       }
@@ -1091,8 +1099,8 @@ class Coronavirus extends Component {
           xConfig: {
             title: currentCaseReach
               ? currentCasePC
-                ? `Days Since Reaching ${cutoffFormatted} Daily Cases Per 100,000`
-                : `Days Since Reaching ${cutoffFormatted} Daily Cases`
+                ? `Days Since Reaching ${cutoffFormatted} Confirmed Cases Per 100,000`
+                : `Days Since Reaching ${cutoffFormatted} Confirmed Cases`
               : "",
             labels: currentCaseReach
               ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.ConfirmedGrowth), d => d.Days)
@@ -1165,11 +1173,11 @@ class Coronavirus extends Component {
             : "Date",
           xConfig: {
             title: currentCaseInternational
-              ? `Days Since ${cutoffFormatted} Confirmed Cases Per 100,000`
+              ? `Days Since Reaching ${cutoffFormatted} Confirmed Cases Per 100,000`
               : currentCaseReach
                 ? currentCasePC
-                  ? `Days Since ${cutoffFormatted} Confirmed Cases Per 100,000`
-                  : `Days Since ${cutoffFormatted} Confirmed Cases`
+                  ? `Days Since Reaching ${cutoffFormatted} Confirmed Cases Per 100,000`
+                  : `Days Since Reaching ${cutoffFormatted} Confirmed Cases`
                 : "",
             labels: currentCaseInternational
               ? calculateDailyTicks(countryCutoffDataFiltered, d => d.Days)
@@ -1212,10 +1220,10 @@ class Coronavirus extends Component {
           ? "International Comparison (Deaths)"
           : currentCasePC
             ? currentCaseReach
-              ? `Daily Deaths Since Reaching ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"} Per 100,000`
+              ? `Daily Deaths Since Reaching ${cutoffFormatted} Total Death${cutoff === 1 ? "" : "s"} Per 100,000`
               : "Daily Deaths per 100,000"
             : currentCaseReach
-              ? `Daily Deaths Since Reaching ${cutoffFormatted} Deaths`
+              ? `Daily Deaths Since Reaching ${cutoffFormatted} Total Deaths`
               : "Daily Deaths by State",
         showCharts: currentCaseInternational
           ? countryCutoffDeathData.length > 0
@@ -1246,11 +1254,11 @@ class Coronavirus extends Component {
           x: currentCaseInternational || currentCaseReach ? "Days" : "Date",
           xConfig: {
             title: currentCaseInternational
-              ? `Days Since ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"} Per 100,000`
+              ? `Days Since Reaching ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"} Per 100,000`
               : currentCaseReach
                 ? currentCasePC
-                  ? `Days Since ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"} Per 100,000`
-                  : `Days Since ${cutoffFormatted} Deaths`
+                  ? `Days Since Reaching ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"} Per 100,000`
+                  : `Days Since Reaching ${cutoffFormatted} Deaths`
                 : "",
             labels: currentCaseInternational
               ? calculateDailyTicks(countryCutoffDeathDataFiltered, d => d.Days)
@@ -1331,11 +1339,11 @@ class Coronavirus extends Component {
           x: currentCaseInternational || currentCaseReach ? "Days" : "Date",
           xConfig: {
             title: currentCaseInternational
-              ? `Days Since ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"} Per 100,000`
+              ? `Days Since Reaching ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"} Per 100,000`
               : currentCaseReach
                 ? currentCasePC
-                  ? `Days Since ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"} Per 100,000`
-                  : `Days Since ${cutoffFormatted} Deaths`
+                  ? `Days Since Reaching ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"} Per 100,000`
+                  : `Days Since Reaching ${cutoffFormatted} Deaths`
                 : "",
             labels: currentCaseInternational
               ? calculateDailyTicks(countryCutoffDeathDataFiltered, d => d.Days)
@@ -1364,6 +1372,64 @@ class Coronavirus extends Component {
           colorScale: currentCasePC || currentCaseInternational ? "DeathsPC" : "Deaths",
           data: currentCasePC || currentCaseInternational ? latest.filter(d => d.DeathsPC) : latest.filter(d => d.Deaths),
           tooltipConfig: deathTooltip
+        }
+      },
+      dailyHospitalizations: {
+        showCharts: stateTestData.length > 0,
+        title: currentCasePC
+          ? currentCaseReach
+            ? `Daily Hospitalizations Since Reaching ${cutoffFormatted} Total Hospitalization${cutoff === 1 ? "" : "s"} Per 100,000`
+            : "Daily Hospitalizations per 100,000"
+          : currentCaseReach
+            ? `Daily Hospitalizations Since Reaching ${cutoffFormatted} Total Hospitalizations`
+            : "Daily Hospitalizations by State",
+        subtitle: "Hospitalization data for some states may be delayed or not reported.",
+        // no stat!
+        descriptions: currentCaseReach
+          ? [`Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as ${example} hospitalizations${currentCasePC ? " per 100,000" : ""}.`]
+          : [
+            "Hospitalizations are a statistic that, unlike cases, doesn't grow mechanically with increased testing. Hospitalizations also speak about the burden of COVID-19 in the healthcare system."
+          ],
+        sources: [ctSource],
+        option: "Daily Hospitalizations",
+        lineConfig: {
+          data: currentCaseReach
+            ? stateCutoffDataFiltered.filter(d => d[`DailyHospitalized${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`])
+            : stateTestDataFiltered.filter(d => d[`DailyHospitalized${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`]),
+          // title: `Hospitalized Patients ${currentCasePC ? "per 100,000" : ""} (${scaleLabel})`,
+          tooltipConfig: tooltipConfigTracker,
+          time: "Date",
+          timeline: false,
+          x: currentCaseReach ? "Days" : "Date",
+          xConfig: {
+            title: currentCaseReach
+              ? currentCasePC
+                ? `Days Since Reaching ${cutoffFormatted} Hospitalization${cutoff === 1 ? "" : "s"} Per 100,000`
+                : `Days Since Reaching ${cutoffFormatted} Hospitalizations`
+              : "",
+            labels: currentCaseReach
+              ? currentCasePC
+                ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.DailyHospitalizedPC), d => d.Days)
+                : calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.DailyHospitalized), d => d.Days)
+              : currentCasePC
+                ? calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.DailyHospitalizedPC), d => d.Date)
+                : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.DailyHospitalized), d => d.Date),
+            ticks: currentCaseReach
+              ? currentCasePC
+                ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.DailyHospitalizedPC), d => d.Days)
+                : calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.DailyHospitalized), d => d.Days)
+              : currentCasePC
+                ? calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.DailyHospitalizedPC), d => d.Date)
+                : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.DailyHospitalized), d => d.Date),
+            tickFormat: currentCaseReach ? daysFormat : dateFormat
+          },
+          y: `DailyHospitalized${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`
+        },
+        geoConfig: {
+          currentStates, // currentState is a no-op key to force a re-render when currentState changes.
+          colorScale: currentCasePC ? "DailyHospitalizedPC" : "DailyHospitalized",
+          data: currentCasePC ? latest.filter(d => d.DailyHospitalizedPC) : latest.filter(d => d.DailyHospitalized),
+          tooltipConfig: tooltipConfigTracker
         }
       },
       hospitalizations: {
@@ -1406,8 +1472,8 @@ class Coronavirus extends Component {
           xConfig: {
             title: currentCaseReach
               ? currentCasePC
-                ? `Days Since ${cutoffFormatted} Hospitalization${cutoff === 1 ? "" : "s"} Per 100,000`
-                : `Days Since ${cutoffFormatted} Hospitalizations`
+                ? `Days Since Reaching ${cutoffFormatted} Hospitalization${cutoff === 1 ? "" : "s"} Per 100,000`
+                : `Days Since Reaching ${cutoffFormatted} Hospitalizations`
               : "",
             labels: currentCaseReach
               ? currentCasePC
@@ -1471,8 +1537,8 @@ class Coronavirus extends Component {
           xConfig: {
             title: currentCaseReach
               ? currentCasePC
-                ? `Days Since ${cutoffFormatted} Tests Per 100,000`
-                : `Days Since ${cutoffFormatted} Tests`
+                ? `Days Since Reaching ${cutoffFormatted} Tests Per 100,000`
+                : `Days Since Reaching ${cutoffFormatted} Tests`
               : "",
             labels: currentCaseReach
               ? currentCasePC
@@ -1527,8 +1593,8 @@ class Coronavirus extends Component {
           xConfig: {
             title: currentCaseReach
               ? currentCasePC
-                ? `Days Since ${cutoffFormatted} Tests Per 100,000`
-                : `Days Since ${cutoffFormatted} Tests`
+                ? `Days Since Reaching ${cutoffFormatted} Tests Per 100,000`
+                : `Days Since Reaching ${cutoffFormatted} Tests`
               : "",
             labels: currentCaseReach
               ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.PositivePct), d => d.Days)
@@ -1567,7 +1633,7 @@ class Coronavirus extends Component {
     const isDeaths = currentCaseSlug === "deaths";
     const isTests = currentCaseSlug === "tests";
     const isHospitalizations = currentCaseSlug === "hospitalizations";
-    const isDaily = currentCaseSlug === "daily" || currentCaseSlug === "dailyDeaths";
+    const isDaily = currentCaseSlug === "daily" || currentCaseSlug === "dailyDeaths" || currentCaseSlug === "dailyHospitalizations";
     const allowPC = isCases || isDeaths || isTests || isHospitalizations || isDaily;
     const allowSmooth = isCases || isDeaths || isTests || isHospitalizations || isDaily;
 
