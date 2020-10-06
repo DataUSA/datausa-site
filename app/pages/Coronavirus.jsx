@@ -96,7 +96,8 @@ const countryMeta = Object.keys(countries).reduce((obj, key) => {
   return obj;
 }, {});
 
-const commas = format(",");
+const d3Commas = format(",");
+const commas = d => d > 999999 ? formatAbbreviate(d) : d3Commas(d);
 
 const suffixes = ["th", "st", "nd", "rd"];
 
