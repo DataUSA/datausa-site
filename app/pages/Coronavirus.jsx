@@ -1823,7 +1823,7 @@ class Coronavirus extends Component {
                       {
                         Array.isArray(currentSection.stat) ?
                           currentSection.stat.map(stat => (
-                            <div className="StatGroup multiple">
+                            <div className="StatGroup single">
                               <div className="stat-value">{stat.value}</div>
                               <div className="stat-title">{stat.title}</div>
                               <div className="stat-subtitle">{stat.subtitle}</div>
