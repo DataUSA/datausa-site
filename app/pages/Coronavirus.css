@@ -240,18 +240,19 @@
     & th.Trend, & td.Trend {
       min-width: auto;
     }
+    @media (max-width: 1350px) {
+      & th.Curve, & td.Curve {
+        display: none;
+      }
+    }
     @media (max-width: 1250px) {
+      & th.Tests, & td.Tests,
       & th.Hospitalized, & td.Hospitalized {
         display: none;
       }
     }
     @media (max-width: 1150px) {
-      & th.Tests, & td.Tests {
-        display: none;
-      }
-    }
-    @media (max-width: 1150px) {
-      & th.Curve, & td.Curve {
+      & th.CurrentlyHospitalized, & td.CurrentlyHospitalized {
         display: none;
       }
     }
