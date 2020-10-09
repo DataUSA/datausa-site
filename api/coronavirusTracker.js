@@ -301,6 +301,11 @@ module.exports = function(app) {
     let state = rawData[0].state;
     let data = rawData.map((raw, i) => {
 
+      // Massachusetts makes use of a more specific definition and stat, which was propogated retroactively. Use when available.
+      const positiveStat = raw.positiveCasesViral ? "positiveCasesViral" : "positive";
+      const testStat = raw.totalTestResults ? "totalTestResults" : "total";
+      const hospitalizedStat = raw.hospitalizedCumulative ? "hospitalizedCumulative" : "hospitalized";
+
       const d = {};
       d.Date = raw.date;
 
@@ -310,21 +315,26 @@ module.exports = function(app) {
       }
       else if (i) {
         const prev = rawData[i - 1];
-        if (raw.positive < prev.positive) raw.positive = prev.positive;
+        if (raw[positiveStat] < prev[positiveStat]) raw[positiveStat] = prev[positiveStat];
         if (raw.death < prev.death) raw.death = prev.death;
-        if (raw.total < prev.total) raw.total = prev.total;
-        if (raw.hospitalized < prev.hospitalized) raw.hospitalized = prev.hospitalized;
-        d.ConfirmedGrowth = raw.positive - prev.positive;
+        if (raw[testStat] < prev[testStat]) raw[testStat] = prev[testStat];
+        if (raw[hospitalizedStat] < prev[hospitalizedStat]) raw[hospitalizedStat] = prev[hospitalizedStat];
+        d.ConfirmedGrowth = raw[positiveStat] - prev[positiveStat];
         d.DailyDeaths = raw.death - prev.death;
         d.DailyHospitalized = raw.hospitalized - prev.hospitalized;
         d.DailyTests = raw.total - prev.total;
       }
 
-      d.Confirmed = raw.positive;
-      d.Tests = raw.total;
-      d.Hospitalized = raw.hospitalized;
+      d.Confirmed = raw[positiveStat];
+      d.Tests = raw[testStat];
+      d.Hospitalized = raw[hospitalizedStat];
       d.Deaths = raw.death;
-      d.PositivePct = raw.positive / raw.total * 100;
+      d.DeathsConfirmed = raw.deathConfirmed;
+      d.DeathsProbable = raw.deathProbable;
+      d.PositivePct = raw[positiveStat] / raw[testStat] * 100;
+      d.CurrentlyHospitalized = raw.hospitalizedCurrently;
+      d.CurrentlyInICU = raw.inIcuCurrently;
+      d.CurrentlyOnVentilator = raw.onVentilatorCurrently;
 
       d.Geography = states[raw.state];
       d["ID Geography"] = stateToDivision[raw.state];

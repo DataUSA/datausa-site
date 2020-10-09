@@ -96,7 +96,8 @@ const countryMeta = Object.keys(countries).reduce((obj, key) => {
   return obj;
 }, {});
 
-const commas = format(",");
+const d3Commas = format(",");
+const commas = d => d > 999999 ? formatAbbreviate(d) : d3Commas(d);
 
 const suffixes = ["th", "st", "nd", "rd"];
 
@@ -930,6 +931,10 @@ class Coronavirus extends Component {
         if (d.DailyDeathsPC !== undefined) {
           arr.push(["Daily Deaths per 100,000", formatAbbreviate(d.DailyDeathsPC)]);
         }
+        if (d.DeathsConfirmed && d.DeathsProbable) {
+          arr.push(["&nbsp;&nbsp;&nbsp;Confirmed Deaths", commas(d.DeathsConfirmed)]);
+          arr.push(["&nbsp;&nbsp;&nbsp;Probable Deaths", commas(d.DeathsProbable)]);
+        }
         if (d.DeathsPC !== undefined) {
           arr.push(["Total Deaths per 100,000", formatAbbreviate(d.DeathsPC)]);
         }
@@ -1005,7 +1010,9 @@ class Coronavirus extends Component {
         if (d.HospitalizedPC) {
           arr.push(["Total Hospitalized patients per 100,000", formatAbbreviate(d.HospitalizedPC)]);
         }
-
+        if (d.CurrentlyHospitalized) arr.push(["Currently Hospitalized", formatAbbreviate(d.CurrentlyHospitalized)]);
+        if (d.CurrentlyInICU) arr.push(["Currently in ICU", formatAbbreviate(d.CurrentlyInICU)]);
+        if (d.CurrentlyOnVentilator) arr.push([`Currently on Ventilator${d.CurrentlyOnVentilator !== 1 ? "s" : ""}`, formatAbbreviate(d.CurrentlyOnVentilator)]);
         return arr;
       }
     };
@@ -1071,6 +1078,10 @@ class Coronavirus extends Component {
     topicStats.totalPositive = `${formatAbbreviate(
       totalCasesFiltered / totalTestsFiltered * 100
     )}%`;
+    // "currently" hospitalized stats
+    ["CurrentlyHospitalized", "CurrentlyInICU", "CurrentlyOnVentilator"].forEach(stat => {
+      topicStats[`total${stat}`] = latestFiltered.every(d => d[stat]) ? formatAbbreviate(sum(latestFiltered, d => d[stat])) : false;
+    });
 
     const pctCutoffDate = new Date(today - 12096e5);
     const cutoffFormatted = formatAbbreviate(cutoff);
@@ -1448,15 +1459,17 @@ class Coronavirus extends Component {
         subtitle: "Hospitalization data for some states may be delayed or not reported.",
         stat: currentCaseReach
           ? false
-          : {
-            value: show
-              ? currentCasePC
-                ? topicStats.totalHospitalizationsPC
-                : topicStats.totalHospitalizations
-              : <Spinner />,
-            title: `${currentCasePC ? "Hospitalizations per 100,000" : "Hospitalizations"} in ${!onlyNational ? list(currentStates.filter(d => d["ID Geography"] !== "01000US").map(o => o.Geography)) : "the USA"}`,
-            subtitle: show ? `as of ${dayFormat(today)}` : ""
-          },
+          : [
+              {
+                value: show
+                  ? currentCasePC
+                    ? topicStats.totalHospitalizationsPC
+                    : topicStats.totalHospitalizations
+                  : <Spinner />,
+                title: `${currentCasePC ? "Hospitalizations per 100,000" : "Total Hospitalizations"} in ${!onlyNational ? list(currentStates.filter(d => d["ID Geography"] !== "01000US").map(o => o.Geography)) : "the USA"}`,
+                subtitle: show ? `as of ${dayFormat(today)}` : ""
+              }
+            ],
         descriptions: currentCaseReach
           ? [`Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as ${example} hospitalizations${currentCasePC ? " per 100,000" : ""}.`]
           : [
@@ -1703,6 +1716,15 @@ class Coronavirus extends Component {
       delete currentSection.lineConfig.timeline;
     }
 
+    // Selectively add stats to Hospital tab:
+    if (caseSections.hospitalizations.stat) {
+      const titlesuffix = `in ${!onlyNational ? list(currentStates.filter(d => d["ID Geography"] !== "01000US").map(o => o.Geography)) : "the USA"}`
+      const subtitle = show ? `${dayFormat(today)}` : "";
+      if (topicStats.totalCurrentlyHospitalized) caseSections.hospitalizations.stat.push({value: topicStats.totalCurrentlyHospitalized, title: `Currently Hospitalized ${titlesuffix}`, subtitle});
+      if (topicStats.totalCurrentlyInICU) caseSections.hospitalizations.stat.push({value: topicStats.totalCurrentlyInICU, title: `Currently in ICU ${titlesuffix}`, subtitle});
+      if (topicStats.totalCurrentlyOnVentilator) caseSections.hospitalizations.stat.push({value: topicStats.totalCurrentlyOnVentilator, title: `Currently on Ventilator${topicStats.totalCurrentlyOnVentilator !== 1 ? "s" : ""} ${titlesuffix}`, subtitle});
+    }
+
     const sparklineBuckets = 20;
     const tableData = nest()
       .key(d => d["ID Geography"])
@@ -1910,6 +1932,10 @@ class Coronavirus extends Component {
                         Total<br />Tests
                         <Icon className={`sort-caret ${tableOrder === "Tests" ? "active" : ""}`} icon={tableOrder === "Tests" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
+                      <th className="CurrentlyHospitalized" onClick={this.updateTableSort.bind(this, "CurrentlyHospitalized")}>
+                        Currently<br />Hospitalized
+                        <Icon className={`sort-caret ${tableOrder === "CurrentlyHospitalized" ? "active" : ""}`} icon={tableOrder === "CurrentlyHospitalized" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
+                      </th>
                       <th className="Hospitalized" onClick={this.updateTableSort.bind(this, "Hospitalized")}>
                         Total<br />Hospitalized
                         <Icon className={`sort-caret ${tableOrder === "Hospitalized" ? "active" : ""}`} icon={tableOrder === "Hospitalized" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
@@ -1956,6 +1982,7 @@ class Coronavirus extends Component {
                           <td className="Deaths">{commas(d.Deaths)}</td>
                           <td className="PositivePct">{formatAbbreviate(d.PositivePct)}%</td>
                           <td className="Tests">{formatAbbreviate(d.Tests)}</td>
+                          <td className="CurrentlyHospitalized">{d.CurrentlyHospitalized ? commas(d.CurrentlyHospitalized) : <span className="state-table-na">N/A</span>}</td>
                           <td className="Hospitalized">{typeof d.Hospitalized === "number" ? commas(d.Hospitalized) : <span className="state-table-na">N/A</span>}</td>
                           <td className="Curve">
                             <Sparklines svgWidth={100} svgHeight={30} data={d.Curve}>
@@ -1996,14 +2023,26 @@ class Coronavirus extends Component {
                   <Checkbox disabled={currentCaseInternational} label="Shift Time Axis" checked={currentCaseReach || currentCaseInternational} onChange={this.changeReach.bind(this)}/>
                   <Checkbox disabled={!(isCases || isDeaths)} label="International Comparison" checked={currentCaseInternational} onChange={this.changeInternational.bind(this)}/>
                   {(currentCaseReach || currentCaseInternational) && <CutoffToggle />}
-                  {currentSection.stat &&
+                  {currentSection.stat ?
                     <div className="topic-stats">
-                      <div className="StatGroup single">
-                        <div className="stat-value">{currentSection.stat.value}</div>
-                        <div className="stat-title">{currentSection.stat.title}</div>
-                        <div className="stat-subtitle">{currentSection.stat.subtitle}</div>
-                      </div>
+                      {
+                        Array.isArray(currentSection.stat) ?
+                          currentSection.stat.map(stat => (
+                            <div className="StatGroup single">
+                              <div className="stat-value">{stat.value}</div>
+                              <div className="stat-title">{stat.title}</div>
+                              <div className="stat-subtitle">{stat.subtitle}</div>
+                            </div>
+                          ))
+                        :
+                        <div className="StatGroup single">
+                          <div className="stat-value">{currentSection.stat.value}</div>
+                          <div className="stat-title">{currentSection.stat.title}</div>
+                          <div className="stat-subtitle">{currentSection.stat.subtitle}</div>
+                        </div>
+                      }
                     </div>
+                    : null
                   }
                   <div className="topic-description">
                     {currentSection.descriptions.map(d => <p key={d}>{d}</p>)}
