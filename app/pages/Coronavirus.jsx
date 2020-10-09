@@ -834,6 +834,7 @@ class Coronavirus extends Component {
       },
       tooltipConfig: {
         tbody: d => {
+          if (d.anomaly) arr.push(["Warning", "Day with Data Anomaly"]);
           const arr = [["Date", dateFormat(new Date(d.Date))]];
           if (d.ConfirmedGrowth !== undefined) arr.push(["Daily New Cases", commas(d.ConfirmedGrowth)]);
           if (d.Confirmed !== undefined) arr.push(["Confirmed Cases", commas(d.Confirmed)]);

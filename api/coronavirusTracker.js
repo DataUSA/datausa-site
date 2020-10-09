@@ -301,11 +301,6 @@ module.exports = function(app) {
     let state = rawData[0].state;
     let data = rawData.map((raw, i) => {
 
-      // Massachusetts and other states make use of a more specific definition and stat, which was propogated retroactively. Use when available.
-      const positiveStat = raw.positiveCasesViral ? "positiveCasesViral" : "positive";
-      const testStat = raw.totalTestResults ? "totalTestResults" : "total";
-      const hospitalizedStat = raw.hospitalizedCumulative ? "hospitalizedCumulative" : "hospitalized";
-
       const d = {};
       d.Date = raw.date;
 
@@ -315,28 +310,30 @@ module.exports = function(app) {
       }
       else if (i) {
         const prev = rawData[i - 1];
-        // The previous stat might not use the same as this stat. Handle these "crossover moments" gracefully
-        const positiveStatPrev = prev.positiveCasesViral ? "positiveCasesViral" : "positive";
-        const testStatPrev = prev.totalTestResults ? "totalTestResults" : "total";
-        const hospitalizedStatPrev = prev.hospitalizedCumulative ? "hospitalizedCumulative" : "hospitalized";
-
-        if (raw[positiveStat] < prev[positiveStatPrev]) raw[positiveStat] = prev[positiveStatPrev];
+        
+        if (raw.positive < prev.positive) {
+          d.anomaly = true;
+          const prev2 = rawData[i - 2];
+          if (prev2) d.ConfirmedGrowth = prev.positive - prev2.positive;
+        }
+        else {
+          d.ConfirmedGrowth = raw.positive - prev.positive;
+        }
         if (raw.death < prev.death) raw.death = prev.death;
-        if (raw[testStat] < prev[testStatPrev]) raw[testStat] = prev[testStatPrev];
-        if (raw[hospitalizedStat] < prev[hospitalizedStatPrev]) raw[hospitalizedStat] = prev[hospitalizedStatPrev];
-        d.ConfirmedGrowth = raw[positiveStat] - prev[positiveStatPrev];
+        if (raw.total < prev.total) raw.total = prev.total;
+        if (raw.hospitalized < prev.hospitalized) raw.hospitalized = prev.hospitalized;
         d.DailyDeaths = raw.death - prev.death;
         d.DailyHospitalized = raw.hospitalized - prev.hospitalized;
         d.DailyTests = raw.total - prev.total;
       }
 
-      d.Confirmed = raw[positiveStat];
-      d.Tests = raw[testStat];
-      d.Hospitalized = raw[hospitalizedStat];
+      d.Confirmed = raw.positive;
+      d.Tests = raw.total;
+      d.Hospitalized = raw.hospitalized;
       d.Deaths = raw.death;
       d.DeathsConfirmed = raw.deathConfirmed;
       d.DeathsProbable = raw.deathProbable;
-      d.PositivePct = raw[positiveStat] / raw[testStat] * 100;
+      d.PositivePct = raw.positive / raw.total * 100;
       d.CurrentlyHospitalized = raw.hospitalizedCurrently;
       d.CurrentlyInICU = raw.inIcuCurrently;
       d.CurrentlyOnVentilator = raw.onVentilatorCurrently;
