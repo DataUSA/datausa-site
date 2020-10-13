@@ -301,11 +301,6 @@ module.exports = function(app) {
     let state = rawData[0].state;
     let data = rawData.map((raw, i) => {
 
-      // Massachusetts makes use of a more specific definition and stat, which was propogated retroactively. Use when available.
-      const positiveStat = raw.positiveCasesViral ? "positiveCasesViral" : "positive";
-      const testStat = raw.totalTestResults ? "totalTestResults" : "total";
-      const hospitalizedStat = raw.hospitalizedCumulative ? "hospitalizedCumulative" : "hospitalized";
-
       const d = {};
       d.Date = raw.date;
 
@@ -315,20 +310,30 @@ module.exports = function(app) {
       }
       else if (i) {
         const prev = rawData[i - 1];
-        if (raw[positiveStat] < prev[positiveStat]) raw[positiveStat] = prev[positiveStat];
+        
+        if (raw.positive < prev.positive) {
+          d.anomaly = true;
+          const prev2 = rawData[i - 2];
+          if (prev2) d.ConfirmedGrowth = prev.positive - prev2.positive;
+        }
+        else {
+          d.ConfirmedGrowth = raw.positive - prev.positive;
+        }
         if (raw.death < prev.death) raw.death = prev.death;
-        if (raw[testStat] < prev[testStat]) raw[testStat] = prev[testStat];
-        if (raw[hospitalizedStat] < prev[hospitalizedStat]) raw[hospitalizedStat] = prev[hospitalizedStat];
-        d.ConfirmedGrowth = raw[positiveStat] - prev[positiveStat];
+        if (raw.total < prev.total) raw.total = prev.total;
+        if (raw.hospitalized < prev.hospitalized) raw.hospitalized = prev.hospitalized;
+        d.DailyDeaths = raw.death - prev.death;
+        d.DailyHospitalized = raw.hospitalized - prev.hospitalized;
+        d.DailyTests = raw.total - prev.total;
       }
 
-      d.Confirmed = raw[positiveStat];
-      d.Tests = raw[testStat];
-      d.Hospitalized = raw[hospitalizedStat];
+      d.Confirmed = raw.positive;
+      d.Tests = raw.total;
+      d.Hospitalized = raw.hospitalized;
       d.Deaths = raw.death;
       d.DeathsConfirmed = raw.deathConfirmed;
       d.DeathsProbable = raw.deathProbable;
-      d.PositivePct = raw[positiveStat] / raw[testStat] * 100;
+      d.PositivePct = raw.positive / raw.total * 100;
       d.CurrentlyHospitalized = raw.hospitalizedCurrently;
       d.CurrentlyInICU = raw.inIcuCurrently;
       d.CurrentlyOnVentilator = raw.onVentilatorCurrently;
@@ -360,7 +365,7 @@ module.exports = function(app) {
         data.push(us);
       });
 
-    const measures = ["Confirmed", "Deaths", "Tests", "Hospitalized", "ConfirmedGrowth"];
+    const measures = ["Confirmed", "DailyDeaths", "Deaths", "DailyTests", "Tests", "DailyHospitalized", "Hospitalized", "ConfirmedGrowth"];
     data.forEach(d => {
       measures.forEach(measure => {
         d[`${measure}PC`] = d[measure] ? d[measure] * 100000 / populationLookup[d["ID Geography"]] : null;
