@@ -1092,6 +1092,19 @@ class Coronavirus extends Component {
      * Methods for the BIG chart, by key
      */
 
+    /* hashmap helper from caseSlug to actual data key */
+    const keyHash = {
+      daily: "ConfirmedGrowth",
+      cases: "Confirmed",
+      dailyDeaths: "DailyDeaths",
+      deaths: "Deaths",
+      dailyHospitalizations: "DailyHospitalized",
+      hospitalizations: "Hospitalized",
+      dailyTests: "DailyTests",
+      tests: "Tests",
+      positive: "PositivePct"
+    }     
+
     /* OPTIONS (LABELS) */
     const options = {
       daily: "Daily New Cases",
@@ -1325,137 +1338,23 @@ class Coronavirus extends Component {
         }
         const title = titleXC[currentCaseSlug];
 
-        /* XCONFIG LABEL */
-        const labelsXC = {
-          daily: currentCaseReach
-            ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.ConfirmedGrowth), d => d.Days)
-            : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.ConfirmedGrowth), d => d.Date),
-          cases: currentCaseInternational
-            ? calculateDailyTicks(countryCutoffDataFiltered, d => d.Days)
-            : currentCaseReach
-              ? currentCasePC
-                ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.ConfirmedPC), d => d.Days)
-                : calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.Confirmed), d => d.Days)
-              : currentCasePC
-                ? calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.ConfirmedPC), d => d.Date)
-                : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.Confirmed), d => d.Date),
-          dailyDeaths: currentCaseInternational
-            ? calculateDailyTicks(countryCutoffDeathDataFiltered, d => d.Days)
-            : currentCaseReach
-              ? currentCasePC
-                ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.DailyDeathsPC), d => d.Days)
-                : calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.DailyDeaths), d => d.Days)
-              : currentCasePC
-                ? calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.DailyDeathsPC), d => d.Date)
-                : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.DailyDeaths), d => d.Date),
-          deaths: currentCaseInternational
-            ? calculateDailyTicks(countryCutoffDeathDataFiltered, d => d.Days)
-            : currentCaseReach
-              ? currentCasePC
-                ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.DeathsPC), d => d.Days)
-                : calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.Deaths), d => d.Days)
-              : currentCasePC
-                ? calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.DeathsPC), d => d.Date)
-                : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.Deaths), d => d.Date),
-          dailyHospitalizations: currentCaseReach
-            ? currentCasePC
-              ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.DailyHospitalizedPC), d => d.Days)
-              : calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.DailyHospitalized), d => d.Days)
-            : currentCasePC
-              ? calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.DailyHospitalizedPC), d => d.Date)
-              : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.DailyHospitalized), d => d.Date),
-          hospitalizations: currentCaseReach
-            ? currentCasePC
-              ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.HospitalizedPC), d => d.Days)
-              : calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.Hospitalized), d => d.Days)
-            : currentCasePC
-              ? calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.HospitalizedPC), d => d.Date)
-              : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.Hospitalized), d => d.Date),
-          dailyTests: currentCaseReach
-            ? currentCasePC
-              ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.DailyTestsPC), d => d.Days)
-              : calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.DailyTests), d => d.Days)
-            : currentCasePC
-              ? calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.DailyTestsPC), d => d.Date)
-              : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.DailyTests), d => d.Date),
-          tests: currentCaseReach
-            ? currentCasePC
-              ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.TestsPC), d => d.Days)
-              : calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.Tests), d => d.Days)
-            : currentCasePC
-              ? calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.TestsPC), d => d.Date)
-              : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.Tests), d => d.Date),
-          positive: currentCaseReach
-            ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.PositivePct), d => d.Days)
-            : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.PositivePct && new Date(d.Date) >= pctCutoffDate), d => d.Date),
-        }
-        const labels = labelsXC[currentCaseSlug];
+        /* XCONFIG LABELS AND TICKS */
+        const calc = currentCaseInternational || currentCaseReach ? calculateDailyTicks : calculateMonthlyTicks;
+        let dataset = currentCaseInternational ? countryCutoffDataFiltered : currentCaseReach ? stateCutoffDataFiltered : stateTestDataFiltered;
+        const useDeaths = currentCaseSlug === "deaths" || currentCaseSlug === "dailyDeaths"
+        if (currentCaseInternational && useDeaths) dataset = countryCutoffDeathDataFiltered;
+        const accessor = (currentCaseInternational || currentCaseReach) ? d => d.Days : d => d.Date;
 
-        /* XCONFIG TICKS */
-        const ticksXC = {
-          daily: currentCaseReach
-            ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.ConfirmedGrowth), d => d.Days)
-            : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.ConfirmedGrowth), d => d.Date),
-          cases: currentCaseInternational
-            ? calculateDailyTicks(countryCutoffDataFiltered, d => d.Days)
-            : currentCaseReach
-              ? currentCasePC
-                ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.ConfirmedPC), d => d.Days)
-                : calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.Confirmed), d => d.Days)
-              : currentCasePC
-                ? calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.ConfirmedPC), d => d.Date)
-                : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.Confirmed), d => d.Date),
-          dailyDeaths: currentCaseInternational
-            ? calculateDailyTicks(countryCutoffDeathDataFiltered, d => d.Days)
-            : currentCaseReach
-              ? currentCasePC
-                ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.DailyDeathsPC), d => d.Days)
-                : calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.DailyDeaths), d => d.Days)
-              : currentCasePC
-                ? calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.DailyDeathsPC), d => d.Date)
-                : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.DailyDeaths), d => d.Date),
-          deaths: currentCaseInternational
-            ? calculateDailyTicks(countryCutoffDeathDataFiltered, d => d.Days)
-            : currentCaseReach
-              ? currentCasePC
-                ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.DeathsPC), d => d.Days)
-                : calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.Deaths), d => d.Days)
-              : currentCasePC
-                ? calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.DeathsPC), d => d.Date)
-                : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.Deaths), d => d.Date),
-          dailyHospitalizations: currentCaseReach
-            ? currentCasePC
-              ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.DailyHospitalizedPC), d => d.Days)
-              : calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.DailyHospitalized), d => d.Days)
-            : currentCasePC
-              ? calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.DailyHospitalizedPC), d => d.Date)
-              : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.DailyHospitalized), d => d.Date),
-          hospitalizations: currentCaseReach
-            ? currentCasePC
-              ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.HospitalizedPC), d => d.Days)
-              : calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.Hospitalized), d => d.Days)
-            : currentCasePC
-              ? calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.HospitalizedPC), d => d.Date)
-              : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.Hospitalized), d => d.Date),
-          dailyTests: currentCaseReach
-            ? currentCasePC
-              ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.DailyTestsPC), d => d.Days)
-              : calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.DailyTests), d => d.Days)
-            : currentCasePC
-              ? calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.DailyTestsPC), d => d.Date)
-              : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.DailyTests), d => d.Date),
-          tests: currentCaseReach
-            ? currentCasePC
-              ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.TestsPC), d => d.Days)
-              : calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.Tests), d => d.Days)
-            : currentCasePC
-              ? calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.TestsPC), d => d.Date)
-              : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.Tests), d => d.Date),
-          positive: currentCaseReach
-            ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.PositivePct), d => d.Days)
-            : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.PositivePct && new Date(d.Date) >= pctCutoffDate), d => d.Date),          
-        }
-        const ticks = ticksXC[currentCaseSlug];
+        // Labels and ticks use the same configuration
+        const labelTickXC = Object.keys(options).reduce((acc, d) => 
+          ({...acc, [d]: calc(dataset.filter(ds => ds[`${keyHash[d]}${currentCasePC ? "PC" : ""}`]), accessor)}), {}
+        );
+        labelTickXC.positive = currentCaseReach
+          ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.PositivePct), d => d.Days)
+          : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.PositivePct && new Date(d.Date) >= pctCutoffDate), d => d.Date);
+
+        const labels = labelTickXC[currentCaseSlug];
+        const ticks = labelTickXC[currentCaseSlug];
 
         /* XCONFIG TICKFORMAT */
         const tickFormatXC = {};
