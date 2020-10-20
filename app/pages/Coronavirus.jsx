@@ -725,42 +725,6 @@ class Coronavirus extends Component {
       zoom: false
     };
 
-    // Geomaps
-    // const geoStateConfig = {
-    //   colorScalePosition: false,
-    //   zoom: false,
-    //   time: "Date",
-    //   timeline: false,
-    //   groupBy: "ID Geography",
-    //   label: d => d.Geography,
-    //   shapeConfig: {
-    //     Path: {
-    //       stroke: d =>
-    //         currentStatesHash[d["ID Geography"]] ? lineColor(d) : styles.dark,
-    //       strokeWidth: d => currentStatesHash[d["ID Geography"]] ? 3 : 1,
-    //       strokeOpacity: d =>
-    //         currentStatesHash[d["ID Geography"]] ? 0.75 : 0.25
-    //     }
-    //   },
-    //   projection:
-    //     typeof window !== "undefined" ? window.albersUsaPr() : "geoMercator",
-    //   titleConfig: {
-    //     fontSize: 21
-    //   },
-    //   tooltipConfig: Object.assign({}, sharedConfig.tooltipConfig, {
-    //     footer: d =>
-    //       `Click to ${
-    //         !currentStatesHash[d["ID Geography"]]
-    //           ? `select ${d.Geography}`
-    //           : "clear state selection"
-    //       }`
-    //   }),
-    //   on: {
-    //     click: this.updateStates.bind(this)
-    //   },
-    //   topojson: "/topojson/State.json"
-    // };
-
     const deathTooltip = {
       tbody: d => {
         const arr = [
@@ -1243,8 +1207,6 @@ class Coronavirus extends Component {
       sources: sources[currentCaseSlug],
       lineConfig: lineConfig()
     }
-
-    console.log(lineConfig());
 
     const CaseSelector = () =>
       <div>
