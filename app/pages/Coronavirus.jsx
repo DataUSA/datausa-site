@@ -1282,17 +1282,11 @@ class Coronavirus extends Component {
       }
       const data = dataLC[currentCaseSlug];
 
-      const xLC = {
-        daily: currentCaseReach ? "Days" : "Date",
-        cases: currentCaseInternational || currentCaseReach ? "Days" : "Date",
-        dailyDeaths: currentCaseInternational || currentCaseReach ? "Days" : "Date",
-        deaths: currentCaseInternational || currentCaseReach ? "Days" : "Date",
-        dailyHospitalizations: currentCaseReach ? "Days" : "Date",
-        hospitalizations: currentCaseReach ? "Days" : "Date",
-        dailyTests: currentCaseReach ? "Days" : "Date",
-        tests: currentCaseReach ? "Days" : "Date",
-        positive: currentCaseReach ? "Days" : "Date",
-      }
+      const xLC = {};
+      ["daily", "dailyHospitalizations", "hospitalizations", "dailyTests", "tests", "positive"]
+        .forEach(key => showCharts[key] = currentCaseReach ? "Days" : "Date");
+      ["cases", "dailyDeaths", "deaths"]
+        .forEach(key => showCharts[key] = currentCaseInternational || currentCaseReach ? "Days" : "Date");
       const x = xLC[currentCaseSlug];
 
       const yLC = {
