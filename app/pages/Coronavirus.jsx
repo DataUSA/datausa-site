@@ -1089,8 +1089,21 @@ class Coronavirus extends Component {
     const example = `${formatAbbreviate(sliderConfig.stepSize)}, ${formatAbbreviate(sliderConfig.stepSize * 2)}, or ${formatAbbreviate(sliderConfig.stepSize * 10)}`;
 
     /**
-     * Methods for the big chart, by d3plus viz key
+     * Methods for the BIG chart, by key
      */
+
+    /* OPTIONS (LABELS) */
+    const options = {
+      daily: "Daily New Cases",
+      cases: "Confirmed Cases",
+      dailyDeaths: "Daily Deaths",
+      deaths: "Deaths",
+      dailyHospitalizations: "Daily Hospitalizations",
+      hospitalizations: "Hospitalizations",
+      dailyTests: "Daily Tests",
+      tests: "Tests",
+      positive: "% Positive Tests"
+    }
 
     /* TITLE */
     const titles = {
@@ -1112,29 +1125,19 @@ class Coronavirus extends Component {
     };
 
     /* SHOWCHARTS */
-    const showCharts = {
-      daily: stateTestData.length > 0,
-      cases: (currentCaseInternational ? countryCutoffData.length : currentCaseReach ? stateCutoffData.length : stateTestData.length) > 0,
-      dailyDeaths: (currentCaseInternational ? countryCutoffDeathData.length : stateTestData.length) > 0,
-      deaths: (currentCaseInternational ? countryCutoffDeathData.length : stateTestData.length) > 0,
-      dailyHospitalizations: stateTestData.length > 0,
-      hospitalizations: stateTestData.length > 0,
-      dailyTests: stateTestData.length > 0,
-      tests: stateTestData.length > 0,
-      positive: stateTestData.length > 0
-    }
+    const showCharts = {};
+    ["daily", "dailyHospitalizations", "hospitalizations", "dailyTests", "tests", "positive"]
+      .forEach(key => showCharts[key] = stateTestData.length > 0);
+    ["dailyDeaths", "deaths"]
+      .forEach(key => showCharts[key] = (currentCaseInternational ? countryCutoffDeathData.length : stateTestData.length) > 0);
+    ["cases"]
+      .forEach(key => showCharts[key] = (currentCaseInternational ? countryCutoffData.length : currentCaseReach ? stateCutoffData.length : stateTestData.length) > 0);
 
     /* SUBTITLES */
     const subtitles = {
       daily: currentStates.length ? null : "Use the map to select individual states.",
-      cases: null,
-      dailyDeaths: null,
-      deaths: null,
       dailyHospitalizations: "Hospitalization data for some states may be delayed or not reported.",
       hospitalizations: "Hospitalization data for some states may be delayed or not reported.",
-      dailyTests: null,
-      tests: null,
-      positive: null
     }
 
     /* STATS */
@@ -1243,31 +1246,12 @@ class Coronavirus extends Component {
         : ["This chart shows the percentage of positive test results in each U.S. state by date."],
     };
 
-    /* OPTIONS (LABELS) */
-    const options = {
-      daily: "Daily New Cases",
-      cases: "Confirmed Cases",
-      dailyDeaths: "Daily Deaths",
-      deaths: "Deaths",
-      dailyHospitalizations: "Daily Hospitalizations",
-      hospitalizations: "Hospitalizations",
-      dailyTests: "Daily Tests",
-      tests: "Tests",
-      positive: "% Positive Tests"
-    }
-
     /* SOURCES */
-    const sources = {
-      daily: [ctSource],
-      cases: [ctSource, ...(currentCasePC ? [acs1Source] : []), ...(currentCaseInternational ? [wbSource] : [])],
-      dailyDeaths: [ctSource, ...(currentCasePC ? [acs1Source] : []), ...(currentCaseInternational ? [wbSource] : [])],
-      deaths: [ctSource, ...(currentCasePC ? [acs1Source] : []), ...(currentCaseInternational ? [wbSource] : [])],
-      dailyHospitalizations: [ctSource],
-      hospitalizations: [ctSource],
-      dailyTests: [ctSource],
-      tests: [ctSource],
-      positive: [ctSource]
-    }
+    const sources = {};
+    ["daily", "dailyHospitalizations", "hospitalizations", "dailyTests", "tests", "positive"]
+      .forEach(key => showCharts[key] = [ctSource]);
+    ["cases", "dailyDeaths", "deaths"]
+      .forEach(key => showCharts[key] = [ctSource, ...(currentCasePC ? [acs1Source] : []), ...(currentCaseInternational ? [wbSource] : [])]);
 
     /* LINE CONFIG */
     const lineConfig = () => {
@@ -1474,17 +1458,11 @@ class Coronavirus extends Component {
         const ticks = ticksXC[currentCaseSlug];
 
         /* XCONFIG TICKFORMAT */
-        const tickFormatXC = {
-          daily: currentCaseReach ? daysFormat : dateFormat,
-          cases: currentCaseInternational || currentCaseReach ? daysFormat : dateFormat,
-          dailyDeaths: currentCaseInternational || currentCaseReach ? daysFormat : dateFormat,
-          deaths: currentCaseInternational || currentCaseReach ? daysFormat : dateFormat,
-          dailyHospitalizations: currentCaseReach ? daysFormat : dateFormat,
-          hospitalizations: currentCaseReach ? daysFormat : dateFormat,
-          dailyTests: currentCaseReach ? daysFormat : dateFormat,
-          tests: currentCaseReach ? daysFormat : dateFormat,
-          positive: currentCaseReach ? daysFormat : dateFormat
-        }
+        const tickFormatXC = {};
+        ["daily", "dailyHospitalizations", "hospitalizations", "dailyTests", "tests", "positive"]
+          .forEach(key => tickFormatXC[key] = currentCaseReach ? daysFormat : dateFormat);
+        ["cases", "dailyDeaths", "deaths"]
+          .forEach(key => tickFormatXC[key] = currentCaseInternational || currentCaseReach ? daysFormat : dateFormat);
         const tickFormat = tickFormatXC[currentCaseSlug]; 
 
         const xConfig = {
