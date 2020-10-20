@@ -217,13 +217,13 @@ module.exports = function(app) {
         d.DeathsPC = d.Deaths / pop * 100000;
         if (geography !== d.Geography) {
           geography = d.Geography;
-          d.DailyConfirmed = 0;
-          d.DailyDeaths = 0;
+          d.DailyConfirmedPC = 0;
+          d.DailyDeathsPC = 0;
         }
         else if (i) {
           const prev = filteredData[i - 1];
-          d.DailyConfirmed = d.Confirmed - prev.Confirmed; 
-          d.DailyDeaths = d.Deaths - prev.Deaths;
+          d.DailyConfirmedPC = (d.Confirmed / pop * 100000) - prev.ConfirmedPC; 
+          d.DailyDeathsPC = (d.Deaths / pop * 100000) - prev.DeathsPC;
         }
 
         const division = divisions.find(x => x["ID Region"] === 6);
