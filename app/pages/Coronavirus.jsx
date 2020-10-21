@@ -360,7 +360,7 @@ class Coronavirus extends Component {
 
   deriveCutoffKey(slug, isPC, isSmooth) {
     const cutoffKey = caseSlugLookup[slug];
-    const maybePC = ["cases", "deaths", "hospitalizations", "tests", "daily"].includes(slug);
+    const maybePC = ["cases", "deaths", "hospitalizations", "tests", "daily", "dailyDeaths"].includes(slug);
     return `${cutoffKey}${maybePC && isPC ? "PC" : ""}${maybePC && isSmooth ? "Smooth" : ""}`;
   }
 
@@ -397,9 +397,9 @@ class Coronavirus extends Component {
   }
 
   changeCaseSlug(e) {
-    const {currentCasePC, currentCaseSmooth} = this.state;
+    const {currentCasePC, currentCaseSmooth, currentCaseInternational} = this.state;
     const currentCaseSlug = e.target.value;
-    const cutoffKey = this.deriveCutoffKey(currentCaseSlug, currentCasePC, currentCaseSmooth);
+    const cutoffKey = this.deriveCutoffKey(currentCaseSlug, currentCasePC || currentCaseInternational, currentCaseSmooth);
     const reset = true;
     this.prepData.bind(this)({currentCaseSlug, cutoffKey, reset});
   }
@@ -676,6 +676,7 @@ class Coronavirus extends Component {
           if (d.anomaly) arr.push(["Warning", "Day with Data Anomaly"]);
           const arr = [["Date", dateFormat(new Date(d.Date))]];
           if (d.ConfirmedGrowth !== undefined) arr.push(["Daily New Cases", commas(d.ConfirmedGrowth)]);
+          if (d.ConfirmedGrowthPC !== undefined) arr.push(["Daily New Cases Per 100,000", formatAbbreviate(d.ConfirmedGrowthPC)]);
           if (d.Confirmed !== undefined) arr.push(["Confirmed Cases", commas(d.Confirmed)]);
           if (d.ConfirmedPC !== undefined) arr.push(["Cases per 100,000", commas(Math.round(d.ConfirmedPC))]);
           if (d.PositivePct !== undefined) arr.push(["% Positive Tests", `${formatAbbreviate(d.PositivePct)}%`]);
@@ -728,10 +729,12 @@ class Coronavirus extends Component {
     const deathTooltip = {
       tbody: d => {
         const arr = [
-          ["Date", dateFormat(new Date(d.Date))],
-          ["Daily Deaths", commas(d.DailyDeaths)],
-          ["Total Deaths", commas(d.Deaths)]
+          ["Date", dateFormat(new Date(d.Date))]
         ];
+        if (d.DailyDeaths && !isNaN(d.DailyDeaths)) {
+          arr.push(["Daily Deaths", commas(d.DailyDeaths)])
+        }
+        arr.push(["Total Deaths", commas(d.Deaths)]);
         if (d.DailyDeathsPC !== undefined) {
           arr.push(["Daily Deaths per 100,000", formatAbbreviate(d.DailyDeathsPC)]);
         }
@@ -923,7 +926,9 @@ class Coronavirus extends Component {
 
     /* TITLE */
     const titles = {
-      daily: `Daily New Cases${currentCaseReach ? ` Since Reaching ${cutoffFormatted} Confirmed Cases` : ""}`,
+      daily: currentCaseInternational
+        ? "International Comparison (Daily Cases)"
+        : `Daily New Cases${currentCaseReach ? ` Since Reaching ${cutoffFormatted} Confirmed Cases` : ""}`,
       cases: currentCaseInternational
         ? "International Comparison (Cases)"
         : `Total Confirmed Cases ${currentCaseReach ? `Since Reaching ${cutoffFormatted} Cases${currentCasePC ? " Per 100,000" : ""}` : `${currentCasePC ? " Per 100,000" : ""} By Date`}`,
@@ -942,11 +947,11 @@ class Coronavirus extends Component {
 
     /* SHOWCHARTS */
     const showCharts = {};
-    ["daily", "dailyHospitalizations", "hospitalizations", "dailyTests", "tests", "positive"]
+    ["dailyHospitalizations", "hospitalizations", "dailyTests", "tests", "positive"]
       .forEach(key => showCharts[key] = stateTestData.length > 0);
     ["dailyDeaths", "deaths"]
       .forEach(key => showCharts[key] = (currentCaseInternational ? countryCutoffDeathData.length : stateTestData.length) > 0);
-    ["cases"]
+    ["daily", "cases"]
       .forEach(key => showCharts[key] = (currentCaseInternational ? countryCutoffData.length : currentCaseReach ? stateCutoffData.length : stateTestData.length) > 0);
 
     /* SUBTITLES */
@@ -1019,12 +1024,14 @@ class Coronavirus extends Component {
 
     /* DESCRIPTIONS */
     const descriptions = {
-      daily: currentCaseReach
-        ? [`Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as ${example} cases.`]
-        : [
-          "Because of the exponential nature of early epidemic spreading, it is important to track not only the total number of COVID-19 cases, but their growth.",
-          "This chart presents the number of new cases reported daily by each U.S. state."
-        ],
+      daily: currentCaseInternational 
+        ? [`To get a sense of how the COVID-19 trajectory in the U.S. states compares to that in other countries, we compare the per capita number of cases for each state that has reported more than ${cutoffFormatted} cases, with that of the five countries that have reported most cases.`]
+        : currentCaseReach
+          ? [`Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as ${example} cases.`]
+          : [
+            "Because of the exponential nature of early epidemic spreading, it is important to track not only the total number of COVID-19 cases, but their growth.",
+            "This chart presents the number of new cases reported daily by each U.S. state."
+          ],
       cases: currentCaseInternational
         ? [`To get a sense of how the COVID-19 trajectory in the U.S. states compares to that in other countries, we compare the per capita number of cases for each state that has reported more than ${cutoffFormatted} cases, with that of the five countries that have reported most cases.`]
         : currentCaseReach
@@ -1032,12 +1039,14 @@ class Coronavirus extends Component {
           : currentCasePC
             ? ["This chart normalizes the number of confirmed COVID-19 cases by the population of each state. It gives an idea of the \"density\" of COVID-19 infections in each state."]
             : ["This chart shows the number of confirmed COVID-19 cases in each U.S. state by date. It is the simplest of all charts, which does not control for the size of a state, or the time the epidemic began in that state."],
-      dailyDeaths: currentCaseReach
-        ? [`Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as ${example} cases.`]
-        : [
-          "Because of the exponential nature of early epidemic spreading, it is important to track not only the total number of COVID-19 deaths, but their growth.",
-          "This chart presents the number of new deaths reported daily by each U.S. state."
-        ],
+      dailyDeaths: currentCaseInternational
+        ? [`Here we compare the per capita number of daily deaths attributed to COVID-19 in each state that has reported more than ${cutoffFormatted} deaths with that of the five countries that have reported the most deaths.`]
+        : currentCaseReach
+          ? [`Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as ${example} cases.`]
+          : [
+            "Because of the exponential nature of early epidemic spreading, it is important to track not only the total number of COVID-19 deaths, but their growth.",
+            "This chart presents the number of new deaths reported daily by each U.S. state."
+          ],
       deaths: currentCaseInternational
         ? [`Here we compare the per capita number of deaths attributed to COVID-19 in each state that has reported more than ${cutoffFormatted} deaths with that of the five countries that have reported the most deaths.`]
         : currentCaseReach
@@ -1071,12 +1080,12 @@ class Coronavirus extends Component {
 
     /* LINE CONFIG */
     const lineConfig = () => {
-      
+
       const dataLC = {
-        daily: (currentCaseReach ? stateCutoffDataFiltered : stateTestDataFiltered).filter(d => d[`ConfirmedGrowth${currentCaseSmooth ? "Smooth" : ""}`]),
+        daily: currentCaseInternational ? countryCutoffDataFiltered : (currentCaseReach ? stateCutoffDataFiltered : stateTestDataFiltered).filter(d => d[`ConfirmedGrowth${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`]),
         cases: currentCaseInternational ? countryCutoffDataFiltered : (currentCaseReach ? stateCutoffDataFiltered : stateTestDataFiltered).filter(d => d[`Confirmed${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`]),
-        dailyDeaths: currentCaseInternational ? countryCutoffDataFiltered : (currentCaseReach ? stateCutoffDataFiltered : stateTestDataFiltered).filter(d => d[`DailyDeaths${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`]),
-        deaths: currentCaseInternational ? countryCutoffDataFiltered : (currentCaseReach ? stateCutoffDataFiltered : stateTestDataFiltered).filter(d => d[`Deaths${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`]),
+        dailyDeaths: currentCaseInternational ? countryCutoffDeathDataFiltered : (currentCaseReach ? stateCutoffDataFiltered : stateTestDataFiltered).filter(d => d[`DailyDeaths${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`]),
+        deaths: currentCaseInternational ? countryCutoffDeathDataFiltered : (currentCaseReach ? stateCutoffDataFiltered : stateTestDataFiltered).filter(d => d[`Deaths${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`]),
         dailyHospitalizations: (currentCaseReach ? stateCutoffDataFiltered : stateTestDataFiltered).filter(d => d[`DailyHospitalized${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`]),
         hospitalizations: (currentCaseReach ? stateCutoffDataFiltered : stateTestDataFiltered).filter(d => d[`Hospitalized${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`]),
         dailyTests: (currentCaseReach ? stateCutoffDataFiltered : stateTestDataFiltered).filter(d => d[`DailyTests${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`]),
@@ -1086,14 +1095,14 @@ class Coronavirus extends Component {
       const data = dataLC[currentCaseSlug];
 
       const xLC = {};
-      ["daily", "dailyHospitalizations", "hospitalizations", "dailyTests", "tests", "positive"]
+      ["dailyHospitalizations", "hospitalizations", "dailyTests", "tests", "positive"]
         .forEach(key => xLC[key] = currentCaseReach ? "Days" : "Date");
-      ["cases", "dailyDeaths", "deaths"]
+      ["daily", "cases", "dailyDeaths", "deaths"]
         .forEach(key => xLC[key] = currentCaseInternational || currentCaseReach ? "Days" : "Date");
       const x = xLC[currentCaseSlug];
 
       const yLC = {
-        daily: `ConfirmedGrowth${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`,
+        daily: `ConfirmedGrowth${currentCaseInternational || currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`,
         cases: `Confirmed${currentCaseInternational || currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`,
         dailyDeaths: `DailyDeaths${currentCaseInternational || currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`,
         deaths: `Deaths${currentCaseInternational || currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`,
@@ -1123,7 +1132,7 @@ class Coronavirus extends Component {
         
         /* XCONFIG TITLE */
         const titleXC = {
-          daily: currentCaseReach ? `Days Since Reaching ${cutoffFormatted} Confirmed Cases${currentCasePC ? " Per 100,000" : ""}` : "",
+          daily: currentCaseReach || currentCaseInternational ? `Days Since Reaching ${cutoffFormatted} Confirmed Cases${currentCasePC ? " Per 100,000" : ""}` : "",
           cases: currentCaseReach || currentCaseInternational ? `Days Since Reaching ${cutoffFormatted} Confirmed Cases${currentCasePC ? " Per 100,000" : ""}` : "",
           dailyDeaths: currentCaseReach || currentCaseInternational ? `Days Since Reaching ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"}${currentCasePC ? " Per 100,000" : ""}` : "",
           deaths: currentCaseReach || currentCaseInternational ? `Days Since Reaching ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"}${currentCasePC ? " Per 100,000" : ""}` : "",
@@ -1223,10 +1232,12 @@ class Coronavirus extends Component {
     const isCases = currentCaseSlug === "cases";
     const isDeaths = currentCaseSlug === "deaths";
     const isTests = currentCaseSlug === "tests";
+    const isDailyCases = currentCaseSlug === "daily";
+    const isDailyDeaths = currentCaseSlug === "dailyDeaths";
     const isHospitalizations = currentCaseSlug === "hospitalizations";
-    const isDaily = currentCaseSlug === "daily" || currentCaseSlug === "dailyDeaths" || currentCaseSlug === "dailyHospitalizations" || currentCaseSlug === "dailyTests";
-    const allowPC = isCases || isDeaths || isTests || isHospitalizations || isDaily;
-    const allowSmooth = isCases || isDeaths || isTests || isHospitalizations || isDaily;
+    const isDailyType = currentCaseSlug === "daily" || currentCaseSlug === "dailyDeaths" || currentCaseSlug === "dailyHospitalizations" || currentCaseSlug === "dailyTests";
+    const allowPC = isCases || isDeaths || isTests || isHospitalizations || isDailyType;
+    const allowSmooth = isCases || isDeaths || isTests || isHospitalizations || isDailyType;
 
     const currentSection = masterConfig;
 
@@ -1540,7 +1551,7 @@ class Coronavirus extends Component {
                   <Checkbox disabled={!allowSmooth} label="7-day Rolling Average" checked={currentCaseSmooth && allowSmooth} onChange={this.changeSmooth.bind(this)}/>
                   <Checkbox disabled={!allowPC || currentCaseInternational} label="Per Capita" checked={currentCaseInternational || currentCasePC && allowPC} onChange={this.changePC.bind(this)}/>
                   <Checkbox disabled={currentCaseInternational} label="Shift Time Axis" checked={currentCaseReach || currentCaseInternational} onChange={this.changeReach.bind(this)}/>
-                  <Checkbox disabled={!(isCases || isDeaths)} label="International Comparison" checked={currentCaseInternational} onChange={this.changeInternational.bind(this)}/>
+                  <Checkbox disabled={!(isDailyDeaths || isDailyCases || isCases || isDeaths)} label="International Comparison" checked={currentCaseInternational} onChange={this.changeInternational.bind(this)}/>
                   {(currentCaseReach || currentCaseInternational) && <CutoffToggle />}
                   {currentSection.stat ?
                     <div className="topic-stats">

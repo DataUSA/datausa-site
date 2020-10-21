@@ -217,20 +217,21 @@ module.exports = function(app) {
         d.DeathsPC = d.Deaths / pop * 100000;
         if (geography !== d.Geography) {
           geography = d.Geography;
-          d.DailyConfirmedPC = 0;
+          d.ConfirmedGrowthPC = 0;
           d.DailyDeathsPC = 0;
+          d.DailyDeaths = 0
         }
         else if (i) {
           const prev = filteredData[i - 1];
-          d.DailyConfirmedPC = (d.Confirmed / pop * 100000) - prev.ConfirmedPC; 
-          d.DailyDeathsPC = (d.Deaths / pop * 100000) - prev.DeathsPC;
+          d.ConfirmedGrowthPC = d.ConfirmedPC - prev.ConfirmedPC; 
+          d.DailyDeathsPC = d.DeathsPC - prev.DeathsPC;
         }
 
         const division = divisions.find(x => x["ID Region"] === 6);
         return Object.assign(d, division);
       });
 
-    const measures = ["Confirmed", "Deaths"];
+    const measures = ["Confirmed", "ConfirmedGrowth", "Deaths", "DailyDeathsPC"];
 
     nest()
       .key(d => d["ID Geography"])
