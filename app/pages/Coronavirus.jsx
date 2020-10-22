@@ -401,7 +401,15 @@ class Coronavirus extends Component {
     const currentCaseSlug = e.target.value;
     const cutoffKey = this.deriveCutoffKey(currentCaseSlug, currentCasePC || currentCaseInternational, currentCaseSmooth);
     const reset = true;
-    this.prepData.bind(this)({currentCaseSlug, cutoffKey, reset});
+    const config = {currentCaseSlug, cutoffKey, reset};
+    // Changing the slug clears certain settings for certain selections
+    // If moving to a non-international, clear it.
+    if (!["daily", "cases", "deaths", "dailyDeaths"].includes(currentCaseSlug)) config.currentCaseInternational = false;
+    if (currentCaseSlug === "positive") {
+      config.currentCasePC = false;
+      config.currentCaseSmooth = false;
+    }
+    this.prepData.bind(this)(config);
   }
 
   prepData(config) {
@@ -942,7 +950,7 @@ class Coronavirus extends Component {
       hospitalizations: `Total Hospitalizations ${currentCaseReach ? `Since Reaching ${cutoffFormatted} Hospitalization${cutoff === 1 ? "" : "s"}${currentCasePC ? " Per 100,000" : ""}` : `${currentCasePC ? " Per 100,000" : ""} By State`}`,
       dailyTests: `Daily Tests ${currentCaseReach ? `Since Reaching ${cutoffFormatted} Total Test${cutoff === 1 ? "" : "s"}${currentCasePC ? " Per 100,000" : ""}` : `${currentCasePC ? " Per 100,000" : ""} By State`}`,
       tests: `Total Tests ${currentCaseReach ? `Since Reaching ${cutoffFormatted} Test${cutoff === 1 ? "" : "s"}${currentCasePC ? " Per 100,000" : ""}` : `${currentCasePC ? " Per 100,000" : ""} By State`}`,
-      positive: `Percentage of Positive Test Results${currentCaseReach ? `Since Reaching ${cutoffFormatted} Tests` : ""}`
+      positive: `Percentage of Positive Test Results${currentCaseReach ? ` Since Reaching ${cutoffFormatted} Tests` : ""}`
     };
 
     /* SHOWCHARTS */
