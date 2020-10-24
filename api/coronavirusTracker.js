@@ -204,8 +204,9 @@ module.exports = function(app) {
     dataCut.sort((a, b) => b.Confirmed - a.Confirmed);
     const topCountries = dataCut.slice(0, 5).map(d => d["ID Geography"]);
     const filteredData = data.filter(d => topCountries.includes(d["ID Geography"]));
+    let geography = filteredData[0].Geography;
     const finalData = filteredData
-      .map(d => {
+      .map((d, i) => {
         const pop = world[d.Geography];
         d["ID Geography"] = countryMeta[d.Geography]
           ? countryMeta[d.Geography].iso
@@ -214,11 +215,23 @@ module.exports = function(app) {
         d.ConfirmedPC = d.Confirmed / pop * 100000;
         d.RecoveredPC = d.Recovered / pop * 100000;
         d.DeathsPC = d.Deaths / pop * 100000;
+        if (geography !== d.Geography) {
+          geography = d.Geography;
+          d.ConfirmedGrowthPC = 0;
+          d.DailyDeathsPC = 0;
+          d.DailyDeaths = 0
+        }
+        else if (i) {
+          const prev = filteredData[i - 1];
+          d.ConfirmedGrowthPC = d.ConfirmedPC - prev.ConfirmedPC;
+          d.DailyDeathsPC = d.DeathsPC - prev.DeathsPC;
+        }
+
         const division = divisions.find(x => x["ID Region"] === 6);
         return Object.assign(d, division);
       });
 
-    const measures = ["Confirmed", "Deaths"];
+    const measures = ["Confirmed", "ConfirmedGrowth", "Deaths", "DailyDeathsPC"];
 
     nest()
       .key(d => d["ID Geography"])
@@ -310,7 +323,7 @@ module.exports = function(app) {
       }
       else if (i) {
         const prev = rawData[i - 1];
-        
+
         if (raw.positive < prev.positive) {
           d.anomaly = true;
           const prev2 = rawData[i - 2];
