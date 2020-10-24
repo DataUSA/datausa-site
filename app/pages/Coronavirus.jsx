@@ -684,7 +684,7 @@ class Coronavirus extends Component {
           if (d.anomaly) arr.push(["Warning", "Day with Data Anomaly"]);
           const arr = [["Date", dateFormat(new Date(d.Date))]];
           if (d.ConfirmedGrowth !== undefined) arr.push(["Daily New Cases", commas(d.ConfirmedGrowth)]);
-          if (d.ConfirmedGrowthPC !== undefined) arr.push(["Daily New Cases Per 100,000", formatAbbreviate(d.ConfirmedGrowthPC)]);
+          if (d.ConfirmedGrowthPC !== undefined) arr.push(["Daily New Cases per 100,000", formatAbbreviate(d.ConfirmedGrowthPC)]);
           if (d.Confirmed !== undefined) arr.push(["Confirmed Cases", commas(d.Confirmed)]);
           if (d.ConfirmedPC !== undefined) arr.push(["Cases per 100,000", commas(Math.round(d.ConfirmedPC))]);
           if (d.PositivePct !== undefined) arr.push(["% Positive Tests", `${formatAbbreviate(d.PositivePct)}%`]);
@@ -917,7 +917,7 @@ class Coronavirus extends Component {
       dailyTests: "DailyTests",
       tests: "Tests",
       positive: "PositivePct"
-    }     
+    }
 
     /* OPTIONS (LABELS) */
     const options = {
@@ -939,17 +939,17 @@ class Coronavirus extends Component {
         : `Daily New Cases${currentCaseReach ? ` Since Reaching ${cutoffFormatted} Confirmed Cases` : ""}`,
       cases: currentCaseInternational
         ? "International Comparison (Cases)"
-        : `Total Confirmed Cases ${currentCaseReach ? `Since Reaching ${cutoffFormatted} Cases${currentCasePC ? " Per 100,000" : ""}` : `${currentCasePC ? " Per 100,000" : ""} By Date`}`,
+        : `Total Confirmed Cases ${currentCaseReach ? `Since Reaching ${cutoffFormatted} Cases${currentCasePC ? " per 100,000" : ""}` : `${currentCasePC ? " per 100,000" : ""} By Date`}`,
       dailyDeaths: currentCaseInternational
         ? "International Comparison (Deaths)"
-        : `Daily Deaths ${currentCaseReach ? `Since Reaching ${cutoffFormatted} Total Death${cutoff === 1 ? "" : "s"}${currentCasePC ? " Per 100,000" : ""}` : `${currentCasePC ? " Per 100,000" : ""} By State`}`,
+        : `Daily Deaths ${currentCaseReach ? `Since Reaching ${cutoffFormatted} Total Death${cutoff === 1 ? "" : "s"}${currentCasePC ? " per 100,000" : ""}` : `${currentCasePC ? " per 100,000" : ""} By State`}`,
       deaths: currentCaseInternational
         ? "Internation Comparison (Deaths)"
-        : `Total Deaths ${currentCaseReach ? `Since Reaching ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"}${currentCasePC ? " Per 100,000" : ""}` : `${currentCasePC ? " Per 100,000" : ""} By State`}`,
-      dailyHospitalizations: `Daily Hospitalizations ${currentCaseReach ? `Since Reaching ${cutoffFormatted} Total Hospitalization${cutoff === 1 ? "" : "s"}${currentCasePC ? " Per 100,000" : ""}` : `${currentCasePC ? " Per 100,000" : ""} By State`}`,
-      hospitalizations: `Total Hospitalizations ${currentCaseReach ? `Since Reaching ${cutoffFormatted} Hospitalization${cutoff === 1 ? "" : "s"}${currentCasePC ? " Per 100,000" : ""}` : `${currentCasePC ? " Per 100,000" : ""} By State`}`,
-      dailyTests: `Daily Tests ${currentCaseReach ? `Since Reaching ${cutoffFormatted} Total Test${cutoff === 1 ? "" : "s"}${currentCasePC ? " Per 100,000" : ""}` : `${currentCasePC ? " Per 100,000" : ""} By State`}`,
-      tests: `Total Tests ${currentCaseReach ? `Since Reaching ${cutoffFormatted} Test${cutoff === 1 ? "" : "s"}${currentCasePC ? " Per 100,000" : ""}` : `${currentCasePC ? " Per 100,000" : ""} By State`}`,
+        : `Total Deaths ${currentCaseReach ? `Since Reaching ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"}${currentCasePC ? " per 100,000" : ""}` : `${currentCasePC ? " per 100,000" : ""} By State`}`,
+      dailyHospitalizations: `Daily Hospitalizations ${currentCaseReach ? `Since Reaching ${cutoffFormatted} Total Hospitalization${cutoff === 1 ? "" : "s"}${currentCasePC ? " per 100,000" : ""}` : `${currentCasePC ? " per 100,000" : ""} By State`}`,
+      hospitalizations: `Total Hospitalizations ${currentCaseReach ? `Since Reaching ${cutoffFormatted} Hospitalization${cutoff === 1 ? "" : "s"}${currentCasePC ? " per 100,000" : ""}` : `${currentCasePC ? " per 100,000" : ""} By State`}`,
+      dailyTests: `Daily Tests ${currentCaseReach ? `Since Reaching ${cutoffFormatted} Total Test${cutoff === 1 ? "" : "s"}${currentCasePC ? " per 100,000" : ""}` : `${currentCasePC ? " per 100,000" : ""} By State`}`,
+      tests: `Total Tests ${currentCaseReach ? `Since Reaching ${cutoffFormatted} Test${cutoff === 1 ? "" : "s"}${currentCasePC ? " per 100,000" : ""}` : `${currentCasePC ? " per 100,000" : ""} By State`}`,
       positive: `Percentage of Positive Test Results${currentCaseReach ? ` Since Reaching ${cutoffFormatted} Tests` : ""}`
     };
 
@@ -1032,7 +1032,7 @@ class Coronavirus extends Component {
 
     /* DESCRIPTIONS */
     const descriptions = {
-      daily: currentCaseInternational 
+      daily: currentCaseInternational
         ? [`To get a sense of how the COVID-19 trajectory in the U.S. states compares to that in other countries, we compare the per capita number of cases for each state that has reported more than ${cutoffFormatted} cases, with that of the five countries that have reported most cases.`]
         : currentCaseReach
           ? [`Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as ${example} cases.`]
@@ -1137,18 +1137,18 @@ class Coronavirus extends Component {
 
       /* XCONFIG */
       const xConfigLC = () => {
-        
+
         /* XCONFIG TITLE */
         const titleXC = {
-          daily: currentCaseReach || currentCaseInternational ? `Days Since Reaching ${cutoffFormatted} Confirmed Cases${currentCasePC ? " Per 100,000" : ""}` : "",
-          cases: currentCaseReach || currentCaseInternational ? `Days Since Reaching ${cutoffFormatted} Confirmed Cases${currentCasePC ? " Per 100,000" : ""}` : "",
-          dailyDeaths: currentCaseReach || currentCaseInternational ? `Days Since Reaching ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"}${currentCasePC ? " Per 100,000" : ""}` : "",
-          deaths: currentCaseReach || currentCaseInternational ? `Days Since Reaching ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"}${currentCasePC ? " Per 100,000" : ""}` : "",
-          dailyHospitalizations: currentCaseReach ? `Days Since Reaching ${cutoffFormatted} Hospitalization${cutoff === 1 ? "" : "s"}${currentCasePC ? " Per 100,000" : ""}` : "",
-          hospitalizations: currentCaseReach ? `Days Since Reaching ${cutoffFormatted} Hospitalization${cutoff === 1 ? "" : "s"}${currentCasePC ? " Per 100,000" : ""}` : "",
-          dailyTests: currentCaseReach ? `Days Since Reaching ${cutoffFormatted} Total Tests${currentCasePC ? " Per 100,000": ""}` : "",
-          tests: currentCaseReach ? `Days Since Reaching ${cutoffFormatted} Tests${currentCasePC ? " Per 100,000": ""}` : "",
-          positive: currentCaseReach ? `Days Since Reaching ${cutoffFormatted} Tests${currentCasePC ? " Per 100,000": ""}` : ""
+          daily: currentCaseReach || currentCaseInternational ? `Days Since Reaching ${cutoffFormatted} Confirmed Cases${currentCasePC ? " per 100,000" : ""}` : "",
+          cases: currentCaseReach || currentCaseInternational ? `Days Since Reaching ${cutoffFormatted} Confirmed Cases${currentCasePC ? " per 100,000" : ""}` : "",
+          dailyDeaths: currentCaseReach || currentCaseInternational ? `Days Since Reaching ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"}${currentCasePC ? " per 100,000" : ""}` : "",
+          deaths: currentCaseReach || currentCaseInternational ? `Days Since Reaching ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"}${currentCasePC ? " per 100,000" : ""}` : "",
+          dailyHospitalizations: currentCaseReach ? `Days Since Reaching ${cutoffFormatted} Hospitalization${cutoff === 1 ? "" : "s"}${currentCasePC ? " per 100,000" : ""}` : "",
+          hospitalizations: currentCaseReach ? `Days Since Reaching ${cutoffFormatted} Hospitalization${cutoff === 1 ? "" : "s"}${currentCasePC ? " per 100,000" : ""}` : "",
+          dailyTests: currentCaseReach ? `Days Since Reaching ${cutoffFormatted} Total Tests${currentCasePC ? " per 100,000": ""}` : "",
+          tests: currentCaseReach ? `Days Since Reaching ${cutoffFormatted} Tests${currentCasePC ? " per 100,000": ""}` : "",
+          positive: currentCaseReach ? `Days Since Reaching ${cutoffFormatted} Tests${currentCasePC ? " per 100,000": ""}` : ""
         }
         const title = titleXC[currentCaseSlug];
 
@@ -1160,7 +1160,7 @@ class Coronavirus extends Component {
         const accessor = (currentCaseInternational || currentCaseReach) ? d => d.Days : d => d.Date;
 
         // Labels and ticks use the same configuration
-        const labelTickXC = Object.keys(options).reduce((acc, d) => 
+        const labelTickXC = Object.keys(options).reduce((acc, d) =>
           ({...acc, [d]: calc(dataset.filter(ds => ds[`${keyHash[d]}${currentCasePC ? "PC" : ""}`]), accessor)}), {}
         );
         labelTickXC.positive = currentCaseReach
@@ -1198,7 +1198,7 @@ class Coronavirus extends Component {
       }
 
       const yConfig = yConfigLC[currentCaseSlug];
-      
+
       const lineConfig = {
         data,
         x,
@@ -2016,7 +2016,7 @@ class Coronavirus extends Component {
                               d => formatAbbreviate(d["Total Population"])
                             ],
                             [
-                              "Per 1,000 Population",
+                              "per 1,000 Population",
                               d => formatAbbreviate(d["Total Population PC"])
                             ]
                           ]
@@ -2077,7 +2077,7 @@ class Coronavirus extends Component {
                               d => formatAbbreviate(d["Total Population"])
                             ],
                             [
-                              "Per 1,000 Population",
+                              "per 1,000 Population",
                               d => formatAbbreviate(d["Total Population PC"])
                             ]
                           ]
