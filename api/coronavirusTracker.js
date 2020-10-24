@@ -223,7 +223,7 @@ module.exports = function(app) {
         }
         else if (i) {
           const prev = filteredData[i - 1];
-          d.ConfirmedGrowthPC = d.ConfirmedPC - prev.ConfirmedPC; 
+          d.ConfirmedGrowthPC = d.ConfirmedPC - prev.ConfirmedPC;
           d.DailyDeathsPC = d.DeathsPC - prev.DeathsPC;
         }
 
@@ -323,7 +323,7 @@ module.exports = function(app) {
       }
       else if (i) {
         const prev = rawData[i - 1];
-        
+
         if (raw.positive < prev.positive) {
           d.anomaly = true;
           const prev2 = rawData[i - 2];
