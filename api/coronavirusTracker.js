@@ -204,8 +204,9 @@ module.exports = function(app) {
     dataCut.sort((a, b) => b.Confirmed - a.Confirmed);
     const topCountries = dataCut.slice(0, 5).map(d => d["ID Geography"]);
     const filteredData = data.filter(d => topCountries.includes(d["ID Geography"]));
+    let geography = filteredData[0].Geography;
     const finalData = filteredData
-      .map(d => {
+      .map((d, i) => {
         const pop = world[d.Geography];
         d["ID Geography"] = countryMeta[d.Geography]
           ? countryMeta[d.Geography].iso
@@ -214,11 +215,23 @@ module.exports = function(app) {
         d.ConfirmedPC = d.Confirmed / pop * 100000;
         d.RecoveredPC = d.Recovered / pop * 100000;
         d.DeathsPC = d.Deaths / pop * 100000;
+        if (geography !== d.Geography) {
+          geography = d.Geography;
+          d.ConfirmedGrowthPC = 0;
+          d.DailyDeathsPC = 0;
+          d.DailyDeaths = 0
+        }
+        else if (i) {
+          const prev = filteredData[i - 1];
+          d.ConfirmedGrowthPC = d.ConfirmedPC - prev.ConfirmedPC;
+          d.DailyDeathsPC = d.DeathsPC - prev.DeathsPC;
+        }
+
         const division = divisions.find(x => x["ID Region"] === 6);
         return Object.assign(d, division);
       });
 
-    const measures = ["Confirmed", "Deaths"];
+    const measures = ["Confirmed", "ConfirmedGrowth", "Deaths", "DailyDeathsPC"];
 
     nest()
       .key(d => d["ID Geography"])
@@ -310,18 +323,33 @@ module.exports = function(app) {
       }
       else if (i) {
         const prev = rawData[i - 1];
-        if (raw.positive < prev.positive) raw.positive = prev.positive;
+
+        if (raw.positive < prev.positive) {
+          d.anomaly = true;
+          const prev2 = rawData[i - 2];
+          if (prev2) d.ConfirmedGrowth = prev.positive - prev2.positive;
+        }
+        else {
+          d.ConfirmedGrowth = raw.positive - prev.positive;
+        }
         if (raw.death < prev.death) raw.death = prev.death;
         if (raw.total < prev.total) raw.total = prev.total;
         if (raw.hospitalized < prev.hospitalized) raw.hospitalized = prev.hospitalized;
-        d.ConfirmedGrowth = raw.positive - prev.positive;
+        d.DailyDeaths = raw.death - prev.death;
+        d.DailyHospitalized = raw.hospitalized - prev.hospitalized;
+        d.DailyTests = raw.total - prev.total;
       }
 
       d.Confirmed = raw.positive;
       d.Tests = raw.total;
       d.Hospitalized = raw.hospitalized;
       d.Deaths = raw.death;
+      d.DeathsConfirmed = raw.deathConfirmed;
+      d.DeathsProbable = raw.deathProbable;
       d.PositivePct = raw.positive / raw.total * 100;
+      d.CurrentlyHospitalized = raw.hospitalizedCurrently;
+      d.CurrentlyInICU = raw.inIcuCurrently;
+      d.CurrentlyOnVentilator = raw.onVentilatorCurrently;
 
       d.Geography = states[raw.state];
       d["ID Geography"] = stateToDivision[raw.state];
@@ -350,7 +378,7 @@ module.exports = function(app) {
         data.push(us);
       });
 
-    const measures = ["Confirmed", "Deaths", "Tests", "Hospitalized", "ConfirmedGrowth"];
+    const measures = ["Confirmed", "DailyDeaths", "Deaths", "DailyTests", "Tests", "DailyHospitalized", "Hospitalized", "ConfirmedGrowth"];
     data.forEach(d => {
       measures.forEach(measure => {
         d[`${measure}PC`] = d[measure] ? d[measure] * 100000 / populationLookup[d["ID Geography"]] : null;
