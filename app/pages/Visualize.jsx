@@ -4,8 +4,9 @@ import {connect} from "react-redux";
 import Carousel from "react-slick";
 import SVG from "react-inlinesvg";
 import {nest} from "d3-collection";
+import {hot} from "react-hot-loader/root";
 
-import Vizbuilder from "@datawheel/canon-vizbuilder";
+import {Vizbuilder} from "@datawheel/canon-vizbuilder";
 import {Icon, Tooltip} from "@blueprintjs/core";
 import "./Visualize.css";
 import {badMeasures} from "d3plus.js";
@@ -74,53 +75,42 @@ class Visualize extends Component {
     else this.props.router.push(url);
   }
 
-  componentDidUpdate(prevProps) {
-    const {vizbuilder} = this.props;
+  onChange(query) {
 
-    if (vizbuilder !== prevProps.vizbuilder && !vizbuilder.load.inProgress) {
+    const {list} = this.context.formatters;
+    const measureName = decodeURI(query.measure.split("/").pop());
 
-      const {list} = this.context.formatters;
-      const {query, uiParams} = vizbuilder;
-      const {showConfidenceInt} = uiParams;
+    const groups = Object.values(query.groups).filter(d => d.key);
+    let slug = measureName;
+    const params = {
+      measures: [measureName],
+      drilldowns: groups.map(d => d.level)
+    };
 
-      const groups = query.groups.filter(d => d.key);
-      let slug = query.measure.annotations._key;
-      const params = {
-        measures: [query.measure.name],
-        drilldowns: groups.map(d => d.level.name)
-      };
-
-      groups.forEach(group => {
-        slug += `-${group.key}`;
-        if (group.members.length) {
-          params[group.level.name] = group.members.map(m => m.key).join(",");
-          slug += `-${params[group.level.name]}`;
-        }
-      });
-
-      if (showConfidenceInt) {
-        if (query.moe) params.measures.push(query.moe.name);
-        if (query.lci) params.measures.push(query.lci.name);
-        if (query.uci) params.measures.push(query.uci.name);
+    groups.forEach(group => {
+      slug += `-${group.key}`;
+      if (group.members.length) {
+        params[group.level] = group.members.join(",");
+        slug += `-${params[group.level]}`;
       }
+    });
 
-      const url = `/api/data?${Object.entries(params).map(([key, val]) => `${key}=${val}`).join("&")}`;
+    const url = `/api/data?${Object.entries(params).map(([key, val]) => `${key}=${val}`).join("&")}`;
 
-      const byGroups = groups
-        .filter(group => !group.members.length)
-        .map(group => group.level.name);
+    const byGroups = groups
+      // .filter(group => !group.members.length)
+      .map(group => `${group.level}${group.members.length ? ` (${group.members.length} selected)`: ""}`);
 
-      const forGroups = groups
-        .filter(group => group.members.length)
-        .map(group => list(group.members.map(m => m.name)));
+    const forGroups = [];
+    // const forGroups = groups
+    //   .filter(group => group.members.length)
+    //   .map(group => list(group.members.map(m => m.name)));
 
-      const queryTitle = titleCase(`${query.measure.name}${byGroups.length ? ` by ${list(byGroups)}` : ""}${forGroups.length ? ` for ${list(forGroups)}` : ""}`);
-      const format = "function(d) { return d.data; }";
+    const queryTitle = titleCase(`${measureName}${byGroups.length ? ` by ${list(byGroups)}` : ""}${forGroups.length ? ` for ${list(forGroups)}` : ""}`);
+    const format = "function(d) { return d.data; }";
 
-      this.props.updateTitle(queryTitle);
-      this.setState({query: {urls: [url], format, slug, title: queryTitle}});
-
-    }
+    this.props.updateTitle(queryTitle);
+    this.setState({query: {urls: [url], format, slug, title: queryTitle}});
 
   }
 
@@ -279,6 +269,17 @@ class Visualize extends Component {
             detectResizeDelay: 100,
             zoomScroll: true
           }}
+          onChange={this.onChange.bind(this)}
+          titleArea={
+            <Tooltip className="absolute-title" placement="bottom">
+              <h1 onClick={this.showIntro.bind(this)}>
+                Viz Builder
+              </h1>
+              <span>
+                Click to show some example queries.
+              </span>
+            </Tooltip>
+          }
           topojson={{
             "Birthplace": {
               ocean: "#d4dadc",
@@ -306,16 +307,8 @@ class Visualize extends Component {
             "Origin State": StateTopojson,
             "Destination State": StateTopojson
           }}
-          visualizations={[
-            "geomap",
-            "treemap",
-            "barchart",
-            "lineplot",
-            "histogram",
-            "stacked"
-          ]}>
-          <div className="custom-controls">
-            <Tooltip placement="top-end">
+          sourcesArea={
+            <Tooltip placement="bottom">
               <div className={ `bp3-button bp3-fill bp3-icon-shopping-cart ${ cartSize >= cartMax ? "bp3-disabled" : "" }` } onClick={this.onCart.bind(this)}>
                 { !cart ? "Loading Cart..." : inCart ? "Remove from Cart" : "Add Data to Cart" }
               </div>
@@ -325,17 +318,15 @@ class Visualize extends Component {
                     : "Add the underlying data to the cart, and merge with any existing cart data." }
               </span>
             </Tooltip>
-            <Tooltip className="absolute-title" placement="bottom">
-              <h1 onClick={this.showIntro.bind(this)}>
-                Viz Builder
-              </h1>
-              <span>
-                Click to show some example queries.
-              </span>
-            </Tooltip>
-          </div>
-        </Vizbuilder>
-
+          }
+          visualizations={[
+            "geomap",
+            "treemap",
+            "barchart",
+            "lineplot",
+            "histogram",
+            "stacked"
+          ]} />
       </div>;
     }
   }
@@ -348,10 +339,9 @@ Visualize.contextTypes = {
 
 export default connect(state => ({
   cube: state.env.CUBE,
-  cart: state.cart,
-  vizbuilder: state.vizbuilder
+  cart: state.cart
 }), dispatch => ({
   addToCart: build => dispatch(addToCart(build)),
   removeFromCart: build => dispatch(removeFromCart(build)),
   updateTitle: title => dispatch(updateTitle(title))
-}))(Visualize);
+}))(hot(Visualize));

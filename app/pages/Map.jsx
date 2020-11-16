@@ -1,8 +1,8 @@
-import React, {Component} from "react";
+import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
 import {Link} from "react-router";
 import {connect} from "react-redux";
-import Vizbuilder from "@datawheel/canon-vizbuilder";
+import {Vizbuilder} from "@datawheel/canon-vizbuilder";
 import {Tooltip} from "@blueprintjs/core";
 import "./Visualize.css";
 import "./Map.css";
@@ -41,34 +41,26 @@ class Map extends Component {
     this.props.updateTitle(false);
   }
 
-  componentDidUpdate(prevProps) {
-    const {vizbuilder} = this.props;
+  onChange(query) {
 
-    if (vizbuilder !== prevProps.vizbuilder && !vizbuilder.load.inProgress) {
+    const {list} = this.context.formatters;
+    const measureName = decodeURI(query.measure.split("/").pop());
 
-      const {list} = this.context.formatters;
-      const {query} = vizbuilder;
+    const groups = Object.values(query.groups).filter(d => d.key);
+    const slug = `${measureName}-${groups.map(d => d.key).join("-")}`;
+    const params = {
+      measures: [measureName],
+      drilldowns: groups.map(d => d.level)
+    };
 
-      const groups = query.groups.filter(d => d.key);
-      const slug = `${query.measure.annotations._key}-${groups.map(d => d.key).join("-")}`;
-      const params = {
-        measures: [query.measure.name],
-        drilldowns: groups.map(d => d.level.name)
-      };
-      if (query.moe) params.measures.push(query.moe.name);
-      if (query.lci) params.measures.push(query.lci.name);
-      if (query.uci) params.measures.push(query.uci.name);
+    const url = `/api/data?${Object.entries(params).map(([key, val]) => `${key}=${val.join(",")}`).join("&")}`;
 
-      const url = `/api/data?${Object.entries(params).map(([key, val]) => `${key}=${val.join(",")}`).join("&")}`;
+    const queryTitle = `Map of ${measureName}${params.drilldowns ? ` by ${list(params.drilldowns)}` : ""}`;
 
-      const queryTitle = `Map of ${query.measure.name}${params.drilldowns ? ` by ${list(params.drilldowns)}` : ""}`;
+    const format = "function(d) { return d.data; }";
 
-      const format = "function(d) { return d.data; }";
-
-      this.props.updateTitle(queryTitle);
-      this.setState({query: {urls: [url], format, slug, title: queryTitle}});
-
-    }
+    this.props.updateTitle(queryTitle);
+    this.setState({query: {urls: [url], format, slug, title: queryTitle}});
 
   }
 
@@ -107,7 +99,7 @@ class Map extends Component {
         defaultGroup={["Geography.County", "Geography.State", "Origin State.Origin State"]}
         defaultMeasure="Poverty Rate"
         measureConfig={measureConfig}
-        tableLogic={cubes => {
+        tableLogic={(cubes, b, c) => {
           const cube = cubes.find(d => d.name.match(/_5/));
           return cube || cubes[0];
         }}
@@ -120,7 +112,30 @@ class Map extends Component {
           zoomScroll: true
         }}
         instanceKey="map"
+        onChange={this.onChange.bind(this)}
         visualizations={["geomap"]}
+        sourcesArea={
+          <Fragment>
+            <Tooltip placement="top-end">
+              <div className={ `bp3-button bp3-fill bp3-icon-shopping-cart ${ cartSize >= cartMax ? "bp3-disabled" : "" }` } onClick={this.onCart.bind(this)}>
+                { !cart ? "Loading Cart..." : inCart ? "Remove from Cart" : "Add Data to Cart" }
+              </div>
+              <span>
+                { inCart ? "Remove this dataset from the cart."
+                  : cartSize !== undefined && cartSize >= cartMax ? `Cart limit of ${cartSize} has been reached. Please visit the cart page to download the current cart and/or remove data.`
+                    : "Add the underlying data to the cart, and merge with any existing cart data." }
+              </span>
+            </Tooltip>
+            <Link className="bp3-button bp3-fill bp3-icon-series-derived" to={vizbuilder}>
+              Explore in Viz Builder
+            </Link>
+          </Fragment>
+        }
+        titleArea={
+          <h1 className="absolute-title">
+            Map
+          </h1>
+        }
         topojson={{
           "County": {topojson: "/topojson/County.json"},
           "MSA": {
@@ -131,26 +146,7 @@ class Map extends Component {
           "State": {topojson: "/topojson/State.json"},
           "Origin State": {topojson: "/topojson/State.json"},
           "Destination State": {topojson: "/topojson/State.json"}
-        }}>
-        <div className="custom-controls">
-          <Tooltip placement="top-end">
-            <div className={ `bp3-button bp3-fill bp3-icon-shopping-cart ${ cartSize >= cartMax ? "bp3-disabled" : "" }` } onClick={this.onCart.bind(this)}>
-              { !cart ? "Loading Cart..." : inCart ? "Remove from Cart" : "Add Data to Cart" }
-            </div>
-            <span>
-              { inCart ? "Remove this dataset from the cart."
-                : cartSize !== undefined && cartSize >= cartMax ? `Cart limit of ${cartSize} has been reached. Please visit the cart page to download the current cart and/or remove data.`
-                  : "Add the underlying data to the cart, and merge with any existing cart data." }
-            </span>
-          </Tooltip>
-          <Link className="bp3-button bp3-fill bp3-icon-series-derived" to={vizbuilder}>
-            Explore in Viz Builder
-          </Link>
-          <h1 className="absolute-title">
-            Map
-          </h1>
-        </div>
-      </Vizbuilder>
+        }} />
 
     </div>;
 
@@ -165,8 +161,7 @@ Map.contextTypes = {
 
 export default connect(state => ({
   cube: state.env.CUBE,
-  cart: state.cart,
-  vizbuilder: state.vizbuilder
+  cart: state.cart
 }), dispatch => ({
   addToCart: build => dispatch(addToCart(build)),
   removeFromCart: build => dispatch(removeFromCart(build)),
