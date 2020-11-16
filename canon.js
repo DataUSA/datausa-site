@@ -1,5 +1,5 @@
 const d3Array = require("d3-array");
-// const {vizbuilderMiddleware} = require("@datawheel/canon-vizbuilder");
+
 const {CANON_API, CANON_LOGICLAYER_CUBE} = process ? process.env : {};
 
 const geoRelations = {
@@ -42,6 +42,17 @@ const geoRelations = {
 };
 
 module.exports = {
+  db: [
+    {
+      host: process.env.CANON_DB_HOST,
+      name: process.env.CANON_DB_NAME,
+      user: process.env.CANON_DB_USER,
+      pass: process.env.CANON_DB_PW,
+      tables: [
+        require("@datawheel/canon-cms/models")
+      ]
+    }
+  ],
   logiclayer: {
     aliases: {
       "CIP": "cip",
@@ -213,11 +224,4 @@ module.exports = {
       }
     }
   }
-  // reduxMiddleware(applyMiddleware, middleware) {
-  //   middleware = middleware.filter(fn => `${fn}`.indexOf(".startedTime") === -1);
-  //   return applyMiddleware(
-  //     vizbuilderMiddleware,
-  //     ...middleware
-  //   );
-  // }
 };
