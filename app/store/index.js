@@ -1,8 +1,7 @@
 import {cmsReducer} from "@datawheel/canon-cms";
-// import {vizbuilderReducer} from "@datawheel/canon-vizbuilder";
-import {vbStateReducer} from "@datawheel/canon-vizbuilder";
+import {vizbuilderMiddleware, vizbuilderReducer} from "@datawheel/canon-vizbuilder";
 
-export default {
+export const reducers = {
   cart: (state = false, action) => {
     switch (action.type) {
       case "CART_FULFILLED":
@@ -18,5 +17,9 @@ export default {
       default: return state;
     }
   },
-  vizbuilder: vbStateReducer
+  vizbuilder: vizbuilderReducer
 };
+
+export const middleware = [vizbuilderMiddleware];
+
+export const initialState = {};
