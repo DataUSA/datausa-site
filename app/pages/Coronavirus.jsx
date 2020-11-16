@@ -85,11 +85,9 @@ import "./Coronavirus.css";
 
 class UncontrolledSlider extends React.Component {
   state = {value: 0};
-  componentWillMount() {
-    const {initialValue} = this.props;
-    this.setState({
-      value: initialValue
-    });
+  constructor(props) {
+    super(props);
+    this.state = {value: props.initialValue};
   }
   render() {
     const {value} = this.state;
