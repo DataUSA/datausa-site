@@ -29,7 +29,6 @@
       display: none;
     }
     & .area-sidebar {
-      padding-top: calc(var(--nav-height) + 25px);
       & .reset-defaults {
         display: none;
       }
@@ -62,8 +61,8 @@
         display: none;
       }
     }
-    & .grouping-manager {
-      & .grouping-item {
+    & .groups-manager {
+      & .group-item {
         width: 100%;
         &:not(.editing) {
           align-items: center;
@@ -72,7 +71,7 @@
         & .values {
           flex: 1;
         }
-        & .grouping-members {
+        & .group-members {
           display: none;
         }
         & .actions {
@@ -87,8 +86,11 @@
           }
         }
       }
+      & .group-add {
+        display: none;
+      }
     }
-    & .filter-manager {
+    & .filters-manager {
       display: none;
     }
   }

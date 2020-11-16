@@ -167,7 +167,7 @@ body {
     font-weight: 400;
     line-height: 1.5;
     max-width: 300px;
-    padding: 7px 10px 9px;
+    padding: 5px;
   }
 }
 
@@ -202,7 +202,7 @@ input[type="text"] {
   }
 }
 
-.bp3-select {
+.bp3-select, .bp3-html-select {
   position: relative;
   margin-bottom: 5px;
   & select {
@@ -240,6 +240,12 @@ input[type="text"] {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
   }
+}
+.bp3-html-select:after {
+  display: none;
+}
+.bp3-html-select .bp3-icon {
+  top: 10px;
 }
 
 /* Blueprint Table Styles */
