@@ -15,6 +15,7 @@ import Nav from "components/Nav/index";
 import Footer from "components/Footer/index";
 
 import albersUsaPr from "helpers/albersUsaPr";
+if (typeof window !== "undefined") window.albersUsaPr = albersUsaPr;
 
 // const launch = new Date("01 May 2019 08:00:00 GMT-0400");
 const bannerKey = "datausa-banner-v2";
@@ -51,10 +52,6 @@ class App extends Component {
         if (`${basename}${pathname}` === bannerLink) localforage.setItem(bannerKey, true);
         else if (!banner && !embed) this.setState({banner: true});
       })
-  }
-
-  componentWillMount() {
-    if (typeof window !== "undefined") window.albersUsaPr = albersUsaPr;
   }
 
   getChildContext() {
