@@ -99,7 +99,7 @@ class Map extends Component {
         defaultGroup={["Geography.County", "Geography.State", "Origin State.Origin State"]}
         defaultMeasure="Poverty Rate"
         measureConfig={measureConfig}
-        tableLogic={(cubes, b, c) => {
+        defaultTable={(cubes, b, c) => {
           const cube = cubes.find(d => d.name.match(/_5/));
           return cube || cubes[0];
         }}

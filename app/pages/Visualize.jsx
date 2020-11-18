@@ -257,7 +257,7 @@ class Visualize extends Component {
           defaultMeasure="Total Population"
           groupLimit={4}
           measureConfig={measureConfig}
-          tableLogic={cubes => {
+          defaultTable={cubes => {
             const cube = cubes.find(d => d.name.match(/_5/));
             return cube || cubes[0];
           }}
