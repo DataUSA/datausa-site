@@ -34,7 +34,7 @@
     "@datawheel/canon-cms": "^0.15.2",
     "@datawheel/canon-core": "^0.19.6",
     "@datawheel/canon-logiclayer": "^0.4.8",
-    "@datawheel/canon-vizbuilder": "^0.4.2",
+    "@datawheel/canon-vizbuilder": "^0.4.3",
     "@datawheel/olap-client": "^1.3.3",
     "buble": "^0.19.3",
     "countries-list": "^2.5.4",
