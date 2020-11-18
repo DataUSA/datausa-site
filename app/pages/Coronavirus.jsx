@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import axios from "axios";
 import {Icon, NonIdealState, Slider, Spinner, Button, Checkbox, Popover, PopoverInteractionKind} from "@blueprintjs/core";
-import {Helmet} from "react-helmet";
+import {Helmet} from "react-helmet-async";
 import {AnchorLink} from "@datawheel/canon-core";
 import {Sparklines, SparklinesCurve} from "react-sparklines";
 

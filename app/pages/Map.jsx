@@ -8,7 +8,7 @@ import "./Visualize.css";
 import "./Map.css";
 import {badMeasures} from "d3plus.js";
 import colors from "../../static/data/colors.json";
-import {Helmet} from "react-helmet";
+import {Helmet} from "react-helmet-async";
 import {addToCart, removeFromCart} from "actions/cart";
 import {updateTitle} from "actions/title";
 

@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {hot} from "react-hot-loader/root";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {Helmet} from "react-helmet";
+import {Helmet} from "react-helmet-async";
 
 import {AnchorLink, fetchData} from "@datawheel/canon-core";
 import slugify from "toCanon/slugify";

@@ -102,6 +102,14 @@ body {
   }
 }
 
+.heading, h1, h2, h3, h4, h5, h6 {
+  font-family: "Palanquin", sans-serif;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 1.125;
+}
+
 .bp3-spinner {
   & .bp3-spinner-head {
     stroke: var(--red) !important;

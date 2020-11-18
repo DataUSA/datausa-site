@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {Helmet} from "react-helmet";
+import {Helmet} from "react-helmet-async";
 import localforage from "localforage";
 import "./App.css";
 
