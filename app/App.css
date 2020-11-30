@@ -103,7 +103,7 @@ body {
 }
 
 .heading, h1, h2, h3, h4, h5, h6 {
-  font-family: "Palanquin", sans-serif;
+  font-family: var(--base-font-stack);
   font-weight: 600;
   text-transform: none;
   letter-spacing: 0;
@@ -130,7 +130,7 @@ body {
     }
     & h5 {
       color: #434958;
-      font-family: "Palanquin", sans-serif;
+      font-family: var(--base-font-stack);
       font-size: 13px;
       font-weight: 700;
       opacity: 0.4;
@@ -170,7 +170,7 @@ body {
     border-radius: 0;
     background: white !important;
     color: var(--darkgray) !important;
-    font-family: "Palanquin", sans-serif;
+    font-family: var(--base-font-stack);
     font-size: 12px;
     font-weight: 400;
     line-height: 1.5;
@@ -220,7 +220,7 @@ input[type="text"] {
     border-radius: 0 !important;
     box-shadow: none !important;
     color: #949494 !important;
-    font-family: "Palanquin", sans-serif;
+    font-family: var(--base-font-stack);
     font-size: 13px !important;
     font-weight: 600;
     height: 35px !important;
