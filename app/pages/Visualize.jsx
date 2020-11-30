@@ -78,7 +78,8 @@ class Visualize extends Component {
   onChange(query) {
 
     const {list} = this.context.formatters;
-    const measureName = decodeURI(query.measure.split("/").pop());
+    const measureName = decodeURI(query.measure.split("/").pop())
+      .replace(/%2C/g, ",");
 
     const groups = Object.values(query.groups).filter(d => d.key);
     let slug = measureName;
@@ -321,10 +322,10 @@ class Visualize extends Component {
           }
           visualizations={[
             "geomap",
-            "treemap",
             "barchart",
             "lineplot",
             "histogram",
+            "treemap",
             "stacked"
           ]} />
       </div>;
