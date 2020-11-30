@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Helmet} from "react-helmet-async";
 import localforage from "localforage";
+import "@datawheel/canon-cms/src/css/base.css";
 import "./App.css";
 
 import {Button} from "@blueprintjs/core";
