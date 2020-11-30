@@ -361,6 +361,7 @@
           background: white;
           border: 1px solid #bbb;
           box-sizing: border-box;
+          min-height: 400px;
           padding: 5px;
           position: relative;
           & .chart-toolbar {
