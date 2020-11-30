@@ -12,6 +12,7 @@
   transform: rotate(0deg);
   transition: left 0.25s ease-in-out;
   width: var(--burger-width);
+  vertical-align: top;
   & span {
     background: white;
     border-radius: calc(var(--burger-height) / 5);
