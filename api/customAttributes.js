@@ -17,10 +17,11 @@ module.exports = function(app) {
         .then(resp => resp.data)
         .catch(() => []);
 
-    const retObj = {
-      breadcrumbs,
-      stem: dimension === "CIP" && stems.includes(id) ? 1 : 0
-    };
+    const retObj = {breadcrumbs};
+
+    if (dimension === "CIP") {
+      retObj.stem = id.length === 6 ? stems.includes(id) ? "Stem Major" : false : "Contains Stem Majors"
+    }
 
     if (dimension === "Geography") {
       if (["Congressional District"].includes(hierarchy)) retObj.stateId = breadcrumbs.find(d => d.hierarchy === "State").id;
