@@ -98,6 +98,7 @@
       opacity: 0.75;
       transform: scale(1);
       transition: opacity 0.2s;
+      vertical-align: top;
       &:hover {
         opacity: 1;
         text-decoration: none;
@@ -117,6 +118,8 @@
       margin-top: 1px;
       & .bp3-icon-search {
         color: white;
+        margin-bottom: 3px;
+        vertical-align: middle;
       }
     }
   }
