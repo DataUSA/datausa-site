@@ -207,24 +207,38 @@ module.exports = function(app) {
     let geography = filteredData[0].Geography;
     const finalData = filteredData
       .map((d, i) => {
+
         const pop = world[d.Geography];
         d["ID Geography"] = countryMeta[d.Geography]
           ? countryMeta[d.Geography].iso
           : d.Geography;
         d.Date = new Date(d.Date).getTime();
+
+        let prev;
+        if (geography !== d.Geography) {
+          geography = d.Geography;
+          d.ConfirmedGrowthPC = 0;
+          d.DailyDeaths = 0
+        }
+        else if (i) {
+          prev = filteredData[i - 1];
+          if (prev.Confirmed > d.Confirmed) d.Confirmed = prev.Confirmed;
+          if (prev.Deaths > d.Deaths) d.Deaths = prev.Deaths;
+        }
         d.ConfirmedPC = d.Confirmed / pop * 100000;
         d.RecoveredPC = d.Recovered / pop * 100000;
         d.DeathsPC = d.Deaths / pop * 100000;
         if (geography !== d.Geography) {
           geography = d.Geography;
-          d.ConfirmedGrowthPC = 0;
-          d.DailyDeathsPC = 0;
-          d.DailyDeaths = 0
         }
-        else if (i) {
+        if (prev) {
           const prev = filteredData[i - 1];
           d.ConfirmedGrowthPC = d.ConfirmedPC - prev.ConfirmedPC;
           d.DailyDeathsPC = d.DeathsPC - prev.DeathsPC;
+        }
+        else {
+          d.ConfirmedGrowthPC = 0;
+          d.DailyDeathsPC = 0;
         }
 
         const division = divisions.find(x => x["ID Region"] === 6);
