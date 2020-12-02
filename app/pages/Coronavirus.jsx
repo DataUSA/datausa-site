@@ -105,35 +105,6 @@ class UncontrolledSlider extends React.Component {
 }
 
 /** */
-function calculateMonthlyTicks(data, accessor) {
-  return extent(data, accessor)
-    .reduce((arr, d, i, src) => {
-      arr.push(d);
-      if (i === 0) {
-        const dateObj = new Date(d);
-        const month = dateObj.getMonth();
-        let year = dateObj.getFullYear();
-        let currentMonth = month + 1;
-        const finalObj = new Date(src[1]);
-        const finalMonth = finalObj.getMonth();
-        const finalDate = finalObj.getDate();
-        let months = (finalObj.getFullYear() - dateObj.getFullYear()) * 12;
-        months -= dateObj.getMonth();
-        months += finalObj.getMonth();
-        while (currentMonth <= finalMonth) {
-          if (currentMonth !== finalMonth || finalDate > 5) arr.push(new Date(`${currentMonth + 1}/01/${year}`).getTime());
-          currentMonth++;
-          if (currentMonth === 12) {
-            currentMonth = 0;
-            year++;
-          }
-        }
-      }
-      return arr;
-    }, []);
-}
-
-/** */
 function calculateDailyTicks(data, accessor) {
   const maximum = max(data, accessor);
   const step = maximum > 100 ? 20 : 10;
@@ -590,7 +561,6 @@ class Coronavirus extends Component {
     const mobilityDataFiltered = mobilityData
       .filter(stateFilter)
       .filter(d => d.Type === mobilityType && d["ID Geography"]);
-    const mobilityDataTicks = calculateMonthlyTicks(mobilityDataFiltered, d => d.Date);
 
     // manually forcing small labels on desktop
     const smallLabels = true;
@@ -1142,7 +1112,7 @@ class Coronavirus extends Component {
         const title = titleXC[currentCaseSlug];
 
         /* XCONFIG LABELS AND TICKS */
-        const calc = currentCaseInternational || currentCaseReach ? calculateDailyTicks : calculateMonthlyTicks;
+        const calc = currentCaseInternational || currentCaseReach ? calculateDailyTicks : () => undefined;
         let dataset = currentCaseInternational ? countryCutoffDataFiltered : currentCaseReach ? stateCutoffDataFiltered : stateTestDataFiltered;
         const useDeaths = currentCaseSlug === "deaths" || currentCaseSlug === "dailyDeaths"
         if (currentCaseInternational && useDeaths) dataset = countryCutoffDeathDataFiltered;
@@ -1154,13 +1124,13 @@ class Coronavirus extends Component {
         );
         labelTickXC.positive = currentCaseReach
           ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.PositivePct), d => d.Days)
-          : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.PositivePct && new Date(d.Date) >= pctCutoffDate), d => d.Date);
+          : undefined;
 
         const labels = labelTickXC[currentCaseSlug];
         const ticks = labelTickXC[currentCaseSlug];
 
         /* XCONFIG TICKFORMAT */
-        const tickFormat = currentCaseInternational || currentCaseReach ? daysFormat : dateFormat;
+        const tickFormat = currentCaseInternational || currentCaseReach ? daysFormat : undefined;
 
         const xConfig = {
           title,
@@ -1669,8 +1639,6 @@ class Coronavirus extends Component {
                         },
                         x: "Date",
                         xConfig: {
-                          labels: mobilityDataTicks,
-                          ticks: mobilityDataTicks,
                           tickFormat: dateFormat
                         },
                         y: "Percent Change from Baseline",
