@@ -31,10 +31,10 @@
   "homepage": "https://github.com/datausa/datausa-site#readme",
   "dependencies": {
     "@blueprintjs/table": "^3.8.17",
-    "@datawheel/canon-cms": "^0.16.0",
-    "@datawheel/canon-core": "^0.20.0",
+    "@datawheel/canon-cms": "^0.16.7",
+    "@datawheel/canon-core": "^0.20.1",
     "@datawheel/canon-logiclayer": "^0.4.8",
-    "@datawheel/canon-vizbuilder": "^0.4.3",
+    "@datawheel/canon-vizbuilder": "^0.4.5",
     "@datawheel/olap-client": "^1.3.3",
     "buble": "^0.19.3",
     "countries-list": "^2.5.4",
