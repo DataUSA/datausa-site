@@ -29,32 +29,32 @@ module.exports = function(app) {
       tiles: [
         {
           title: "Department of Interior Spending by State",
-          url: "/visualize?groups=0-Z1MxM8L&groups=1-1pz0Cl-14&measure=1e64mv",
+          url: "/visualize?measure=Z1LxWvG&groups%5B0%5D=Z1tpPKe%7C0&groups%5B1%5D=2pvOai%7C0%7C1400&time=2017",
           image: "/api/profile/geo/washington-dc/thumb",
           new: false
         },
         {
           title: "Opioid Deaths by County",
-          url: "/visualize?enlarged=s-geomap-QuaqK&groups=0-QuaqK&measure=2sUCF4",
+          url: "/visualize?measure=Z2kiFFG&groups%5B0%5D=Z2dgJDo%7C0",
           image: "/api/profile/cip/pharmacology/thumb",
           new: false
         },
         {
           title: "Admissions for Universities in the Boston Metro Area",
-          url: "/visualize?groups=0-1CdfJW&groups=1-1YEWx6-31000US14460&measure=Z1GSog1",
+          url: "/visualize?measure=Z1rjtkk&groups%5B0%5D=Z2tV9Ui%7C0&groups%5B1%5D=ZuCNTF%7C0%7C31000US14460&time=2017",
           image: "/api/profile/geo/boston-cambridge-newton-ma-nh/thumb",
           new: false
         },
         {
-          title: "Coal Mining Workers by State",
-          url: "/visualize?filters=0-Z2nLcvC-5-5&filters=1-1qWfo-4-2000&groups=0-z9TnC&groups=1-1mjmRl-2121&measure=1qWfo",
-          image: "/api/profile/naics/mining-quarrying-oil-gas-extraction/thumb",
+          title: "Default Rate by State",
+          url: "/visualize?measure=UULi4&groups%5B0%5D=4Pksr%7C0&time=2016",
+          image: "/api/profile/soc/434131/thumb",
           new: false
         },
         {
           title: "Foreign-Born Citizens by State",
           url: "/visualize?groups=0-TBhjH&measure=64auG",
-          image: "/api/profile/cip/regional-studies-us-canadian-foreign/thumb",
+          image: "/visualize?measure=Z1qIz4e&groups%5B0%5D=Z2pfmiM%7C0",
           new: false
         }
       ]
