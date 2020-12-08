@@ -202,6 +202,9 @@
                 margin-bottom: 3px;
                 padding: 0 8px;
               }
+              & .bp3-tag > .bp3-text-overflow-ellipsis {
+                white-space: normal;
+              }
             }
             & > span {
               background-color: #eee;
