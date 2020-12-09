@@ -53,8 +53,8 @@ module.exports = function(app) {
         },
         {
           title: "Foreign-Born Citizens by State",
-          url: "/visualize?groups=0-TBhjH&measure=64auG",
-          image: "/visualize?measure=Z1qIz4e&groups%5B0%5D=Z2pfmiM%7C0",
+          url: "/visualize?measure=Z1qIz4e&groups%5B0%5D=Z2pfmiM%7C0",
+          image: "/api/profile/cip/regional-studies-us-canadian-foreign/thumb",
           new: false
         }
       ]
