@@ -46,7 +46,7 @@ const db = new Sequelize(dbName, dbUser, dbPw,
   }
 );
 
-const dbFolder = path.join(__dirname, "../db/");
+const dbFolder = path.join(__dirname, "../node_modules/@datawheel/canon-cms/src/db/");
 fs.readdirSync(dbFolder)
   .filter(file => file && file.indexOf(".") !== 0)
   .forEach(file => {
@@ -91,7 +91,7 @@ function fetchImage(row) {
       tableRow.author = photo.owner.realname || photo.owner.username;
       tableRow.license = parseInt(photo.license, 10);
       if (!validLicenses.includes(tableRow.license)) {
-        return db.images.findOrCreate({where: {url: tableRow.url}, defaults: tableRow});
+        return db.image.findOrCreate({where: {url: tableRow.url}, defaults: tableRow});
       }
       else {
         errors.push(tableRow.url);
