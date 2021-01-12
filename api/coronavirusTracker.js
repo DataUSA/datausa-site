@@ -5,6 +5,7 @@ const {nest} = require("d3-collection");
 const countries = require("countries-list");
 const {divisions} = require("../app/helpers/stateDivisions");
 const d3Merge = require("d3plus-common").merge;
+const csvtojsonV2=require("csvtojson");
 
 /** */
 function smooth(arr, windowSize, getter = value => value, setter) {
@@ -170,6 +171,8 @@ const csvToJson = data => {
   }, []);
 };
 
+let vax = null;
+
 module.exports = function(app) {
   app.get("/api/covid19/employment/(:level/)", async(req, res) => {
     const {level} = req.params;
@@ -193,6 +196,15 @@ module.exports = function(app) {
       }]
     });
   });
+
+  app.get("/api/covid19/vaccinations", async(req, res) => {
+    if (!vax) {
+      const vaxURL = "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.csv";
+      const resp = await axios.get(vaxURL).then(resp => resp.data).catch(() => []);
+      vax = await csvtojsonV2().fromString(resp);
+    }
+    return res.json(vax);
+  })
 
   app.get("/api/covid19/country", async(req, res) => {
     const origin = `${ req.protocol }://${ req.headers.host }`;

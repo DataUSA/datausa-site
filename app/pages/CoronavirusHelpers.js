@@ -98,6 +98,12 @@ const googleSource = {
   source_name: "Google LLC <em>\"Google COVID-19 Community Mobility Reports\"</em>&nbsp;"
 };
 
+const owidSource = {
+  dataset_link: "https://github.com/owid/covid-19-data/blob/master/public/data/vaccinations/vaccinations.csv",
+  dataset_name: "COVID-19 (coronavirus) vaccinations dataset",
+  source_name: "Our World In Data"
+};
+
 const kfSource = {
   dataset_link:
     "https://www.kff.org/other/state-indicator/beds-by-ownership/?currentTimeframe=0&selectedDistributions=total&selectedRows=%7B%22states%22:%7B%22all%22:%7B%7D%7D,%22wrapups%22:%7B%22united-states%22:%7B%7D%7D%7D&sortModel=%7B%22colId%22:%22Location%22,%22sort%22:%22asc%22%7D",
@@ -163,6 +169,7 @@ module.exports = {
   kfSource,
   dolSource,
   ahaSource,
+  owidSource,
   pums1Source,
   acs1Source,
   wbSource

@@ -16,7 +16,7 @@ import {scaleLog} from "d3-scale";
 
 import {countries} from "countries-list";
 
-import {stateAbbreviations, stateGrid, colorArray, ctSource, googleSource, kfSource, dolSource, ahaSource, pums1Source, acs1Source, wbSource} from "./CoronavirusHelpers";
+import {stateAbbreviations, stateGrid, colorArray, ctSource, googleSource, kfSource, dolSource, ahaSource, pums1Source, acs1Source, owidSource, wbSource} from "./CoronavirusHelpers";
 
 import styles from "style.yml";
 
@@ -178,7 +178,8 @@ class Coronavirus extends Component {
       stateCutoffData: [],
       tableOrder: "Geography",
       tableSort: "asc",
-      title: "COVID-19 in the United States"
+      title: "COVID-19 in the United States",
+      vaxData: []
     };
   }
 
@@ -196,7 +197,8 @@ class Coronavirus extends Component {
         axios.get("/api/covid19/country"),
         axios.get("/api/covid19/old/state"),
         axios.get("/api/covid19/employment/latest/"),
-        axios.get("/api/covid19/mobility/states")
+        axios.get("/api/covid19/mobility/states"),
+        axios.get("/api/covid19/vaccinations")
       ])
       .then(
         axios.spread((...resp) => {
@@ -288,6 +290,8 @@ class Coronavirus extends Component {
             d => d.Date === mobilityLatestDate
           );
 
+          const vaxData = resp[5].data;
+
           this.setState(
             {
               beds: data.beds,
@@ -300,6 +304,7 @@ class Coronavirus extends Component {
               mobilityLatestDate,
               pops: resp[0].data.population,
               stateTestData,
+              vaxData,
               employmentData: employmentData.concat(employmentTotals)
             },
             this.prepData.bind(this)
@@ -546,7 +551,8 @@ class Coronavirus extends Component {
       stateCutoffData,
       tableOrder,
       tableSort,
-      title
+      title,
+      vaxData
     } = this.state;
 
 
@@ -1565,6 +1571,118 @@ class Coronavirus extends Component {
               </div>
             </div>
           </div>
+
+          {/** Vaccinations */}
+
+          <div className="Section coronavirus-section">
+            <h2 className="section-title">
+              <AnchorLink to="vaccinations" id="vaccinations" className="anchor">
+                Vaccinations
+              </AnchorLink>
+            </h2>
+            <div className="section-body">
+              <div className="section-content">
+                <div className="section-description single">
+                  <p>
+                    The Covid-19 Vaccine is being distributed across the world. Follow its completion rate here.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="section-topics">
+              <div className="topic TextViz">
+                <div className="topic-content">
+                  <TopicTitle
+                    slug="vaccinations"
+                    title="Vaccinations"
+                  />
+                  <div className="topic-description">
+                    <p>
+                      Description of Vaccinations goes here
+                    </p>
+                  </div>
+                  <SourceGroup sources={[owidSource]} />
+                </div>
+                <div className="visualization topic-visualization">
+                  {vaxData.length
+                    ? <LinePlot
+                      className="d3plus"
+                      config={assign({}, sharedConfig, {
+                        data: vaxData,
+                        time: "date",
+                        groupBy: "location",
+                        timeline: false,
+                        // title: `Change of ${mobilityType} Mobility`,
+                        /*
+                        tooltipConfig: {
+                          tbody: d => [
+                            [
+                              "Percent Change",
+                              `${d["Percent Change from Baseline"]}%`
+                            ],
+                            ["Date", dateFormat(new Date(d.Date))]
+                          ]
+                        },
+                        */
+                        x: "date",
+                        xConfig: {
+                          tickFormat: dateFormat
+                        },
+                        y: "total_vaccinations",
+                        /*
+                        yConfig: {
+                          tickFormat: d => `${d > 0 ? "+" : ""}${d}%`,
+                          scale: "linear"
+                        }
+                        */
+                      })}
+                    />
+                    :                     <NonIdealState
+                      title="Loading Data..."
+                      icon={<Spinner />}
+                    />
+                  }
+                  <StateSelector />
+                </div>
+                {/* <div className="visualization topic-visualization">
+                  {mobilityData.length
+                    ? <Geomap
+                      className="d3plus"
+                      config={assign({}, geoStateConfig, {
+                        currentStates, // currentState is a no-op key to force a re-render when currentState changes.
+                        colorScale: d => Math.abs(d["Percent Change from Baseline"]),
+                        colorScaleConfig: {
+                          axisConfig: {
+                            tickFormat: d => `${d > 0 ? "-" : ""}${d}%`
+                          },
+                          legendConfig: {
+                            label: d => d.id.replace(" - ", " to ")
+                          }
+                        },
+                        data: mobilityDataLatest.filter(
+                          d => d.Type === mobilityType && d["ID Geography"]
+                        ),
+                        tooltipConfig: {
+                          tbody: d => [
+                            [
+                              "Percent Change",
+                              `${d["Percent Change from Baseline"]}%`
+                            ],
+                            ["Date", dateFormat(new Date(d.Date))]
+                          ]
+                        }
+                      })}
+                    />
+                    :                     <NonIdealState
+                      title="Loading Data..."
+                      icon={<Spinner />}
+                    />
+                  }
+                </div> */}
+              </div>
+            </div>
+          </div>
+
 
           {/** Mobility */}
 
