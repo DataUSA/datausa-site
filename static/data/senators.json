@@ -151,15 +151,19 @@
   },
   {
     "State": "Georgia",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Kelly_Loeffler_%28cropped%29.jpg/95px-Kelly_Loeffler_%28cropped%29.jpg",
-    "Senator": "Kelly Loeffler",
-    "Party": "Republican",
-    "Assumed office": "January 6, 2020",
-    "note": "Appointed to the seat following the resignation of Johnny Isakson.",
-    "Term up": "2020"
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/4/46/Raphael_Warnock_for_Senate_%28cropped%29.jpg",
+    "Senator": "Raphael Warnock",
+    "Party": "Democratic",
+    "Assumed office": "January 20, 2021",
+    "Term up": "2022"
   },
   {
-    "State": "Georgia"
+    "State": "Georgia",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/2/27/Jon_Ossoff_2020_2_%28cropped_2%29.jpg",
+    "Senator": "Jon Ossoff",
+    "Party": "Democratic",
+    "Assumed office": "January 20, 2021",
+    "Term up": "2026"
   },
   {
     "State": "Hawaii",
