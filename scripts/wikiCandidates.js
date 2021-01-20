@@ -53,7 +53,8 @@ async function run() {
         .filter(d => d.nodeType !== 3)
         .forEach((column, i) => {
           const header = headers[i + colOffset]
-            .replace(/<br[^>]*>/g, " ");
+            .replace(/<br[^>]*>/g, " ")
+            .replace(/\<.*$/g, "");
           let data = column;
           while (data.querySelector(".cx-segment") || data.querySelector(".cx-link")) {
             data = data.querySelector(".cx-segment") || data.querySelector(".cx-link");
@@ -69,6 +70,11 @@ async function run() {
           else if (header === "Image") {
             obj[header] = `https:${data.querySelector("img").getAttribute("src")}`;
           }
+          else if (header === "Portrait") {
+            if (data.querySelector("img")) {
+              obj.Image = `https:${data.querySelector("img").getAttribute("src")}`;
+            }
+          }
           else if (header === "Term up") {
             obj[header] = data.innerHTML.slice(0, 4);
           }
@@ -82,7 +88,7 @@ async function run() {
             const ref = JSON.parse(column.querySelector(".mw-ref").getAttribute("data-mw"));
             if (ref.parts && ref.parts[0].template.params["1"]) {
               obj.note = ref.parts[0].template.params["1"]
-                .wt.split("<ref>")[0]
+                .wt.replace(/\<.*$/g, "")
                 .replace(/\[\[/g, "")
                 .replace(/\]\]/g, "");
             }
