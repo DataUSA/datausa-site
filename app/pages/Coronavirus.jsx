@@ -159,6 +159,7 @@ class Coronavirus extends Component {
       countries: false,
       data: false,
       employmentData: [],
+      herdImmunity: 80,
       stateTestData: [],
       date: false,
       icu: [],
@@ -168,6 +169,7 @@ class Coronavirus extends Component {
       mobilityLatestDate: "",
       mobilityType: "Workplaces",
       pops: [],
+      sampleSize: 5,
       scale: "log",
       sliderConfig: {
         min: 10,
@@ -179,7 +181,8 @@ class Coronavirus extends Component {
       tableOrder: "Geography",
       tableSort: "asc",
       title: "COVID-19 in the United States",
-      vaxData: []
+      vaxData: [],
+      vaxCountry: "United States"
     };
   }
 
@@ -539,6 +542,7 @@ class Coronavirus extends Component {
       currentStates,
       currentStatesHash,
       employmentData,
+      herdImmunity,
       mobilityData,
       // mobilityDataLatest,
       mobilityType,
@@ -546,15 +550,16 @@ class Coronavirus extends Component {
       // measure,
       icu,
       pops,
+      sampleSize,
       scale,
       sliderConfig,
       stateCutoffData,
       tableOrder,
       tableSort,
       title,
-      vaxData
+      vaxData,
+      vaxCountry
     } = this.state;
-
 
     const onlyNational = currentStates.find(d => d["ID Geography"] === "01000US") && currentStates.length === 1;
 
@@ -1279,6 +1284,18 @@ class Coronavirus extends Component {
         return tableSort === "asc" ? a[tableOrder] - b[tableOrder] : b[tableOrder] - a[tableOrder];
       });
 
+    const recentDailies = vaxData
+      .filter(d => d.location === vaxCountry)
+      .sort((a, b) => new Date(a.Date) - new Date(b.Date))
+      .map(d => d.total_vaccinations_per_hundred)
+      .slice(-1 * sampleSize);
+
+    const velocity = (recentDailies[recentDailies.length - 1] - recentDailies[0]) / sampleSize / 2;
+    const latestVax = recentDailies[recentDailies.length - 1];
+    const dayCount = (herdImmunity - latestVax) / velocity;
+    const now = new Date();
+    now.setDate(now.getDate() + dayCount);
+
     return (
       <div id="Coronavirus">
         <Helmet title={title}>
@@ -1596,10 +1613,47 @@ class Coronavirus extends Component {
                     slug="vaccinations"
                     title="Vaccinations"
                   />
+                  <div className="splash-columns" style={{color: "black"}}>
+                   <p>The CDC has predicted that a vaccination coverage of 70-90% will be needed to reach herd immunity for COVID-19. The velocity of vaccinations changes daily, but
+                         sample of recent days can aid in predictions. Use sliders below to find when a given country will reach a target level of herd immunity. </p>
+                  </div>
+                  <div className="bp3-select">
+                      <label className="bp3-label bp3-inline">
+                          Country
+                          <select
+                            onChange={e => this.setState({vaxCountry: e.target.value})}
+                            value={vaxCountry}
+                          >
+                            <option>United States</option>
+                            <option>Germany</option>
+                            <option>France</option>
+                          </select>
+                        </label>
+                    </div>
                   <div className="topic-description">
-                    <p>
-                      Description of Vaccinations goes here
-                    </p>
+                    Target Immunity
+                    <UncontrolledSlider
+                      initialValue={herdImmunity}
+                      min={70}
+                      max={90}
+                      labelStepSize={5}
+                      onRelease={e => this.setState({herdImmunity: e})}
+                    />
+                  </div>
+                  <div className="topic-description">
+                    Sample Days for Prediction
+                    <UncontrolledSlider
+                      initialValue={sampleSize}
+                      min={3}
+                      max={7}
+                      labelStepSize={1}
+                      onRelease={e => this.setState({sampleSize: e})}
+                    />
+                  </div>
+                  <div className="splash-columns" style={{color: "black"}}>
+                    <p>As of {new Date().toDateString()}, {vaxCountry} has fully vaccinated {latestVax}% of their population.</p>
+                    <p>Over the last {sampleSize} days, {vaxCountry} has fully vaccinated an average of {velocity.toFixed(2)}% of its population per day.</p>
+                    <p>At this rate, {vaxCountry} will reach a herd immunity target of {herdImmunity}%, by <strong>{now.toDateString()}</strong></p>
                   </div>
                   <SourceGroup sources={[owidSource]} />
                 </div>
@@ -1607,35 +1661,30 @@ class Coronavirus extends Component {
                   {vaxData.length
                     ? <LinePlot
                       className="d3plus"
-                      config={assign({}, sharedConfig, {
+                      config={{
                         data: vaxData,
-                        time: "date",
+                        time: "Date",
                         groupBy: "location",
                         timeline: false,
                         // title: `Change of ${mobilityType} Mobility`,
-                        /*
                         tooltipConfig: {
                           tbody: d => [
-                            [
-                              "Percent Change",
-                              `${d["Percent Change from Baseline"]}%`
-                            ],
+                            ["Total Vaccinations Per Hundred", formatAbbreviate(d.total_vaccinations_per_hundred)],
+                            ["Total Vaccinations", formatAbbreviate(d.total_vaccinations)],
                             ["Date", dateFormat(new Date(d.Date))]
                           ]
                         },
-                        */
-                        x: "date",
+                        x: "Date",
+                        /*
                         xConfig: {
                           tickFormat: dateFormat
                         },
-                        y: "total_vaccinations",
-                        /*
+                        */
+                        y: "total_vaccinations_per_hundred",
                         yConfig: {
-                          tickFormat: d => `${d > 0 ? "+" : ""}${d}%`,
                           scale: "linear"
                         }
-                        */
-                      })}
+                      }}
                     />
                     :                     <NonIdealState
                       title="Loading Data..."

@@ -202,9 +202,16 @@ module.exports = function(app) {
       const vaxURL = "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.csv";
       const resp = await axios.get(vaxURL).then(resp => resp.data).catch(() => []);
       vax = await csvtojsonV2().fromString(resp);
+      vax = vax.filter(d => d.total_vaccinations !== "");
+      vax.forEach(d => {
+        const {location, iso_code, date, ...rest} = d;
+        Object.keys(rest).forEach(k => d[k] = Number(d[k]));
+        d.Date = d.date;
+        delete d.date;
+      })
     }
     return res.json(vax);
-  })
+  });
 
   app.get("/api/covid19/country", async(req, res) => {
     const origin = `${ req.protocol }://${ req.headers.host }`;
