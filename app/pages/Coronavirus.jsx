@@ -182,7 +182,8 @@ class Coronavirus extends Component {
       tableSort: "asc",
       title: "COVID-19 in the United States",
       vaxData: [],
-      vaxCountry: "United States"
+      vaxCountry: "United States",
+      vaxCountries: []
     };
   }
 
@@ -294,6 +295,7 @@ class Coronavirus extends Component {
           );
 
           const vaxData = resp[5].data;
+          const vaxCountries = [...new Set(vaxData.map(d => d.location))];
 
           this.setState(
             {
@@ -307,6 +309,7 @@ class Coronavirus extends Component {
               mobilityLatestDate,
               pops: resp[0].data.population,
               stateTestData,
+              vaxCountries,
               vaxData,
               employmentData: employmentData.concat(employmentTotals)
             },
@@ -558,7 +561,8 @@ class Coronavirus extends Component {
       tableSort,
       title,
       vaxData,
-      vaxCountry
+      vaxCountry,
+      vaxCountries
     } = this.state;
 
     const onlyNational = currentStates.find(d => d["ID Geography"] === "01000US") && currentStates.length === 1;
@@ -831,6 +835,14 @@ class Coronavirus extends Component {
     stats.totalPositivePercent = `${formatAbbreviate(
       totalPositive / totalTests * 100
     )}% Tested Positive`;
+
+    const usaVax = vaxData.filter(d => d.location === "United States");
+    if (usaVax.length) {
+      const vaxLatest = usaVax[usaVax.length - 1];
+      stats.vaxTotalDoses = formatAbbreviate(vaxLatest.total_vaccinations);
+      stats.vaxTotalVax = formatAbbreviate(vaxLatest.people_fully_vaccinated);
+      stats.vaxTotalVaxPercent = `${vaxLatest.people_fully_vaccinated_per_hundred}%`;
+    }
 
     // topic stats
     const topicStats = {};
@@ -1380,6 +1392,27 @@ class Coronavirus extends Component {
                   {show ? stats.totalPositivePercent : "Tested Positive"}
                 </div>
               </div>
+              <div className="Stat large-text">
+                <div className="stat-title">Vaccination Doses Administered</div>
+                <div className="stat-value">
+                  {show ? stats.vaxTotalDoses : <Spinner />}
+                </div>
+                <div className="stat-subtitle">in the USA (single doses)</div>
+              </div>
+              <div className="Stat large-text">
+                <div className="stat-title">People Fully Vaccinated</div>
+                <div className="stat-value">
+                  {show ? stats.vaxTotalVax : <Spinner />}
+                </div>
+                <div className="stat-subtitle">in the USA</div>
+              </div>
+              <div className="Stat large-text">
+                <div className="stat-title">Fully Vaccinated</div>
+                <div className="stat-value">
+                  {show ? stats.vaxTotalVaxPercent : <Spinner />}
+                </div>
+                <div className="stat-subtitle">in the USA</div>
+              </div>
             </div>
           </div>
           <div className="splash-columns">
@@ -1399,6 +1432,7 @@ class Coronavirus extends Component {
           </div>
           <div className="profile-sections">
             <SectionIcon slug="cases" title="Confirmed Cases by State" />
+            <SectionIcon slug="vaccinations" title="Vaccinations" />
             <SectionIcon slug="mobility" title="Mobility" />
             <SectionIcon slug="economy" title="Economic Impact" />
             <SectionIcon slug="risks" title="Risks and Readiness" />
@@ -1617,45 +1651,47 @@ class Coronavirus extends Component {
                    <p>The CDC has predicted that a vaccination coverage of 70-90% will be needed to reach herd immunity for COVID-19. The velocity of vaccinations changes daily, but
                          sample of recent days can aid in predictions. Use sliders below to find when a given country will reach a target level of herd immunity. </p>
                   </div>
-                  <div className="bp3-select">
+                  {vaxData.length && <div>
+                    <div className="bp3-select">
                       <label className="bp3-label bp3-inline">
-                          Country
-                          <select
-                            onChange={e => this.setState({vaxCountry: e.target.value})}
-                            value={vaxCountry}
-                          >
-                            <option>United States</option>
-                            <option>Germany</option>
-                            <option>France</option>
-                          </select>
-                        </label>
+                        Country
+                        <select
+                          onChange={e => this.setState({vaxCountry: e.target.value})}
+                          value={vaxCountry}
+                        >
+                          {vaxCountries.map(d => <option>{d}</option>)}
+                        </select>
+                      </label>
                     </div>
-                  <div className="topic-description">
-                    Target Immunity
-                    <UncontrolledSlider
-                      initialValue={herdImmunity}
-                      min={70}
-                      max={90}
-                      labelStepSize={5}
-                      onRelease={e => this.setState({herdImmunity: e})}
-                    />
+                    <div className="topic-description">
+                      Target Immunity
+                      <UncontrolledSlider
+                        initialValue={herdImmunity}
+                        min={70}
+                        max={90}
+                        labelRenderer={d => `${d}%`}
+                        labelStepSize={5}
+                        onRelease={e => this.setState({herdImmunity: e})}
+                      />
+                    </div>
+                    <div className="topic-description">
+                      Sample Days for Prediction
+                      <UncontrolledSlider
+                        initialValue={sampleSize}
+                        min={3}
+                        max={7}
+                        labelStepSize={1}
+                        onRelease={e => this.setState({sampleSize: e})}
+                      />
+                    </div>
+                    <div className="splash-columns" style={{color: "black"}}>
+                      <p>As of {new Date().toDateString()}, {vaxCountry} has fully vaccinated <strong>{latestVax}%</strong> of their population.</p>
+                      <p>Over the last <strong>{sampleSize}</strong> days, {vaxCountry} has fully vaccinated an average of <strong>{velocity.toFixed(2)}%</strong> of its population per day.</p>
+                      <p>At this rate, {vaxCountry} will reach a herd immunity target of <strong>{herdImmunity}%</strong> by <strong>{now.toDateString()}</strong></p>
+                    </div>
+                    <SourceGroup sources={[owidSource]} />
                   </div>
-                  <div className="topic-description">
-                    Sample Days for Prediction
-                    <UncontrolledSlider
-                      initialValue={sampleSize}
-                      min={3}
-                      max={7}
-                      labelStepSize={1}
-                      onRelease={e => this.setState({sampleSize: e})}
-                    />
-                  </div>
-                  <div className="splash-columns" style={{color: "black"}}>
-                    <p>As of {new Date().toDateString()}, {vaxCountry} has fully vaccinated {latestVax}% of their population.</p>
-                    <p>Over the last {sampleSize} days, {vaxCountry} has fully vaccinated an average of {velocity.toFixed(2)}% of its population per day.</p>
-                    <p>At this rate, {vaxCountry} will reach a herd immunity target of {herdImmunity}%, by <strong>{now.toDateString()}</strong></p>
-                  </div>
-                  <SourceGroup sources={[owidSource]} />
+                  }
                 </div>
                 <div className="visualization topic-visualization">
                   {vaxData.length
@@ -1693,41 +1729,6 @@ class Coronavirus extends Component {
                   }
                   <StateSelector />
                 </div>
-                {/* <div className="visualization topic-visualization">
-                  {mobilityData.length
-                    ? <Geomap
-                      className="d3plus"
-                      config={assign({}, geoStateConfig, {
-                        currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-                        colorScale: d => Math.abs(d["Percent Change from Baseline"]),
-                        colorScaleConfig: {
-                          axisConfig: {
-                            tickFormat: d => `${d > 0 ? "-" : ""}${d}%`
-                          },
-                          legendConfig: {
-                            label: d => d.id.replace(" - ", " to ")
-                          }
-                        },
-                        data: mobilityDataLatest.filter(
-                          d => d.Type === mobilityType && d["ID Geography"]
-                        ),
-                        tooltipConfig: {
-                          tbody: d => [
-                            [
-                              "Percent Change",
-                              `${d["Percent Change from Baseline"]}%`
-                            ],
-                            ["Date", dateFormat(new Date(d.Date))]
-                          ]
-                        }
-                      })}
-                    />
-                    :                     <NonIdealState
-                      title="Loading Data..."
-                      icon={<Spinner />}
-                    />
-                  }
-                </div> */}
               </div>
             </div>
           </div>
