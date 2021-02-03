@@ -1296,15 +1296,19 @@ class Coronavirus extends Component {
         return tableSort === "asc" ? a[tableOrder] - b[tableOrder] : b[tableOrder] - a[tableOrder];
       });
 
-    const recentDailies = vaxData
+    const vaxList = vaxData
       .filter(d => d.location === vaxCountry)
       .sort((a, b) => new Date(a.Date) - new Date(b.Date))
+
+    const recentDailies = vaxList
       .map(d => d.total_vaccinations_per_hundred)
       .slice(-1 * sampleSize);
 
+    const fullyVax = vaxList[vaxList.length - 1] ? vaxList[vaxList.length - 1].people_fully_vaccinated_per_hundred : 0;
+
     const velocity = (recentDailies[recentDailies.length - 1] - recentDailies[0]) / sampleSize / 2;
     const latestVax = recentDailies[recentDailies.length - 1];
-    const dayCount = (herdImmunity - latestVax) / velocity;
+    const dayCount = (herdImmunity - fullyVax) / velocity;
     const now = new Date();
     now.setDate(now.getDate() + dayCount);
 
@@ -1685,7 +1689,7 @@ class Coronavirus extends Component {
                       />
                     </div>
                     <div className="splash-columns" style={{color: "black"}}>
-                      <p>As of {new Date().toDateString()}, {vaxCountry} has fully vaccinated <strong>{latestVax}%</strong> of their population.</p>
+                      <p>As of {new Date().toDateString()}, {vaxCountry} has fully vaccinated <strong>{fullyVax}%</strong> of their population.</p>
                       <p>Over the last <strong>{sampleSize}</strong> days, {vaxCountry} has fully vaccinated an average of <strong>{velocity.toFixed(2)}%</strong> of its population per day.</p>
                       <p>At this rate, {vaxCountry} will reach a herd immunity target of <strong>{herdImmunity}%</strong> by <strong>{now.toDateString()}</strong></p>
                     </div>
