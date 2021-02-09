@@ -159,7 +159,7 @@ class Coronavirus extends Component {
       countries: false,
       data: false,
       employmentData: [],
-      herdImmunity: 80,
+      herdImmunity: 70,
       stateTestData: [],
       date: false,
       icu: [],
@@ -1651,14 +1651,15 @@ class Coronavirus extends Component {
                     slug="vaccinations"
                     title="Vaccinations"
                   />
+                  <AxisToggle />
                   <div className="splash-columns" style={{color: "black"}}>
-                   <p>The CDC has predicted that a vaccination coverage of 70-90% will be needed to reach herd immunity for COVID-19. The velocity of vaccinations changes daily, but
+                   <p>The WHO has predicted that a vaccination coverage of 60-70% will be needed to reach herd immunity for COVID-19. The velocity of vaccinations changes daily, but
                          sample of recent days can aid in predictions. Use sliders below to find when a given country will reach a target level of herd immunity. </p>
                   </div>
                   {vaxData.length && <div>
                     <div className="bp3-select">
                       <label className="bp3-label bp3-inline">
-                        Country
+                        Countries
                         <select
                           onChange={e => this.setState({vaxCountry: e.target.value})}
                           value={vaxCountry}
@@ -1671,8 +1672,8 @@ class Coronavirus extends Component {
                       Target Immunity
                       <UncontrolledSlider
                         initialValue={herdImmunity}
-                        min={70}
-                        max={90}
+                        min={60}
+                        max={80}
                         labelRenderer={d => `${d}%`}
                         labelStepSize={5}
                         onRelease={e => this.setState({herdImmunity: e})}
@@ -1722,7 +1723,7 @@ class Coronavirus extends Component {
                         */
                         y: "total_vaccinations_per_hundred",
                         yConfig: {
-                          scale: "linear"
+                          scale
                         }
                       }}
                     />
