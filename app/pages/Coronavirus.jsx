@@ -1710,20 +1710,19 @@ class Coronavirus extends Component {
                         // title: `Change of ${mobilityType} Mobility`,
                         tooltipConfig: {
                           tbody: d => [
-                            ["Total Vaccinations Per Hundred", formatAbbreviate(d.total_vaccinations_per_hundred)],
+                            ["Total Vaccinations Per Hundred", formatAbbreviate(d.people_fully_vaccinated_per_hundred)],
                             ["Total Vaccinations", formatAbbreviate(d.total_vaccinations)],
                             ["Date", dateFormat(new Date(d.Date))]
                           ]
                         },
                         x: "Date",
-                        /*
                         xConfig: {
-                          tickFormat: dateFormat
+                          title: "Date"
                         },
-                        */
-                        y: "total_vaccinations_per_hundred",
+                        y: "people_fully_vaccinated_per_hundred",
                         yConfig: {
-                          scale
+                          scale,
+                          title: "People Fully Vaccinated Per Hundred",
                         }
                       }}
                     />
