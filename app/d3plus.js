@@ -76,8 +76,15 @@ function findColor(d) {
   }
   if (detectedColors.length !== 1) {
     for (const key in colors) {
+      // Mondrian-Only
       if (`ID ${key}` in d) {
         const color = colors[key][`${d[`ID ${key}`]}`] || colors[key][`${d[key]}`];
+        if (color) return color;
+        else continue;
+      }
+      // Tesseract-Only
+      else if (`${key} ID` in d) {
+        const color = colors[key][`${d[`${key} ID`]}`] || colors[key][`${d[key]}`];
         if (color) return color;
         else continue;
       }
@@ -216,6 +223,10 @@ export default {
     },
     Line: {
       curve: "monotoneX",
+      labelConfig: {
+        fontFamily: () => pathway,
+        fontSize: () => 12
+      },
       stroke: findColor,
       strokeWidth: 3,
       strokeLinecap: "round"
