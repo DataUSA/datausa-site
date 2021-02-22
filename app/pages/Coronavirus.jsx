@@ -27,6 +27,19 @@ const countryMeta = Object.keys(countries).reduce((obj, key) => {
   return obj;
 }, {});
 
+const blsIndustries = {
+  "15": "Mining, Logging, and Construction",
+  "30": "Manufacturing",
+  "40": "Trade, Transportation, and Utilities",
+  "50": "Information",
+  "55": "Financial Activities",
+  "60": "Professional and Business Services",
+  "65": "Education and Health Services",
+  "70": "Leisure and Hospitality",
+  "80": "Other Services",
+  "90": "Government"
+};
+
 const d3Commas = format(",");
 const commas = d => d > 999999 ? formatAbbreviate(d) : d3Commas(d);
 
@@ -67,6 +80,8 @@ const weekFormat = d =>
     const n = parseFloat(m, 10);
     return ` ${n}${suffix(n)},`;
   });
+
+const monthFormat = timeFormat("%B %Y");
 const yearFormat = timeFormat("%Y");
 
 import {colorLegible} from "d3plus-color";
@@ -159,10 +174,14 @@ class Coronavirus extends Component {
       countries: false,
       data: false,
       employmentData: [],
+      employmentBySector: [],
+      employmentByState: [],
+      employmentSector: "All",
       stateTestData: [],
       date: false,
       icu: [],
       level: "state",
+      loading: true,
       mobilityData: [],
       mobilityDataLatest: [],
       mobilityLatestDate: "",
@@ -190,13 +209,17 @@ class Coronavirus extends Component {
     const {title} = this.state;
     this.props.updateTitle(title);
 
+    const {TESSERACT} = this.props;
+    const employmentBySector = `${TESSERACT}tesseract/data.jsonrecords?cube=BLS Employment - Supersector Only&drilldowns=Month of Year,Supersector&measures=NSA Employees,SA Employees`;
+
     axios
       .all([
         axios.get("/api/covid19/states"),
         axios.get("/api/covid19/country"),
         axios.get("/api/covid19/old/state"),
         axios.get("/api/covid19/employment/latest/"),
-        axios.get("/api/covid19/mobility/states")
+        axios.get("/api/covid19/mobility/states"),
+        axios.get(employmentBySector)
       ])
       .then(
         axios.spread((...resp) => {
@@ -288,12 +311,19 @@ class Coronavirus extends Component {
             d => d.Date === mobilityLatestDate
           );
 
+          const employmentBySector = resp[5].data.data.map(d => {
+            d.Date = `${d["Month of Year ID"]}-01`;
+            return d;
+          });
+
           this.setState(
             {
               beds: data.beds,
               countryCases,
               currentStates,
               currentStatesHash,
+              employmentBySector,
+              employmentSource: resp[5].data.source,
               icu: icuData,
               mobilityData,
               mobilityDataLatest,
@@ -302,7 +332,10 @@ class Coronavirus extends Component {
               stateTestData,
               employmentData: employmentData.concat(employmentTotals)
             },
-            this.prepData.bind(this)
+            () => {
+              this.prepData.bind(this)();
+              this.fetchData.bind(this)();
+            }
           );
         })
       )
@@ -510,7 +543,7 @@ class Coronavirus extends Component {
       this.setState({
         currentStates: newCurrentStates,
         currentStatesHash: newCurrentStatesHash
-      });
+      }, this.fetchData.bind(this));
     }
   }
 
@@ -518,6 +551,51 @@ class Coronavirus extends Component {
     const {tableOrder, tableSort} = this.state;
     if (column === tableOrder) this.setState({tableSort: tableSort === "asc" ? "desc" : "asc"});
     else this.setState({tableOrder: column, tableSort: "desc"});
+  }
+
+  fetchData() {
+
+    const {currentStates, employmentSector} = this.state;
+    const {TESSERACT} = this.props;
+
+    if (!this.state.loading) this.setState({loading: true});
+
+    const states = currentStates
+      .map(d => d["ID Geography"])
+      .filter(d => d.indexOf("04000US") === 0).
+      join(",");
+
+    let employmentByStateURL = `${TESSERACT}tesseract/data.jsonrecords?cube=BLS Employment - Supersector Only&drilldowns=Month of Year,State&measures=NSA Employees,SA Employees`;
+    if (states.length) employmentByStateURL += `&State=${states}`;
+    if (employmentSector !== "All") employmentByStateURL += `&Supersector=${employmentSector}`;
+
+    axios
+      .all([
+        axios.get(encodeURI(employmentByStateURL)).then(r => r.data)
+      ])
+      .then(axios.spread((...resp) => {
+
+        const employmentByState = resp[0].data
+          .map(d => {
+            d.Date = `${d["Month of Year ID"]}-01`;
+            if (d.State) {
+              d.Geography = d.State;
+              d["ID Geography"] = d["State ID"];
+              delete d.State;
+              delete d["State ID"];
+            }
+            else {
+              d["ID Geography"] = "01000US";
+              d.Geography = "United States";
+            }
+            return d;
+          });
+
+        this.setState({
+          employmentByState,
+          loading: false
+        });
+      }));
   }
 
   render() {
@@ -533,12 +611,17 @@ class Coronavirus extends Component {
       currentCaseSmooth,
       currentStates,
       currentStatesHash,
+      employmentBySector,
+      employmentByState,
+      employmentSource,
+      employmentSector,
       employmentData,
       mobilityData,
       // mobilityDataLatest,
       mobilityType,
       stateTestData,
       // measure,
+      loading,
       icu,
       pops,
       scale,
@@ -574,6 +657,7 @@ class Coronavirus extends Component {
     // const scaleLabel = scale === "log" ? "Logarithmic" : "Linear";
 
     const lineColor = d => {
+      if (!d.Geography && d.Supersector) return colors.Supersector[d["Supersector ID"]];
       if (d.Region === "International") return "#ccc";
       if (currentStates.length === 1) return colorArray[0];
       if (d["ID Geography"] === "01000US") return "#aaa";
@@ -595,12 +679,12 @@ class Coronavirus extends Component {
       groupBy: ["ID Region", "ID Geography"],
       height: 500,
       label: smallLabels
-        ? d =>
+        ? d => !d.Geography && d.Supersector ? d.Supersector :
           stateAbbreviations[d.Geography] ||
             (countryMeta[d.Geography] && d.Geography !== "United States"
               ? countryMeta[d.Geography].emoji
               : d.Geography)
-        : d =>
+        : d => !d.Geography && d.Supersector ? d.Supersector :
           d["ID Region"] === 6
             ? `${countryMeta[d.Geography] ? countryMeta[d.Geography].emoji : ""}${d.Geography}`
             : d.Geography,
@@ -621,7 +705,8 @@ class Coronavirus extends Component {
           if (d["ID Geography"] instanceof Array) {
             this.hover(h => (h.data || h)["ID Region"] === d["ID Region"]);
           }
-          else this.hover(h => h["ID Geography"] === d["ID Geography"]);
+          else if (d.Geography) this.hover(h => h["ID Geography"] === d["ID Geography"]);
+          else if (d.Supersector) this.hover(h => h["Supersector ID"] === d["Supersector ID"]);
         }
       },
       lineLabels: true,
@@ -654,7 +739,7 @@ class Coronavirus extends Component {
           if (d.initial_claims !== undefined) arr.push(["Initial Claims", formatAbbreviate(d.initial_claims)]);
           return arr;
         },
-        title: d =>
+        title: d => !d.Geography && d.Supersector ? d.Supersector :
           d["ID Region"] === 6
             ? `${countryMeta[d.Geography] ? countryMeta[d.Geography].emoji : ""}${d.Geography}`
             : d.Geography,
@@ -727,6 +812,12 @@ class Coronavirus extends Component {
       employmentDataFiltered.filter(d => d.Date >= employmentDate && d["ID Geography"] !== "01000US"),
       d => d.initial_claims
     );
+
+    const marchJobs = sum(employmentByState.filter(d => d.Date === "2020-03-01"), d => d["NSA Employees"]);
+    const aprilJobs = sum(employmentByState.filter(d => d.Date === "2020-04-01"), d => d["NSA Employees"]);
+
+    const marchJobsNation = sum(employmentBySector.filter(d => d.Date === "2020-03-01"), d => d["NSA Employees"]);
+    const aprilJobsNation = sum(employmentBySector.filter(d => d.Date === "2020-04-01"), d => d["NSA Employees"]);
 
     const StateSelector = () =>
       <AnchorLink to="cases" className="topic-subtitle">
@@ -1376,8 +1467,8 @@ class Coronavirus extends Component {
           </div>
           <div className="profile-sections">
             <SectionIcon slug="cases" title="Confirmed Cases by State" />
-            <SectionIcon slug="mobility" title="Mobility" />
             <SectionIcon slug="economy" title="Economic Impact" />
+            <SectionIcon slug="mobility" title="Mobility" />
             <SectionIcon slug="risks" title="Risks and Readiness" />
             <SectionIcon slug="faqs" title="FAQs" />
           </div>
@@ -1566,6 +1657,270 @@ class Coronavirus extends Component {
             </div>
           </div>
 
+          {/* Economic Impact */}
+
+          <div className="Section coronavirus-section">
+            <h2 className="section-title">
+              <AnchorLink to="economy" id="economy" className="anchor">
+                Economic Impact
+              </AnchorLink>
+            </h2>
+            <div className="section-topics">
+              <div className="topic TextViz">
+                <div className="topic-content">
+                  <h3 id="growth-daily" className="topic-title">
+                    <AnchorLink to="economic-weekly" className="anchor">
+                      Unemployment Insurance Claims
+                    </AnchorLink>
+                  </h3>
+                  <div className="topic-subtitle">
+                    Initial unemployment insurance claim numbers are not seasonally
+                    adjusted.
+                  </div>
+                  <AxisToggle />
+                  <div className="topic-stats">
+                    <div className="StatGroup single">
+                      <div className="stat-value">
+                        {show ? formatAbbreviate(employmentStat) : <Spinner />}
+                      </div>
+                      <div className="stat-title">
+                        Initial unemployment insurance claims in the United States
+                      </div>
+                      <div className="stat-subtitle">
+                        {show
+                          ? `since the week ending ${dayFormat(employmentDate)}`
+                          : ""}
+                      </div>
+                    </div>
+                    { !onlyNational
+                      ? <div className="StatGroup single">
+                        <div className="stat-value">
+                          {show
+                            ? formatAbbreviate(employmentStatStates)
+                            : <Spinner />
+                          }
+                        </div>
+                        <div className="stat-title">
+                        Initial Unemployment insurance claims in{" "}
+                          {list(currentStates.filter(d => d["ID Geography"] !== "01000US").map(o => o.Geography))}
+                        </div>
+                        <div className="stat-subtitle">
+                          {show
+                            ? `since the week ending ${dayFormat(employmentDate)}`
+                            : ""}
+                        </div>
+                      </div>
+                      : null }
+                  </div>
+                  <div className="topic-description">
+                    <p>
+                      Since new claims for unemployment insurance began to spike the week ending on {dayFormat(employmentDate)}, there have been over {formatAbbreviate(employmentStat)} initial claims filed.
+                    </p>
+                    <p>
+                      This chart shows weekly initial unemployment insurance claims in
+                      the United States (not-seasonally adjusted). The most
+                      recent data point uses Advance State Claims data, which
+                      can be revised in subsequent weeks.
+                    </p>
+                  </div>
+                  <div className="SourceGroup">
+                    For more information about the difference between linear and
+                    logarithmic scale,{" "}
+                    <AnchorLink to="faqs-growth">click here</AnchorLink>.
+                  </div>
+                  <SourceGroup sources={[dolSource]} />
+                </div>
+                <div className="visualization topic-visualization">
+                  {employmentData.length
+                    ? <LinePlot
+                      className="d3plus"
+                      config={assign({}, sharedConfig, {
+                        data: employmentDataFiltered,
+                        time: "Date",
+                        timeline: false,
+                        // title: `Initial Unemployment Insurance Claims (${scaleLabel})`,
+                        tooltipConfig: {
+                          tbody: [
+                            ["Week Ending", d => weekFormat(d.Date)],
+                            [
+                              "Initial Claims",
+                              d => formatAbbreviate(d.initial_claims)
+                            ]
+                          ]
+                        },
+                        x: "Date",
+                        y: "initial_claims",
+                        yConfig: {
+                          scale,
+                          tickFormat: formatAbbreviate
+                        }
+                      })}
+                    />
+                    :                     <NonIdealState
+                      title="Loading Data..."
+                      icon={<Spinner />}
+                    />
+                  }
+                  <StateSelector />
+                </div>
+              </div>
+              <div className="topic TextViz">
+                <div className="topic-content">
+                  <h3 id="bls-monthly" className="topic-title">
+                    <AnchorLink to="bls-monthly" className="anchor">
+                      Monthly State Employment
+                    </AnchorLink>
+                  </h3>
+                  {/* <div className="topic-subtitle">
+                    Initial unemployment insurance claim numbers are not seasonally
+                    adjusted.
+                  </div> */}
+
+                  <label className="bp3-label bp3-inline">
+                    Industry Sector
+                    <div className="bp3-select">
+                      <select
+                        onChange={evt => this.setState({employmentSector: evt.target.value}, this.fetchData.bind(this))}
+                        value={employmentSector}
+                      >
+                        <option value="All">All Sectors</option>
+                        { Object.keys(blsIndustries).map(id => <option key={id} value={id}>{blsIndustries[id]}</option>) }
+                      </select>
+                    </div>
+                  </label>
+                  <AxisToggle />
+                  <div className="topic-stats">
+                    <div className="StatGroup single">
+                      <div className="stat-value">
+                        {!loading ? formatAbbreviate(marchJobs - aprilJobs) : <Spinner />}
+                      </div>
+                      <div className="stat-title">
+                        Decrease in employment in {currentStates.filter(d => d["ID Geography"] !== "01000US").length ? list(currentStates.filter(d => d["ID Geography"] !== "01000US").map(o => o.Geography)) : "the United States"}
+                      </div>
+                      <div className="stat-subtitle">
+                        between March and April 2020
+                      </div>
+                    </div>
+                  </div>
+                  <div className="topic-description">
+                    <p>
+                      This chart shows monthly employment numbers in {currentStates.filter(d => d["ID Geography"] !== "01000US").length ? list(currentStates.filter(d => d["ID Geography"] !== "01000US").map(o => o.Geography)) : "the United States"} (not-seasonally adjusted){blsIndustries[employmentSector] ? ` for the ${blsIndustries[employmentSector]} industry sector.` : " across all industry sectors."}
+                    </p>
+                  </div>
+                  <div className="SourceGroup">
+                    For more information about the difference between linear and
+                    logarithmic scale,{" "}
+                    <AnchorLink to="faqs-growth">click here</AnchorLink>.
+                  </div>
+                  {employmentSource && <SourceGroup sources={[employmentSource]} />}
+                </div>
+                <div className="visualization topic-visualization">
+                  {employmentByState.length
+                    ? <LinePlot
+                      className="d3plus"
+                      config={assign({}, sharedConfig, {
+                        data: employmentByState,
+                        time: "Date",
+                        timeline: false,
+                        tooltipConfig: {
+                          tbody: [
+                            ["Month", d => monthFormat(new Date(d.Date))],
+                            [
+                              "Number of Employees",
+                              d => formatAbbreviate(d["NSA Employees"])
+                            ]
+                          ]
+                        },
+                        x: "Date",
+                        y: "NSA Employees",
+                        yConfig: {
+                          scale,
+                          tickFormat: formatAbbreviate
+                        }
+                      })}
+                    />
+                    :                     <NonIdealState
+                      title="Loading Data..."
+                      icon={<Spinner />}
+                    />
+                  }
+                  <StateSelector />
+                </div>
+              </div>
+              <div className="topic TextViz">
+                <div className="topic-content">
+                  <h3 id="bls-monthly" className="topic-title">
+                    <AnchorLink to="bls-monthly" className="anchor">
+                      Monthly Employment by Industry Sector
+                    </AnchorLink>
+                  </h3>
+                  {/* <div className="topic-subtitle">
+                    Initial unemployment insurance claim numbers are not seasonally
+                    adjusted.
+                  </div> */}
+                  <AxisToggle />
+                  <div className="topic-stats">
+                    <div className="StatGroup single">
+                      <div className="stat-value">
+                        {!loading ? formatAbbreviate(marchJobsNation - aprilJobsNation) : <Spinner />}
+                      </div>
+                      <div className="stat-title">
+                        Overall decrease in employment<br />in the United States
+                      </div>
+                      <div className="stat-subtitle">
+                        between March and April 2020
+                      </div>
+                    </div>
+                  </div>
+                  <div className="topic-description">
+                    <p>
+                      This chart shows monthly employment numbers across each industry sector in the United States (not-seasonally adjusted).
+                    </p>
+                  </div>
+                  <div className="SourceGroup">
+                    For more information about the difference between linear and
+                    logarithmic scale,{" "}
+                    <AnchorLink to="faqs-growth">click here</AnchorLink>.
+                  </div>
+                  {employmentSource && <SourceGroup sources={[employmentSource]} />}
+                </div>
+                <div className="visualization topic-visualization">
+                  {employmentBySector.length
+                    ? <LinePlot
+                      className="d3plus"
+                      config={assign({}, sharedConfig, {
+                        data: employmentBySector,
+                        groupBy: "Supersector",
+                        time: "Date",
+                        timeline: false,
+                        tooltipConfig: {
+                          tbody: [
+                            ["Month", d => monthFormat(new Date(d.Date))],
+                            [
+                              "Number of Employees",
+                              d => formatAbbreviate(d["NSA Employees"])
+                            ]
+                          ]
+                        },
+                        x: "Date",
+                        y: "NSA Employees",
+                        yConfig: {
+                          scale,
+                          tickFormat: formatAbbreviate
+                        }
+                      })}
+                    />
+                    :                     <NonIdealState
+                      title="Loading Data..."
+                      icon={<Spinner />}
+                    />
+                  }
+                  <StateSelector />
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/** Mobility */}
 
           <div className="Section coronavirus-section">
@@ -1680,139 +2035,6 @@ class Coronavirus extends Component {
                               `${d["Percent Change from Baseline"]}%`
                             ],
                             ["Date", dateFormat(new Date(d.Date))]
-                          ]
-                        }
-                      })}
-                    />
-                    :                     <NonIdealState
-                      title="Loading Data..."
-                      icon={<Spinner />}
-                    />
-                  }
-                </div> */}
-              </div>
-            </div>
-          </div>
-
-          {/* Economic Impact */}
-
-          <div className="Section coronavirus-section">
-            <h2 className="section-title">
-              <AnchorLink to="economy" id="economy" className="anchor">
-                Economic Impact
-              </AnchorLink>
-            </h2>
-            <div className="section-topics">
-              <div className="topic TextViz">
-                <div className="topic-content">
-                  <h3 id="growth-daily" className="topic-title">
-                    <AnchorLink to="economic-weekly" className="anchor">
-                      Impact on Employment
-                    </AnchorLink>
-                  </h3>
-                  <div className="topic-subtitle">
-                    Initial unemployment insurance claim numbers are not seasonally
-                    adjusted.
-                  </div>
-                  <AxisToggle />
-                  <div className="topic-stats">
-                    <div className="StatGroup single">
-                      <div className="stat-value">
-                        {show ? formatAbbreviate(employmentStat) : <Spinner />}
-                      </div>
-                      <div className="stat-title">
-                        Initial unemployment insurance claims in the United States
-                      </div>
-                      <div className="stat-subtitle">
-                        {show
-                          ? `since the week ending ${dayFormat(employmentDate)}`
-                          : ""}
-                      </div>
-                    </div>
-                    { !onlyNational
-                      ? <div className="StatGroup single">
-                        <div className="stat-value">
-                          {show
-                            ? formatAbbreviate(employmentStatStates)
-                            : <Spinner />
-                          }
-                        </div>
-                        <div className="stat-title">
-                        Initial Unemployment insurance claims in{" "}
-                          {list(currentStates.filter(d => d["ID Geography"] !== "01000US").map(o => o.Geography))}
-                        </div>
-                        <div className="stat-subtitle">
-                          {show
-                            ? `since the week ending ${dayFormat(employmentDate)}`
-                            : ""}
-                        </div>
-                      </div>
-                      : null }
-                  </div>
-                  <div className="topic-description">
-                    <p>
-                      Since new claims for unemployment insurance began to spike the week ending on {dayFormat(employmentDate)}, there have been over {formatAbbreviate(employmentStat)} initial claims filed.
-                    </p>
-                    <p>
-                      This chart shows weekly initial unemployment insurance claims in
-                      the United States (not-seasonally adjusted). The most
-                      recent data point uses Advance State Claims data, which
-                      can be revised in subsequent weeks.
-                    </p>
-                  </div>
-                  <div className="SourceGroup">
-                    For more information about the difference between linear and
-                    logarithmic scale,{" "}
-                    <AnchorLink to="faqs-growth">click here</AnchorLink>.
-                  </div>
-                  <SourceGroup sources={[dolSource]} />
-                </div>
-                <div className="visualization topic-visualization">
-                  {employmentData.length
-                    ? <LinePlot
-                      className="d3plus"
-                      config={assign({}, sharedConfig, {
-                        data: employmentDataFiltered,
-                        time: "Date",
-                        timeline: false,
-                        // title: `Initial Unemployment Insurance Claims (${scaleLabel})`,
-                        tooltipConfig: {
-                          tbody: [
-                            ["Week Ending", d => weekFormat(d.Date)],
-                            [
-                              "Initial Claims",
-                              d => formatAbbreviate(d.initial_claims)
-                            ]
-                          ]
-                        },
-                        x: "Date",
-                        y: "initial_claims",
-                        yConfig: {
-                          scale,
-                          tickFormat: formatAbbreviate
-                        }
-                      })}
-                    />
-                    :                     <NonIdealState
-                      title="Loading Data..."
-                      icon={<Spinner />}
-                    />
-                  }
-                  <StateSelector />
-                </div>
-                {/* <div className="visualization topic-visualization">
-                  {employmentData.length
-                    ? <Geomap
-                      className="d3plus"
-                      config={assign({}, geoStateConfig, {
-                        currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-                        colorScale: "initial_claims",
-                        data: latestEmploymentData,
-                        tooltipConfig: {
-                          tbody: d => [
-                            ["Date", dateFormat(new Date(d.Date))],
-                            ["Initial Claims", commas(d.initial_claims)],
-                            ["Continued Claims", commas(d.continued_claims)]
                           ]
                         }
                       })}
@@ -2248,7 +2470,7 @@ Coronavirus.contextTypes = {
 };
 
 export default connect(
-  null,
+  state => ({TESSERACT: state.env.TESSERACT}),
   dispatch => ({
     updateTitle: title => dispatch(updateTitle(title))
   })
