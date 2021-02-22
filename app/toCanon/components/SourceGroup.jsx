@@ -6,7 +6,7 @@ import "./SourceGroup.css";
 class SourceGroup extends Component {
 
   render() {
-    const {sources} = this.props;
+    const sources = (this.props.sources || []).filter(Boolean);
     const {pathname} = this.context.router.location;
     const embed = pathname.includes("profile") && pathname.split("/").filter(Boolean).length === 5;
     if (!embed && (!sources || !sources.length)) return null;
