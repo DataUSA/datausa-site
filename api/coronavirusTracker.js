@@ -347,20 +347,21 @@ module.exports = function(app) {
           d.ConfirmedGrowth = raw.positive - prev.positive;
         }
         if (raw.death < prev.death) raw.death = prev.death;
-        if (raw.total < prev.total) raw.total = prev.total;
+        if (raw.totalTestResults < prev.totalTestResults) raw.totalTestResults = prev.totalTestResults;
         if (raw.hospitalized < prev.hospitalized) raw.hospitalized = prev.hospitalized;
         d.DailyDeaths = raw.death - prev.death;
         d.DailyHospitalized = raw.hospitalized - prev.hospitalized;
-        d.DailyTests = raw.total - prev.total;
+        d.DailyTests = raw.totalTestResults - prev.totalTestResults;
       }
 
       d.Confirmed = raw.positive;
-      d.Tests = raw.total;
+      d.Tests = raw.totalTestResults;
       d.Hospitalized = raw.hospitalized;
       d.Deaths = raw.death;
       d.DeathsConfirmed = raw.deathConfirmed;
       d.DeathsProbable = raw.deathProbable;
-      d.PositivePct = raw.positive / raw.total * 100;
+      d.PositivePct = raw.positive / raw.totalTestResults * 100;
+
       d.CurrentlyHospitalized = raw.hospitalizedCurrently;
       d.CurrentlyInICU = raw.inIcuCurrently;
       d.CurrentlyOnVentilator = raw.onVentilatorCurrently;
