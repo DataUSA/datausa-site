@@ -275,11 +275,39 @@ module.exports = function(app) {
       }]});
   });
 
+  let jhCases, jhDeaths;
+
+  app.get("/api/covid19/new", async(req, res) => {
+
+    if (!jhCases) {
+      jhCases = await axios
+        .get("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv")
+        .then(resp => resp.data);
+    }
+
+    if (!jhDeaths) {
+      jhDeaths = await axios
+        .get("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv")
+        .then(resp => resp.data);
+    }
+
+    const jsonCases = csvToJson(jhCases);
+
+    const blacklist = ["Diamond Princess", "Grand Princess", "Guam", "Northern Mariana Islands", "Recovered", "Virgin Islands"];
+
+    const newData = rawData
+      .filter(d => d.country === "US" && !blacklist.includes(d.province))
+
+    return res.json(newData);
+  });
+
   app.get("/api/covid19/states", async(req, res) => {
 
     const rawData = await axios
       .get("https://covidtracking.com/api/v1/states/daily.json")
       .then(resp => resp.data);
+
+    return res.json(rawData.slice(0, 10));
 
     const origin = `${ req.protocol }://${ req.headers.host }`;
     const popData = await axios
