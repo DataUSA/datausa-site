@@ -285,7 +285,7 @@ module.exports = function(app) {
       }]});
   });
 
-  app.get("/api/covid19/new", async(req, res) => {
+  app.get("/api/covid19/statesnew", async(req, res) => {
 
     if (!jhCases) {
       jhCases = await axios
@@ -304,11 +304,11 @@ module.exports = function(app) {
     const blacklist = ["American Samoa", "Diamond Princess", "Grand Princess", "Guam", "Northern Mariana Islands", "Recovered", "Virgin Islands"];
     const stateList = [...new Set(jsonCases.map(d => d.Province_State).filter(d => !blacklist.includes(d)))];
     const {UID, iso2, iso3, code3, FIPS, Admin2, Province_State, Country_Region, Lat, Long_, Combined_Key, ...dates} = jsonCases[0];
-    const dateList = Object.keys(dates);
+    const dateList = Object.keys(dates).reverse();
     const rollup = stateList.reduce((acc, thisState) => {
       const caseCounties = jsonCases.filter(d => d.Province_State === thisState);
       const deathCounties = jsonDeaths.filter(d => d.Province_State === thisState);
-      acc[thisState] = dateList.reduce((acc, date) => ({...acc, [date]: {positive: 0, deaths: 0}}), {});
+      acc[thisState] = dateList.reduce((acc, date) => ({...acc, [date]: {positive: 0, death: 0}}), {});
       caseCounties.forEach(county => {
         dateList.forEach(date => {
           acc[thisState][date].positive += Number(county[date]);
@@ -316,29 +316,171 @@ module.exports = function(app) {
       });
       deathCounties.forEach(county => {
         dateList.forEach(date => {
-          acc[thisState][date].deaths += Number(county[date]);
+          acc[thisState][date].death += Number(county[date]);
         });
       })
       return acc;
     }, {});
 
-    const final = stateList.reduce((acc, state) => {
+    const rawData = stateList.reduce((acc, state) => {
       const thisStateData = rollup[state];
       dateList.forEach(date => {
         acc.push({
           state: reverseStates[state],
           date: dateFormat(date),
           positive: thisStateData[date].positive,
-          deaths: thisStateData[date].deaths
+          death: thisStateData[date].death
         })
       });
       return acc;
     }, [])
 
-    return res.json(final);
+    const origin = `${ req.protocol }://${ req.headers.host }`;
+    const popData = await axios
+      .get(`${origin}/api/data?measures=Population&drilldowns=State&year=latest`)
+      .then(resp => resp.data.data.map(d => {
+        d.Geography = d.State;
+        delete d.State;
+        d["ID Geography"] = d["ID State"];
+        delete d["ID State"];
+        d["Slug Geography"] = d["Slug State"];
+        delete d["Slug State"];
+        return d;
+      }));
+
+    const usData = await axios
+      .get(`${origin}/api/data?measures=Population&drilldowns=Nation&year=latest`)
+      .then(resp => resp.data.data.map(d => {
+        d.Geography = d.Nation;
+        delete d.Nation;
+        d["ID Geography"] = d["ID Nation"];
+        delete d["ID Nation"];
+        d["Slug Geography"] = d["Slug Nation"];
+        delete d["Slug Nation"];
+        return d;
+      }));
+
+    const populationLookup = popData
+      .reduce((obj, d) => {
+        obj[d["ID Geography"]] = d.Population;
+        return obj;
+      }, {
+        "04000US66": 165768,            // Guam
+        "04000US69": 56882,             // Northern Mariana Islands
+        "04000US78": 106977,            // Virgin Islands
+        "01000US": usData[0].Population // United States
+      });
+
+    rawData.forEach(d => {
+      const date = d.date.toString();
+      d.date = `${date.slice(4, 6)}/${date.slice(6, 8)}/${date.slice(0, 4)}`;
+    })
+
+    rawData.sort((a, b) => a.state > b.state ? 1 : a.state === b.state
+      ? new Date(a.date) - new Date(b.date) : -1);
+
+    let state = rawData[0].state;
+    let data = rawData.map((raw, i) => {
+
+      const d = {};
+      d.Date = raw.date;
+
+      if (state !== raw.state) {
+        state = raw.state;
+        d.ConfirmedGrowth = 0;
+      }
+      else if (i) {
+        const prev = rawData[i - 1];
+
+        if (raw.positive < prev.positive) {
+          d.anomaly = true;
+          const prev2 = rawData[i - 2];
+          if (prev2) d.ConfirmedGrowth = prev.positive - prev2.positive;
+        }
+        else {
+          d.ConfirmedGrowth = raw.positive - prev.positive;
+        }
+        if (raw.death < prev.death) raw.death = prev.death;
+        if (raw.totalTestResults < prev.totalTestResults) raw.totalTestResults = prev.totalTestResults;
+        if (raw.hospitalized < prev.hospitalized) raw.hospitalized = prev.hospitalized;
+        d.DailyDeaths = raw.death - prev.death;
+        d.DailyHospitalized = raw.hospitalized - prev.hospitalized;
+        d.DailyTests = raw.totalTestResults - prev.totalTestResults;
+      }
+
+      d.Confirmed = raw.positive;
+      d.Tests = raw.totalTestResults;
+      d.Hospitalized = raw.hospitalized;
+      d.Deaths = raw.death;
+      d.DeathsConfirmed = raw.deathConfirmed;
+      d.DeathsProbable = raw.deathProbable;
+      d.PositivePct = raw.positive / raw.totalTestResults * 100;
+
+      d.CurrentlyHospitalized = raw.hospitalizedCurrently;
+      d.CurrentlyInICU = raw.inIcuCurrently;
+      d.CurrentlyOnVentilator = raw.onVentilatorCurrently;
+
+      d.Geography = states[raw.state];
+      d["ID Geography"] = stateToDivision[raw.state];
+
+      return d;
+
+    });
+
+    // remove all data before March 1st
+    const startDate = new Date("03/01/2020");
+    data = data
+      .filter(d => new Date(d.Date) >= startDate)
+      .sort((a, b) => new Date(a.Date) - new Date(b.Date));
+
+    nest()
+      .key(d => d.Date)
+      .entries(data)
+      .forEach(group => {
+        const us = d3Merge(group.values, {
+          "Date": () => group.key,
+          "PositivePct": arr => sum(arr, d => d.Confirmed) / sum(arr, d => d.Tests) * 100,
+          "Geography": () => "United States",
+          "ID Geography": () => "01000US",
+          "ID Slug": () => "united-states"
+        });
+        data.push(us);
+      });
+
+    const measures = ["Confirmed", "DailyDeaths", "Deaths", "DailyTests", "Tests", "DailyHospitalized", "Hospitalized", "ConfirmedGrowth"];
+    data.forEach(d => {
+      measures.forEach(measure => {
+        d[`${measure}PC`] = d[measure] ? d[measure] * 100000 / populationLookup[d["ID Geography"]] : null;
+      });
+    });
+
+    nest()
+      .key(d => d["ID Geography"])
+      .entries(data)
+      .forEach(group => {
+        measures.forEach(measure => {
+          smooth(group.values, 7, d => d[measure] ? d[measure] : 0, (d, x) => (d[`${measure}Smooth`] = x, d));
+          const measurePC = `${measure}PC`;
+          smooth(group.values, 7, d => d[measurePC] ? d[measurePC] : 0, (d, x) => (d[`${measurePC}Smooth`] = x, d));
+        });
+      });
+
+    res.json({
+      data: data.slice(0, 100),
+      population: populationLookup,
+      source: [{
+        annotations: {
+          dataset_link: "https://docs.google.com/spreadsheets/u/2/d/e/2PACX-1vRwAqp96T9sYYq2-i7Tj0pvTf6XVHjDSMIKBdZHXiCGGdNC0ypEU9NbngS8mxea55JuCFuua1MUeOj5/pubhtml",
+          dataset_name: "Coronavirus numbers by state",
+          source_link: "https://covidtracking.com/",
+          source_name: "The COVID Tracking Project"
+        }
+      }]
+    });
+
   });
 
-  app.get("/api/covid19/states", async(req, res) => {
+  app.get("/api/covid19/states", async(req, res) => {  //LEGACY
 
     const rawData = await axios
       .get("https://covidtracking.com/api/v1/states/daily.json")
