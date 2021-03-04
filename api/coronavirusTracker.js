@@ -470,10 +470,10 @@ module.exports = function(app) {
       population: populationLookup,
       source: [{
         annotations: {
-          dataset_link: "https://docs.google.com/spreadsheets/u/2/d/e/2PACX-1vRwAqp96T9sYYq2-i7Tj0pvTf6XVHjDSMIKBdZHXiCGGdNC0ypEU9NbngS8mxea55JuCFuua1MUeOj5/pubhtml",
-          dataset_name: "Coronavirus numbers by state",
-          source_link: "https://covidtracking.com/",
-          source_name: "The COVID Tracking Project"
+          dataset_link: "https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_time_series",
+          dataset_name: "CSSE Covid 19 Time Series",
+          source_link: "https://github.com/CSSEGISandData/COVID-19",
+          source_name: "COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University"
         }
       }]
     });
