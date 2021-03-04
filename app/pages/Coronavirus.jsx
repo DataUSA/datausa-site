@@ -1518,6 +1518,7 @@ class Coronavirus extends Component {
                         Confirmed<br />Deaths
                         <Icon className={`sort-caret ${tableOrder === "Deaths" ? "active" : ""}`} icon={tableOrder === "Deaths" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
+                      {/* REMOVED DUE TO CHANGED SOURCE
                       <th className="PositivePct" onClick={this.updateTableSort.bind(this, "PositivePct")}>
                         % Positive<br />Tests
                         <Icon className={`sort-caret ${tableOrder === "PositivePct" ? "active" : ""}`} icon={tableOrder === "PositivePct" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
@@ -1534,6 +1535,7 @@ class Coronavirus extends Component {
                         Total<br />Hospitalized
                         <Icon className={`sort-caret ${tableOrder === "Hospitalized" ? "active" : ""}`} icon={tableOrder === "Hospitalized" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
+                      */}
                       <th className="Curve">
                         Total vs New Cases
                         <Popover
@@ -1574,10 +1576,12 @@ class Coronavirus extends Component {
                           <td className="Confirmed">{commas(d.Confirmed)}</td>
                           <td className="ConfirmedPC">{commas(Math.round(d.ConfirmedPC))}</td>
                           <td className="Deaths">{commas(d.Deaths)}</td>
+                          {/* REMOVED DUE TO CHANGED SOURCE
                           <td className="PositivePct">{formatAbbreviate(d.PositivePct)}%</td>
                           <td className="Tests">{formatAbbreviate(d.Tests)}</td>
                           <td className="CurrentlyHospitalized">{d.CurrentlyHospitalized ? commas(d.CurrentlyHospitalized) : <span className="state-table-na">N/A</span>}</td>
                           <td className="Hospitalized">{typeof d.Hospitalized === "number" ? commas(d.Hospitalized) : <span className="state-table-na">N/A</span>}</td>
+                          */}
                           <td className="Curve">
                             <Sparklines svgWidth={100} svgHeight={30} data={d.Curve}>
                               <SparklinesCurve style={{
