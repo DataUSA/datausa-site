@@ -214,7 +214,7 @@ class Coronavirus extends Component {
 
     axios
       .all([
-        axios.get("/api/covid19/states"),
+        axios.get("/api/covid19/statesnew"),
         axios.get("/api/covid19/country"),
         axios.get("/api/covid19/old/state"),
         axios.get("/api/covid19/employment/latest/"),
@@ -975,11 +975,13 @@ class Coronavirus extends Component {
       cases: "Confirmed Cases",
       dailyDeaths: "Daily Deaths",
       deaths: "Deaths",
+      /* REMOVED DUE TO CHANGE IN SOURCE
       dailyHospitalizations: "Daily Hospitalizations",
       hospitalizations: "Hospitalizations",
       dailyTests: "Daily Tests",
       tests: "Tests",
       positive: "% Positive Tests"
+      */
     }
 
     /* TITLE */
@@ -1418,6 +1420,7 @@ class Coronavirus extends Component {
                 </div>
                 <div className="stat-subtitle">in the USA</div>
               </div>
+              {/*
               <div className="Stat large-text">
                 <div className="stat-title">Hospitalizations</div>
                 <div className="stat-value">
@@ -1425,6 +1428,7 @@ class Coronavirus extends Component {
                 </div>
                 <div className="stat-subtitle">in the USA</div>
               </div>
+              */}
               <div className="Stat large-text">
                 <div className="stat-title">Cases per Capita</div>
                 <div className="stat-value">
@@ -1439,6 +1443,7 @@ class Coronavirus extends Component {
                 </div>
                 <div className="stat-subtitle">per 100,000</div>
               </div>
+              {/*
               <div className="Stat large-text">
                 <div className="stat-title">Total Tests</div>
                 <div className="stat-value">
@@ -1448,6 +1453,7 @@ class Coronavirus extends Component {
                   {show ? stats.totalPositivePercent : "Tested Positive"}
                 </div>
               </div>
+              */}
             </div>
           </div>
           <div className="splash-columns">
