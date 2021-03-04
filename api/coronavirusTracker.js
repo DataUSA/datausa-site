@@ -7,7 +7,8 @@ const {divisions} = require("../app/helpers/stateDivisions");
 const d3Merge = require("d3plus-common").merge;
 const csvtojsonV2=require("csvtojson");
 
-let jhCases, jhDeaths;
+let fetchTime = new Date().getTime();
+let jsonCases, jsonDeaths;
 
 /** */
 function smooth(arr, windowSize, getter = value => value, setter) {
@@ -287,20 +288,20 @@ module.exports = function(app) {
 
   app.get("/api/covid19/statesnew", async(req, res) => {
 
-    if (!jhCases) {
-      jhCases = await axios
+    const timeNow = new Date().getTime();
+    const shouldUpdate = (timeNow - fetchTime) > 86400000;
+
+    if ((!jsonCases || !jsonDeaths) || shouldUpdate) {
+      fetchTime = timeNow;
+      const jhCases = await axios
         .get("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv")
         .then(resp => resp.data);
-    }
-
-    if (!jhDeaths) {
-      jhDeaths = await axios
+      jsonCases = await csvtojsonV2().fromString(jhCases);
+      const jhDeaths = await axios
         .get("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv")
         .then(resp => resp.data);
+      jsonDeaths = await csvtojsonV2().fromString(jhDeaths);
     }
-
-    const jsonCases = await csvtojsonV2().fromString(jhCases);
-    const jsonDeaths = await csvtojsonV2().fromString(jhDeaths);
     const blacklist = ["American Samoa", "Diamond Princess", "Grand Princess", "Guam", "Northern Mariana Islands", "Recovered", "Virgin Islands"];
     const stateList = [...new Set(jsonCases.map(d => d.Province_State).filter(d => !blacklist.includes(d)))];
     const {UID, iso2, iso3, code3, FIPS, Admin2, Province_State, Country_Region, Lat, Long_, Combined_Key, ...dates} = jsonCases[0];
@@ -333,7 +334,7 @@ module.exports = function(app) {
         })
       });
       return acc;
-    }, [])
+    }, []);
 
     const origin = `${ req.protocol }://${ req.headers.host }`;
     const popData = await axios
