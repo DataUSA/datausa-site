@@ -7,6 +7,8 @@ const {divisions} = require("../app/helpers/stateDivisions");
 const d3Merge = require("d3plus-common").merge;
 const csvtojsonV2=require("csvtojson");
 
+let jhCases, jhDeaths;
+
 /** */
 function smooth(arr, windowSize, getter = value => value, setter) {
   const get = getter;
@@ -36,6 +38,11 @@ const countryMeta = Object.keys(countries).reduce((obj, key) => {
   obj[d.name] = d;
   return obj;
 }, {});
+
+const dateFormat = d => {
+  const [month, day, year] = d.split("/");
+  return Number(`20${year}${month}${day}`);
+}
 
 const states = {
   AL: "Alabama",
@@ -95,6 +102,8 @@ const states = {
   WI: "Wisconsin",
   WY: "Wyoming"
 };
+
+const reverseStates = Object.keys(states).reduce((acc, d) => ({...acc, [states[d]]: d}), {});
 
 const stateToDivision = {
   AL: "04000US01",
@@ -276,8 +285,6 @@ module.exports = function(app) {
       }]});
   });
 
-  let jhCases, jhDeaths;
-
   app.get("/api/covid19/new", async(req, res) => {
 
     if (!jhCases) {
@@ -292,14 +299,43 @@ module.exports = function(app) {
         .then(resp => resp.data);
     }
 
-    const jsonCases = csvToJson(jhCases);
+    const jsonCases = await csvtojsonV2().fromString(jhCases);
+    const jsonDeaths = await csvtojsonV2().fromString(jhDeaths);
+    const blacklist = ["American Samoa", "Diamond Princess", "Grand Princess", "Guam", "Northern Mariana Islands", "Recovered", "Virgin Islands"];
+    const stateList = [...new Set(jsonCases.map(d => d.Province_State).filter(d => !blacklist.includes(d)))];
+    const {UID, iso2, iso3, code3, FIPS, Admin2, Province_State, Country_Region, Lat, Long_, Combined_Key, ...dates} = jsonCases[0];
+    const dateList = Object.keys(dates);
+    const rollup = stateList.reduce((acc, thisState) => {
+      const caseCounties = jsonCases.filter(d => d.Province_State === thisState);
+      const deathCounties = jsonDeaths.filter(d => d.Province_State === thisState);
+      acc[thisState] = dateList.reduce((acc, date) => ({...acc, [date]: {positive: 0, deaths: 0}}), {});
+      caseCounties.forEach(county => {
+        dateList.forEach(date => {
+          acc[thisState][date].positive += Number(county[date]);
+        })
+      });
+      deathCounties.forEach(county => {
+        dateList.forEach(date => {
+          acc[thisState][date].deaths += Number(county[date]);
+        });
+      })
+      return acc;
+    }, {});
 
-    const blacklist = ["Diamond Princess", "Grand Princess", "Guam", "Northern Mariana Islands", "Recovered", "Virgin Islands"];
+    const final = stateList.reduce((acc, state) => {
+      const thisStateData = rollup[state];
+      dateList.forEach(date => {
+        acc.push({
+          state: reverseStates[state],
+          date: dateFormat(date),
+          positive: thisStateData[date].positive,
+          deaths: thisStateData[date].deaths
+        })
+      });
+      return acc;
+    }, [])
 
-    const newData = rawData
-      .filter(d => d.country === "US" && !blacklist.includes(d.province))
-
-    return res.json(newData);
+    return res.json(final);
   });
 
   app.get("/api/covid19/states", async(req, res) => {
