@@ -41,7 +41,7 @@ const countryMeta = Object.keys(countries).reduce((obj, key) => {
 
 const dateFormat = d => {
   const [month, day, year] = d.split("/");
-  return Number(`20${year}${month}${day}`);
+  return Number(`20${year}${month.length === 1 ? "0" : ""}${month}${day.length === 1 ? "0" : ""}${day}`);
 }
 
 const states = {
@@ -466,7 +466,7 @@ module.exports = function(app) {
       });
 
     res.json({
-      data: data.slice(0, 100),
+      data,
       population: populationLookup,
       source: [{
         annotations: {
@@ -485,8 +485,6 @@ module.exports = function(app) {
     const rawData = await axios
       .get("https://covidtracking.com/api/v1/states/daily.json")
       .then(resp => resp.data);
-
-    return res.json(rawData.slice(0, 10));
 
     const origin = `${ req.protocol }://${ req.headers.host }`;
     const popData = await axios
