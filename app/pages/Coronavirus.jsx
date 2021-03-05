@@ -1882,9 +1882,9 @@ class Coronavirus extends Component {
                           tbody: d => {
                             const arr = [
                               ["Month", monthFormat(new Date(d.Date))],
-                              ["Employees", abbreviate(d["NSA Employees"])]
+                              ["Employees", formatAbbreviate(d["NSA Employees"])]
                             ];
-                            if (d["NSA Employees Growth"]) arr.push(["Employee Growth (YoY)", abbreviate(d["NSA Employees Growth"])]);
+                            if (d["NSA Employees Growth"]) arr.push(["Employee Growth (YoY)", `${formatAbbreviate(d["NSA Employees Growth"])}%`]);
                             return arr;
                           }
                         },
