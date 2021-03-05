@@ -177,6 +177,7 @@ class Coronavirus extends Component {
       employmentBySector: [],
       employmentByState: [],
       employmentSector: "All",
+      employmentValue: "NSA Employees Growth",
       stateTestData: [],
       date: false,
       icu: [],
@@ -209,8 +210,9 @@ class Coronavirus extends Component {
     const {title} = this.state;
     this.props.updateTitle(title);
 
-    const {TESSERACT} = this.props;
-    const employmentBySector = `${TESSERACT}tesseract/data.jsonrecords?cube=BLS Employment - Supersector Only&drilldowns=Month of Year,Supersector&measures=NSA Employees,SA Employees`;
+    // const {growth} = this.context.formatters;
+    // const {TESSERACT} = this.props;
+    // const employmentBySector = `${TESSERACT}tesseract/data.jsonrecords?cube=BLS Employment - Supersector Only&drilldowns=Month of Year,Supersector&measures=NSA Employees,SA Employees`;
 
     axios
       .all([
@@ -218,8 +220,7 @@ class Coronavirus extends Component {
         axios.get("/api/covid19/country"),
         axios.get("/api/covid19/old/state"),
         axios.get("/api/covid19/employment/latest/"),
-        axios.get("/api/covid19/mobility/states"),
-        axios.get(employmentBySector)
+        axios.get("/api/covid19/mobility/states")
       ])
       .then(
         axios.spread((...resp) => {
@@ -311,10 +312,19 @@ class Coronavirus extends Component {
             d => d.Date === mobilityLatestDate
           );
 
-          const employmentBySector = resp[5].data.data.map(d => {
-            d.Date = `${d["Month of Year ID"]}-01`;
-            return d;
-          });
+          // const employmentBySector = resp[5].data.data;
+          // nest()
+          //   .key(d => d["Supersector ID"])
+          //   .entries(employmentBySector)
+          //   .forEach(group => {
+          //     const data = group.values;
+          //     data.forEach(d => {
+          //       const monthId = d["Month of Year ID"];
+          //       d.Date = `${monthId}-01`;
+          //       const prevYear = data.find(x => x["Month of Year ID"] === `${monthId.slice(0, 4) - 1}-${monthId.slice(5, 7)}`);
+          //       d["NSA Employees Growth"] = prevYear ? growth({curr: d["NSA Employees"], prev: prevYear["NSA Employees"]}) : 0;
+          //     });
+          //   });
 
           this.setState(
             {
@@ -322,8 +332,7 @@ class Coronavirus extends Component {
               countryCases,
               currentStates,
               currentStatesHash,
-              employmentBySector,
-              employmentSource: resp[5].data.source,
+              // employmentBySector,
               icu: icuData,
               mobilityData,
               mobilityDataLatest,
@@ -350,6 +359,10 @@ class Coronavirus extends Component {
 
   changeScale(scale) {
     if (scale !== this.state.scale) this.setState({scale});
+  }
+
+  changeEmploymentValue(employmentValue) {
+    if (employmentValue !== this.state.employmentValue) this.setState({employmentValue});
   }
 
   deriveCutoffKey(slug, isPC, isSmooth) {
@@ -555,6 +568,7 @@ class Coronavirus extends Component {
 
   fetchData() {
 
+    const {growth} = this.context.formatters;
     const {currentStates, employmentSector} = this.state;
     const {TESSERACT} = this.props;
 
@@ -575,24 +589,33 @@ class Coronavirus extends Component {
       ])
       .then(axios.spread((...resp) => {
 
-        const employmentByState = resp[0].data
-          .map(d => {
-            d.Date = `${d["Month of Year ID"]}-01`;
-            if (d.State) {
-              d.Geography = d.State;
-              d["ID Geography"] = d["State ID"];
-              delete d.State;
-              delete d["State ID"];
-            }
-            else {
-              d["ID Geography"] = "01000US";
-              d.Geography = "United States";
-            }
-            return d;
+        const employmentByState = resp[0].data;
+        nest()
+          .key(d => d["State ID"])
+          .entries(employmentByState)
+          .forEach(group => {
+            const data = group.values;
+            data.forEach(d => {
+              const monthId = d["Month of Year ID"];
+              d.Date = `${monthId}-01`;
+              if (d.State) {
+                d.Geography = d.State;
+                d["ID Geography"] = d["State ID"];
+                delete d.State;
+                delete d["State ID"];
+              }
+              else {
+                d["ID Geography"] = "01000US";
+                d.Geography = "United States";
+              }
+              const prevYear = data.find(x => x["Month of Year ID"] === `${monthId.slice(0, 4) - 1}-${monthId.slice(5, 7)}`);
+              d["NSA Employees Growth"] = prevYear ? growth({curr: d["NSA Employees"], prev: prevYear["NSA Employees"]}) : 0;
+            });
           });
 
         this.setState({
-          employmentByState,
+          employmentByState: employmentByState.filter(d => +d["Month of Year ID"].slice(0, 4) >= 2008),
+          employmentSource: resp[0].data.source,
           loading: false
         });
       }));
@@ -611,11 +634,11 @@ class Coronavirus extends Component {
       currentCaseSmooth,
       currentStates,
       currentStatesHash,
-      employmentBySector,
       employmentByState,
       employmentSource,
       employmentSector,
       employmentData,
+      employmentValue,
       mobilityData,
       // mobilityDataLatest,
       mobilityType,
@@ -631,6 +654,10 @@ class Coronavirus extends Component {
       tableSort,
       title
     } = this.state;
+
+    const {
+      growth
+    } = this.context.formatters;
 
 
     const onlyNational = currentStates.find(d => d["ID Geography"] === "01000US") && currentStates.length === 1;
@@ -677,7 +704,7 @@ class Coronavirus extends Component {
       },
       discrete: "x",
       groupBy: ["ID Region", "ID Geography"],
-      height: 500,
+      height: 450,
       label: smallLabels
         ? d => !d.Geography && d.Supersector ? d.Supersector :
           stateAbbreviations[d.Geography] ||
@@ -813,11 +840,16 @@ class Coronavirus extends Component {
       d => d.initial_claims
     );
 
-    const marchJobs = sum(employmentByState.filter(d => d.Date === "2020-03-01"), d => d["NSA Employees"]);
-    const aprilJobs = sum(employmentByState.filter(d => d.Date === "2020-04-01"), d => d["NSA Employees"]);
-
-    const marchJobsNation = sum(employmentBySector.filter(d => d.Date === "2020-03-01"), d => d["NSA Employees"]);
-    const aprilJobsNation = sum(employmentBySector.filter(d => d.Date === "2020-04-01"), d => d["NSA Employees"]);
+    const latestTime = employmentByState.length && max(employmentByState, d => new Date(d.Date)).getTime();
+    const latestEmployment = employmentByState.filter(d => new Date(d.Date).getTime() === latestTime);
+    const latestID = employmentByState.length && latestEmployment[0].Date;
+    const prev = employmentByState.length && `${latestID.slice(0, 4) - 1}-${latestID.slice(5, 7)}-01`;
+    const prevEmployment = employmentByState.filter(d => d.Date === prev);
+    const latestJobs = sum(latestEmployment, d => d["NSA Employees"]);
+    const prevJobs = sum(prevEmployment.filter(d => d.Date === prev), d => d["NSA Employees"]);
+    const latestJobsMonth = employmentByState.length && latestEmployment[0]["Month of Year"].split(", ")[0];
+    const latestJobsCurrYear = employmentByState.length && latestID.slice(0, 4);
+    const latestJobsPrevYear = employmentByState.length && prev.slice(0, 4);
 
     const StateSelector = () =>
       <AnchorLink to="cases" className="topic-subtitle">
@@ -1788,21 +1820,35 @@ class Coronavirus extends Component {
                       </select>
                     </div>
                   </label>
-                  <AxisToggle />
+                  <label className="bp3-label bp3-inline">
+                    Y-Axis Value
+                    <div className="bp3-select">
+                      <select
+                        onChange={evt => this.changeEmploymentValue.bind(this)(evt.target.value)}
+                        value={employmentValue}
+                      >
+                        <option value="NSA Employees">Monthly Employees (Non-Seasonally Adjusted)</option>
+                        <option value="NSA Employees Growth">Monthly Growth (Year-over-Year)</option>
+                      </select>
+                    </div>
+                  </label>
                   <div className="topic-stats">
                     <div className="StatGroup single">
                       <div className="stat-value">
-                        {!loading ? formatAbbreviate(marchJobs - aprilJobs) : <Spinner />}
+                        {!loading ? `${formatAbbreviate(growth({curr: latestJobs, prev: prevJobs}))}%` : <Spinner />}
                       </div>
                       <div className="stat-title">
-                        Decrease in employment in {currentStates.filter(d => d["ID Geography"] !== "01000US").length ? list(currentStates.filter(d => d["ID Geography"] !== "01000US").map(o => o.Geography)) : "the United States"}
+                        Change in employment in {currentStates.filter(d => d["ID Geography"] !== "01000US").length ? list(currentStates.filter(d => d["ID Geography"] !== "01000US").map(o => o.Geography)) : "the United States"}
                       </div>
                       <div className="stat-subtitle">
-                        between March and April 2020
+                        between {latestJobsMonth} {latestJobsPrevYear} and {latestJobsMonth} {latestJobsCurrYear}
                       </div>
                     </div>
                   </div>
                   <div className="topic-description">
+                    <p>
+                      There was a {formatAbbreviate(growth({curr: latestJobs, prev: prevJobs}))}% decrease in employment between {latestJobsMonth} {latestJobsPrevYear} and {latestJobsMonth} {latestJobsCurrYear} in {currentStates.filter(d => d["ID Geography"] !== "01000US").length ? list(currentStates.filter(d => d["ID Geography"] !== "01000US").map(o => o.Geography)) : "the United States"} ({formatAbbreviate(latestJobs - prevJobs)} employees).
+                    </p>
                     <p>
                       This chart shows monthly employment numbers in {currentStates.filter(d => d["ID Geography"] !== "01000US").length ? list(currentStates.filter(d => d["ID Geography"] !== "01000US").map(o => o.Geography)) : "the United States"} (not-seasonally adjusted){blsIndustries[employmentSector] ? ` for the ${blsIndustries[employmentSector]} industry sector.` : " across all industry sectors."}
                     </p>
@@ -1823,90 +1869,20 @@ class Coronavirus extends Component {
                         time: "Date",
                         timeline: false,
                         tooltipConfig: {
-                          tbody: [
-                            ["Month", d => monthFormat(new Date(d.Date))],
-                            [
-                              "Number of Employees",
-                              d => formatAbbreviate(d["NSA Employees"])
-                            ]
-                          ]
+                          tbody: d => {
+                            const arr = [
+                              ["Month", monthFormat(new Date(d.Date))],
+                              ["Employees", abbreviate(d["NSA Employees"])]
+                            ];
+                            if (d["NSA Employees Growth"]) arr.push(["Employee Growth (YoY)", abbreviate(d["NSA Employees Growth"])]);
+                            return arr;
+                          }
                         },
                         x: "Date",
-                        y: "NSA Employees",
+                        y: employmentValue,
                         yConfig: {
-                          scale,
-                          tickFormat: formatAbbreviate
-                        }
-                      })}
-                    />
-                    :                     <NonIdealState
-                      title="Loading Data..."
-                      icon={<Spinner />}
-                    />
-                  }
-                  <StateSelector />
-                </div>
-              </div>
-              <div className="topic TextViz">
-                <div className="topic-content">
-                  <h3 id="bls-monthly" className="topic-title">
-                    <AnchorLink to="bls-monthly" className="anchor">
-                      Monthly Employment by Industry Sector
-                    </AnchorLink>
-                  </h3>
-                  {/* <div className="topic-subtitle">
-                    Initial unemployment insurance claim numbers are not seasonally
-                    adjusted.
-                  </div> */}
-                  <AxisToggle />
-                  <div className="topic-stats">
-                    <div className="StatGroup single">
-                      <div className="stat-value">
-                        {!loading ? formatAbbreviate(marchJobsNation - aprilJobsNation) : <Spinner />}
-                      </div>
-                      <div className="stat-title">
-                        Overall decrease in employment<br />in the United States
-                      </div>
-                      <div className="stat-subtitle">
-                        between March and April 2020
-                      </div>
-                    </div>
-                  </div>
-                  <div className="topic-description">
-                    <p>
-                      This chart shows monthly employment numbers across each industry sector in the United States (not-seasonally adjusted).
-                    </p>
-                  </div>
-                  <div className="SourceGroup">
-                    For more information about the difference between linear and
-                    logarithmic scale,{" "}
-                    <AnchorLink to="faqs-growth">click here</AnchorLink>.
-                  </div>
-                  {employmentSource && <SourceGroup sources={[employmentSource]} />}
-                </div>
-                <div className="visualization topic-visualization">
-                  {employmentBySector.length
-                    ? <LinePlot
-                      className="d3plus"
-                      config={assign({}, sharedConfig, {
-                        data: employmentBySector,
-                        groupBy: "Supersector",
-                        time: "Date",
-                        timeline: false,
-                        tooltipConfig: {
-                          tbody: [
-                            ["Month", d => monthFormat(new Date(d.Date))],
-                            [
-                              "Number of Employees",
-                              d => formatAbbreviate(d["NSA Employees"])
-                            ]
-                          ]
-                        },
-                        x: "Date",
-                        y: "NSA Employees",
-                        yConfig: {
-                          scale,
-                          tickFormat: formatAbbreviate
+                          scale: "linear",
+                          tickFormat: employmentValue.includes("Growth") ? d => `${formatAbbreviate(d)}%` : formatAbbreviate
                         }
                       })}
                     />
