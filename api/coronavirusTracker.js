@@ -295,12 +295,16 @@ module.exports = function(app) {
       fetchTime = timeNow;
       const jhCases = await axios
         .get("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv")
-        .then(resp => resp.data);
-      jsonCases = await csvtojsonV2().fromString(jhCases);
+        .then(resp => resp.data)
+        .catch(() => false);
       const jhDeaths = await axios
         .get("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv")
-        .then(resp => resp.data);
-      jsonDeaths = await csvtojsonV2().fromString(jhDeaths);
+        .then(resp => resp.data)
+        .catch(() => false);
+      if (jhCases && jhDeaths) {
+        jsonCases = await csvtojsonV2().fromString(jhCases);
+        jsonDeaths = await csvtojsonV2().fromString(jhDeaths);
+      }
     }
     const blacklist = ["American Samoa", "Diamond Princess", "Grand Princess", "Guam", "Northern Mariana Islands", "Recovered", "Virgin Islands"];
     const stateList = [...new Set(jsonCases.map(d => d.Province_State).filter(d => !blacklist.includes(d)))];
