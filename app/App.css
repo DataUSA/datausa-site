@@ -232,6 +232,7 @@ input[type="text"] {
     }
   }
   &:after {
+    bottom: 9px !important;
     color: #949494 !important;
     content: "";
     display: block;
@@ -243,7 +244,7 @@ input[type="text"] {
     opacity: 0.5 !important;
     position: absolute;
     right: 10px !important;
-    top: 9px !important;
+    top: auto !important;
     width: 11px !important;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;

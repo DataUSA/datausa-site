@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {hot} from "react-hot-loader/root";
 import {AnchorLink} from "@datawheel/canon-core";
-import axios from "axios";
 import {nest} from "d3-collection";
 import {NonIdealState, Spinner} from "@blueprintjs/core";
 import Viz from "components/Viz/index";
@@ -46,8 +45,9 @@ class TextViz extends Component {
           }
           { subtitles.map((content, i) => <div key={i} className="topic-subtitle" dangerouslySetInnerHTML={{__html: stripP(content.subtitle)}} />) }
           { selectors.map(selector => <div className="bp3-select bp3-fill" key={selector.name}>
+            {selector.title && selector.title !== "New Selector" ? <span className="topic-select-label">{selector.title}</span> : null}
             <select onChange={d => this.onSelector.bind(this)(selector.name, d.target.value)} disabled={loading} defaultValue={selector.default}>
-              { selector.options.map(({option}) => <option value={option} key={option}>{variables[option]}</option>) }
+              { selector.options.map(({option}) => <option value={option} key={option}>{variables[option] !== undefined ? variables[option] : option}</option>) }
             </select>
           </div>) }
           { miniviz && <Viz topic={contents} config={miniviz} className="topic-miniviz" title={ title } slug={ `${slug}_miniviz` } /> }
@@ -68,8 +68,9 @@ class TextViz extends Component {
         }
         { subtitles.map((content, i) => <div key={i} className="topic-subtitle" dangerouslySetInnerHTML={{__html: stripP(content.subtitle)}} />) }
         { selectors.map(selector => <div className="bp3-select bp3-fill" key={selector.name}>
+          {selector.title && selector.title !== "New Selector" ? <span className="topic-select-label">{selector.title}</span> : null}
           <select onChange={d => this.onSelector.bind(this)(selector.name, d.target.value)} disabled={loading} defaultValue={selector.default}>
-            { selector.options.map(({option}) => <option value={option} key={option}>{variables[option]}</option>) }
+            { selector.options.map(({option}) => <option value={option} key={option}>{variables[option] !== undefined ? variables[option] : option}</option>) }
           </select>
         </div>) }
         <div className="topic-stats">
