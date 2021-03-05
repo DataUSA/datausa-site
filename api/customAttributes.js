@@ -40,6 +40,7 @@ module.exports = function(app) {
     if (dimension === "Geography") {
       if (["Congressional District"].includes(hierarchy)) retObj.stateId = breadcrumbs.find(d => d.hierarchy === "State").id;
       else retObj.stateId = id;
+      retObj.stateDataID = ["Nation", "State"].includes(hierarchy) ? id : breadcrumbs.find(d => d.hierarchy === "State").id;
     }
 
     if (dimension === "PUMS Industry") {
