@@ -31,7 +31,10 @@ module.exports = function(app) {
         .then(resp => resp.data)
         .catch(() => []);
 
-    const retObj = {breadcrumbs};
+    const retObj = {
+      breadcrumbs,
+      neverShow: false
+    };
 
     if (dimension === "CIP") {
       retObj.stem = id.length === 6 ? stems.includes(id) ? "Stem Major" : false : "Contains Stem Majors"
