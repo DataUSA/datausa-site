@@ -1,6 +1,7 @@
 const axios = require("axios");
 const sequelize = require("sequelize");
 const loadJSON = require("../utils/loadJSON");
+const {max} = require("d3-array");
 
 const universitySimilar = loadJSON("/static/data/similar_universities_with_dist.json");
 const napcs2sctg = loadJSON("/static/data/nacps2sctg.json");
@@ -609,15 +610,10 @@ module.exports = function(app) {
         }
         delete req.query.dimension;
         delete req.query.id;
+        delete req.query.hierarchy;
         if (!req.query.order) {
           req.query.order = measure.split(",")[0];
           req.query.sort = "desc";
-        }
-
-        let latestYear = false;
-        if (measure !== "Obligation Amount" && !req.query.Year && !req.query.year) {
-          latestYear = true;
-          req.query.Year = "latest";
         }
 
         if (!drilldowns) {
@@ -627,9 +623,18 @@ module.exports = function(app) {
           req.query.drilldowns += `,${hierarchy}`;
         }
 
-        const query = Object.assign({}, req.query);
-        delete query.hierarchy;
+        if (measure !== "Obligation Amount" && !req.query.Year && !req.query.year) {
+          const allYearQuery = Object.assign({[hierarchy]: id}, req.query);
+          const allYearParams = Object.entries(allYearQuery).map(([key, val]) => `${key}=${val}`).join("&");
+          const allYearURL = `${CANON_API}/api/data?${allYearParams}`;
+          const allYearData = await axios.get(allYearURL)
+            .then(resp => resp.data)
+            .catch(error => ({error}));
+          if (allYearData.error) req.query.Year = "latest";
+          else req.query.Year = max(allYearData.data, d => d["ID Year"]);
+        }
 
+        const query = Object.assign({}, req.query);
         const params = Object.entries(query).map(([key, val]) => `${key}=${val}`).join("&");
         const logicUrl = `${CANON_API}/api/data?${params}`;
 
@@ -640,23 +645,8 @@ module.exports = function(app) {
         if (resp.error) res.json(resp);
         else {
 
-          let list = resp.data;
-          let entry = list.find(d => d[`ID ${hierarchy}`] === id);
-
-          if (!entry && latestYear) {
-            query.Year = "previous";
-
-            const params = Object.entries(query).map(([key, val]) => `${key}=${val}`).join("&");
-            const logicUrl = `${CANON_API}/api/data?${params}`;
-
-            const resp2 = await axios.get(logicUrl)
-              .then(resp => resp.data)
-              .catch(error => ({error}));
-
-            list = resp2.data;
-            entry = list.find(d => d[`ID ${hierarchy}`] === id);
-
-          }
+          const list = resp.data;
+          const entry = list.find(d => d[`ID ${hierarchy}`] === id);
 
           const index = list.indexOf(entry);
           let data;
