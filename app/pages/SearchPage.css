@@ -121,13 +121,15 @@
         color: white;
         font-size: 27px;
         line-height: 35px;
-        margin-top: 0;
+        margin-bottom: 0;
       }
       & input {
         background-color: var(--dark);
         box-shadow: none;
         color: white;
         font-size: 30px;
+        height: 40px;
+        overflow: visible;
         padding-left: 50px;
         &:placeholder {
           color: var(--gray);
