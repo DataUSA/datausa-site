@@ -268,10 +268,11 @@ export default {
     shapeConfig: {
       fill: "transparent",
       labelConfig: {
-        fontColor(d) {
-          const n = parseInt(d.text, 10);
-          return isNaN(n) || n <= currentYear - 2 ? "#888" : styles.red;
-        },
+        // fontColor(d) {
+        //   const n = parseInt(d.text, 10);
+        //   return isNaN(n) || n <= currentYear - 2 ? "#888" : styles.red;
+        // },
+        fontColor: () => "#888",
         fontFamily: () => "Palanquin",
         fontSize: () => 12,
         fontWeight: () => 700,
