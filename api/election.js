@@ -61,7 +61,8 @@ module.exports = function(app) {
           .findAll({
             where: {dimension: "Geography", hierarchy: "State", id: states},
             include: [{association: "content"}]
-          });
+          })
+          .catch(() => []);
 
         const names = attrs.map(d => d.content[0].name);
         retArray = retArray.filter(d => names.includes(d.State));
@@ -78,7 +79,8 @@ module.exports = function(app) {
       if (type === "representative") {
 
         const rows = await db.search
-          .findAll({where: {dimension: "Geography", hierarchy: "Congressional District"}});
+          .findAll({where: {dimension: "Geography", hierarchy: "Congressional District"}})
+          .catch(() => []);
 
         const districtLookup = rows.reduce((obj, d) => {
           const state = d.id.slice(0, -2).replace("500", "040");
@@ -88,7 +90,8 @@ module.exports = function(app) {
         }, {});
 
         retArray.forEach(r => {
-          r["Slug District"] = districtLookup[r["ID State"]][r.District].slug;
+          r["Slug District"] = districtLookup[r["ID State"]] && districtLookup[r["ID State"]][r.District]
+            ? districtLookup[r["ID State"]][r.District].slug : "";
         });
 
       }
