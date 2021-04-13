@@ -14,6 +14,15 @@ const Flickr = require("flickr-sdk"),
 
 const creds = require("../google_auth.json");
 
+const slugMap = {
+  cip: "CIP",
+  geo: "Geography",
+  naics: "PUMS Industry",
+  napcs: "NAPCS",
+  soc: "PUMS Occupation",
+  university: "University"
+};
+
 // Query to generate CSV for google sheet
 //
 // select s.id, s.zvalue, s.display as name, i.url as image_link, i.meta as image_meta
@@ -125,7 +134,7 @@ function fetchImage(row) {
       const thumbPath = path.join(process.cwd(), `static/images/profile/thumb/${imageId}.jpg`);
 
       if (!created && shell.test("-e", splashPath) && shell.test("-e", thumbPath)) {
-        return db.search.update({imageId}, {where: {id: row.id, dimension}})
+        return db.search.update({imageId}, {where: {id: row.id, dimension: slugMap[dimension]}})
           .then(printProgress);
       }
       else {
@@ -133,7 +142,7 @@ function fetchImage(row) {
         console.log(`\nNew Image: ${imageId}`);
 
         return db.search
-          .update({imageId}, {where: {id: row.id, dimension}})
+          .update({imageId}, {where: {id: row.id, dimension: slugMap[dimension]}})
           .then(() => flickr.photos.getSizes({photo_id: photoId}))
           .then(res => {
             let image = res.body.sizes.size.find(d => parseInt(d.width, 10) >= 1600);
@@ -204,14 +213,16 @@ async function run() {
     console.log(`Images found: ${total}`);
     await Promise.all(fetches);
 
-    fetches = [];
-    updates.forEach(row => {
-      fetches.push(googleThrottle.add(saveRow.bind(this, row)));
-    });
-    checked = 0;
-    total = fetches.length;
-    console.log("\n\nUpdating Spreadsheet Error Column");
-    await Promise.all(fetches);
+    if (updates.length) {
+      fetches = [];
+      updates.forEach(row => {
+        fetches.push(googleThrottle.add(saveRow.bind(this, row)));
+      });
+      checked = 0;
+      total = fetches.length;
+      console.log("\n\nUpdating Spreadsheet Error Column");
+      await Promise.all(fetches);
+    }
 
     console.log("\n");
     shell.exit(0);
