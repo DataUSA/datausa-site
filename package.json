@@ -10,6 +10,7 @@
     "cube2csv": "node scripts/cube2csv.js",
     "dev": "canon-dev",
     "docs": "jsdoc2md '+(api|app|db|tools)/**/*.+(js|jsx)' --separators > DOCS.md",
+    "flickr-clean": "node scripts/flickr-clean.js",
     "flickr": "node scripts/flickr-scrape.js",
     "setup": "canon-setup",
     "start": "node index.js",
