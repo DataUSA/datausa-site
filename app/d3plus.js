@@ -94,7 +94,6 @@ function findColor(d) {
   return Object.keys(d).some(v => badMeasures.includes(v)) ? bad : good;
 }
 
-const currentYear = new Date().getFullYear();
 const labelPadding = 5;
 
 const axisStyles = {
@@ -268,10 +267,6 @@ export default {
     shapeConfig: {
       fill: "transparent",
       labelConfig: {
-        // fontColor(d) {
-        //   const n = parseInt(d.text, 10);
-        //   return isNaN(n) || n <= currentYear - 2 ? "#888" : styles.red;
-        // },
         fontColor: () => "#888",
         fontFamily: () => "Palanquin",
         fontSize: () => 12,
