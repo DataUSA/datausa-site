@@ -17,7 +17,7 @@ const blsIndustryMap = [
 module.exports = function(app) {
 
   const {db} = app.settings;
-  const {blsMonthlyIndustries} = app.settings.cache;
+  const {blsMonthlyIndustries, urls} = app.settings.cache;
 
   app.post("/api/cms/customAttributes/:pid", async(req, res) => {
 
@@ -33,7 +33,8 @@ module.exports = function(app) {
 
     const retObj = {
       breadcrumbs,
-      neverShow: false
+      neverShow: false,
+      url: urls[id]
     };
 
     if (dimension === "CIP") {
