@@ -23,7 +23,7 @@ export default class Usage extends Component {
             You can copy, download or print content for your own use, and you can also include excerpts from Data USA, databases and multimedia products in your own documents, presentations, blogs, websites and teaching materials, provided that suitable acknowledgment of Data USA as source is given.
           </p>
           <p>
-            All requests for commercial use and translation rights should be submitted to <a href="mailto:usage@datausa.io">usage@datausa.io</a>.
+            All requests for commercial use and translation rights should be submitted to <a href="mailto:hello@datausa.io">hello@datausa.io</a>.
           </p>
           <h2 id="disclaimers">
             <Anchor slug="disclaimers">Disclaimers</Anchor>
