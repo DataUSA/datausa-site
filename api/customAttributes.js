@@ -33,6 +33,7 @@ module.exports = function(app) {
 
     const retObj = {
       breadcrumbs,
+      freightYear: 2018,
       neverShow: false,
       url: urls[id]
     };
