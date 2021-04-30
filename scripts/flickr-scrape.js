@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 
 const Flickr = require("flickr-sdk"),
-      GoogleSpreadsheet = require("google-spreadsheet"),
+      {GoogleSpreadsheet} = require("google-spreadsheet"),
       PromiseThrottle = require("promise-throttle"),
       Sequelize = require("sequelize"),
       axios = require("axios"),
@@ -14,9 +14,18 @@ const Flickr = require("flickr-sdk"),
 
 const creds = require("../google_auth.json");
 
+const slugMap = {
+  cip: "CIP",
+  geo: "Geography",
+  naics: "PUMS Industry",
+  napcs: "NAPCS",
+  soc: "PUMS Occupation",
+  university: "University"
+};
+
 // Query to generate CSV for google sheet
 //
-// select s.id, s.zvalue, s.display as name, i.url as imagelink, i.meta as imagemeta
+// select s.id, s.zvalue, s.display as name, i.url as image_link, i.meta as image_meta
 // from search as s left join images as i on s."imageId" = i.id
 // where s.dimension = 'NAPCS'
 // order by s.zvalue desc
@@ -27,8 +36,13 @@ if (!dimension) {
   shell.exit(1);
 }
 
-const throttle = new PromiseThrottle({
+const flickrThrottle = new PromiseThrottle({
   requestsPerSecond: 5,
+  promiseImplementation: Promise
+});
+
+const googleThrottle = new PromiseThrottle({
+  requestsPerSecond: 0.95,
   promiseImplementation: Promise
 });
 
@@ -59,9 +73,15 @@ const flickr = new Flickr(process.env.FLICKR_API_KEY);
 const validLicenses = ["4", "5", "7", "8", "9", "10"];
 
 const errors = [];
-const fetches = [];
+const updates = [];
 let total = 0;
 let checked = 0;
+
+/** */
+function catcher(err) {
+  console.log(err);
+  shell.exit(1);
+}
 
 /** */
 function printProgress() {
@@ -76,11 +96,11 @@ function printProgress() {
 /** */
 function fetchImage(row) {
 
-  const photoId = row.imagelink.replace("https://flic.kr/p/", "");
+  const photoId = row.image_link.replace("https://flic.kr/p/", "");
 
   const tableRow = {
-    url: row.imagelink,
-    meta: row.imagemeta
+    url: row.image_link,
+    meta: row.image_meta
   };
 
   if (errors.includes(tableRow.url)) return true;
@@ -91,14 +111,18 @@ function fetchImage(row) {
       tableRow.author = photo.owner.realname || photo.owner.username;
       tableRow.license = parseInt(photo.license, 10);
       if (!validLicenses.includes(tableRow.license)) {
+        if (row.error) {
+          row.error = "";
+          updates.push(row);
+        }
         return db.image.findOrCreate({where: {url: tableRow.url}, defaults: tableRow});
       }
       else {
         errors.push(tableRow.url);
         const e = `Bad License: ${tableRow.url} (${tableRow.license})`;
-        if ("error" in row) {
+        if (row.error !== `license-${tableRow.license}`) {
           row.error = `license-${tableRow.license}`;
-          row.save();
+          updates.push(row);
         }
         throw e;
       }
@@ -110,19 +134,15 @@ function fetchImage(row) {
       const thumbPath = path.join(process.cwd(), `static/images/profile/thumb/${imageId}.jpg`);
 
       if (!created && shell.test("-e", splashPath) && shell.test("-e", thumbPath)) {
-        return db.search.update({imageId}, {where: {id: row.id, dimension}})
+        return db.search.update({imageId}, {where: {id: row.id, dimension: slugMap[dimension]}})
           .then(printProgress);
       }
       else {
 
         console.log(`\nNew Image: ${imageId}`);
-        if (row.error) {
-          row.error = "";
-          row.save();
-        }
 
         return db.search
-          .update({imageId}, {where: {id: row.id, dimension}})
+          .update({imageId}, {where: {id: row.id, dimension: slugMap[dimension]}})
           .then(() => flickr.photos.getSizes({photo_id: photoId}))
           .then(res => {
             let image = res.body.sizes.size.find(d => parseInt(d.width, 10) >= 1600);
@@ -141,10 +161,10 @@ function fetchImage(row) {
     .catch(err => {
       if (err.response) {
         const {status, text} = err.response;
-        console.log(`\n${status} - ${row.imagelink} - ${JSON.parse(text).message}`);
-        if ("error" in row) {
+        console.log(`\n${status} - ${row.image_link} - ${JSON.parse(text).message}`);
+        if (row.error !== "removed") {
           row.error = "removed";
-          row.save();
+          updates.push(row);
         }
       }
       else {
@@ -155,52 +175,60 @@ function fetchImage(row) {
 
 }
 
+/** */
+function saveRow(row) {
+
+  return row.save()
+    .then(() => {
+      printProgress();
+      return true;
+    })
+    .catch(catcher);
+
+}
+
 const doc = new GoogleSpreadsheet("1emEA-Tz4EBugidBRSQ5e4eq9AkQaEqAerTW0XtGL4AI");
-doc.useServiceAccountAuth(creds, err => {
-  if (err) {
-    console.log(err);
+
+async function run() {
+
+  await doc.useServiceAccountAuth(creds).catch(catcher);
+  await doc.loadInfo().catch(catcher);
+
+  const worksheet = doc.sheetsByIndex.find(d => d.title.toLowerCase().includes(dimension.toLowerCase()));
+  if (!worksheet) {
+    console.log(`Unable to find sheet matching "${dimension}"`);
     shell.exit(1);
   }
   else {
-    doc.getInfo((err, info) => {
-      if (err) {
-        console.log(err);
-        shell.exit(1);
-      }
-      else {
-        const worksheet = info.worksheets.find(d => d.title.toLowerCase().includes(dimension.toLowerCase()));
-        if (!worksheet) {
-          console.log(`Unable to find sheet matching "${dimension}"`);
-          shell.exit(1);
-        }
-        else {
-          worksheet.getRows((err, rows) => {
-            if (err) {
-              console.log(err);
-              shell.exit(1);
-            }
-            else {
-              console.log(`Rows found: ${rows.length}`);
-              rows
-                .filter(row => row.imagelink)
-                .forEach(row => {
-                  fetches.push(throttle.add(fetchImage.bind(this, row)));
-                });
+    const rows = await worksheet.getRows().catch(catcher);
+    const validRows = rows.filter(row => row.image_link);
+    console.log(`Rows found: ${rows.length}`);
 
-              total = fetches.length;
-
-              console.log(`Images found: ${total}`);
-
-              Promise.all(fetches)
-                .then(() => {
-                  console.log("\n");
-                  shell.exit(0);
-                });
-
-            }
-          });
-        }
-      }
+    let fetches = [];
+    validRows.forEach(row => {
+      fetches.push(flickrThrottle.add(fetchImage.bind(this, row)));
     });
+    checked = 0;
+    total = fetches.length;
+    console.log(`Images found: ${total}`);
+    await Promise.all(fetches);
+
+    if (updates.length) {
+      fetches = [];
+      updates.forEach(row => {
+        fetches.push(googleThrottle.add(saveRow.bind(this, row)));
+      });
+      checked = 0;
+      total = fetches.length;
+      console.log("\n\nUpdating Spreadsheet Error Column");
+      await Promise.all(fetches);
+    }
+
+    console.log("\n");
+    shell.exit(0);
+
   }
-});
+
+}
+
+run();

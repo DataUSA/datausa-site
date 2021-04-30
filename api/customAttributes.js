@@ -17,12 +17,12 @@ const blsIndustryMap = [
 module.exports = function(app) {
 
   const {db} = app.settings;
-  const {blsMonthlyIndustries} = app.settings.cache;
+  const {blsMonthlyIndustries, urls} = app.settings.cache;
 
   app.post("/api/cms/customAttributes/:pid", async(req, res) => {
 
     const {id, dimension, hierarchy} = req.body.variables;
-    const meta = await db.profile_meta.findOne({where: {dimension}}).catch(() => false);
+    const meta = await db.profile_meta.findOne({where: {dimension}}).catch(() => {});
     const {slug} = meta;
 
     const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
@@ -33,7 +33,9 @@ module.exports = function(app) {
 
     const retObj = {
       breadcrumbs,
-      neverShow: false
+      freightYear: 2018,
+      neverShow: false,
+      url: urls[id]
     };
 
     if (dimension === "CIP") {
@@ -41,9 +43,9 @@ module.exports = function(app) {
     }
 
     if (dimension === "Geography") {
-      if (["Congressional District"].includes(hierarchy)) retObj.stateId = breadcrumbs.find(d => d.hierarchy === "State").id;
-      else retObj.stateId = id;
-      retObj.stateDataID = ["Nation", "State"].includes(hierarchy) ? id : breadcrumbs.find(d => d.hierarchy === "State").id;
+      const state = breadcrumbs.find(d => d.hierarchy === "State");
+      retObj.stateId = state && ["Congressional District"].includes(hierarchy) ? state.id : id;
+      retObj.stateDataID = state && !["Nation", "State"].includes(hierarchy) ? state.id : id;
     }
 
     if (dimension === "PUMS Industry") {

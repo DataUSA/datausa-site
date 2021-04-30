@@ -436,7 +436,7 @@ class Options extends Component {
           <button type="button" className="bp3-button bp3-icon-download bp3-minimal" onClick={this.onCSV.bind(this)}>
             Download as CSV
           </button>
-          { data.map((d, i) => <input key={i} type="text" ref={input => this.dataLink = input} onClick={this.onFocus.bind(this, "dataLink")} onMouseLeave={this.onBlur.bind(this, "dataLink")} readOnly="readonly" value={`${location.origin}${d}`} />)}
+          { data.map((d, i) => <input key={i} type="text" ref={input => this.dataLink = input} onClick={this.onFocus.bind(this, "dataLink")} onMouseLeave={this.onBlur.bind(this, "dataLink")} readOnly="readonly" value={d.indexOf("http") === 0 ? d : `${location.origin}${d}`} />)}
         </div>
         <div className="table">
           <Table
