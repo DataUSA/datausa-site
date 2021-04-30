@@ -1,6 +1,6 @@
 {
   "name": "datausa-site",
-  "version": "3.1.4",
+  "version": "3.1.6",
   "description": "The most comprehensive visualization of U.S. public data",
   "main": "src/index.js",
   "scripts": {
