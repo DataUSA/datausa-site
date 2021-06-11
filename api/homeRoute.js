@@ -10,13 +10,13 @@ module.exports = function(app) {
 
     const carousels = [];
     const newProfiles = [
-      "congressional-district-5-ga",
-      "congressional-district-50-ca",
-      "congressional-district-4-tx",
-      "congressional-district-11-nc",
-      "congressional-district-1-oh", // congressional districts
-      "6222", "45221", "7112", "517311", "5241", // 2018 PUMS Industries
-      "311131", "15124X", "395092", "253041", "271024" // 2018 PUMS Occupations
+      // "congressional-district-5-ga",
+      // "congressional-district-50-ca",
+      // "congressional-district-4-tx",
+      // "congressional-district-11-nc",
+      // "congressional-district-1-oh", // congressional districts
+      // "6222", "45221", "7112", "517311", "5241", // 2018 PUMS Industries
+      // "311131", "15124X", "395092", "253041", "271024" // 2018 PUMS Occupations
     ];
 
     carousels.push({
@@ -25,7 +25,7 @@ module.exports = function(app) {
       rank: 1,
       footer: "View Builder",
       url: "/visualize",
-      new: true,
+      new: false,
       tiles: [
         {
           title: "Department of Interior Spending by State",
