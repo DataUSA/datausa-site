@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
-import {hot} from "react-hot-loader/root";
 import {connect} from "react-redux";
 import "./Options.css";
 
@@ -519,4 +518,4 @@ export default connect(state => ({
 }), dispatch => ({
   addToCart: build => dispatch(addToCart(build)),
   removeFromCart: build => dispatch(removeFromCart(build))
-}))(hot(Options));
+}))(Options);

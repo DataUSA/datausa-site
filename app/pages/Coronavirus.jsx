@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import {hot} from "react-hot-loader/root";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import axios from "axios";
@@ -2460,4 +2459,4 @@ export default connect(
   dispatch => ({
     updateTitle: title => dispatch(updateTitle(title))
   })
-)(hot(Coronavirus));
+)(Coronavirus);

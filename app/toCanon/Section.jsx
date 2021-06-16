@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
-import {hot} from "react-hot-loader/root";
 import Viz from "components/Viz/index";
 import {Link} from "react-router";
 import {AnchorLink} from "@datawheel/canon-core";
@@ -64,4 +63,4 @@ Section.contextTypes = {
   formatters: PropTypes.object
 };
 
-export default hot(Section);
+export default Section;

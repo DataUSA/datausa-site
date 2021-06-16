@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import {hot} from "react-hot-loader/root";
 import PropTypes from "prop-types";
 import Stat from "./Stat";
 import SectionIcon from "./SectionIcon";
@@ -122,4 +121,4 @@ Splash.defaultProps = {
   story: false
 };
 
-export default hot(Splash);
+export default Splash;

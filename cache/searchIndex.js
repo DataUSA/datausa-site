@@ -20,11 +20,11 @@ module.exports = async function(app) {
   const rows = await db.search
     .findAll({
       include: [
-        {model: db.image},
+        {association: "image"},
         {association: "content"}
       ]
     })
-    .catch(() => []);
+    .catch(err => (console.log(err), []));
 
   const meta = await db.profile_meta.findAll()
     .catch(() => []);

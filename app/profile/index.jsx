@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Helmet} from "react-helmet-async";
-import {hot} from "react-hot-loader/root";
 
 import {AnchorLink, CanonProfile, fetchData} from "@datawheel/canon-core";
 import SubNav from "toCanon/SubNav";
@@ -372,4 +371,4 @@ export default connect(state => ({
   similar: state.data.similar
 }), dispatch => ({
   updateTitle: title => dispatch(updateTitle(title))
-}))(hot(Profile));
+}))(Profile);
