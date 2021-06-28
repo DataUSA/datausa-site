@@ -75,11 +75,11 @@
     "Term up": "2024"
   },
   {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/8/81/Alex_Padilla_official_photo.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Alex_Padilla_117th_Congress_portrait_%28cropped%29.jpg/95px-Alex_Padilla_117th_Congress_portrait_%28cropped%29.jpg",
     "Senator": "Alex Padilla",
     "Party": "Democratic",
     "Assumed office": "January 20, 2021",
-    "note": "Elected to the seat to succeed Kamala Harris, who had become Vice President of the United States.",
+    "note": "Appointed to the seat following the resignation of Kamala Harris, who had become Vice President of the United States.",
     "Term up": "2022",
     "State": "California"
   },
@@ -93,7 +93,7 @@
     "Term up": "2022"
   },
   {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Senator_Hickenlooper.jpg/95px-Senator_Hickenlooper.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/John_Hickenlooper%2C_official_portrait%2C_117th_Congress_%28cropped%29.jpeg/95px-John_Hickenlooper%2C_official_portrait%2C_117th_Congress_%28cropped%29.jpeg",
     "Senator": "John Hickenlooper",
     "Party": "Democratic",
     "Assumed office": "January 3, 2021",
@@ -152,19 +152,20 @@
   },
   {
     "State": "Georgia",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/4/46/Raphael_Warnock_for_Senate_%28cropped%29.jpg",
-    "Senator": "Raphael Warnock",
-    "Party": "Democratic",
-    "Assumed office": "January 20, 2021",
-    "Term up": "2022"
-  },
-  {
-    "State": "Georgia",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/2/27/Jon_Ossoff_2020_2_%28cropped_2%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Jon_Ossoff_Senate_Portrait_2021_%28cropped%29.jpg/95px-Jon_Ossoff_Senate_Portrait_2021_%28cropped%29.jpg",
     "Senator": "Jon Ossoff",
     "Party": "Democratic",
     "Assumed office": "January 20, 2021",
     "Term up": "2026"
+  },
+  {
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Raphael_Warnock_official_photo_%28cropped%29.jpg/95px-Raphael_Warnock_official_photo_%28cropped%29.jpg",
+    "Senator": "Raphael Warnock",
+    "Party": "Democratic",
+    "Assumed office": "January 20, 2021",
+    "note": "Elected to the seat to succeed Kelly Loeffler, who had been appointed to the seat following Johnny Isakson's resignation.",
+    "Term up": "2022",
+    "State": "Georgia"
   },
   {
     "State": "Hawaii",
@@ -256,7 +257,7 @@
     "Term up": "2022"
   },
   {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Roger_Marshall_official_portrait.jpg/95px-Roger_Marshall_official_portrait.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Roger_Marshall_117th_Congress_portrait_%28cropped%29.jpg/95px-Roger_Marshall_117th_Congress_portrait_%28cropped%29.jpg",
     "Senator": "Roger Marshall",
     "Party": "Republican",
     "Assumed office": "January 3, 2021",
@@ -288,7 +289,7 @@
     "Term up": "2026"
   },
   {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/John_Neely_Kennedy%2C_official_portrait%2C_115th_Congress.jpg/95px-John_Neely_Kennedy%2C_official_portrait%2C_115th_Congress.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/John_Neely_Kennedy%2C_official_portrait%2C_115th_Congress_2.jpg/95px-John_Neely_Kennedy%2C_official_portrait%2C_115th_Congress_2.jpg",
     "Senator": "John Kennedy",
     "Party": "Republican",
     "Assumed office": "January 3, 2017",
@@ -387,7 +388,7 @@
     "Term up": "2024"
   },
   {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Cindy_Hyde-Smith_official_photo_%28cropped%29.jpg/95px-Cindy_Hyde-Smith_official_photo_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Official_headshot_of_US_Senator_Cindy_Hyde-Smith.jpg/95px-Official_headshot_of_US_Senator_Cindy_Hyde-Smith.jpg",
     "Senator": "Cindy Hyde-Smith",
     "Party": "Republican",
     "Assumed office": "April 9, 2018",
@@ -404,7 +405,7 @@
     "Term up": "2022"
   },
   {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Josh_Hawley_%28cropped%29.jpg/95px-Josh_Hawley_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Josh_Hawley%2C_official_portrait%2C_116th_congress_%28cropped%29.jpg/95px-Josh_Hawley%2C_official_portrait%2C_116th_congress_%28cropped%29.jpg",
     "Senator": "Josh Hawley",
     "Party": "Republican",
     "Assumed office": "January 3, 2019",
@@ -420,7 +421,7 @@
     "Term up": "2024"
   },
   {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Steve_Daines_official_Senate_portrait_%28cropped%29.jpg/95px-Steve_Daines_official_Senate_portrait_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Steve_Daines%2C_Official_Portrait%2C_116th_Congress_%28cropped%29.jpg/95px-Steve_Daines%2C_Official_Portrait%2C_116th_Congress_%28cropped%29.jpg",
     "Senator": "Steve Daines",
     "Party": "Republican",
     "Assumed office": "January 3, 2015",
@@ -502,7 +503,7 @@
     "Term up": "2024"
   },
   {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Ben_Ray_Lujan%2C_117th_Congress_portrait.jpg/95px-Ben_Ray_Lujan%2C_117th_Congress_portrait.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Ben_Ray_Lujan%2C_117th_Congress_portrait_2_%28cropped%29.jpg/95px-Ben_Ray_Lujan%2C_117th_Congress_portrait_2_%28cropped%29.jpg",
     "Senator": "Ben Ray Luján",
     "Party": "Democratic",
     "Assumed office": "January 3, 2021",
@@ -660,7 +661,7 @@
   },
   {
     "State": "South Dakota",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/John_Thune%2C_official_portrait%2C_111th_Congress_%28cropped%29.jpg/95px-John_Thune%2C_official_portrait%2C_111th_Congress_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/John_Thune_117th_Congress_portrait.jpg/95px-John_Thune_117th_Congress_portrait.jpg",
     "Senator": "John Thune",
     "Party": "Republican",
     "Assumed office": "January 3, 2005",
@@ -683,7 +684,7 @@
     "Term up": "2024"
   },
   {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Ambassador_Hagerty.jpg/95px-Ambassador_Hagerty.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Sen._Bill_Hagerty_official_Senate_portrait%2C_117th_Congress_%28cropped%29.jpg/95px-Sen._Bill_Hagerty_official_Senate_portrait%2C_117th_Congress_%28cropped%29.jpg",
     "Senator": "Bill Hagerty",
     "Party": "Republican",
     "Assumed office": "January 3, 2021",
@@ -789,7 +790,7 @@
   },
   {
     "State": "Wisconsin",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Ron_Johnson%2C_official_portrait%2C_112th_Congress_%28cropped%29.jpg/95px-Ron_Johnson%2C_official_portrait%2C_112th_Congress_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Ron_Johnson_portrait_117th_Congress_%28cropped%29.jpg/95px-Ron_Johnson_portrait_117th_Congress_%28cropped%29.jpg",
     "Senator": "Ron Johnson",
     "Party": "Republican",
     "Assumed office": "January 3, 2011",
@@ -813,7 +814,7 @@
     "Term up": "2024"
   },
   {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Cynthia_Lummis_U.S._Senator.jpg/95px-Cynthia_Lummis_U.S._Senator.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Cynthia_Lummis_U.S._Senator_%28cropped%29.jpg/95px-Cynthia_Lummis_U.S._Senator_%28cropped%29.jpg",
     "Senator": "Cynthia Lummis",
     "Party": "Republican",
     "Assumed office": "January 3, 2021",

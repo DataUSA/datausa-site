@@ -63,7 +63,8 @@ async function run() {
             const value = data.innerHTML
               .replace("<span typeof=\"mw:Entity\"> </span>", " ");
             const split = value.split(" ");
-            const district = split.pop();
+            let district = split.pop();
+            if (district === "at-large") district = "0";
             obj.District = district;
             obj.State = split.join(" ");
           }
@@ -78,7 +79,7 @@ async function run() {
           else if (header === "Term up") {
             obj[header] = data.innerHTML.slice(0, 4);
           }
-          else if (!["Born", "Education", "Prior experience", "Occupation(s)", "Previous office(s)", "Residence"].includes(header)) {
+          else if (!["Born", "Education", "Prior experience", "Occupation(s)", "Previous office(s)", "Previous elective office(s)", "Residence"].includes(header)) {
             obj[header] = data.innerHTML
               .replace("<span typeof=\"mw:Entity\"> </span>", " ")
               .split("<sup")[0]
