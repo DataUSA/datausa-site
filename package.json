@@ -32,7 +32,7 @@
   "homepage": "https://github.com/datausa/datausa-site#readme",
   "dependencies": {
     "@blueprintjs/table": "^3.8.33",
-    "@datawheel/canon-cms": "^0.19.7",
+    "@datawheel/canon-cms": "^0.19.9",
     "@datawheel/canon-core": "^0.22.1",
     "@datawheel/canon-logiclayer": "^0.5.1",
     "@datawheel/canon-vizbuilder": "^0.5.2",
