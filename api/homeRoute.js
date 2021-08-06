@@ -10,13 +10,13 @@ module.exports = function(app) {
 
     const carousels = [];
     const newProfiles = [
-      "congressional-district-5-ga",
-      "congressional-district-50-ca",
-      "congressional-district-4-tx",
-      "congressional-district-11-nc",
-      "congressional-district-1-oh", // congressional districts
-      "6222", "45221", "7112", "517311", "5241", // 2018 PUMS Industries
-      "311131", "15124X", "395092", "253041", "271024" // 2018 PUMS Occupations
+      // "congressional-district-5-ga",
+      // "congressional-district-50-ca",
+      // "congressional-district-4-tx",
+      // "congressional-district-11-nc",
+      // "congressional-district-1-oh", // congressional districts
+      // "6222", "45221", "7112", "517311", "5241", // 2018 PUMS Industries
+      // "311131", "15124X", "395092", "253041", "271024" // 2018 PUMS Occupations
     ];
 
     carousels.push({
@@ -25,35 +25,35 @@ module.exports = function(app) {
       rank: 1,
       footer: "View Builder",
       url: "/visualize",
-      new: true,
+      new: false,
       tiles: [
         {
           title: "Department of Interior Spending by State",
-          url: "/visualize?measure=Z1LxWvG&groups%5B0%5D=Z1tpPKe%7C0&groups%5B1%5D=2pvOai%7C0%7C1400&time=2017",
+          url: "/visualize?measure=15McbE&groups%5B0%5D=Z1yKmqI%7C0&groups%5B1%5D=ZUNjL7%7C0%7C14",
           image: "/api/profile/geo/washington-dc/thumb",
           new: false
         },
         {
           title: "Opioid Deaths by County",
-          url: "/visualize?measure=Z2kiFFG&groups%5B0%5D=Z2dgJDo%7C0",
+          url: "/visualize?measure=BfMl&groups%5B0%5D=24ygXJ%7C0",
           image: "/api/profile/cip/pharmacology/thumb",
           new: false
         },
         {
           title: "Admissions for Universities in the Boston Metro Area",
-          url: "/visualize?measure=Z1rjtkk&groups%5B0%5D=Z2tV9Ui%7C0&groups%5B1%5D=ZuCNTF%7C0%7C31000US14460&time=2017",
+          url: "/visualize?measure=Z1llza9&groups%5B0%5D=XfcCa%7C0%7C31000US14460&groups%5B1%5D=Z1jf4TU%7C0",
           image: "/api/profile/geo/boston-cambridge-newton-ma-nh/thumb",
           new: false
         },
         {
           title: "Default Rate by State",
-          url: "/visualize?measure=UULi4&groups%5B0%5D=4Pksr%7C0&time=2016",
+          url: "/visualize?measure=Z1qoEro&groups%5B0%5D=2rWGHH%7C0",
           image: "/api/profile/soc/434131/thumb",
           new: false
         },
         {
           title: "Foreign-Born Citizens by State",
-          url: "/visualize?measure=Z1qIz4e&groups%5B0%5D=Z2pfmiM%7C0",
+          url: "/visualize?measure=HLEw5&groups%5B0%5D=ZaC9a6%7C0",
           image: "/api/profile/cip/regional-studies-us-canadian-foreign/thumb",
           new: false
         }

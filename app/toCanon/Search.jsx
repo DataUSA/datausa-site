@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import axios from "axios";
 
-import {event, select} from "d3-selection";
+import {select} from "d3-selection";
 import {uuid} from "d3plus-common";
 
 let timeout;
@@ -61,13 +61,13 @@ class Search extends Component {
     const {primary, searchEmpty} = this.props;
     const {id} = this.state;
 
-    select(document).on(`mousedown.${ id }`, () => {
+    select(document).on(`mousedown.${ id }`, event => {
       if (this.state.active && this.container && !this.container.contains(event.target)) {
         this.setState({active: false});
       }
     });
 
-    select(document).on(`keydown.${ id }`, () => {
+    select(document).on(`keydown.${ id }`, event => {
 
       const {router} = this.context;
       const {active} = this.state;

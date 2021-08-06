@@ -163,6 +163,7 @@ export default {
     },
     scale: "jenks"
   },
+  colorScalePosition: "bottom",
   confidenceConfig: {
     fillOpacity: 0.2,
     label: false,
@@ -181,6 +182,7 @@ export default {
       width: () => 20
     }
   },
+  legendPosition: "bottom",
   loadingHTML: `<div style="left: 50%; top: 50%; position: absolute; transform: translate(-50%, -50%); font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 400;">
     Loading Visualization
   </div>`,
@@ -206,6 +208,7 @@ export default {
     Bar: {
       labelConfig: {
         fontFamily: () => pathway,
+        fontResize: false,
         fontSize: () => 13,
         padding: "0 5px"
       },

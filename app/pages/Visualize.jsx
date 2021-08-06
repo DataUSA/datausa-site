@@ -4,7 +4,6 @@ import {connect} from "react-redux";
 import Carousel from "react-slick";
 import SVG from "react-inlinesvg";
 import {nest} from "d3-collection";
-import {hot} from "react-hot-loader/root";
 
 import {Vizbuilder} from "@datawheel/canon-vizbuilder";
 import {Icon, Tooltip} from "@blueprintjs/core";
@@ -254,7 +253,7 @@ class Visualize extends Component {
 
         <Vizbuilder
           src={cube}
-          defaultGroup={["Geography.State", "Origin State.Origin State", "Gender.Gender", "Age.Age"]}
+          // defaultGroup={["Geography.State", "Origin State.Origin State", "Gender.Gender", "Age.Age"]}
           defaultMeasure="Total Population"
           groupLimit={4}
           measureConfig={measureConfig}
@@ -270,7 +269,7 @@ class Visualize extends Component {
             detectResizeDelay: 100,
             zoomScroll: true
           }}
-          onChange={this.onChange.bind(this)}
+          // onChange={this.onChange.bind(this)}
           titleArea={
             <Tooltip className="absolute-title" placement="bottom">
               <h1 onClick={this.showIntro.bind(this)}>
@@ -345,4 +344,4 @@ export default connect(state => ({
   addToCart: build => dispatch(addToCart(build)),
   removeFromCart: build => dispatch(removeFromCart(build)),
   updateTitle: title => dispatch(updateTitle(title))
-}))(hot(Visualize));
+}))(Visualize);

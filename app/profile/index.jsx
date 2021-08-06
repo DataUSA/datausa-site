@@ -2,9 +2,8 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Helmet} from "react-helmet-async";
-import {hot} from "react-hot-loader/root";
 
-import {AnchorLink, CanonProfile, fetchData} from "@datawheel/canon-core";
+import {AnchorLink, fetchData} from "@datawheel/canon-core";
 import SubNav from "toCanon/SubNav";
 import Splash from "toCanon/Splash";
 import SectionIcon from "toCanon/SectionIcon";
@@ -100,6 +99,7 @@ class Profile extends Component {
       formatters,
       onSelector: this.onSelector.bind(this),
       removeComparison: this.removeComparison.bind(this),
+      topics: [],
       variables
     };
   }
@@ -277,7 +277,7 @@ class Profile extends Component {
     const metaDesc = aboutSection.descriptions.length ? stripHTML(aboutSection.descriptions[0].description) : false;
 
     return (
-      <CanonProfile>
+      <div id="Profile">
 
         <Helmet>
           <title>{ metaTitle }</title>
@@ -341,7 +341,7 @@ class Profile extends Component {
 
         { loading ? <Loading /> : null }
 
-      </CanonProfile>
+      </div>
     );
 
   }
@@ -353,6 +353,7 @@ Profile.childContextTypes = {
   formatters: PropTypes.object,
   onSelector: PropTypes.func,
   removeComparison: PropTypes.func,
+  topics: PropTypes.array,
   variables: PropTypes.object
 };
 
@@ -372,4 +373,4 @@ export default connect(state => ({
   similar: state.data.similar
 }), dispatch => ({
   updateTitle: title => dispatch(updateTitle(title))
-}))(hot(Profile));
+}))(Profile);
