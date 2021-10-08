@@ -40,7 +40,7 @@ module.exports = function(app) {
           .then(arr => arr.filter(d => d.overlap_size > 0.00001).sort((a, b) => b.overlap_size - a.overlap_size))
           .catch(() => []);
         states = parents
-          .filter(d => d.level === "state")
+          .filter(d => d.level === "state" && d.overlap_size > 0.01)
           .sort((a, b) => b.overlap_size - a.overlap_size)
           .map(d => d.geoid);
         if (geo.startsWith("500")) districts = [`${+geo.slice(-2)}`];
@@ -49,7 +49,6 @@ module.exports = function(app) {
         //     const district = +d.geoid.slice(-2);
         //     return district ? `${district}` : "at-large";
         //   });
-
       }
       else {
         states = [geo];
@@ -72,7 +71,7 @@ module.exports = function(app) {
         retArray = retArray.sort((a, b) => states.indexOf(a["ID State"]) - states.indexOf(b["ID State"]));
       }
 
-      if (districts.length && retArray[0].District) {
+      if (districts.length && retArray.length && retArray[0].District) {
         retArray = retArray.filter(d => districts.includes(d.District));
       }
 
