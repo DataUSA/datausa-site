@@ -472,61 +472,65 @@ module.exports = function(app) {
 
     if (attr) {
       if (dimension === "Geography") {
-        if (attr.id === "01000US") res.json([]);
-        const prefix = attr.id.slice(0, 3);
+        if (attr.id === "01000US") {
+          res.json([]);
+        }
+        else {
+          const prefix = attr.id.slice(0, 3);
 
-        const targetLevels = prefix === "040" ? "nation" /* state */
-          : prefix === "050" ? "state,msa" /* county */
-            : prefix === "310" ? "state" /* msa */
-              : prefix === "160" ? "state,county,msa,puma" /* place */
-                : prefix === "795" ? "state" /* puma */
-                  : prefix === "500" ? loose ? "place,msa,county,state" : "state" /* district */
-                    : false;
+          const targetLevels = prefix === "040" ? "nation" /* state */
+            : prefix === "050" ? "state,msa" /* county */
+              : prefix === "310" ? "state" /* msa */
+                : prefix === "160" ? "state,county,msa,puma" /* place */
+                  : prefix === "795" ? "state" /* puma */
+                    : prefix === "500" ? loose ? "place,msa,county,state" : "state" /* district */
+                      : false;
 
-        const url = targetLevels
-          ? `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${attr.id}?targetLevels=${targetLevels}&overlapSize=true`
-          : `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${attr.id}&overlapSize=true`;
+          const url = targetLevels
+            ? `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${attr.id}?targetLevels=${targetLevels}&overlapSize=true`
+            : `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${attr.id}&overlapSize=true`;
 
-        const parents = await axios.get(url)
-          .then(resp => resp.data)
-          .then(resp => {
-            if (resp.error) {
-              console.error(`[geoservice error] ${url}`);
-              console.error(resp.error);
-              return [];
+          const parents = await axios.get(url)
+            .then(resp => resp.data)
+            .then(resp => {
+              if (resp.error) {
+                console.error(`[geoservice error] ${url}`);
+                console.error(resp.error);
+                return [];
+              }
+              else {
+                return resp  || [];
+              }
+            })
+            .catch(() => []);
+
+          let ids = parents.map(d => d.geoid);
+          if (cache.pops[attr.id] > 250000) ids = ids.filter(d => cache.pops[d] > 250000);
+          if (!ids.includes("01000US")) ids.unshift("01000US");
+
+          const attrs = ids.length ? await db.search
+            .findAll({
+              where: {id: ids, dimension},
+              include: [{association: "content"}]
+            })
+            .map(row => {
+              const d = row.toJSON();
+              d.name = row.content[0].name;
+              delete d.content;
+              return d;
+            })
+            .catch(() => []) : [];
+
+          res.json(attrs.sort((a, b) => {
+            const levelDiff = geoOrder.indexOf(a.hierarchy) - geoOrder.indexOf(b.hierarchy);
+            if (levelDiff === 0) {
+              return b.overlap_size - a.overlap_size;
             }
             else {
-              return resp  || [];
+              return levelDiff;
             }
-          })
-          .catch(() => []);
-
-        let ids = parents.map(d => d.geoid);
-        if (cache.pops[attr.id] > 250000) ids = ids.filter(d => cache.pops[d] > 250000);
-        if (!ids.includes("01000US")) ids.unshift("01000US");
-
-        const attrs = ids.length ? await db.search
-          .findAll({
-            where: {id: ids, dimension},
-            include: [{association: "content"}]
-          })
-          .map(row => {
-            const d = row.toJSON();
-            d.name = row.content[0].name;
-            delete d.content;
-            return d;
-          })
-          .catch(() => []) : [];
-
-        res.json(attrs.sort((a, b) => {
-          const levelDiff = geoOrder.indexOf(a.hierarchy) - geoOrder.indexOf(b.hierarchy);
-          if (levelDiff === 0) {
-            return b.overlap_size - a.overlap_size;
-          }
-          else {
-            return levelDiff;
-          }
-        }));
+          }));
+        }
       }
       else {
         const parents = cache.parents[slug] || {};
@@ -545,7 +549,7 @@ module.exports = function(app) {
           })
           .catch(() => []) : [];
 
-          res.json(attrs);
+        res.json(attrs);
       }
     }
 
