@@ -40,8 +40,12 @@ module.exports = function(app) {
           .then(arr => arr.filter(d => d.overlap_size > 0.00001).sort((a, b) => b.overlap_size - a.overlap_size))
           .catch(() => []);
         states = parents
-          .filter(d => d.level === "state" && d.overlap_size > 0.01)
-          .sort((a, b) => b.overlap_size - a.overlap_size)
+          .filter(d => d.level === "state")
+          .sort((a, b) => b.overlap_size - a.overlap_size);
+
+        if (states.length > 1 && !geo.startsWith("310")) states = states.slice(0, 1);
+
+        states = states
           .map(d => d.geoid);
         if (geo.startsWith("500")) districts = [`${+geo.slice(-2)}`];
         // districts = parents.filter(d => d.level === "congressionaldistrict")
