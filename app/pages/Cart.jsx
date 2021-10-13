@@ -89,6 +89,8 @@ class Cart extends Component {
 
   componentDidMount() {
     this.props.updateTitle(title);
+    const {cart} = this.props;
+    if (cart) this.reload.bind(this)();
   }
 
   componentWillUnmount() {

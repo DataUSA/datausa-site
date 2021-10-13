@@ -124,7 +124,7 @@ class Nav extends Component {
               <Link to="/">Home</Link>
             </li> }
             <li>
-              <Link className="new" to="/coronavirus">Coronavirus</Link>
+              <Link to="/coronavirus">Coronavirus</Link>
             </li>
             <li>
               <Link to="/search">Explore</Link>

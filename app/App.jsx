@@ -45,14 +45,14 @@ class App extends Component {
 
   componentDidMount() {
     this.props.fetchCart();
-    localforage.getItem(bannerKey)
-      .then(b => {
-        const banner = bannerPersist ? false : b;
-        const {basename, pathname} = this.props.router.location;
-        const embed = pathname.includes("profile") && pathname.split("/").filter(Boolean).length === 5;
-        if (`${basename}${pathname}` === bannerLink) localforage.setItem(bannerKey, true);
-        else if (!banner && !embed) this.setState({banner: true});
-      })
+    // localforage.getItem(bannerKey)
+    //   .then(b => {
+    //     const banner = bannerPersist ? false : b;
+    //     const {basename, pathname} = this.props.router.location;
+    //     const embed = pathname.includes("profile") && pathname.split("/").filter(Boolean).length === 5;
+    //     if (`${basename}${pathname}` === bannerLink) localforage.setItem(bannerKey, true);
+    //     else if (!banner && !embed) this.setState({banner: true});
+    //   })
   }
 
   getChildContext() {
