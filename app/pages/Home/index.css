@@ -12,7 +12,6 @@
     z-index: 1000000;
   }
   & .bg {
-    /* background-image: url("/images/home/bg/utah.jpg"); */
     background-position: 50% 62%;
     background-size: cover;
     background-repeat: no-repeat;
@@ -24,7 +23,7 @@
     width: 100%;
     z-index: 0;
     &:after {
-      background-image: linear-gradient(rgba(20, 27, 46, 0), rgba(20, 27, 46, 0), rgba(20, 27, 46, 0.75));
+      background-image: linear-gradient(rgba(20, 27, 46, 0.4), rgba(20, 27, 46, 0), rgba(20, 27, 46, 0.75));
       content: "";
       height: 623px;
       left: 0;
