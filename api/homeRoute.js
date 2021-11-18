@@ -22,7 +22,7 @@ module.exports = function(app) {
     carousels.push({
       title: "Viz Builder",
       icon: "/icons/sections/admissions.svg",
-      rank: 1,
+      rank: 6,
       footer: "View Builder",
       url: "/visualize",
       new: false,
@@ -61,11 +61,11 @@ module.exports = function(app) {
     });
 
     const geoSlugs = [
-      "congressional-district-5-ga",
-      "congressional-district-50-ca",
-      "congressional-district-4-tx",
-      "congressional-district-11-nc",
-      "congressional-district-1-oh"
+      "california",
+      "welch-wv",
+      "new-york-ny",
+      "houston-tx",
+      "arlington-va"
     ];
 
     const geos = await db.search
@@ -84,18 +84,18 @@ module.exports = function(app) {
     carousels.push({
       title: "Cities & Places",
       icon: "/icons/dimensions/Geography - White.svg",
-      rank: 2,
+      rank: 1,
       footer: "36,911 more",
       url: "/search/?dimension=Geography",
       tiles: geos
     });
 
     const indSlugs = [
-      "spectator-sports",
-      "air-transportation",
-      "child-day-care-services",
+      "oil-gas-extraction",
+      "finance-insurance",
       "restaurants-food-services",
-      "military-reserves-or-national-guard"
+      "utilities",
+      "manufacturing"
     ];
 
     const industries = await db.search
@@ -117,18 +117,18 @@ module.exports = function(app) {
     carousels.push({
       title: "Industries",
       icon: "/icons/dimensions/PUMS Industry - White.svg",
-      rank: 3,
+      rank: 2,
       footer: "314 more",
       url: "/search/?dimension=PUMS Industry",
       tiles: industries
     });
 
     const occSlugs = [
+      "customer-service-representatives",
       "police-officers",
-      "emergency-medical-technicians-paramedics",
-      "elementary-middle-school-teachers",
-      "retail-salespersons",
-      "childcare-workers"
+      "service-occupations",
+      "registered-nurses",
+      "physical-therapists"
     ];
 
     const occupations = await db.search
@@ -147,18 +147,18 @@ module.exports = function(app) {
     carousels.push({
       title: "Jobs",
       icon: "/icons/dimensions/PUMS Occupation - White.svg",
-      rank: 4,
+      rank: 3,
       footer: "659 more",
       url: "/search/?dimension=PUMS Occupation",
       tiles: occupations
     });
 
     const universitySlugs = [
-      "massachusetts-institute-of-technology",
-      "university-of-maryland-college-park",
-      "university-of-notre-dame",
-      "university-of-chicago",
-      "northeastern-university"
+      "harvard-university",
+      "university-of-washington-seattle-campus",
+      "university-of-california-los-angeles",
+      "university-of-california-berkeley",
+      "stanford-university"
     ];
 
     const universities = await db.search
@@ -176,18 +176,18 @@ module.exports = function(app) {
     carousels.push({
       title: "Universities",
       icon: "/icons/dimensions/University - White.svg",
-      rank: 5,
+      rank: 4,
       footer: "7,190 more",
       url: "/search/?dimension=University",
       tiles: universities
     });
 
     const cipSlugs = [
-      "emergency-room-nursing",
-      "corrections",
-      "project-management",
-      "immunology",
-      "criminal-justice-police-science"
+      "computer-science-110701",
+      "engineering",
+      "natural-resources-conservation",
+      "electrical-engineering",
+      "biology"
     ];
 
     const courses = await db.search
@@ -205,7 +205,7 @@ module.exports = function(app) {
     carousels.push({
       title: "Degrees",
       icon: "/icons/dimensions/CIP - White.svg",
-      rank: 7,
+      rank: 5,
       footer: "2,314 more",
       url: "/search/?dimension=CIP",
       tiles: courses
@@ -214,7 +214,7 @@ module.exports = function(app) {
     carousels.push({
       title: "Data Cart",
       icon: "/images/cart-big.png",
-      rank: 6,
+      rank: 7,
       footer: "View Cart",
       url: "/cart",
       tiles: [
@@ -278,7 +278,7 @@ module.exports = function(app) {
       }))
     });
 
-    res.json(carousels);
+    res.json(carousels.sort((a, b) => a.rank - b.rank));
 
   });
 

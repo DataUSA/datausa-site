@@ -16,7 +16,7 @@ class Home extends Component {
     super(props);
     this.state = {
       banner: new Date() < launch,
-      image: "rocky"
+      image: "autumn"
     };
   }
 
