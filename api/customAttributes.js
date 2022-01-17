@@ -31,8 +31,13 @@ module.exports = function(app) {
         .then(resp => resp.data)
         .catch(() => []);
 
+    const parentsElection = await axios.get(`${origin}/api/civic/senator/${id}`)
+        .then(resp => resp.data)
+        .catch(() => []);
+
     const retObj = {
       breadcrumbs,
+      parentsElection,
       freightYear: 2018,
       neverShow: false,
       url: urls[id]
@@ -44,8 +49,19 @@ module.exports = function(app) {
 
     if (dimension === "Geography") {
       const state = breadcrumbs.find(d => d.hierarchy === "State");
+      const stateElection = parentsElection.map(d => d["ID State"]).reduce((acc,item)=>{
+        if(!acc.includes(item)){
+          acc.push(item);
+        }
+        return acc;
+      },[]);
+
       retObj.stateId = state && ["Congressional District"].includes(hierarchy) ? state.id : id;
       retObj.stateDataID = state && !["Nation", "State"].includes(hierarchy) ? state.id : id;
+      retObj.hierarchyElectionSub = ["Nation", "County"].includes(hierarchy) ? hierarchy : "State";
+      retObj.stateElectionId = ["Nation", "State", "County"].includes(hierarchy) ? id : stateElection.join(",");
+      retObj.electionCut = hierarchy === "Nation" ? `State` : hierarchy === "County" ? `County&State+County=${retObj.stateDataID}` : `County&State+County=${retObj.stateElectionId}`;
+      retObj.hierarchySub = hierarchy === "Nation" ? "State" : "County";
     }
 
     if (dimension === "PUMS Industry") {
