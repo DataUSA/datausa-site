@@ -158,7 +158,10 @@ async function fetchImage(member) {
 
 }
 
-const url = `${prefix}cubes/election_${cube}/dimensions/Candidate/hierarchies/Candidate/levels/Candidate/members`;
+const cubeCopy = cube === "house" ? "house_compact" : house;
+const candidateCopy = cube === "house" ? "Winning Candidate" : "Candidate";
+
+const url = `${prefix}cubes/election_${cubeCopy}/dimensions/${candidateCopy}/hierarchies/${candidateCopy}/levels/${candidateCopy}/members`;
 
 /** */
 async function run() {
@@ -171,6 +174,7 @@ async function run() {
     });
 
   total = members.length;
+
   if (!total) shell.exit(1);
   console.log(`${total} total candidates in database`);
 
