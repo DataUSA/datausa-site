@@ -41,7 +41,7 @@ class Column extends Component {
         { subtitles.map((content, i) => <div key={i} className="topic-subtitle" dangerouslySetInnerHTML={{__html: stripP(content.subtitle)}} />) }
         { selectors.map(selector => <div className="bp3-select bp3-fill" key={selector.name}>
           <select onChange={d => this.onSelector.bind(this)(selector.name, d.target.value)} disabled={loading} defaultValue={selector.default}>
-            { selector.options.map(({option}) => <option value={option} key={option}>{variables[option]}</option>) }
+            { selector.options.map(({label, option}) => <option value={option} key={option}>{variables[label || option]}</option>) }
           </select>
         </div>) }
         { !hideText && descriptions.map((content, i) => <div key={i} className="topic-description" dangerouslySetInnerHTML={{__html: content.description}} />) }

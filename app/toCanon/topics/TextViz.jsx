@@ -46,7 +46,7 @@ class TextViz extends Component {
           { selectors.map(selector => <div className="bp3-select bp3-fill" key={selector.name}>
             {selector.title && selector.title !== "New Selector" ? <span className="topic-select-label">{selector.title}</span> : null}
             <select onChange={d => this.onSelector.bind(this)(selector.name, d.target.value)} disabled={loading} defaultValue={selector.default}>
-              { selector.options.map(({option}) => <option value={option} key={option}>{variables[option] !== undefined ? variables[option] : option}</option>) }
+              { selector.options.map(({label, option}) => <option value={option} key={option}>{variables[label || option] !== undefined ? variables[label || option] : label || option}</option>) }
             </select>
           </div>) }
           { miniviz && <Viz topic={contents} config={miniviz} className="topic-miniviz" title={ title } slug={ `${slug}_miniviz` } /> }
@@ -69,7 +69,7 @@ class TextViz extends Component {
         { selectors.map(selector => <div className="bp3-select bp3-fill" key={selector.name}>
           {selector.title && selector.title !== "New Selector" ? <span className="topic-select-label">{selector.title}</span> : null}
           <select onChange={d => this.onSelector.bind(this)(selector.name, d.target.value)} disabled={loading} defaultValue={selector.default}>
-            { selector.options.map(({option}) => <option value={option} key={option}>{variables[option] !== undefined ? variables[option] : option}</option>) }
+            { selector.options.map(({label, option}) => <option value={option} key={option}>{variables[label || option] !== undefined ? variables[label || option] : label || option}</option>)}
           </select>
         </div>) }
         <div className="topic-stats">
