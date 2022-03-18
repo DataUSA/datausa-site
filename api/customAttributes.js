@@ -38,7 +38,7 @@ module.exports = function(app) {
     const retObj = {
       breadcrumbs,
       parentsElection,
-      freightYear: 2018,
+      freightYear: 2020,
       neverShow: false,
       url: urls[id]
     };
