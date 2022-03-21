@@ -150,9 +150,9 @@ export default {
       }
     },
     color: colors.colorScaleGood,
-    colorMin: "#b0cde1",
-    colorMid: "#4c96cb",
-    colorMax: "#004374",
+    colorMin: colors.colorScaleGood[0],
+    colorMid: colors.colorScaleGood[2],
+    colorMax: colors.colorScaleGood[4],
     legendConfig: {
       shapeConfig: {
         labelConfig: {
