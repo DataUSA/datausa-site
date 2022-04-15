@@ -31,23 +31,22 @@ module.exports = function(app) {
         .then(resp => resp.data)
         .catch(() => []);
 
-    const parentsElection = await axios.get(`${origin}/api/civic/senator/${id}`)
-        .then(resp => resp.data)
-        .catch(() => []);
-
     const retObj = {
       breadcrumbs,
-      parentsElection,
       freightYear: 2020,
       neverShow: false,
+      tesseract: process.env.CANON_CONST_TESSERACT,
       url: urls[id]
     };
 
-    if (dimension === "CIP") {
-      retObj.stem = id.length === 6 ? stems.includes(id) ? "Stem Major" : false : "Contains Stem Majors"
-    }
-
     if (dimension === "Geography") {
+
+      const parentsElection = await axios.get(`${origin}/api/civic/senator/${id}`)
+          .then(resp => resp.data)
+          .catch(() => []);
+
+      retObj.parentsElection = parentsElection;
+
       const state = breadcrumbs.find(d => d.hierarchy === "State");
       const stateElection = parentsElection.map(d => d["ID State"]).reduce((acc,item)=>{
         if(!acc.includes(item)){
@@ -63,8 +62,7 @@ module.exports = function(app) {
       retObj.electionCut = hierarchy === "Nation" ? `State` : hierarchy === "County" ? `County&State+County=${retObj.stateDataID}` : `County&State+County=${retObj.stateElectionId}`;
       retObj.hierarchySub = hierarchy === "Nation" ? "State" : "County";
     }
-
-    if (dimension === "PUMS Industry") {
+    else if (dimension === "PUMS Industry") {
       if (blsMonthlyIndustries[id]) {
         retObj.blsMonthlyID = blsMonthlyIndustries[id];
         retObj.blsMonthlyDimension = "Industry";
@@ -77,8 +75,9 @@ module.exports = function(app) {
         retObj.blsMonthlyDimension = "Supersector";
       }
     }
-
-    retObj.tesseract = process.env.CANON_CONST_TESSERACT;
+    else if (dimension === "CIP") {
+      retObj.stem = id.length === 6 ? stems.includes(id) ? "Stem Major" : false : "Contains Stem Majors"
+    }
 
     return res.json(retObj);
 
