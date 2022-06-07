@@ -82,7 +82,7 @@ export default class API extends Component {
           https://datausa.io/api/data?drilldowns=<strong>Nation</strong>&measures=<strong>Population</strong>&year=<strong>latest</strong>
         </p>
         <p>
-          This call gives us the popoulation of the US based on the latest available year of data. Using the string "latest" instead of a hard-coded year ensures that if the underlying data is updated with a new year's worth of data, the API calls will all reflect this new data automatically. Additionally, to get data at the state level we can use:
+          This call gives us the population of the US based on the latest available year of data. Using the string "latest" instead of a hard-coded year ensures that if the underlying data is updated with a new year's worth of data, the API calls will all reflect this new data automatically. Additionally, to get data at the state level we can use:
         </p>
         <p>
           https://datausa.io/api/data?drilldowns=<strong>State</strong>&measures=<strong>Population</strong>&year=<strong>latest</strong>
