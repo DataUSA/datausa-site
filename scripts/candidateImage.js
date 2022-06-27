@@ -20,7 +20,8 @@ if (!cube || !accepted.includes(cube)) {
 const predefined = {
   "George Bush": "George H. W. Bush",
   "George Walker Bush": "George W. Bush",
-  "Rafael Edward Ted Cruz": "Ted Cruz"
+  "Rafael Edward Ted Cruz": "Ted Cruz",
+  "Joseph R Biden Jr.": "Joe Biden"
 };
 
 const matchWords = [
@@ -47,8 +48,8 @@ function matches(str) {
   return match;
 }
 
-const {CANON_LOGICLAYER_CUBE} = process.env;
-const prefix = `${CANON_LOGICLAYER_CUBE}${CANON_LOGICLAYER_CUBE.slice(-1) === "/" ? "" : "/"}`;
+const {CANON_CONST_TESSERACT} = process.env;
+const prefix = CANON_CONST_TESSERACT;
 
 const throttle = new PromiseThrottle({
   requestsPerSecond: 5,
@@ -156,20 +157,31 @@ async function fetchImage(member) {
   }
 
 }
+const dictUrl = {
+  "president": ["President", "Candidate+Votes"],
+  "senate": ["Senate", "Candidate+Votes"],
+  "house": ["House_Compact", "Winner+Votes"]
+};
 
-const url = `${prefix}cubes/election_${cube}/dimensions/Candidate/hierarchies/Candidate/levels/Candidate/members`;
+const url = `${prefix}tesseract/data?cube=Data_USA_${dictUrl[cube][0]}_election&drilldowns=Candidate&measures=${dictUrl[cube][1]}`
 
 /** */
 async function run() {
 
   const members = await axios.get(url)
-    .then(resp => resp.data.members)
+    .then(resp => resp.data.data)
     .catch(err => {
       console.error(`Error fetching members: ${err}`);
       return [];
     });
 
+  members.forEach(d => {
+    d.name = d.Candidate || d["Winning Canidate"]
+    d.key = d["Canidate ID"] || d["Winning Canidate ID"]
+  });
+
   total = members.length;
+
   if (!total) shell.exit(1);
   console.log(`${total} total candidates in database`);
 
@@ -177,9 +189,10 @@ async function run() {
 
   members
     // .slice(0, 1)
-    .filter(member => member.name === "Rafael Edward Ted Cruz")
+    //.filter(member => member.name === "Joseph R Biden Jr.")
     .filter(member => {
       const filePath = getFileName(member);
+
       if (shell.test("-e", filePath)) {
         checked++;
         return false;

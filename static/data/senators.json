@@ -4,6 +4,7 @@
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Richard_Shelby%2C_official_portrait%2C_112th_Congress_%28cropped%29.jpg/95px-Richard_Shelby%2C_official_portrait%2C_112th_Congress_%28cropped%29.jpg",
     "Senator": "Richard Shelby",
     "Party": "Republican",
+    "note": "Until 1994, Richard Shelby won election to the Senate as a member of the Democratic Party.",
     "Assumed office": "January 3, 1987",
     "Term up": "2022"
   },
@@ -21,7 +22,7 @@
     "Senator": "Lisa Murkowski",
     "Party": "Republican",
     "Assumed office": "December 20, 2002",
-    "note": "Appointed to the seat following the resignation of her father Frank Murkowski, who had become List of Governors of Alaska|Governor of Alaska.",
+    "note": "Appointed to the seat following the resignation of her father Frank Murkowski, who was elected List of Governors of Alaska|Governor of Alaska.",
     "Term up": "2022"
   },
   {
@@ -71,7 +72,7 @@
     "Senator": "Dianne Feinstein",
     "Party": "Democratic",
     "Assumed office": "November 10, 1992",
-    "note": "Elected to the seat to succeed John Seymour (California politician)|John Seymour, who had been appointed to the seat after Pete Wilson elected Governor of California.",
+    "note": "Elected to the seat to succeed John Seymour (California politician)|John Seymour, who had been appointed to the seat after Pete Wilson was elected Governor of California.",
     "Term up": "2024"
   },
   {
@@ -163,7 +164,7 @@
     "Senator": "Raphael Warnock",
     "Party": "Democratic",
     "Assumed office": "January 20, 2021",
-    "note": "Elected to the seat to succeed Kelly Loeffler, who had been appointed to the seat following Johnny Isakson's resignation.",
+    "note": "Elected to the seat to succeed Kelly Loeffler, who had been appointed to the seat following the resignation of Johnny Isakson.",
     "Term up": "2022",
     "State": "Georgia"
   },
@@ -341,7 +342,7 @@
     "Senator": "Ed Markey",
     "Party": "Democratic",
     "Assumed office": "July 16, 2013",
-    "note": "Elected to the seat to succeed Mo Cowan, who had been appointed to replace John Kerry, who had become Secretary of State.",
+    "note": "Elected to the seat to succeed Mo Cowan, who had been appointed to the seat following the resignation of John Kerry, who had become Secretary of State.",
     "Term up": "2026",
     "State": "Massachusetts"
   },
@@ -374,7 +375,7 @@
     "Senator": "Tina Smith",
     "Party": "Democratic",
     "Assumed office": "January 3, 2018",
-    "note": "Appointed to the seat after Al Franken's resignation.",
+    "note": "Appointed to the seat following the resignation of Al Franken.",
     "Term up": "2026",
     "State": "Minnesota"
   },
@@ -392,7 +393,7 @@
     "Senator": "Cindy Hyde-Smith",
     "Party": "Republican",
     "Assumed office": "April 9, 2018",
-    "note": "Appointed to the seat after Thad Cochran's resignation.",
+    "note": "Appointed to the seat following the resignation of Thad Cochran.",
     "Term up": "2026",
     "State": "Mississippi"
   },
@@ -482,7 +483,7 @@
     "Senator": "Bob Menendez",
     "Party": "Democratic",
     "Assumed office": "January 17, 2006",
-    "note": "Appointed to the seat following the resignation of Jon Corzine, who had become Governor of New Jersey.",
+    "note": "Appointed to the seat following the resignation of Jon Corzine, who was elected Governor of New Jersey.",
     "Term up": "2024"
   },
   {
@@ -589,7 +590,7 @@
     "Senator": "James Lankford",
     "Party": "Republican",
     "Assumed office": "January 3, 2015",
-    "note": "Elected to the seat to succeed Tom Coburn, who had to resign at the eve of 113th United States Congress|113th Congress.",
+    "note": "Elected to the seat following the resignation of Tom Coburn.",
     "Term up": "2022",
     "State": "Oklahoma"
   },
@@ -697,6 +698,7 @@
     "Senator": "John Cornyn",
     "Party": "Republican",
     "Assumed office": "December 2, 2002",
+    "note": "Phil Gramm resigned (effective November 30, 2002) a few weeks before the expiration of his term in hopes that his successor, fellow Republican John Cornyn, could gain seniority over other newly elected senators. However, Cornyn did not gain additional seniority due to a 1980 Rules Committee policy.",
     "Term up": "2026"
   },
   {

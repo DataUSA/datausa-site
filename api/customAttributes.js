@@ -33,22 +33,36 @@ module.exports = function(app) {
 
     const retObj = {
       breadcrumbs,
-      freightYear: 2018,
+      freightYear: 2020,
       neverShow: false,
+      tesseract: process.env.CANON_CONST_TESSERACT,
       url: urls[id]
     };
 
-    if (dimension === "CIP") {
-      retObj.stem = id.length === 6 ? stems.includes(id) ? "Stem Major" : false : "Contains Stem Majors"
-    }
-
     if (dimension === "Geography") {
+
+      const parentsElection = await axios.get(`${origin}/api/civic/senator/${id}`)
+          .then(resp => resp.data)
+          .catch(() => []);
+
+      retObj.parentsElection = parentsElection;
+
       const state = breadcrumbs.find(d => d.hierarchy === "State");
+      const stateElection = parentsElection.map(d => d["ID State"]).reduce((acc,item)=>{
+        if(!acc.includes(item)){
+          acc.push(item);
+        }
+        return acc;
+      },[]);
+
       retObj.stateId = state && ["Congressional District"].includes(hierarchy) ? state.id : id;
       retObj.stateDataID = state && !["Nation", "State"].includes(hierarchy) ? state.id : id;
+      retObj.hierarchyElectionSub = ["Nation", "County"].includes(hierarchy) ? hierarchy : "State";
+      retObj.stateElectionId = ["Nation", "State", "County"].includes(hierarchy) ? id : stateElection.join(",");
+      retObj.electionCut = hierarchy === "Nation" ? `State` : hierarchy === "County" ? `County&State+County=${retObj.stateDataID}` : `County&State+County=${retObj.stateElectionId}`;
+      retObj.hierarchySub = hierarchy === "Nation" ? "State" : "County";
     }
-
-    if (dimension === "PUMS Industry") {
+    else if (dimension === "PUMS Industry") {
       if (blsMonthlyIndustries[id]) {
         retObj.blsMonthlyID = blsMonthlyIndustries[id];
         retObj.blsMonthlyDimension = "Industry";
@@ -61,8 +75,9 @@ module.exports = function(app) {
         retObj.blsMonthlyDimension = "Supersector";
       }
     }
-
-    retObj.tesseract = process.env.CANON_CONST_TESSERACT;
+    else if (dimension === "CIP") {
+      retObj.stem = id.length === 6 ? stems.includes(id) ? "Stem Major" : false : "Contains Stem Majors"
+    }
 
     return res.json(retObj);
 

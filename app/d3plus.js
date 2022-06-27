@@ -150,6 +150,9 @@ export default {
       }
     },
     color: colors.colorScaleGood,
+    colorMin: colors.colorScaleGood[0],
+    colorMid: colors.colorScaleGood[2],
+    colorMax: colors.colorScaleGood[4],
     legendConfig: {
       shapeConfig: {
         labelConfig: {

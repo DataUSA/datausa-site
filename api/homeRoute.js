@@ -1,4 +1,12 @@
 const axios = require("axios");
+const {google} = require("googleapis");
+const analytics = google.analytics("v3");
+
+// configure an auth client
+const jwtClient = new google.auth.GoogleAuth({
+  keyFilename: process.env.GA_KEYFILE,
+  scopes: "https://www.googleapis.com/auth/analytics.readonly"
+});
 
 const {CANON_API} = process.env;
 
@@ -7,6 +15,27 @@ module.exports = function(app) {
   const {db} = app.settings
 
   app.get("/api/home", async(req, res) => {
+
+    const mostVisited = await analytics.data.ga
+      .get({
+        "auth": jwtClient,
+        "dimensions": "ga:pagePath",
+        "ids": "ga:111999474",
+        "start-date": "30daysAgo",
+        "end-date": "yesterday",
+        "metrics": "ga:pageviews",
+        "sort": "-ga:pageviews"
+      })
+      .then(resp => resp.data.rows.filter(r => r[0].includes("/profile/")))
+      .then(rows => rows.reduce((obj, row) => {
+        const profile = row[0].split("/")[2];
+        if (profile !== "degree") {
+          if (!obj[profile]) obj[profile] = [];
+          if (obj[profile].length < 5) obj[profile].push(row[0].split("/")[3]);
+        }
+        return obj;
+      }, {}))
+      .catch(() => ({}));
 
     const carousels = [];
     const newProfiles = [
@@ -60,7 +89,7 @@ module.exports = function(app) {
       ]
     });
 
-    const geoSlugs = [
+    const geoSlugs = mostVisited.geo && mostVisited.geo.length === 5 ? mostVisited.geo : [
       "california",
       "welch-wv",
       "new-york-ny",
@@ -90,7 +119,7 @@ module.exports = function(app) {
       tiles: geos
     });
 
-    const indSlugs = [
+    const indSlugs = mostVisited.naics && mostVisited.naics.length === 5 ? mostVisited.naics : [
       "oil-gas-extraction",
       "finance-insurance",
       "restaurants-food-services",
@@ -123,7 +152,7 @@ module.exports = function(app) {
       tiles: industries
     });
 
-    const occSlugs = [
+    const occSlugs = mostVisited.soc && mostVisited.soc.length === 5 ? mostVisited.soc : [
       "customer-service-representatives",
       "police-officers",
       "service-occupations",
@@ -153,7 +182,7 @@ module.exports = function(app) {
       tiles: occupations
     });
 
-    const universitySlugs = [
+    const universitySlugs = mostVisited.university && mostVisited.university.length === 5 ? mostVisited.university : [
       "harvard-university",
       "university-of-washington-seattle-campus",
       "university-of-california-los-angeles",
@@ -182,7 +211,7 @@ module.exports = function(app) {
       tiles: universities
     });
 
-    const cipSlugs = [
+    const cipSlugs = mostVisited.cip && mostVisited.cip.length === 5 ? mostVisited.cip : [
       "computer-science-110701",
       "engineering",
       "natural-resources-conservation",

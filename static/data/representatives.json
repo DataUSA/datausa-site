@@ -338,10 +338,7 @@
   {
     "District": "22",
     "State": "California",
-    "Member": "Devin Nunes",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Devin_Nunes_%28cropped%29.jpg/75px-Devin_Nunes_%28cropped%29.jpg",
-    "Party": "Republican",
-    "Assumed office": "2003"
+    "Member": "VACANT"
   },
   {
     "District": "23",
@@ -523,7 +520,7 @@
     "District": "45",
     "State": "California",
     "Member": "Katie Porter",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Katie_Porter%2C_official_portrait%2C_116th_Congress_%28cropped%29.jpg/75px-Katie_Porter%2C_official_portrait%2C_116th_Congress_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Katie_Porter_Official_Portrait_%28cropped%29.jpg/75px-Katie_Porter_Official_Portrait_%28cropped%29.jpg",
     "Party": "Democratic",
     "Assumed office": "2019"
   },
@@ -1144,7 +1141,7 @@
     "District": "12",
     "State": "Illinois",
     "Member": "Mike Bost",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Mike_Bost_official_photo_%28cropped%29.jpg/75px-Mike_Bost_official_photo_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Rep._Mike_Bost_official_photo%2C_117th_Congress.jpg/75px-Rep._Mike_Bost_official_photo%2C_117th_Congress.jpg",
     "Party": "Republican",
     "Assumed office": "2015"
   },
@@ -1336,7 +1333,7 @@
     "District": "1",
     "State": "Kentucky",
     "Member": "James Comer",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/James_Comer_official_congressional_photo_%28cropped%29.jpg/75px-James_Comer_official_congressional_photo_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Rep._James_Comer.jpg/75px-Rep._James_Comer.jpg",
     "Party": "Republican",
     "Assumed office": "2016"
   },
@@ -1704,7 +1701,7 @@
     "District": "2",
     "State": "Minnesota",
     "Member": "Angie Craig",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Angie_Craig%2C_official_portrait%2C_116th_Congress_%28cropped%29.jpg/75px-Angie_Craig%2C_official_portrait%2C_116th_Congress_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Angie_Craig_117th_Congress_%28cropped%29.jpg/75px-Angie_Craig_117th_Congress_%28cropped%29.jpg",
     "Party": "Democratic",
     "Assumed office": "2019"
   },
@@ -1776,7 +1773,7 @@
     "District": "3",
     "State": "Mississippi",
     "Member": "Michael Guest",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Michael_Guest%2C_official_portrait%2C_116th_Congress_%28cropped_2%29.jpg/75px-Michael_Guest%2C_official_portrait%2C_116th_Congress_%28cropped_2%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Rep._Michael_Guest_official_photo2.jpg/75px-Rep._Michael_Guest_official_photo2.jpg",
     "Party": "Republican",
     "Assumed office": "2019"
   },
@@ -1800,7 +1797,7 @@
     "District": "2",
     "State": "Missouri",
     "Member": "Ann Wagner",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Ann_Wagner_113th_Congress_official_photo_%28cropped%29.jpg/75px-Ann_Wagner_113th_Congress_official_photo_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Ann_Wagner_Headshot_%28002%29_%28cropped%29.jpg/75px-Ann_Wagner_Headshot_%28002%29_%28cropped%29.jpg",
     "Party": "Republican",
     "Assumed office": "2013"
   },
@@ -1872,7 +1869,7 @@
     "District": "2",
     "State": "Nebraska",
     "Member": "Don Bacon",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Donald_Bacon_Official_House_Photo_%28cropped%29.jpg/75px-Donald_Bacon_Official_House_Photo_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Don_Bacon_117th_Congress.jpg/75px-Don_Bacon_117th_Congress.jpg",
     "Party": "Republican",
     "Assumed office": "2017"
   },
@@ -1904,7 +1901,7 @@
     "District": "3",
     "State": "Nevada",
     "Member": "Susie Lee",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Susie_Lee%2C_official_portrait%2C_116th_Congress_%28cropped%29.jpg/75px-Susie_Lee%2C_official_portrait%2C_116th_Congress_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/U.S._Representative_Susie_Lee%2C_117th_Congress.jpg/75px-U.S._Representative_Susie_Lee%2C_117th_Congress.jpg",
     "Party": "Democratic",
     "Assumed office": "2019"
   },
@@ -2104,7 +2101,7 @@
     "District": "7",
     "State": "New York",
     "Member": "Nydia Velázquez",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Nydia_Vel%C3%A1zquez_oficial_portrait_%28cropped%29.jpg/75px-Nydia_Vel%C3%A1zquez_oficial_portrait_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Nydia_Vel%C3%A1zquez_official_portrait_%28cropped%29.jpg/75px-Nydia_Vel%C3%A1zquez_official_portrait_%28cropped%29.jpg",
     "Party": "Democratic",
     "Assumed office": "1993"
   },
@@ -2192,7 +2189,7 @@
     "District": "18",
     "State": "New York",
     "Member": "Sean Patrick Maloney",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Congressman_Maloney_official_%28cropped%29.jpg/75px-Congressman_Maloney_official_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Congressman_Sean_Patrick_Maloney_official_portrait_%28cropped%29.jpg/75px-Congressman_Sean_Patrick_Maloney_official_portrait_%28cropped%29.jpg",
     "Party": "Democratic",
     "Assumed office": "2013"
   },
@@ -2463,7 +2460,10 @@
   {
     "District": "11",
     "State": "Ohio",
-    "Member": "VACANT"
+    "Member": "Shontel Brown",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Shontel_Brown%2C_Official_Portrait_-_117th_Congress.jpg/75px-Shontel_Brown%2C_Official_Portrait_-_117th_Congress.jpg",
+    "Party": "Democratic",
+    "Assumed office": "2021"
   },
   {
     "District": "12",
@@ -2492,13 +2492,16 @@
   {
     "District": "15",
     "State": "Ohio",
-    "Member": "VACANT"
+    "Member": "Mike Carey",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Mike_Carey_117th_Congress.jpg/75px-Mike_Carey_117th_Congress.jpg",
+    "Party": "Republican",
+    "Assumed office": "2021"
   },
   {
     "District": "16",
     "State": "Ohio",
     "Member": "Anthony Gonzalez",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Anthony_Gonzalez%2C_official_portrait%2C_116th_Congress_%28cropped_2%29.jpg/75px-Anthony_Gonzalez%2C_official_portrait%2C_116th_Congress_%28cropped_2%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Anthony_Gonzalez%2C_official_portrait%2C_116th_Congress_2.jpg/75px-Anthony_Gonzalez%2C_official_portrait%2C_116th_Congress_2.jpg",
     "Party": "Republican",
     "Assumed office": "2019"
   },
@@ -2522,7 +2525,7 @@
     "District": "3",
     "State": "Oklahoma",
     "Member": "Frank Lucas",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Frank_Lucas_%28cropped%29.jpg/75px-Frank_Lucas_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Rep._Frank_Lucas_Official_Photo.png/75px-Rep._Frank_Lucas_Official_Photo.png",
     "Party": "Republican",
     "Assumed office": "1994"
   },
@@ -2530,7 +2533,7 @@
     "District": "4",
     "State": "Oklahoma",
     "Member": "Tom Cole",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Tom_Cole_official_congressional_photo_%28cropped%29.jpg/75px-Tom_Cole_official_congressional_photo_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Rep-Tom-Cole-117thCong.jpeg/75px-Rep-Tom-Cole-117thCong.jpeg",
     "Party": "Republican",
     "Assumed office": "2003"
   },
@@ -2538,7 +2541,7 @@
     "District": "5",
     "State": "Oklahoma",
     "Member": "Stephanie Bice",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Stephanie_Bice_117th_U.S_Congress_%28cropped%29.jpg/75px-Stephanie_Bice_117th_U.S_Congress_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Rep._Stephanie_Bice%2C_117th_Congress.jpg/75px-Rep._Stephanie_Bice%2C_117th_Congress.jpg",
     "Party": "Republican",
     "Assumed office": "2021"
   },
@@ -2666,7 +2669,7 @@
     "District": "11",
     "State": "Pennsylvania",
     "Member": "Lloyd Smucker",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Lloyd_Smucker_official_congressional_photo_%28cropped%29.jpg/75px-Lloyd_Smucker_official_congressional_photo_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Lloyd_Smucker_Official_Congressional_Photo.jpg/75px-Lloyd_Smucker_Official_Congressional_Photo.jpg",
     "Party": "Republican",
     "Assumed office": "2017"
   },
@@ -2922,7 +2925,7 @@
     "District": "6",
     "State": "Texas",
     "Member": "Jake Ellzey",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/U.S._Representative%2C_Jake_Ellzey_%28cropped%29.jpg/75px-U.S._Representative%2C_Jake_Ellzey_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Jake_Ellzey_Official_Portrait_-_117th_Congress.jpg/75px-Jake_Ellzey_Official_Portrait_-_117th_Congress.jpg",
     "Party": "Republican",
     "Assumed office": "2021"
   },
@@ -3010,7 +3013,7 @@
     "District": "17",
     "State": "Texas",
     "Member": "Pete Sessions",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Pete_Sessions_Congressional_ID_photo_117.jpg/75px-Pete_Sessions_Congressional_ID_photo_117.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Pete_Sessions.jpg/75px-Pete_Sessions.jpg",
     "Party": "Republican",
     "Assumed office": "2021"
   },
@@ -3210,7 +3213,7 @@
     "District": "1",
     "State": "Virginia",
     "Member": "Rob Wittman",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Rob_Wittman_116th_Congress_%28cropped%29.jpg/75px-Rob_Wittman_116th_Congress_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Rob_Wittman_117th_Congress.jpeg/75px-Rob_Wittman_117th_Congress.jpeg",
     "Party": "Republican",
     "Assumed office": "2007"
   },
@@ -3354,7 +3357,7 @@
     "District": "8",
     "State": "Washington",
     "Member": "Kim Schrier",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Kim_Schrier%2C_official_portrait%2C_116th_Congress_%28cropped%29.jpg/75px-Kim_Schrier%2C_official_portrait%2C_116th_Congress_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Kim_Schrier_Official_Portrait_116th_Congress.jpg/75px-Kim_Schrier_Official_Portrait_116th_Congress.jpg",
     "Party": "Democratic",
     "Assumed office": "2019"
   },
@@ -3434,7 +3437,7 @@
     "District": "5",
     "State": "Wisconsin",
     "Member": "Scott Fitzgerald",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Scott_Fitzgerald_117th_Congress_portrait_%28cropped%29.jpg/75px-Scott_Fitzgerald_117th_Congress_portrait_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Scott_Fitzgerald_Official_Portrait_%28cropped%29.jpg/75px-Scott_Fitzgerald_Official_Portrait_%28cropped%29.jpg",
     "Party": "Republican",
     "Assumed office": "2021"
   },
