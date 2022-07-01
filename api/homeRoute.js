@@ -1,6 +1,7 @@
-const axios = require("axios");
 const {google} = require("googleapis");
 const analytics = google.analytics("v3");
+const {sum} = require("d3-array");
+const {Op} = require("sequelize");
 
 // configure an auth client
 const jwtClient = new google.auth.GoogleAuth({
@@ -8,306 +9,233 @@ const jwtClient = new google.auth.GoogleAuth({
   scopes: "https://www.googleapis.com/auth/analytics.readonly"
 });
 
-const {CANON_API} = process.env;
+const slugMap = {
+  cip: "CIP",
+  geo: "Geography",
+  naics: "PUMS Industry",
+  napcs: "NAPCS",
+  soc: "PUMS Occupation",
+  university: "University"
+};
+
+const newProfiles = [
+  // fill this array with profile slugs to be tagged as "New"
+];
+
+const hiddenProfiles = [
+  // fill this array with profile slugs that you want to be surpressed
+  "california",
+  "united-states",
+  "new-york-ny"
+]
+
+const tilesPerColumn = 4;
+
+const prepTile = (row, profile) => ({
+  title: row.content[0].name,
+  new: newProfiles.includes(row.slug) || newProfiles.includes(row.id),
+  url: `/profile/${profile}/${row.slug || row.id}`,
+  image: `/api/profile/${profile}/${row.slug || row.id}/thumb`
+});
+
+const fetchProfileViews = (slug, daysAgo = 7) => analytics.data.ga
+  .get({
+    "auth": jwtClient,
+    "dimensions": "ga:pagePath",
+    "ids": "ga:111999474",
+    "start-date": `${daysAgo}daysAgo`,
+    "end-date": "yesterday",
+    "metrics": "ga:pageviews",
+    "sort": "-ga:pageviews",
+    "max-results": tilesPerColumn * 4,
+    "filters": `ga:pagePath=~\/profile\/(${slug})\/.*`
+  })
+  .then(resp => resp.data.rows)
+  .then(rows => (
+    rows
+      .map(row => row[0].split("/")[3].split("?")[0])
+      .filter(slug => !hiddenProfiles.includes(slug))
+  ))
+  .catch(() => []);
 
 module.exports = function(app) {
 
-  const {db} = app.settings
+  const {db} = app.settings;
+  const {totals} = app.settings.cache.searchIndex;
+
+  const createTiles = (slugs, profile) => db.search
+    .findAll({
+      include: [{association: "content"}],
+      where: {
+        dimension: slugMap[profile],
+        [Op.or]: [{id: slugs}, {slug: slugs}]
+      }
+    })
+    .then(attrs => attrs
+      .sort((a, b) => slugs.indexOf(a.slug) - slugs.indexOf(b.slug))
+      .map(a => prepTile(a, profile))
+    )
+    .catch(() => []);
 
   app.get("/api/home", async(req, res) => {
 
-    const mostVisited = await analytics.data.ga
-      .get({
-        "auth": jwtClient,
-        "dimensions": "ga:pagePath",
-        "ids": "ga:111999474",
-        "start-date": "30daysAgo",
-        "end-date": "yesterday",
-        "metrics": "ga:pageviews",
-        "sort": "-ga:pageviews"
-      })
-      .then(resp => resp.data.rows.filter(r => r[0].includes("/profile/")))
-      .then(rows => rows.reduce((obj, row) => {
-        const profile = row[0].split("/")[2];
-        if (profile !== "degree") {
-          if (!obj[profile]) obj[profile] = [];
-          if (obj[profile].length < 5) obj[profile].push(row[0].split("/")[3]);
-        }
-        return obj;
-      }, {}))
-      .catch(() => ({}));
+    const mostVisited = {
+      geo:        await fetchProfileViews("geo", 1),
+      naics:      await fetchProfileViews("naics", 7),
+      soc:        await fetchProfileViews("soc", 7),
+      university: await fetchProfileViews("university", 7),
+      cip:        await fetchProfileViews("cip", 7),
+      napcs:      await fetchProfileViews("napcs", 7)
+    };
 
     const carousels = [];
-    const newProfiles = [
-      // "congressional-district-5-ga",
-      // "congressional-district-50-ca",
-      // "congressional-district-4-tx",
-      // "congressional-district-11-nc",
-      // "congressional-district-1-oh", // congressional districts
-      // "6222", "45221", "7112", "517311", "5241", // 2018 PUMS Industries
-      // "311131", "15124X", "395092", "253041", "271024" // 2018 PUMS Occupations
-    ];
+
+
+    /*
+     * Create Location Tiles
+    */
+    const geoSlugs = mostVisited.geo.concat(
+      ["california", "welch-wv", "new-york-ny", "houston-tx", "arlington-va"]
+    );
+
+    const geos = await createTiles(geoSlugs, "geo");
 
     carousels.push({
-      title: "Viz Builder",
-      icon: "/icons/sections/admissions.svg",
-      rank: 6,
-      footer: "View Builder",
-      url: "/visualize",
-      new: false,
-      tiles: [
-        {
-          title: "Department of Interior Spending by State",
-          url: "/visualize?measure=15McbE&groups%5B0%5D=Z1yKmqI%7C0&groups%5B1%5D=ZUNjL7%7C0%7C14",
-          image: "/api/profile/geo/washington-dc/thumb",
-          new: false
-        },
-        {
-          title: "Opioid Deaths by County",
-          url: "/visualize?measure=BfMl&groups%5B0%5D=24ygXJ%7C0",
-          image: "/api/profile/cip/pharmacology/thumb",
-          new: false
-        },
-        {
-          title: "Admissions for Universities in the Boston Metro Area",
-          url: "/visualize?measure=Z1llza9&groups%5B0%5D=XfcCa%7C0%7C31000US14460&groups%5B1%5D=Z1jf4TU%7C0",
-          image: "/api/profile/geo/boston-cambridge-newton-ma-nh/thumb",
-          new: false
-        },
-        {
-          title: "Default Rate by State",
-          url: "/visualize?measure=Z1qoEro&groups%5B0%5D=2rWGHH%7C0",
-          image: "/api/profile/soc/434131/thumb",
-          new: false
-        },
-        {
-          title: "Foreign-Born Citizens by State",
-          url: "/visualize?measure=HLEw5&groups%5B0%5D=ZaC9a6%7C0",
-          image: "/api/profile/cip/regional-studies-us-canadian-foreign/thumb",
-          new: false
-        }
-      ]
-    });
-
-    const geoSlugs = mostVisited.geo && mostVisited.geo.length === 5 ? mostVisited.geo : [
-      "california",
-      "welch-wv",
-      "new-york-ny",
-      "houston-tx",
-      "arlington-va"
-    ];
-
-    const geos = await db.search
-      .findAll({include: [{association: "content"}], where: {dimension: "Geography", slug: geoSlugs}})
-      .then(attrs => attrs
-        .sort((a, b) => geoSlugs.indexOf(a.slug) - geoSlugs.indexOf(b.slug))
-        .map(a => ({
-          title: a.content[0].name,
-          new: newProfiles.includes(a.slug) || newProfiles.includes(a.id),
-          url: `/profile/geo/${a.slug || a.id}`,
-          image: `/api/profile/geo/${a.slug || a.id}/thumb`
-        }))
-      )
-      .catch(() => []);
-
-    carousels.push({
-      title: "Cities & Places",
-      icon: "/icons/dimensions/Geography - White.svg",
-      rank: 1,
-      footer: "36,911 more",
+      title: "Locations",
+      slug: "geo",
+      icon: "/icons/dimensions/Geography.svg",
       url: "/search/?dimension=Geography",
-      tiles: geos
+      tiles: geos.slice(0, tilesPerColumn),
+      total: sum(Object.values(totals.Geography))
     });
 
-    const indSlugs = mostVisited.naics && mostVisited.naics.length === 5 ? mostVisited.naics : [
-      "oil-gas-extraction",
-      "finance-insurance",
-      "restaurants-food-services",
-      "utilities",
-      "manufacturing"
-    ];
 
-    const industries = await db.search
-      .findAll({include: [{association: "content"}], where: {dimension: "PUMS Industry", slug: indSlugs}})
-      .then(attrs => {
-        const ids = attrs.map(d => d.id);
-        return attrs
-          .filter((a, i) => ids.indexOf(a.id) === i)
-          .sort((a, b) => indSlugs.indexOf(a.slug) - indSlugs.indexOf(b.slug))
-          .map(a => ({
-            title: a.content[0].name,
-            new: newProfiles.includes(a.id),
-            url: `/profile/naics/${a.slug || a.id}`,
-            image: `/api/profile/naics/${a.slug || a.id}/thumb`
-          }));
-      })
-      .catch(() => []);
+    /*
+     * Create Industry Tiles
+    */
+    const indSlugs = mostVisited.naics.concat(
+      [
+        "oil-gas-extraction",
+        "finance-insurance",
+        "restaurants-food-services",
+        "utilities",
+        "manufacturing"
+      ]
+    );
+
+    const industries = await createTiles(indSlugs, "naics");
 
     carousels.push({
       title: "Industries",
-      icon: "/icons/dimensions/PUMS Industry - White.svg",
-      rank: 2,
-      footer: "314 more",
+      slug: "naics",
+      icon: "/icons/dimensions/PUMS Industry.svg",
       url: "/search/?dimension=PUMS Industry",
-      tiles: industries
+      tiles: industries.slice(0, tilesPerColumn),
+      total: sum(Object.values(totals["PUMS Industry"]))
     });
 
-    const occSlugs = mostVisited.soc && mostVisited.soc.length === 5 ? mostVisited.soc : [
-      "customer-service-representatives",
-      "police-officers",
-      "service-occupations",
-      "registered-nurses",
-      "physical-therapists"
-    ];
 
-    const occupations = await db.search
-      .findAll({include: [{association: "content"}], where: {dimension: "PUMS Occupation", slug: occSlugs}})
-      .then(attrs => attrs
-        .sort((a, b) => occSlugs.indexOf(a.slug) - occSlugs.indexOf(b.slug))
-        .map(a => ({
-          title: a.content[0].name,
-          new: newProfiles.includes(a.id),
-          url: `/profile/soc/${a.slug || a.id}`,
-          image: `/api/profile/soc/${a.slug || a.id}/thumb`
-        }))
-      )
-      .catch(() => []);
+    /*
+     * Create Occupation Tiles
+    */
+    const occSlugs = mostVisited.soc.concat(
+      [
+        "customer-service-representatives",
+        "police-officers",
+        "service-occupations",
+        "registered-nurses",
+        "physical-therapists"
+      ]
+    );
+
+    const occupations = await createTiles(occSlugs, "soc");
 
     carousels.push({
       title: "Jobs",
-      icon: "/icons/dimensions/PUMS Occupation - White.svg",
-      rank: 3,
-      footer: "659 more",
+      slug: "soc",
+      icon: "/icons/dimensions/PUMS Occupation.svg",
       url: "/search/?dimension=PUMS Occupation",
-      tiles: occupations
+      tiles: occupations.slice(0, tilesPerColumn),
+      total: sum(Object.values(totals["PUMS Occupation"]))
     });
 
-    const universitySlugs = mostVisited.university && mostVisited.university.length === 5 ? mostVisited.university : [
-      "harvard-university",
-      "university-of-washington-seattle-campus",
-      "university-of-california-los-angeles",
-      "university-of-california-berkeley",
-      "stanford-university"
-    ];
 
-    const universities = await db.search
-      .findAll({include: [{association: "content"}], where: {dimension: "University", slug: universitySlugs}})
-      .then(attrs => attrs
-        .sort((a, b) => universitySlugs.indexOf(a.slug) - universitySlugs.indexOf(b.slug))
-        .map(a => ({
-          title: a.content[0].name,
-          url: `/profile/university/${a.slug || a.id}`,
-          image: `/api/profile/university/${a.slug || a.id}/thumb`
-        }))
-      )
-      .catch(() => []);
+    /*
+     * Create University Tiles
+    */
+    const universitySlugs = mostVisited.university.concat(
+      [
+        "harvard-university",
+        "university-of-washington-seattle-campus",
+        "university-of-california-los-angeles",
+        "university-of-california-berkeley",
+        "stanford-university"
+      ]
+    );
+
+    const universities = await createTiles(universitySlugs, "university");
 
     carousels.push({
       title: "Universities",
-      icon: "/icons/dimensions/University - White.svg",
-      rank: 4,
-      footer: "7,190 more",
+      slug: "university",
+      icon: "/icons/dimensions/University.svg",
       url: "/search/?dimension=University",
-      tiles: universities
+      tiles: universities.slice(0, tilesPerColumn),
+      total: sum(Object.values(totals.University))
     });
 
-    const cipSlugs = mostVisited.cip && mostVisited.cip.length === 5 ? mostVisited.cip : [
-      "computer-science-110701",
-      "engineering",
-      "natural-resources-conservation",
-      "electrical-engineering",
-      "biology"
-    ];
+    /*
+     * Create Degree Tiles
+    */
+    const cipSlugs = mostVisited.cip.concat(
+      [
+        "computer-science-110701",
+        "engineering",
+        "general-business-administration-management",
+        "electrical-engineering",
+        "biology"
+      ]
+    );
 
-    const courses = await db.search
-      .findAll({include: [{association: "content"}], where: {dimension: "CIP", slug: cipSlugs}})
-      .then(attrs => attrs
-        .sort((a, b) => cipSlugs.indexOf(a.slug) - cipSlugs.indexOf(b.slug))
-        .map(a => ({
-          title: a.content[0].name,
-          url: `/profile/cip/${a.slug || a.id}`,
-          image: `/api/profile/cip/${a.slug || a.id}/thumb`
-        }))
-      )
-      .catch(() => []);
+    const courses = await createTiles(cipSlugs, "cip");
 
     carousels.push({
       title: "Degrees",
-      icon: "/icons/dimensions/CIP - White.svg",
-      rank: 5,
-      footer: "2,314 more",
+      slug: "cip",
+      icon: "/icons/dimensions/CIP.svg",
       url: "/search/?dimension=CIP",
-      tiles: courses
+      tiles: courses.slice(0, tilesPerColumn),
+      total: sum(Object.values(totals.CIP))
     });
 
-    carousels.push({
-      title: "Data Cart",
-      icon: "/images/cart-big.png",
-      rank: 7,
-      footer: "View Cart",
-      url: "/cart",
-      tiles: [
-        {
-          image: "/api/profile/cip/451099/thumb",
-          title: "Federal Agency Spending by State",
-          cart: {
-            urls: ["/api/data?measures=Obligation%20Amount&drilldowns=Agency,State"],
-            slug: "cart_agency_state"
-          }
-        },
-        {
-          image: "/api/profile/soc/113031/thumb",
-          title: "Average Wage for Jobs",
-          cart: {
-            urls: ["/api/data?measures=Average%20Wage&drilldowns=Detailed%20Occupation"],
-            slug: "cart_wage_soc"
-          }
-        },
-        {
-          image: "/api/profile/naics/3122/thumb",
-          title: "Adult Smoking by State",
-          cart: {
-            urls: ["/api/data?measures=Adult%20Smoking&drilldowns=State"],
-            slug: "cart_adult_smoking_state"
-          }
-        },
-        {
-          image: "/api/profile/cip/45/thumb",
-          title: "Population by County",
-          cart: {
-            urls: ["/api/data?measures=Population&drilldowns=County"],
-            slug: "cart_population_county"
-          }
-        },
-        {
-          image: "/api/profile/geo/05000US25019/thumb",
-          title: "Median Property Value by County",
-          cart: {
-            urls: ["/api/data?measures=Property%20Value,Property%20Value%20Moe&drilldowns=County"],
-            slug: "cart_property_value_county"
-          }
-        }
+    /*
+     * Create Degree Tiles
+    */
+    const napcsSlugs = mostVisited.napcs.concat(
+      [
+        "accounting-and-related-services-except-it-support-services-for-trade-professional-and-business",
+        "materials-and-supplies-for-machinery-and-transportation-equipment-manufacturing",
+        "research-and-development-services-54301",
+        "communications-and-information-and-related-services",
+        "contract-management-and-operation-services-except-property-and-construction-project-management"
       ]
-    });
+    );
 
-    const stories = await axios.get(`${CANON_API}/api/storyLegacy`)
-      .then(resp => resp.data)
-      .catch(() => []);
+    const products = await createTiles(napcsSlugs, "napcs");
 
     carousels.push({
-      title: "Latest Stories",
-      icon: "/icons/sections/about.svg",
-      rank: 8,
-      footer: `${stories.length - 5} more`,
-      url: "/story",
-      tiles: stories.slice(0, 5).map(story => ({
-        image: story.image,
-        title: story.title,
-        url: `/story/${story.id}`
-      }))
+      title: "Products",
+      slug: "napcs",
+      icon: "/icons/dimensions/NAPCS.svg",
+      url: "/search/?dimension=NAPCS",
+      tiles: products.slice(0, tilesPerColumn),
+      total: sum(Object.values(totals.NAPCS))
     });
 
-    res.json(carousels.sort((a, b) => a.rank - b.rank));
+    /*
+     * Return "carousels"
+    */
+    res.json(carousels);
 
   });
 
