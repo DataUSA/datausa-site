@@ -10,11 +10,14 @@ class Contents extends Component {
 
     const {image, subtitle, title} = this.props;
 
-    return <div className="contents">
+    return <>
       { image && <LazyImage imageProps={{className: "image", src: image, alt: title}} backgroundImage={true} /> }
-      <div className="title">{ title }</div>
-      { subtitle && <div className="subtitle">{ subtitle }</div> }
-    </div>;
+      { image && <div className="overlay" /> }
+      <div className="content">
+        <div className="title">{ title }</div>
+        { subtitle && <div className="subtitle">{ subtitle }</div> }
+      </div>
+    </>;
 
   }
 
