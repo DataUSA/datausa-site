@@ -1,61 +1,26 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
+import React from "react";
 import {Link} from "react-router";
+import SVG from "react-inlinesvg";
 import Tile from "components/Tile/Tile";
 
 import "./Column.css";
-import {PropTypes} from "prop-types";
-import {addToCart} from "actions/cart";
 
-class Column extends Component {
+const Column = ({data}) => {
 
-  onCart(data) {
-
-    const {addToCart, cart} = this.props;
-
-    const inCart = cart.data.find(c => c.slug === data.cart.slug);
-
-    if (!inCart) {
-      const build = {
-        format: "function(resp) { return resp.data; }",
-        title: data.title,
-        ...data.cart
-      };
-      addToCart(build);
-    }
-
-  }
-
-  render() {
-
-    const {className, data} = this.props;
-
-    return (
-      <div className={ `column ${className} rank-${data.rank}` }>
-        <h2 className={ `column-title ${ data.new ? "new" : "" }` }>
-          <Link to={data.url}>
-            <img className="icon" src={ data.icon } />
-            { data.title }
-          </Link>
-        </h2>
-        { data.tiles.map((tile, i) => {
-          if (tile.cart) return <Tile key={i} {...tile} onClick={this.onCart.bind(this, tile)} />;
-          else return <Tile key={i} {...tile} />;
-        })}
-        <Link className="column-footer" to={data.url}>{ data.footer }</Link>
-      </div>
-    );
-
-  }
+  return (
+    <div className={ `column ${data.slug}` }>
+      <h2 className={ `column-title ${ data.new ? "new" : "" }` }>
+        <Link to={data.url} className="column-title-link">
+          <div className="column-icon-container">
+            <SVG className="column-icon" src={ data.icon } width={20} height="auto" />
+          </div>
+          { data.title }
+        </Link>
+      </h2>
+      { data.tiles.map((tile, i) =>  <Tile key={i} {...tile} />)}
+    </div>
+  );
 
 }
 
-Column.contextTypes = {
-  router: PropTypes.object
-};
-
-export default connect(state => ({
-  cart: state.cart
-}), dispatch => ({
-  addToCart: build => dispatch(addToCart(build))
-}))(Column);
+export default Column;
