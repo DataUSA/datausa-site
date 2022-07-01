@@ -1,12 +1,14 @@
 banner-height: 36px
 
 red: "#ef6145"
-dark: "#141b2e"
+dark: "#00112C"
+textblue: "#2A425C"
+blue: "#114B8A"
 light: "#727682"
 purple: "#b29dc7"
 
 darkgray: "#484848"
-lightgray: "#b8c0d4"
+lightgray: "#a5abb6"
 
 geo: "#879bf5"
 naics: "#e2cfe6"
@@ -23,8 +25,8 @@ napcs: "#EEA86C"
 # grayscale
 white:        "#f6f6f6"
 light-1:      "#F8F9FA"
-light-2:      "#ECEFF1"
-light-3:      "#CFDAE2"
+light-2:      "#edeeef"
+light-3:      "#dae0e4"
 gray:         "#727682"
 dark-1:       "#8A97AE"
 dark-2:       "#2A2F3B"
