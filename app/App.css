@@ -110,6 +110,42 @@ body {
   line-height: 1.125;
 }
 
+.arrow-link {
+  color: var(--textblue);
+  font-family: var(--base-font-stack);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 31px;
+  text-transform: uppercase;
+
+  &:after {
+    background-image: url('/icons/link-arrow-dark.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    content: "";
+    display: inline-block;
+    height: 15px;
+    margin-bottom: 4px;
+    margin-left: 15px;
+    vertical-align: middle;
+    width: 15px;
+  }
+  &:hover {
+    color: var(--textblue);
+  }
+
+  &.light {
+    color: var(--white);
+    &:after {
+      background-image: url('/icons/link-arrow-light.png');
+    }
+    &:hover {
+      color: var(--white);
+    }
+  }
+}
+
 .bp3-spinner {
   & .bp3-spinner-head {
     stroke: var(--red) !important;
