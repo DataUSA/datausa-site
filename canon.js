@@ -66,7 +66,7 @@ module.exports = {
     },
     cubeFilters: [
       {
-        filter: (cubes, query, caches) => {
+        filter: cubes => {
 
           if (cubes.find(cube => cube.name.includes("_c_"))) {
             cubes = cubes.filter(cube => cube.name.includes("_c_"));
@@ -75,23 +75,7 @@ module.exports = {
             cubes = cubes.filter(cube => cube.name.includes("_2016_"));
           }
 
-          const {pops} = caches;
-          const ids = d3Array.merge(query.dimensions
-            .filter(d => d.dimension === "Geography")
-            .map(d => d.id instanceof Array ? d.id : [d.id]));
-
-          const onlyNation = cubes.find(cube =>
-            cube.name.includes("acs_ygpsar_poverty_by_gender_age_race") ||
-            cube.name.includes("acs_ygf_place_of_birth_for_foreign_born")
-          );
-
-          const bigGeos = ids.length ? onlyNation ? ids.every(g => g === "01000US") : ids.every(g => pops[g] && pops[g] >= 250000) : true;
-          const drilldowns = query.dimensions.filter(d => {
-            const relation = d.relation || "";
-            return relation.includes("Tract") || relation.includes("Place");
-          }).length;
-
-          return cubes.length === 1 ? cubes : cubes.filter(cube => cube.name.match(bigGeos && !drilldowns ? /_1$/g : /_5$/g));
+          return cubes.length === 1 ? cubes : cubes.filter(cube => cube.name.match(/_5$/g));
 
         },
         key: cube => cube.name.replace("_c_", "_").replace("_2016_", "_").replace(/_[0-9]$/g, "")
