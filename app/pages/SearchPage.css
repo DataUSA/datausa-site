@@ -64,6 +64,27 @@
         &.cip { color: var(--cip); }
         &.university { color: var(--university); }
         &.napcs { color: var(--napcs); }
+
+        & .dim-icon {
+          display: inline-block;
+          margin: 0 6px 0 0;
+          text-align: center;
+          vertical-align: middle;
+          width: 20px;
+        }
+        &.geo .dim-icon path[fill] { fill: var(--geo); }
+        &.geo .dim-icon path[stroke] { stroke: var(--geo); }
+        &.naics .dim-icon path[fill] { fill: var(--naics); }
+        &.naics .dim-icon path[stroke] { stroke: var(--naics); }
+        &.soc .dim-icon path[fill] { fill: var(--soc); }
+        &.soc .dim-icon path[stroke] { stroke: var(--soc); }
+        &.cip .dim-icon path[fill] { fill: var(--cip); }
+        &.cip .dim-icon path[stroke] { stroke: var(--cip); }
+        &.university .dim-icon path[fill] { fill: var(--university); }
+        &.university .dim-icon path[stroke] { stroke: var(--university); }
+        &.napcs .dim-icon path[fill] { fill: var(--napcs); }
+        &.napcs .dim-icon path[stroke] { stroke: var(--napcs); }
+
         &:hover {
           cursor: pointer;
         }
@@ -74,11 +95,6 @@
           &:hover {
             cursor: auto;
           }
-        }
-        & img {
-          margin: 0 6px 0 0;
-          width: 18px;
-          vertical-align: bottom;
         }
       }
       & > ul {
@@ -91,6 +107,7 @@
           line-height: 2;
           margin-left: 25px;
           transition: color 0.15s;
+
           &:hover {
             color: white;
             cursor: pointer;
@@ -164,12 +181,26 @@
           background-color: var(--gray);
           cursor: pointer;
         }
-        & img {
+
+        & .dim-icon {
           flex: none;
-          height: 26px;
           margin-right: 20px;
-          width: 26px;
+
+          &.geo path[fill] { fill: var(--geo); }
+          &.geo path[stroke] { stroke: var(--geo); }
+          &.naics path[fill] { fill: var(--naics); }
+          &.naics path[stroke] { stroke: var(--naics); }
+          &.soc path[fill] { fill: var(--soc); }
+          &.soc path[stroke] { stroke: var(--soc); }
+          &.cip path[fill] { fill: var(--cip); }
+          &.cip path[stroke] { stroke: var(--cip); }
+          &.university path[fill] { fill: var(--university); }
+          &.university path[stroke] { stroke: var(--university); }
+          &.napcs path[fill] { fill: var(--napcs); }
+          &.napcs path[stroke] { stroke: var(--napcs); }
+
         }
+
         & .result-text {
           flex: 1;
           & .title {

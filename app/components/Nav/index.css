@@ -79,10 +79,10 @@
     position: absolute;
     right: 0;
     top: 0;
-    & span {
+    & span:not(.isvg) {
       margin: auto;
     }
-    & > span {
+    & > span:not(.isvg) {
       margin: 8px 5px;
       &:only-child {
         margin-right: 5px;

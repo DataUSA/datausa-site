@@ -3,6 +3,7 @@ import {Link} from "react-router";
 import {connect} from "react-redux";
 import Search from "toCanon/Search";
 import {fetchData} from "@datawheel/canon-core";
+import SVG from "react-inlinesvg";
 import {sum} from "d3-array";
 import {format} from "d3-format";
 const commas = format(",");
@@ -93,7 +94,7 @@ class SearchPage extends Component {
           placeholder={ "Find a profile..." }
           primary={ true }
           resultRender={d => <Link to={`/profile/${d.profile}/${d.slug || d.id}`}>
-            <img src={ `/icons/dimensions/${d.dimension} - Color.svg` } />
+            <SVG width={26} className={`dim-icon ${d.profile}`} src={ `/icons/dimensions/${d.dimension}.svg` } />
             <div className="result-text">
               <div className="title">{ d.name }</div>
               <div className="sumlevel">{ d.hierarchy }</div>
@@ -106,37 +107,37 @@ class SearchPage extends Component {
           <ul>
             <li>Profile Type <span className="num">Results</span></li>
             <li className="geo" onClick={this.setDimension.bind(this, "Geography")}>
-              <img src="/icons/dimensions/Geography - Color.svg" />
+              <SVG className="dim-icon" src="/icons/dimensions/Geography.svg" />
               Locations
               <span className="num">{commas(sum(Object.values(totals.Geography)))}</span>
             </li>
             { dimension === "Geography" && <SubList active={hierarchy} totals={totals.Geography} onClick={this.setHierarchy.bind(this)} /> }
             <li className="naics" onClick={this.setDimension.bind(this, "PUMS Industry")}>
-              <img src="/icons/dimensions/PUMS Industry - Color.svg" />
+              <SVG className="dim-icon" src="/icons/dimensions/PUMS Industry.svg" />
               Industries
               <span className="num">{commas(sum(Object.values(totals["PUMS Industry"])))}</span>
             </li>
             { dimension === "PUMS Industry" && <SubList active={hierarchy} totals={totals["PUMS Industry"]} onClick={this.setHierarchy.bind(this)} /> }
             <li className="soc" onClick={this.setDimension.bind(this, "PUMS Occupation")}>
-              <img src="/icons/dimensions/PUMS Occupation - Color.svg" />
+              <SVG className="dim-icon" src="/icons/dimensions/PUMS Occupation.svg" />
               Occupations
               <span className="num">{commas(sum(Object.values(totals["PUMS Occupation"])))}</span>
             </li>
             { dimension === "PUMS Occupation" && <SubList active={hierarchy} totals={totals["PUMS Occupation"]} onClick={this.setHierarchy.bind(this)} /> }
             <li className="cip" onClick={this.setDimension.bind(this, "CIP")}>
-              <img src="/icons/dimensions/CIP - Color.svg" />
+              <SVG className="dim-icon" src="/icons/dimensions/CIP.svg" />
               Degrees
               <span className="num">{commas(sum(Object.values(totals.CIP)))}</span>
             </li>
             { dimension === "CIP" && <SubList active={hierarchy} totals={totals.CIP} onClick={this.setHierarchy.bind(this)} /> }
             <li className="university" onClick={this.setDimension.bind(this, "University")}>
-              <img src="/icons/dimensions/University - Color.svg" />
+              <SVG className="dim-icon" src="/icons/dimensions/University.svg" />
               Universities
               <span className="num">{commas(sum(Object.values(totals.University)))}</span>
             </li>
             { dimension === "University" && <SubList active={hierarchy} totals={totals.University} onClick={this.setHierarchy.bind(this)} /> }
             <li className="napcs" onClick={this.setDimension.bind(this, "NAPCS")}>
-              <img src="/icons/dimensions/NAPCS - Color.svg" />
+              <SVG className="dim-icon" src="/icons/dimensions/NAPCS.svg" />
               Products &amp; Services
               <span className="num">{commas(sum(Object.values(totals.NAPCS)))}</span>
             </li>
