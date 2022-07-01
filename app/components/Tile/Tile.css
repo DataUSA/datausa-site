@@ -1,48 +1,57 @@
 .usa-tile {
+  align-items: center;
   background-color: var(--dark);
-  border: 1px solid #979AA2;
-  color: white;
+  border: 1px solid var(--white);
+  border-radius: 6px;
+  color: var(--white);
   cursor: pointer;
-  display: block;
-  height: 150px;
-  margin: 15px 0;
+  display: flex;
+  flex-direction: column;
+  height: 124px;
+  justify-content: center;
+  margin: 12px 0;
   overflow: hidden;
+  padding: var(--gutter-sm);
   position: relative;
-  transition: border-color 0.25s;
-  & .contents {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 150px;
+  & .image {
+    background: rgba(24, 32, 38, 0.7);
+    background-repeat: no-repeat;
+    background-size: cover;
+    bottom: 0;
+    height: 124px;
+    left: 0;
+    position: absolute;
+    transform: scale(1.05);
     transition: transform 0.6s;
+    top: 0;
     width: 100%;
-    & .image {
-      background-position: 50% 50%;
-      background-repeat: no-repeat;
-      background-size: cover;
-      bottom: 0;
-      height: 150px;
-      left: 0;
-      opacity: 0.5;
-      position: absolute;
-      transition: opacity 0.6s, transform 0.6s;
-      top: 0;
-      width: 102%;
-    }
+    will-change: transform;
+  }
+  & .overlay {
+    background: rgba(24, 32, 38, 0.7);
+    background-repeat: no-repeat;
+    background-size: cover;
+    bottom: 0;
+    height: 124px;
+    left: 0;
+    position: absolute;
+    transition: opacity 0.6s;
+    top: 0;
+    width: 100%;
+    will-change: opacity;
+  }
+  & .content {
+    text-shadow: 0 0 6px rgba(0, 0, 0, 1);
+    transition: transform 0.6s;
+    will-change: transform;
     & .title {
-      font-family: "Pathway Gothic One", sans-serif;
-      font-weight: 400;
-      font-size: 20px;
-      letter-spacing: 1px;
-      line-height: 1;
-      margin: 0 5px 5px;
-      max-width: 200px;
+      font-family: "Palanquin", sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
       position: relative;
       text-transform: uppercase;
       text-align: center;
-      text-shadow: 0 0 12px rgba(0, 0, 0, 1);
-      width: 70%;
       z-index: 0;
     }
     & .subtitle {
@@ -51,9 +60,9 @@
       font-weight: 700;
       letter-spacing: 1px;
       line-height: 17px;
+      margin-top: 5px;
       position: relative;
       text-align: center;
-      text-shadow: 0 0 12px rgba(0, 0, 0, 1);
       text-transform: uppercase;
     }
   }
@@ -73,15 +82,16 @@
     transition: opacity 0.6s;
   }
   &:hover, &:focus, &:active {
-    border: 1px solid white;
-    color: white;
+    color: var(--white);
     text-decoration: none;
-    & .contents {
-      transform: scale(1.15);
-      & .image {
-        opacity: 0.6;
-        transform: scale(0.9);
-      }
+    & .image {
+      transform: scale(1);
+    }
+    & .overlay {
+      opacity: 0.5;
+    }
+    & .content {
+      transform: scale(1.1);
     }
     &.new:after {
       opacity: 1;
