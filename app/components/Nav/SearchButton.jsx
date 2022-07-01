@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {Link} from "react-router";
+import SVG from "react-inlinesvg";
 import {Icon} from "@blueprintjs/core";
 
 import "./SearchButton.css";
@@ -34,7 +35,7 @@ export default class SearchButton extends Component {
         placeholder={ "Search profiles" }
         primary={true}
         resultRender={d => <Link to={`/profile/${d.profile}/${d.slug || d.id}`} className="result-container">
-          <img className="result-icon" src={ `/icons/dimensions/${d.dimension} - Color.svg` } />
+          <SVG className={`result-icon ${d.profile}`} src={ `/icons/dimensions/${d.dimension}.svg` } />
           <div className="result-text">
             <div className="title">{ d.name }</div>
             <div className="sumlevel">{ d.hierarchy }</div>

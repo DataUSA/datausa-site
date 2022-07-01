@@ -5,6 +5,7 @@ import SectionIcon from "./SectionIcon";
 import Search from "toCanon/Search";
 import "./Splash.css";
 import {Button} from "@blueprintjs/core";
+import SVG from "react-inlinesvg";
 
 class CompareButton extends Component {
 
@@ -81,7 +82,7 @@ class Splash extends Component {
         placeholder={ `Search ${profile.label.replace(/([A-z]$)/g, chr => chr === "y" ? "ies" : `${chr}s`)}` }
         primary={false}
         resultRender={d => <div onClick={() => addComparison(d.slug || d.id)} className="result-container">
-          <img className="result-icon" src={ `/icons/dimensions/${d.dimension} - Color.svg` } />
+          <SVG className={`result-icon ${d.profile}`} src={ `/icons/dimensions/${d.dimension}.svg` } />
           <div className="result-text">
             <div className="title">{ d.name }</div>
             <div className="sumlevel">{ d.hierarchy }</div>
