@@ -1419,7 +1419,7 @@ class Coronavirus extends Component {
               </div>
             }
           </div>
-          <div className="content-container sponsors">
+          <div className="content-container company-logos">
             <a
               target="_blank"
               rel="noopener noreferrer"

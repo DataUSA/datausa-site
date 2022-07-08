@@ -81,15 +81,30 @@
         background-color: var(--gray);
       }
       & .result-container {
-        align-items: flex-start;
+        align-items: center;
         display: flex;
         padding: 10px 10px 10px 6px;
         text-align: left;
         & .result-icon {
           display: inline-block;
+          flex: none;
           margin-right: 6px;
-          vertical-align: top;
-          width: 26px;
+          text-align: center;
+          width: 20px;
+
+          &.geo path[fill] { fill: var(--geo); }
+          &.geo path[stroke] { stroke: var(--geo); }
+          &.naics path[fill] { fill: var(--naics); }
+          &.naics path[stroke] { stroke: var(--naics); }
+          &.soc path[fill] { fill: var(--soc); }
+          &.soc path[stroke] { stroke: var(--soc); }
+          &.cip path[fill] { fill: var(--cip); }
+          &.cip path[stroke] { stroke: var(--cip); }
+          &.university path[fill] { fill: var(--university); }
+          &.university path[stroke] { stroke: var(--university); }
+          &.napcs path[fill] { fill: var(--napcs); }
+          &.napcs path[stroke] { stroke: var(--napcs); }
+
         }
         & .result-text {
           display: inline-block;
