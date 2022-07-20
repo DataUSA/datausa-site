@@ -114,7 +114,7 @@ export default class Glossary extends Component {
             As defined by the <a href="https://www.census.gov/geo/reference/gtc/gtc_cousub.html" target="_blank" rel="noopener noreferrer">Census Bureau</a>, &#34;County Subdivisions are the primary divisions of counties and equivalent entities.  They include census county divisions, census subareas, minor civil divisions, and unorganized territories and can be classified as either legal or statistical.  Each county subdivision is assigned a five-character numeric Federal Information Processing Series (FIPS) code based on alphabetical sequence within state and an eight-digit National Standard feature identifier.&#34;
           </p>
           <p>
-            On the Data USA platform, users can view profiles for individual counties or a map of the entire United States showing data at the county level.
+            On the Data USA platform, users can view reports for individual counties or a map of the entire United States showing data at the county level.
           </p>
           <h3 id="place">
             <Anchor slug="place">Census Place</Anchor>
@@ -163,12 +163,6 @@ export default class Glossary extends Component {
           </p>
           <p>
             For more information on Census tracts <a href="https://www.census.gov/geo/reference/gtc/gtc_ct.html" target="_blank" rel="noopener noreferrer">visit the Census Bureau website</a>.
-          </p>
-          <h3 id="zip">
-            <Anchor slug="zip">Zip Code</Anchor>
-          </h3>
-          <p>
-            Zip Codes are only used in the Data USA platform in the advanced search. There are no profiles that show data at the Zip Code level.
           </p>
         </div>
       </div>

@@ -54,8 +54,8 @@
       "Empty": "Please enter a search term",
       "Loading": "Loading results...",
       "No results": "No results matching \"{{query}}\"",
-      "Related Profiles": "Related Profiles",
-      "Search profiles": "Search profiles",
+      "Related Profiles": "Related Reports",
+      "Search profiles": "Search reports",
       "reset": "reset"
     },
     "Section": {

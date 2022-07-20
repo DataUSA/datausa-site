@@ -91,7 +91,7 @@ class SearchPage extends Component {
           limit={100}
           onChange={this.setQuery.bind(this)}
           defaultQuery={defaultQuery}
-          placeholder={ "Find a profile..." }
+          placeholder={ "Find a report..." }
           primary={ true }
           resultRender={d => <Link to={`/profile/${d.profile}/${d.slug || d.id}`}>
             <SVG width={26} className={`dim-icon ${d.profile}`} src={ `/icons/dimensions/${d.dimension}.svg` } />
@@ -105,7 +105,7 @@ class SearchPage extends Component {
         <div className="controls">
           { dimension && <div className="clear" onClick={this.clearFilters.bind(this)}><span className="x">×</span> Clear Filter</div> }
           <ul>
-            <li>Profile Type <span className="num">Results</span></li>
+            <li>Report Type <span className="num">Results</span></li>
             <li className="geo" onClick={this.setDimension.bind(this, "Geography")}>
               <SVG className="dim-icon" src="/icons/dimensions/Geography.svg" />
               Locations
