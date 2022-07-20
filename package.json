@@ -51,7 +51,6 @@
     "localforage": "^1.8.1",
     "lunr": "^2.3.5",
     "node-html-parser": "^1.2.8",
-    "node-yaml": "^3.1.1",
     "promise-throttle": "^1.0.0",
     "query-string": "^6.1.0",
     "react-inlinesvg": "^0.8.4",
