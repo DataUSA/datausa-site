@@ -32,7 +32,7 @@ export default class SearchButton extends Component {
       <Search className="SearchButton"
         icon={ false }
         inactiveComponent={ ClosedButton }
-        placeholder={ "Search profiles" }
+        placeholder="Search reports"
         primary={true}
         resultRender={d => <Link to={`/profile/${d.profile}/${d.slug || d.id}`} className="result-container">
           <SVG className={`result-icon ${d.profile}`} src={ `/icons/dimensions/${d.dimension}.svg` } />
