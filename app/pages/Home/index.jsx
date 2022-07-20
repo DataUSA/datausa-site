@@ -39,7 +39,7 @@ class Home extends Component {
 
               <div className="report-counts">
                 { tiles.map((column, i) => (
-                  <Link to={column.url} className="report-count" key={i}>
+                  <Link to={column.url} className={`report-count ${column.slug}`} key={i}>
                     <div className="report-count-icon">
                       <SVG src={column.icon} height={25} width="auto" />
                     </div>
@@ -70,7 +70,7 @@ class Home extends Component {
               />
 
               <Geomap config={{
-                data: `/api/data?drilldowns=State&year=latest&measures=Population`,
+                data: `/api/data?drilldowns=State&year=latest&measures=Population,Median Household Income`,
                 groupBy: "ID State",
                 label: d => d.State,
                 legend: false,
@@ -99,6 +99,7 @@ class Home extends Component {
                   footer: "Click to View Report",
                   tbody: [
                     ["Year", d => d.Year],
+                    ["Population", d => formatAbbreviate(d.Population)]
                     ["Population", d => formatAbbreviate(d.Population)]
                   ]
                 },

@@ -109,6 +109,12 @@
           display: block;
           width: 3px;
         }
+        &.geo:before { background-color: var(--geo); }
+        &.naics:before { background-color: var(--naics); }
+        &.soc:before { background-color: var(--soc); }
+        &.cip:before { background-color: var(--cip); }
+        &.university:before { background-color: var(--university); }
+        &.napcs:before { background-color: var(--napcs); }
       }
     }
 
