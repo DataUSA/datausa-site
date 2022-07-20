@@ -59,8 +59,7 @@ class Nav extends Component {
 
     const splash = home ||
                    pathname.indexOf("profile") === 0 ||
-                   pathname.indexOf("coronavirus") === 0 ||
-                   pathname.indexOf("story") === 0 && pathname.length > 10;
+                   pathname.indexOf("coronavirus") === 0;
 
     const dark = !splash;
 
@@ -142,9 +141,6 @@ class Nav extends Component {
             </li>
             <li>
               <Link to="/map">Maps</Link>
-            </li>
-            <li>
-              <Link to="/story">Stories</Link>
             </li>
             <li>
               <Link to="/cart">Data Cart</Link>

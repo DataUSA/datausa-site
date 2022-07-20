@@ -58,16 +58,16 @@ class Splash extends Component {
   render() {
     const {revealPhoto} = this.state;
     const {addComparison} = this.context;
-    const {data: profile, height, comparisons, story} = this.props;
+    const {data: profile, height, comparisons} = this.props;
 
     const data = [profile].concat(comparisons);
 
-    const slug = story ? "" : profile.meta[0].slug;
-    const dimension = story ? "" : profile.meta[0].dimension;
+    const slug = profile.meta[0].slug;
+    const dimension = profile.meta[0].dimension;
 
     return <div id="Splash" style={{height}} className={`splash-${slug} splash-${(data[0].sections || data[0].topics)[0].stats.length}${revealPhoto ? " reveal-photo" : ""}`}>
       <div className="image-container" style={{height}}>
-        { data.map((d, i) => <div key={i} className="image" style={{backgroundImage: `url("${story ? d.image : `/api/profile/${d.dims[0].slug}/${d.variables.slug1}/splash`}")`}}></div>) }
+        { data.map((d, i) => <div key={i} className="image" style={{backgroundImage: `url("/api/profile/${d.dims[0].slug}/${d.variables.slug1}/splash")`}}></div>) }
         <Button onClick={this.revealPhoto.bind(this)} icon="camera" className={ `bp3-minimal ${revealPhoto ? "bp3-active" : ""}` } />
       </div>
       <div className="content-container">
@@ -76,7 +76,7 @@ class Splash extends Component {
       <div className="content-container">
         { data.map((d, i) => <div key={i} className="profile-subtitle" dangerouslySetInnerHTML={{__html: (d.sections || d.topics)[0].subtitles.length ? (d.sections || d.topics)[0].subtitles[0].subtitle : null}} />) }
       </div>
-      { !story && <Search className="SearchButton"
+      <Search className="SearchButton"
         icon={ false }
         inactiveComponent={ CompareButton }
         placeholder={ `Search ${profile.label.replace(/([A-z]$)/g, chr => chr === "y" ? "ies" : `${chr}s`)}` }
@@ -88,13 +88,13 @@ class Splash extends Component {
             <div className="sumlevel">{ d.hierarchy }</div>
           </div>
         </div>}
-        url={ `/api/searchLegacy/?dimension=${dimension}` } /> }
-      { !story && <div className="content-container">
+        url={ `/api/searchLegacy/?dimension=${dimension}` } />
+      <div className="content-container">
         { data.map((d, i) => (d.sections || d.topics)[0].stats.length && <div key={i} className="profile-stats">
           { (d.sections || d.topics)[0].stats.map((s, ii) => <Stat key={ii} data={s} />) }
         </div>) }
-      </div> }
-      { !story && profile.sections &&
+      </div>
+      { profile.sections &&
         <div className="profile-sections">
           <SectionIcon slug="about" title="About" />
           { profile.sections.filter(d => d.type === "Grouping").map((s, i) => <SectionIcon key={i} {...s} />) }
@@ -118,8 +118,7 @@ Splash.contextTypes = {
 
 Splash.defaultProps = {
   comparisons: [],
-  height: "100vh",
-  story: false
+  height: "100vh"
 };
 
 export default Splash;
