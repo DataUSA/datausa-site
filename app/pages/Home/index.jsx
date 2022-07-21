@@ -70,7 +70,7 @@ class Home extends Component {
               />
 
               <Geomap config={{
-                data: `/api/data?drilldowns=State&year=latest&measures=Population,Median Household Income`,
+                data: `/api/data?drilldowns=State&year=latest&measures=Population`,
                 groupBy: "ID State",
                 label: d => d.State,
                 legend: false,
@@ -99,7 +99,6 @@ class Home extends Component {
                   footer: "Click to View Report",
                   tbody: [
                     ["Year", d => d.Year],
-                    ["Population", d => formatAbbreviate(d.Population)]
                     ["Population", d => formatAbbreviate(d.Population)]
                   ]
                 },
