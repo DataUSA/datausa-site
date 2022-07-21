@@ -290,6 +290,39 @@
     padding: var(--gutter-xl) var(--gutter-lg);
     width: 100%;
 
+    &.stripe {
+      align-items: center;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 37px;
+      padding: 0;
+      & .stripe-title {
+        color: var(--white);
+        flex: none;
+        padding-left: var(--gutter-lg);
+        &:after {
+          background-color: var(--white);
+          content: "";
+          display: inline-block;
+          height: 23px;
+          margin: 0 30px 5px;
+          width: 1px;
+          vertical-align: middle;
+        }
+      }
+      & .stripe-desc {
+        color: #A7B5CC;
+        flex: 1 1 100%;
+      }
+      & .arrow-link {
+        background-color: #142E58;
+        flex: none;
+        padding: var(--gutter-md);
+      }
+    }
+
     & h2 {
       font-weight: 500;
       font-size: 32px;

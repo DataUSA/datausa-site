@@ -121,6 +121,12 @@ class Home extends Component {
 
         </header>
 
+        <section className="dark stripe">
+          <span className="stripe-title">Daily Updates</span>
+          <span className="stripe-desc">Explore the latest Covid-19 numbers in the United States</span>
+          <Link to="/coronavirus" className="arrow-link light">Go to COVID Explorer</Link>
+        </section>
+
         <section className="light">
           <div className="home-flex">
             <div className="home-text">
