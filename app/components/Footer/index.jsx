@@ -11,10 +11,9 @@ export default class Footer extends Component {
         <div className="footer-links">
           <ul>
             <h4>Explore</h4>
-            <li><Link to="/search/">Profiles</Link></li>
+            <li><Link to="/search/">Reports</Link></li>
             <li><Link to="/visualize">Viz Builder</Link></li>
             <li><Link to="/map/">Maps</Link></li>
-            <li><Link to="/story/">Stories</Link></li>
             <li><Link to="/cart/">Data Cart</Link></li>
           </ul>
           <ul>

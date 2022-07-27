@@ -4,27 +4,30 @@
 
 .SearchButton {
   display: flex;
-  margin: 5px;
   overflow: visible;
   transition: width 0.25s ease-in-out;
-  width: 35px;
+  width: 36px;
   &.active {
     background-color: var(--darkgray);
     width: var(--nav-search-width);
   }
   & .ClosedButton {
+    align-items: flex-start;
+    box-sizing: content-box;
     cursor: pointer;
+    height: 16px;
+    margin: 5px !important;
     opacity: 0.75;
     transition: opacity 0.2s;
-    width: 35px;
+    width: 16px;
     &:hover {
       opacity: 1;
     }
     & .bp3-icon {
       color: white;
-      margin: 7px;
       transition: transform 0.25s ease-in-out;
       will-change: transform;
+      vertical-align: top;
     }
     &.active {
       opacity: 1;
@@ -34,6 +37,8 @@
     }
   }
   & .bp3-input-group {
+    align-items: flex-start;
+    display: flex;
     flex: 1;
     & input {
       background-color: transparent;
@@ -43,14 +48,17 @@
       color: white;
       font-family: "Palanquin", sans-serif;
       font-size: 13px;
+      height: 20px;
+      line-height: 1;
+      margin: 2px 0 0 5px !important;
       opacity: 0;
       outline: 0;
       margin: 0;
       padding: 0;
       transition: opacity 0.25s ease-in-out;
-    }
-    &::placeholder {
-      color: var(--lightgray);
+      &::placeholder {
+        color: var(--lightgray);
+      }
     }
     &.active {
       & input {
@@ -70,7 +78,7 @@
     overflow-y: scroll;
     padding: 0;
     position: absolute;
-    top: 40px;
+    top: 25px;
     width: var(--nav-search-width);
     &.active {
       display: block;

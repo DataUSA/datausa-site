@@ -70,12 +70,12 @@ const dataLookup = {
     measure: "Population"
   },
   "PUMS Industry": {
-    table: "pums_1",
+    table: "pums_5",
     year: "2017",
     measure: "Total Population"
   },
   "PUMS Occupation": {
-    table: "pums_1",
+    table: "pums_5",
     year: "2017",
     measure: "Total Population"
   },

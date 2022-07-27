@@ -5,9 +5,11 @@
 }
 
 #Nav {
+  align-items: center;
+  display: flex;
   height: var(--nav-height);
   left: 0;
-  padding: 10px 15px;
+  padding: 0 10px;
   position: fixed;
   text-align: center;
   top: 0;
@@ -23,88 +25,106 @@
   }
   & .menu-btn {
     cursor: pointer;
+    display: none;
     left: 0;
-    opacity: 0.75;
-    padding: 10px 13px;
+    padding: 10px 10px 9px;
     position: absolute;
-    transition: opacity 0.2s;
-    top: 0;
-    &:hover {
-      opacity: 1;
+    top: 1px;
+    z-index: 22;
+    @media (max-width: 768px) {
+      display: block;
     }
-    & .label {
-      color: white;
-      display: inline-block;
-      font-family: "Palanquin", sans-serif;
-      font-size: 12px;
-      font-weight: 600;
-      opacity: 1;
-      padding-left: 10px;
-      text-transform: uppercase;
-      transition: opacity 0.25s ease-in-out;
-      vertical-align: top;
-      &.open {
-        opacity: 0;
-        overflow: hidden;
-        padding-left: 0;
-        width: 0;
+  }
+  & .left-buttons {
+    align-items: center;
+    display: flex;
+    flex: 1 1 100%;
+    justify-content: flex-start;
+    min-width: 0;
+    & .home-btn {
+      box-sizing: content-box;
+      flex: none;
+      height: 19px;
+      padding: 5px 10px;
+      & img {
+        height: 19px;
+        width: 76px;
+      }
+      @media (max-width: 768px) {
+        padding-left: 30px;
+        &:not(:last-child) {
+          display: none;
+        }
       }
     }
-  }
-  & .home-btn {
-    margin: 0 auto;
-    & img {
-      width: 76px;
-    }
-  }
-  & .nav-subtitle {
-    color: var(--red);
-    display: inline-block;
-    font-family: "Pathway Gothic One", sans-serif;
-    font-size: 24px;
-    height: 30px;
-    line-height: 19px;
-    max-width: calc(100% - 260px);
-    overflow: hidden;
-    padding: 0 7px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    vertical-align: middle;
-    @media (max-width: 500px) {
-      display: none;
+    & .nav-subtitle {
+      color: var(--red);
+      display: inline-block;
+      flex: 1 1 100%;
+      font-family: "Pathway Gothic One", sans-serif;
+      font-size: 24px;
+      line-height: 19px;
+      margin-bottom: -5px;
+      overflow-x: hidden;
+      padding: 0 0 6px;
+      text-align: left;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      vertical-align: middle;
+      @media (max-width: 768px) {
+        padding-left: 30px;
+      }
     }
   }
   & .right-buttons {
+    align-items: center;
     display: flex;
-    position: absolute;
-    right: 0;
-    top: 0;
-    & span:not(.isvg) {
-      margin: auto;
-    }
-    & > span:not(.isvg) {
-      margin: 8px 5px;
-      &:only-child {
-        margin-right: 5px;
+    flex: none;
+    & .right-links {
+      display: flex;
+      margin: 0;
+      list-style: none;
+      padding: 0;
+      & li {
+        & a {
+          color: var(--white);
+          font-family: "Pathway Gothic One", sans-serif;
+          font-size: 17px;
+          font-weight: 400;
+          line-height: 20px;
+          letter-spacing: 0.03em;
+          padding: 10px 20px;
+          text-transform: uppercase;
+          white-space: nowrap;
+        }
+      }
+      @media (max-width: 768px) {
+        display: none;
       }
     }
     & .cart-icon {
+      align-items: center;
       color: white;
-      display: inline-block;
+      display: flex;
       font-family: "Palanquin", sans-serif;
       font-size: 13px;
       font-weight: 800;
       line-height: 20px;
       opacity: 0.75;
+      margin: 10px;
       transform: scale(1);
       transition: opacity 0.2s;
-      vertical-align: top;
       &:hover {
         opacity: 1;
         text-decoration: none;
       }
-      & img {
-        vertical-align: top;
+      & .isvg {
+        flex: none;
+        height: 19px;
+        width: 21px;
+        &.filled svg path {
+          fill: var(--red);
+        }
       }
       @for $i from 1 to 5 {
         &.cart-size-$i {
@@ -112,14 +132,6 @@
           animation-duration: 0.5s;
           animation-iteration-count: 1;
         }
-      }
-    }
-    & .ClosedButton {
-      margin-top: 1px;
-      & .bp3-icon-search {
-        color: white;
-        margin-bottom: 3px;
-        vertical-align: middle;
       }
     }
   }
@@ -211,10 +223,7 @@
 
 .bp3-dialog.nav-menu {
   background-color: var(--black) !important;
-  display: flex;
-  flex-direction: column;
   height: 100vh;
-  justify-content: space-space-between;
   left: 0;
   margin: 0;
   padding: 0;
@@ -226,10 +235,7 @@
   will-change: transform;
   & .menu-content {
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
     height: 100vh;
-    justify-content: space-between;
     margin: 0;
     & ul {
       list-style: none;
@@ -268,18 +274,11 @@
         }
       }
     }
-    & .menu-collab {
-      padding-bottom: 25px;
-      text-align: center;
-      & img {
-        height: 15px;
-        margin: 10px;
-        opacity: 0.75;
-        transition: opacity 0.1s;
-        &:hover {
-          opacity: 1;
-        }
-      }
+    & .menu-close {
+      outline: none;
+      position: absolute;
+      right: 10px;
+      top: 10px;
     }
   }
 }

@@ -39,7 +39,7 @@ class Home extends Component {
 
               <div className="report-counts">
                 { tiles.map((column, i) => (
-                  <Link to={column.url} className="report-count" key={i}>
+                  <Link to={column.url} className={`report-count ${column.slug}`} key={i}>
                     <div className="report-count-icon">
                       <SVG src={column.icon} height={25} width="auto" />
                     </div>
@@ -120,6 +120,12 @@ class Home extends Component {
           </div>
 
         </header>
+
+        <section className="dark stripe">
+          <span className="stripe-title">Daily Updates</span>
+          <span className="stripe-desc">Explore the latest Covid-19 numbers in the United States</span>
+          <Link to="/coronavirus" className="arrow-link light">Go to COVID Explorer</Link>
+        </section>
 
         <section className="light">
           <div className="home-flex">

@@ -1,10 +1,9 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router";
-import {Dialog, Popover, PopoverInteractionKind, Position} from "@blueprintjs/core";
+import SVG from "react-inlinesvg";
+import {Button, Dialog, Popover, PopoverInteractionKind, Position} from "@blueprintjs/core";
 import "./index.css";
-
-import Hamburger from "./Hamburger";
 
 import SearchButton from "./SearchButton";
 import {clearCart, removeFromCart} from "actions/cart";
@@ -59,8 +58,7 @@ class Nav extends Component {
 
     const splash = home ||
                    pathname.indexOf("profile") === 0 ||
-                   pathname.indexOf("coronavirus") === 0 ||
-                   pathname.indexOf("story") === 0 && pathname.length > 10;
+                   pathname.indexOf("coronavirus") === 0;
 
     const dark = !splash;
 
@@ -87,22 +85,39 @@ class Nav extends Component {
 
     return <nav id="Nav" className={ `${background || dark ? "background" : ""} ${menu ? "menu" : ""}` }>
 
-      <div className="menu-btn" onClick={ toggleMenu }>
-        <Hamburger isOpen={ menu } />
-        <span className={ menu ? "label open" : "label" }>Menu</span>
+      <div className="left-buttons">
+
+        <div className="menu-btn" onClick={ toggleMenu }>
+          <SVG src="/images/hamburger.svg" width={21} height={16} />
+        </div>
+
+        { !home || (dark || background)
+          ? <Link to="/" className="home-btn">
+            <img src="/images/logo_sm.png" alt="Data USA" />
+          </Link>
+          : null }
+
+        { title && (dark || background)
+          ? <span className="nav-subtitle">{ title }</span>
+          : null }
+
       </div>
 
-      { !home || (dark || background)
-        ? <Link to="/" className="home-btn">
-          <img src="/images/logo_sm.png" alt="Data USA" />
-        </Link>
-        : null }
-
-      { title && (dark || background)
-        ? <span className="nav-subtitle">{ title }</span>
-        : null }
-
       <div className="right-buttons">
+        <ul className="right-links">
+          <li>
+            <Link to="/search">Reports</Link>
+          </li>
+          <li>
+            <Link to="/map">Maps</Link>
+          </li>
+          <li>
+            <Link to="/visualize">Viz Builder</Link>
+          </li>
+          <li>
+            <Link to="/about">About</Link>
+          </li>
+        </ul>
         <Popover
           hoverOpenDelay={0}
           hoverCloseDelay={150}
@@ -111,7 +126,7 @@ class Nav extends Component {
           content={<Cart />}>
           <a href="/cart" key={ `cart-size-${cart ? cart.data.length : 0}` } className={ `cart-icon cart-size-${cart ? cart.data.length : 0}` }>
             { cart && cart.data.length ? <span className="cart-size">{cart.data.length}</span> : null }
-            <img src={ `/images/cart${cart && cart.data.length ? "-red" : ""}.svg` } />
+            <SVG src="/images/cart.svg" className={cart && cart.data.length ? "filled" : "empty"} width={20} height={19} />
           </a>
         </Popover>
         { search && <SearchButton /> }
@@ -124,10 +139,7 @@ class Nav extends Component {
               <Link to="/">Home</Link>
             </li> }
             <li>
-              <Link to="/coronavirus">Coronavirus</Link>
-            </li>
-            <li>
-              <Link to="/search">Explore</Link>
+              <Link to="/search">Reports</Link>
               <ul>
                 <li><Link to="/search/?dimension=Geography">Locations</Link></li>
                 <li><Link to="/search/?dimension=PUMS Industry">Industries</Link></li>
@@ -138,13 +150,13 @@ class Nav extends Component {
               </ul>
             </li>
             <li>
-              <Link to="/visualize">Viz Builder</Link>
+              <Link to="/coronavirus">Coronavirus</Link>
             </li>
             <li>
               <Link to="/map">Maps</Link>
             </li>
             <li>
-              <Link to="/story">Stories</Link>
+              <Link to="/visualize">Viz Builder</Link>
             </li>
             <li>
               <Link to="/cart">Data Cart</Link>
@@ -156,10 +168,7 @@ class Nav extends Component {
               <Link to="/about/datasets">Data Sources</Link>
             </li>
           </ul>
-          { !home ? <div className="menu-collab">
-            <a target="_blank" rel="noopener noreferrer" href="http://www2.deloitte.com/us/en.html"><img id="deloitte" src="/images/footer/deloitte.png" /></a>
-            <a target="_blank" rel="noopener noreferrer" href="http://www.datawheel.us/"><img id="datawheel" src="/images/footer/datawheel.png" /></a>
-          </div> : null }
+          <Button icon="cross" className="menu-close" onClick={ toggleMenu } minimal />
         </div>
       </Dialog>
     </nav>;

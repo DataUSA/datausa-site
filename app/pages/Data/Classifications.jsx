@@ -49,7 +49,7 @@ class Classifications extends Component {
             <ul className="classifications">
 
               <li>
-                <span className="title">Profile Type</span>
+                <span className="title">Report Type</span>
                 <span className="num">Count</span>
               </li>
 
