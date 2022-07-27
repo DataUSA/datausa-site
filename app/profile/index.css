@@ -149,13 +149,12 @@
     }
   }
   & .category {
-    border-bottom: 1px solid var(--red);
+    flex: 1 1 100%;
     font-family: "Palanquin", sans-serif;
     font-size: 28px;
     font-weight: 500;
     margin-bottom: 0;
-    margin-left: -25px;
-    padding: 25px 5px 15px 50px;
+    padding: 25px 5px 15px 25px;
     position: relative;
     text-transform: uppercase;
     text-align: left;
