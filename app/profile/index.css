@@ -39,7 +39,7 @@
 #Profile {
   & .subnav {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     padding-top: var(--nav-height);
     & .SectionIcon {
       color: white;
@@ -48,8 +48,8 @@
       font-size: 10px;
       font-weight: 400;
       letter-spacing: 0.1em;
-      margin: 0 10px;
-      max-width: none;
+      margin: 0;
+      max-width: 125px;
       position: relative;
       text-align: center;
       text-transform: uppercase;
@@ -79,9 +79,9 @@
         display: block;
         height: 2px;
         position: absolute;
-        left: 10%;
+        left: 0;
         transition: background 0.25s;
-        width: 80%;
+        width: 100%;
       }
       &.active {
         font-weight: 700;
