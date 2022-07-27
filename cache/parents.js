@@ -24,8 +24,8 @@ module.exports = function() {
 
   return Promise
     .all([
-      axios.get(`${prefix}cubes/pums_1/dimensions/PUMS%20Industry/`).then(resp => resp.data),
-      axios.get(`${prefix}cubes/pums_1/dimensions/PUMS%20Occupation/`).then(resp => resp.data),
+      axios.get(`${prefix}cubes/pums_5/dimensions/PUMS%20Industry/`).then(resp => resp.data),
+      axios.get(`${prefix}cubes/pums_5/dimensions/PUMS%20Occupation/`).then(resp => resp.data),
       axios.get(`${prefix}cubes/ipeds_completions/dimensions/CIP/`).then(resp => resp.data),
       axios.get(`${prefix}cubes/ipeds_completions/dimensions/University/`).then(resp => resp.data),
       axios.get(`${prefix}cubes/usa_spending/dimensions/NAPCS/`).then(resp => resp.data)
