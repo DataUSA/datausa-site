@@ -24,8 +24,9 @@
     }
 
     & .topic-title {
-      font-family: "Pathway Gothic One", sans-serif;
-      font-size: 30px;
+      color: var(--darkgray);
+      font-family: "Palanquin", sans-serif;
+      font-size: 26px;
       font-weight: 400;
       line-height: 1.1;
       margin: 0 auto 10px;

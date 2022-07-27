@@ -1,6 +1,7 @@
 import styles from "./style.yml";
 import colors from "../static/data/colors.json";
-import {colorLegible} from "d3plus-color";
+import {colorDefaults, colorLegible} from "d3plus-color";
+colorDefaults.dark = "#141B2E";
 
 const bad = "#cf5555";
 const good = "#3182bd";
@@ -266,14 +267,16 @@ export default {
     labelRotation: false,
     padding: 0,
     selectionConfig: {
-      "fill": "#888",
-      "fill-opacity": 0.25,
+      "fill": "#BEC7DE",
+      "fill-opacity": 0.5,
+      "rx": "3px",
+      "ry": "3px",
       "transform": "translate(0, 2)"
     },
     shapeConfig: {
       fill: "transparent",
       labelConfig: {
-        fontColor: () => "#888",
+        fontColor: () => "#515B67",
         fontFamily: () => "Palanquin",
         fontSize: () => 12,
         fontWeight: () => 700,

@@ -252,10 +252,10 @@ input[type="text"] {
   & select {
     appearance: none !important;
     background: white !important;
-    border: 1px solid #bbb !important;
+    border: 1px solid #BEC7DE !important;
     border-radius: 0 !important;
     box-shadow: none !important;
-    color: #949494 !important;
+    color: var(--darkgray) !important;
     font-family: var(--base-font-stack);
     font-size: 13px !important;
     font-weight: 600;
@@ -269,7 +269,7 @@ input[type="text"] {
   }
   &:after {
     bottom: 9px !important;
-    color: #949494 !important;
+    color: var(--darkgray) !important;
     content: "";
     display: block;
     font-family: "Icons16", sans-serif;
