@@ -29,7 +29,7 @@
     left: 0;
     padding: 10px 10px 9px;
     position: absolute;
-    top: 0;
+    top: 1px;
     z-index: 22;
     @media (max-width: 768px) {
       display: block;
@@ -51,7 +51,10 @@
         width: 76px;
       }
       @media (max-width: 768px) {
-        display: none;
+        padding-left: 30px;
+        &:not(:last-child) {
+          display: none;
+        }
       }
     }
     & .nav-subtitle {
@@ -69,11 +72,7 @@
       white-space: nowrap;
       vertical-align: middle;
       @media (max-width: 768px) {
-        left: 50px;
-        position: absolute;
-        text-align: center;
-        top: 9px;
-        width: calc(100% - 100px);
+        padding-left: 30px;
       }
     }
   }
@@ -133,9 +132,6 @@
           animation-duration: 0.5s;
           animation-iteration-count: 1;
         }
-      }
-      @media (max-width: 768px) {
-        display: none;
       }
     }
   }
