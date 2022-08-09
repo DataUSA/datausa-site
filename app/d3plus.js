@@ -1,10 +1,10 @@
 import styles from "./style.yml";
 import colors from "../static/data/colors.json";
 import {colorDefaults, colorLegible} from "d3plus-color";
-colorDefaults.dark = "#141B2E";
+colorDefaults.dark = colors.colorBackground;
+colorDefaults.light = "#ffffff";
 
-const bad = "#cf5555";
-const good = "#3182bd";
+const {bad, good} = colors;
 
 const badMeasures = [
   "Population in Poverty by Gender, Age, and Race",
