@@ -25,7 +25,7 @@
     }
     &:after {
       content: "";
-      background-image: linear-gradient(rgba(20, 27, 46, 0.5), rgba(20, 27, 46, 0.3) 10%, rgba(20, 27, 46, 0.5) 50%, var(--dark) 100%);
+      background-image: linear-gradient(rgba(20, 27, 46, 0.5), rgba(20, 27, 46, 0.3) 10%, rgba(20, 27, 46, 0.5) 50%, #141b2e 100%);
       height: 100%;
       left: 0;
       opacity: 1;
@@ -313,13 +313,26 @@
       }
     }
   }
-  &.splash-geo .profile-subtitle p {
-    background-color: var(--geo);
-    height: 15px;
-    margin-top: 2px;
-    width: 10px;
-    &:before {
-      background-image: url("/icons/dimensions/Geography-Splash.png");
+  &.splash-geo {
+    & .profile-subtitle p {
+      background-color: var(--geo);
+      &:before {
+        background-image: url("/icons/dimensions/Geography-Splash.png");
+      }
+    }
+    /* Hide certain stats in comparison mode */
+    & .profile-stats:not(:only-child) {
+      & .Stat {
+        max-width: 35%;
+        min-width: 35%;
+        width: 35%;
+      }
+      & .Stat:nth-child(2),
+      & .Stat:nth-child(3),
+      & .Stat:nth-child(4),
+      & .Stat:nth-child(7) {
+        display: none;
+      }
     }
   }
   &.splash-naics .profile-subtitle p {
