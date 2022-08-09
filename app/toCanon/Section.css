@@ -216,7 +216,7 @@
     }
   }
   &.about {
-    background-color: var(--dark);
+    background-color: #141b2e;
     & .section-title a {
       color: white !important;
     }
