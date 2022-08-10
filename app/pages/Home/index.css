@@ -9,7 +9,7 @@
     position: relative;
 
     & .home-bg {
-      background-image: url("/images/home/canyon.jpg");
+      background-image: url("/themes/canyon/home.jpg");
       background-position: center;
       background-size: cover;
       background-repeat: no-repeat;
