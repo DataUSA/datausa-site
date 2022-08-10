@@ -34,7 +34,7 @@ class Home extends Component {
 
               <img className="logo" src="/images/home/logo-shadow.png" alt="Data USA" />
               <div className="tagline">
-                Explore, map, compare, and download U.S. data
+                The definitive place to explore US public data
               </div>
 
               <div className="report-counts">
