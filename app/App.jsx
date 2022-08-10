@@ -91,7 +91,7 @@ class App extends Component {
     return (
       <div id="App" className={`${bare ? "bare" : ""} ${showBanner ? "visible-banner" : ""}`}>
         <Helmet>
-          <meta property="og:image" content={ `${origin}/images/share.jpg` } />
+          <meta property="og:image" content={ `${origin}/themes/canyon/share.jpg` } />
         </Helmet>
         { bare ? null : <Nav location={location} /> }
         <Fragment>{ this.props.children }</Fragment>
