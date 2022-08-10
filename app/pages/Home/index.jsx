@@ -37,6 +37,20 @@ class Home extends Component {
                 The definitive place to explore US public data
               </div>
 
+              <Search
+                buttonLink="/search/"
+                className="home-search mobile"
+                placeholder="Search reports"
+                resultRender={d => <Link to={`/profile/${d.profile}/${d.slug || d.id}`} className="result-container">
+                  <SVG className={`result-icon ${d.profile}`} src={ `/icons/dimensions/${d.dimension}.svg` } />
+                  <div className="result-text">
+                    <div className="title">{ d.name }</div>
+                    <div className="sumlevel">{ d.hierarchy }</div>
+                  </div>
+                </Link>}
+                url="/api/searchLegacy/"
+              />
+
               <div className="report-counts">
                 { tiles.map((column, i) => (
                   <Link to={column.url} className={`report-count ${column.slug}`} key={i}>
