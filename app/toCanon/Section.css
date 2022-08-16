@@ -1,21 +1,20 @@
 .Section {
-  background-color: #E9E9E9;
+  background-color: #E4E8F3;
   padding: 60px 25px 25px;
   text-align: center;
   width: 100%;
   &:nth-child(even) {
-    background-color: #F6F6F6;
+    background-color: #EFF3FD;
   }
   & .section-title {
-    font-family: "Pathway Gothic One", sans-serif;
-    font-size: 47px;
-    font-weight: 300;
-    letter-spacing: 0.02em;
+    font-family: "Palanquin", sans-serif;
+    font-size: 42px;
+    font-weight: 400;
+    letter-spacing: 0.01em;
     margin: 0 auto 15px;
     max-width: 1250px;
     padding: 0 25px;
     text-align: left;
-    text-transform: uppercase;
     width: 100%;
     z-index: 2;
     & a {
@@ -217,7 +216,7 @@
     }
   }
   &.about {
-    background-color: var(--dark);
+    background-color: #141b2e;
     & .section-title a {
       color: white !important;
     }

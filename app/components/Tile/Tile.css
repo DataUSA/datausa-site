@@ -56,11 +56,10 @@
     }
     & .subtitle {
       font-family: "Palanquin", sans-serif;
-      font-size: 12px;
+      font-size: 10px;
       font-weight: 700;
       letter-spacing: 1px;
       line-height: 17px;
-      margin-top: 5px;
       position: relative;
       text-align: center;
       text-transform: uppercase;

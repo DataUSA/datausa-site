@@ -9,7 +9,7 @@ import Splash from "toCanon/Splash";
 import SectionIcon from "toCanon/SectionIcon";
 import Topic from "toCanon/Topic";
 
-import {Tooltip} from "@blueprintjs/core";
+import {Position, Tooltip} from "@blueprintjs/core";
 import axios from "axios";
 import {select} from "d3-selection";
 import "./index.css";
@@ -70,11 +70,14 @@ class Profile extends Component {
 
     const cats = categories[pslug] || [];
     const sidenav = [];
-    (!props.profile.error ? props.profile.sections : [])
+    const sections = (!props.profile.error ? props.profile.sections : []);
+
+    sections
       .slice(2)
       .filter(d => d.type === "Grouping")
       .forEach(s => {
-        const sectionCats = cats.filter(c => c.section === s.slug);
+        const sectionCats = cats
+          .filter(c => c.section === s.slug && sections.find(ss => ss.slug === c.topic));
         if (sectionCats.length) sidenav.push(sectionCats.map(s => ({title: s.title, slug: `category_${s.slug}`})));
         else sidenav.push([{title: s.title.replace(/<[^>]+>/g, ""), slug: s.slug}]);
       });
@@ -326,14 +329,14 @@ class Profile extends Component {
 
         { similar.length && <div id="keep-exploring" className="keep-exploring">
           <h2>Keep Exploring</h2>
-          <div className="tiles">
+          <div className={`tiles ${pslug}`}>
             { similar.map(d => <Tile key={d.slug || d.id} title={d.display || d.name} subtitle={d.hierarchy} image={`/api/profile/${pslug}/${d.id}/thumb`} url={`/profile/${pslug}/${d.slug || d.id}`} />) }
           </div>
         </div> }
 
         <div className={`sidenav ${showSidenav ? "visible" : ""}`}>
           { sidenav.map((s, i) => <div key={i} className="sidenav-section">
-            {s.map(t => <Tooltip className={`sidenav-circle ${t.slug === activeSidenav ? "active" : ""}`} key={t.slug} content={<span className="sidenav-label">{t.title}</span>}>
+            {s.map(t => <Tooltip position={Position.LEFT} className={`sidenav-circle ${t.slug === activeSidenav ? "active" : ""}`} key={t.slug} content={<span className="sidenav-label">{t.title}</span>}>
               <AnchorLink to={t.slug}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</AnchorLink>
             </Tooltip>)}
           </div>) }
