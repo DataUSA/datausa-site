@@ -70,11 +70,14 @@ class Profile extends Component {
 
     const cats = categories[pslug] || [];
     const sidenav = [];
-    (!props.profile.error ? props.profile.sections : [])
+    const sections = (!props.profile.error ? props.profile.sections : []);
+
+    sections
       .slice(2)
       .filter(d => d.type === "Grouping")
       .forEach(s => {
-        const sectionCats = cats.filter(c => c.section === s.slug);
+        const sectionCats = cats
+          .filter(c => c.section === s.slug && sections.find(ss => ss.slug === c.topic));
         if (sectionCats.length) sidenav.push(sectionCats.map(s => ({title: s.title, slug: `category_${s.slug}`})));
         else sidenav.push([{title: s.title.replace(/<[^>]+>/g, ""), slug: s.slug}]);
       });
@@ -195,7 +198,7 @@ class Profile extends Component {
     });
 
     const newShowSidenav = newActiveSection && newActiveSection !== "about" && document.getElementById("keep-exploring").getBoundingClientRect().top > window.innerHeight;
-
+    console.log(sidenav);
     if (activeSection !== newActiveSection || activeSidenav !== newActiveSidenav || showSidenav !== newShowSidenav) {
       this.setState({
         activeSection: newActiveSection,
