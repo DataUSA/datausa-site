@@ -198,7 +198,7 @@ class Profile extends Component {
     });
 
     const newShowSidenav = newActiveSection && newActiveSection !== "about" && document.getElementById("keep-exploring").getBoundingClientRect().top > window.innerHeight;
-    console.log(sidenav);
+
     if (activeSection !== newActiveSection || activeSidenav !== newActiveSidenav || showSidenav !== newShowSidenav) {
       this.setState({
         activeSection: newActiveSection,
