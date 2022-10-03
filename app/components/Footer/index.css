@@ -1,52 +1,56 @@
 #Footer {
   background-color: var(--dark);
-  padding: 50px;
+  padding: 50px 0px 0px;
   text-align: center;
   width: 100%;
-  @media (max-width: 768px) {
-    padding: 50px 25px;
-  }
   & .footer-content {
     color: white;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     margin: 0 auto;
     max-width: 1200px;
-    text-align: left;
     @media (max-width: 768px) {
       align-items: center;
-      flex-direction: column;
+    }
+    & img {
+      height: 22px;
+      width: 90px;
     }
     & .footer-links {
-      display: flex;
-      flex-direction: row;
-      max-width: 400px;
-      width: 100%;
       @media (max-width: 768px) {
         margin-bottom: 50px;
       }
-      & ul {
-        flex: 1;
-        margin: 0;
-        padding: 0;
+      & p {
+        color: lightgray;
+        font-size: 16px;
+        font-family: "Palanquin";
+        padding-bottom: 12px;
+        @media (max-width: 768px) {
+          padding-right: 30%;
+          padding-left: 30%;
+        }
+      }
+      & .footer-column {
+        width: 373px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin: 0 auto;
+        @media (max-width: 768px) {
+          display: block;
+        }
         & h4 {
           color: white;
-          font-size: 14px;
+          font-size: 16px;
           font-weight: 600;
           letter-spacing: 0.1em;
           text-transform: uppercase;
-        }
-        & li {
-          list-style: none;
+          font-family: "Pathway Gothic One", sans-serif;
+          padding-bottom: 12px;
+          @media (max-width: 768px) {
+            font-size: 18px;
+          }
           & a {
             color: white;
             display: inline-block;
-            font-size: 12px;
-            letter-spacing: 0.05em;
-            margin: 0 0 5px;
-            text-transform: uppercase;
-            transition: color 0.2s;
             &:hover {
               color: var(--red);
               text-decoration: none;
@@ -56,71 +60,91 @@
       }
     }
     & .footer-contact {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      max-width: 400px;
+      max-width: 480px;
+      margin: 0 auto;
+      padding-bottom: 12px;
       width: 100%;
-      & .footer-mailer {
-        font-size: 14px;
-        font-weight: 800;
-        letter-spacing: 0.01em;
-        & .input-container {
-          border-bottom: 1px solid white;
-          display: flex;
-          padding: 5px 0 10px;
-          & .bp3-icon {
-            font-size: 16px;
-            margin-top: 8px;
-            width: 35px;
+      @media (max-width: 768px) {
+        padding-left: 25px;
+        padding-right: 25px;
+      }
+      & .input-container {
+        color: #404A59;
+        border-bottom: 1px solid var(--red);
+        display: flex;
+        padding: 5px 0 5px;
+        & .bp3-icon {
+          font-size: 30px;
+          color: var(--red);
+          padding-bottom: 5px;
+          @media (max-width: 768px) {
+            position: absolute;
+            left: 140px;
+            bottom: 152px;
           }
-          & .email {
-            background-color: transparent;
+        }
+        & .email {
+          background-color: transparent;
+          border: 0;
+          box-sizing: border-box;
+          color: white;
+          font-family: "Palanquin", sans-serif;
+          font-size: 14px;
+          font-weight: 400;
+          width: 100%;
+          &:focus {
             border: 0;
-            box-sizing: border-box;
-            color: white;
-            font-family: "Palanquin", sans-serif;
-            font-size: 14px;
-            font-weight: 400;
-            width: 100%;
-            &:focus {
-              border: 0;
-              outline: 0;
-            }
+            outline: 0;
           }
-          & .email-btn {
-            background-position: 95% center;
-            background-color: transparent;
-            background-image: url("/icons/footer/arrow.svg");
-            background-repeat: no-repeat;
-            border: 0;
-            box-sizing: border-box;
-            color: white;
-            font-family: "Palanquin", sans-serif;
-            font-size: 14px;
-            font-weight: 800;
-            min-width: 90px;
-            padding-right: 25px;
-            text-transform: uppercase;
-            transition: background-position 0.1s;
-            width: 90px;
-            &:hover {
-              background-position: 100% center;
-              cursor: pointer;
-            }
+          @media (max-width: 768px) {
+            position: absolute;
+            bottom: 190px;
+          }
+        }
+        & .email-btn {
+          background-position: 90% center;
+          background-color: transparent;
+          background-image: url("/icons/footer/arrow.svg");
+          background-repeat: no-repeat;
+          border: 0;
+          box-sizing: border-box;
+          color: white;
+          font-family: "Palanquin", sans-serif;
+          font-size: 14px;
+          font-weight: 800;
+          min-width: 90px;
+          padding-right: 25px;
+          text-transform: uppercase;
+          transition: background-position 0.1s;
+          width: 90px;
+          &:hover {
+            background-position: 100% center;
+            cursor: pointer;
+          }
+          @media (max-width: 768px) {
+            display: flex;
+            margin: 0 auto;
+            justify-content: center;
           }
         }
       }
-      & .footer-logos {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 25px;
-        & a {
-          display: inline-block;
-          & img {
-            height: 20px;
-          }
-        }
+    }
+  }
+  & .footer-logos {
+    background-color: #404A594D;
+    margin: 25px 0px 0px;
+    @media (max-width: 768px) {
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+    & a {
+      display: inline-block;
+      margin: 20px;
+      @media (max-width: 768px) {
+        display: block;
+      }
+      & img {
+        height: 20px;
       }
     }
   }
