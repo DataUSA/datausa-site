@@ -23,7 +23,7 @@ class Embed extends Component {
     const {contents, origin, router} = this.props;
     const {title, variables} = contents;
     const name = variables.nameLower || variables.name;
-    const {pslug, pid} = router.params;
+    const {slug, id} = router.params;
 
     const joiner = contents.variables.Dimension === "Geography" ? "in" : "for";
     const metaTitle = `${stripHTML(title)} ${joiner} ${name}`;
@@ -34,7 +34,7 @@ class Embed extends Component {
         <title>{ metaTitle }</title>
         <meta property="og:title" content={ metaTitle } />
         { metaDesc ? <meta name="description" content={ metaDesc } /> : null }
-        <meta property="og:image" content={ `${origin}/api/profile/${pslug}/${pid}/splash` } />
+        <meta property="og:image" content={ `${origin}/api/profile/${slug}/${id}/splash` } />
         { metaDesc ? <meta property="og:description" content={ metaDesc } /> : null }
       </Helmet>
       <Topic contents={contents.sections[0]} />
@@ -54,7 +54,7 @@ Embed.contextTypes = {
 };
 
 Embed.need = [
-  fetchData("contents", "/api/profile?slug=<pslug>&id=<pid>&section=<tslug>")
+  fetchData("contents", "/api/profile?slug=<slug>&id=<id>&section=<tslug>")
 ];
 
 export default connect(state => ({
