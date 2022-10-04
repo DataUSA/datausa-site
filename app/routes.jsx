@@ -26,6 +26,8 @@ import DataSources from "./pages/Data/DataSources";
 import API from "./pages/Data/API";
 import Classifications from "./pages/Data/Classifications";
 
+import NotFound from "./pages/NotFound/NotFound";
+
 import {Builder} from "@datawheel/canon-cms";
 
 import napcs2sctg from "../static/data/nacps2sctg.json";
@@ -92,6 +94,8 @@ export default function RouteCreate() {
       </Route>
 
       <Route path="/cms" component={Builder} />
+
+      <Route path="*" component={NotFound} status={404} />
 
     </Route>
   );
