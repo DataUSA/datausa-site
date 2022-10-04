@@ -7,7 +7,7 @@
   top: 0;
   width: 100%;
   z-index: 20;
-  & .bp3-non-ideal-state-title {
+  & .bp3-heading {
     color: var(--white);
     margin-bottom: 10px;
   }
