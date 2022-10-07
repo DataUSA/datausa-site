@@ -1,6 +1,6 @@
 .loading {
-  background-color: var(--white);
-  color: var(--black);
+  background-color: var(--dark);
+  color: var(--white);
   height: 100vh !important;
   left: 0;
   max-width: none;
@@ -17,7 +17,7 @@
     }
   }
   & .bp3-heading {
-    color: var(--dark);
+    color: var(--white);
     margin-bottom: 10px;
   }
 }

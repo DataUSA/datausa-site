@@ -66,9 +66,9 @@ class Profile extends Component {
 
     super(props);
 
-    const {pslug} = props.params;
+    const {slug} = props.params;
 
-    const cats = categories[pslug] || [];
+    const cats = categories[slug] || [];
     const sidenav = [];
     const sections = (!props.profile.error ? props.profile.sections : []);
 
@@ -108,10 +108,10 @@ class Profile extends Component {
   }
 
   addComparison(id) {
-    const {pslug} = this.props.params;
+    const {slug} = this.props.params;
     const {comparisons} = this.state;
     this.setState({loading: true});
-    axios.get(`/api/profile?slug=${pslug}&id=${id}`)
+    axios.get(`/api/profile?slug=${slug}&id=${id}`)
       .then(resp => {
         const newComparisons = comparisons.concat([resp.data]);
         this.setState({comparisons: newComparisons, loading: false});
@@ -216,7 +216,7 @@ class Profile extends Component {
     const {params} = this.props;
 
     const payload = {variables};
-    const url = `/api/profile?profile=${id}&slug=${params.pslug}&id=${params.pid}&${name}=${value}`;
+    const url = `/api/profile?profile=${id}&slug=${params.slug}&id=${params.id}&${name}=${value}`;
 
     axios.post(url, payload)
       .then(resp => {
@@ -230,22 +230,22 @@ class Profile extends Component {
     const {origin, params, similar} = this.props;
     const {profile} = this.state;
 
-    if (profile.error) return <NotFound />;
+    if (profile.error) return <NotFound {...profile} />;
 
     const {stripHTML} = this.context.formatters;
-    const {pslug} = params;
+    const {slug} = params;
     const {activeSection, activeSidenav, comparisons, loading, showSidenav, sidenav} = this.state;
-    const joiner = ["geo"].includes(pslug) ? "in" : "for";
+    const joiner = ["geo"].includes(slug) ? "in" : "for";
 
     const profiles = [profile].concat(comparisons);
     profiles.forEach(d => {
-      d.imageURL = `/api/profile/${pslug}/${d.variables.slug}/splash`;
+      d.imageURL = `/api/profile/${slug}/${d.variables.slug}/splash`;
     });
 
     const GroupingSections = profile.sections.filter(d => d.type === "Grouping");
     const GroupingIndices = GroupingSections.map(s => profile.sections.indexOf(s));
     const topics = [];
-    const cats = categories[pslug] || [];
+    const cats = categories[slug] || [];
 
     GroupingSections
       .forEach((s, i) => {
@@ -298,7 +298,7 @@ class Profile extends Component {
             title: "About",
             slug: "about",
             image: profile.images[0],
-            profileSlug: pslug,
+            profileSlug: slug,
             breadcrumbs: profile.variables.breadcrumbs
           }}
           comparisons={comparisons.length ? [{
@@ -329,8 +329,8 @@ class Profile extends Component {
 
         { similar.length && <div id="keep-exploring" className="keep-exploring">
           <h2>Keep Exploring</h2>
-          <div className={`tiles ${pslug}`}>
-            { similar.map(d => <Tile key={d.slug || d.id} title={d.display || d.name} subtitle={d.hierarchy} image={`/api/profile/${pslug}/${d.id}/thumb`} url={`/profile/${pslug}/${d.slug || d.id}`} />) }
+          <div className={`tiles ${slug}`}>
+            { similar.map(d => <Tile key={d.slug || d.id} title={d.display || d.name} subtitle={d.hierarchy} image={`/api/profile/${slug}/${d.id}/thumb`} url={`/profile/${slug}/${d.slug || d.id}`} />) }
           </div>
         </div> }
 
@@ -365,8 +365,8 @@ Profile.contextTypes = {
 };
 
 Profile.need = [
-  fetchData("profile", "/api/profile?slug=<pslug>&id=<pid>"),
-  fetchData("similar", "/api/<pslug>/similar/<pid>")
+  fetchData("profile", "/api/profile/?slug=<slug>&id=<id>"),
+  fetchData("similar", "/api/<slug>/similar/<id>")
 ];
 
 export default connect(state => ({

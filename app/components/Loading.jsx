@@ -50,7 +50,6 @@ export default class Loading extends Component {
     return <NonIdealState
       className="loading"
       title="Loading"
-      description="Please Wait"
       icon={<Spinner value={ total && total !== progress && ratio > 0.05 ? ratio : undefined }/>} />;
   }
 
