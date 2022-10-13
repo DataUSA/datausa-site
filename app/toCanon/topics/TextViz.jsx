@@ -38,9 +38,9 @@ class TextViz extends Component {
       return <div className={ `topic ${slug || ""} Column ${loading ? "topic-loading" : ""}` }>
         <div className="topic-content">
           { title &&
-            <h3 id={ slug } className="topic-title">
+            <h4 id={ slug } className="topic-title">
               <AnchorLink to={ slug } className="anchor" dangerouslySetInnerHTML={{__html: stripP(titleCompare || title)}}></AnchorLink>
-            </h3>
+            </h4>
           }
           { subtitles.map((content, i) => <div key={i} className="topic-subtitle" dangerouslySetInnerHTML={{__html: stripP(content.subtitle)}} />) }
           { selectors.map(selector => <div className="bp3-select bp3-fill" key={selector.name}>
@@ -61,9 +61,9 @@ class TextViz extends Component {
     return <div className={ `topic ${slug || ""} TextViz ${loading ? "topic-loading" : ""}` }>
       <div className="topic-content">
         { title &&
-          <h3 id={ slug } className="topic-title">
+          <h4 id={ slug } className="topic-title">
             <AnchorLink to={ slug } className="anchor" dangerouslySetInnerHTML={{__html: stripP(titleCompare || title)}}></AnchorLink>
-          </h3>
+          </h4>
         }
         { subtitles.map((content, i) => <div key={i} className="topic-subtitle" dangerouslySetInnerHTML={{__html: stripP(content.subtitle)}} />) }
         { selectors.map(selector => <div className="bp3-select bp3-fill" key={selector.name}>
