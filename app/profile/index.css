@@ -37,58 +37,92 @@
 }
 
 #Profile {
-  & .subnav {
-    display: flex;
-    justify-content: center;
-    padding-top: var(--nav-height);
-    & .SectionIcon {
-      color: white;
-      flex: 1;
-      font-family: "Palanquin", sans-serif;
-      font-size: 10px;
-      font-weight: 400;
-      letter-spacing: 0.1em;
-      margin: 0;
-      max-width: 125px;
-      position: relative;
-      text-align: center;
-      text-transform: uppercase;
-      transition: text-shadow 0.35s;
-      @media (max-width: 768px) {
-        & .section-icon-title {
-          display: none;
+  & .cp-subnav {
+    z-index: 20;
+
+    /* Desktop SubNav styles */
+    @media (min-width: 768px) {
+      & .cp-subnav-item {
+        position: relative;
+        width: 130px;
+        & .cp-subnav-link {
+          font-family: "Palanquin", sans-serif;
+          font-size: 11px;
+          font-weight: 400;
+          margin: 0 0.75rem;
+          padding-left: 0.75rem;
+          position: static;
+          opacity: 1;
+          text-transform: uppercase;
+          transition: margin 0.1s, padding 0.1s;
+          text-align: center;
+          text-shadow: 0 2px 6px black;
+          & .bp3-icon {
+            font-size: 16px;
+            position: absolute;
+            left: 0.75rem;
+            top: 0.75rem;
+            transition: transform 0.2s;
+            transform: translateX(44px)translateY(-35px)scale(1.75);
+            will-change: transform;
+          }
+        }
+        &.is-active {
+          font-weight: 700;
         }
       }
-      & img {
-        display: block;
-        height: 23px;
-        margin: 0 auto 2px;
-        width: 23px;
-        @media (max-width: 768px) {
-          margin-top: 12px;
+      &.is-fixed {
+        background-color: var(--dark);
+        & .cp-subnav-list:not(:only-child) {
+          & .cp-subnav-link {
+            & .bp3-icon {
+              transform: translateY(-12px)scale(0.9);
+            }
+          }
+        }
+        & .cp-subnav-item {
+          width: auto;
+          & .cp-subnav-link {
+            margin: 0;
+            padding-left: calc(0.75rem + 20px);
+            & .bp3-icon {
+              transform: none;
+            }
+          }
         }
       }
-      &:hover {
-        text-decoration: none;
-        text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.8);
-      }
-      &:before {
-        background: transparent;
-        bottom: 0;
-        content: "";
-        display: block;
-        height: 2px;
-        position: absolute;
-        left: 0;
-        transition: background 0.25s;
-        width: 100%;
-      }
-      &.active {
-        font-weight: 700;
-        &:before {
-          background: var(--red);
+    }
+
+    /* Mobile SubNav styles */
+    @media (max-width: 768px) {
+      &.is-static {
+        background-color: transparent;
+        margin-top: -2rem;
+        padding-top: 0;
+        & .cp-subnav-item {
+          text-align: left;
+          width: auto;
+          & .cp-subnav-link {
+            margin: 0;
+            padding-left: 0;
+            & .bp3-icon {
+              position: static;
+              transform: none;
+            }
+          }
         }
       }
+      &.is-fixed {
+        background-color: transparent;
+        margin-top: -2rem;
+        padding-top: 0;
+      }
+    }
+
+    /* Text modifications to the secondary SubGrouping options */
+    & .cp-subnav-secondary .is-active .cp-subnav-link {
+      color: var(--red);
+      text-shadow: none;
     }
   }
   & .toc {
