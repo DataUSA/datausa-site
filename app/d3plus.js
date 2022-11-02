@@ -1,5 +1,6 @@
 import styles from "./style.yml";
 import colors from "../static/data/colors.json";
+import icons from "../static/data/icons.json";
 import {colorDefaults, colorLegible} from "d3plus-color";
 colorDefaults.dark = colors.colorBackground;
 colorDefaults.light = "#ffffff";
@@ -95,6 +96,53 @@ function findColor(d) {
   return Object.keys(d).some(v => badMeasures.includes(v)) ? bad : good;
 }
 
+const getTooltipTitle = (d3plusConfig, d) => {
+  const len = Array.isArray(d3plusConfig._groupByRaw) ? d3plusConfig._groupByRaw.length : 1;
+
+  const parentName = Array.isArray(d3plusConfig._groupByRaw) ? d3plusConfig._groupByRaw[0] : d3plusConfig._groupByRaw;
+
+  let parent = Object.entries(d).find(h => h[0] === parentName)[1] || [undefined];
+  let parentId = parentName;
+  if (parentId.includes("ID")) {
+    parentId = parentId.replace("ID", "").trim();
+    parent = Object.entries(d).find(h => h[0] === parentId)//[1] || [undefined];
+    parent = parent && parent[1] ? parent[1] : [undefined]
+  }
+  const itemName = Array.isArray(d3plusConfig._groupByRaw) ? d3plusConfig._groupByRaw[len - 1] : d3plusConfig._groupByRaw;
+
+  let item = Object.entries(d).find(h => h[0] === itemName)[1] || [undefined];
+  let itemId = itemName;
+  if (itemId.includes("ID")) {
+    itemId = itemId.replace("ID", "").trim();
+    item = Object.entries(d).find(h => h[0] === itemId)//[1] || [undefined];
+    item = item && item[1] ? item[1] : [undefined]
+  }
+
+  return {item, itemId, parent, parentId};
+};
+
+export const tooltipTitle = (bgColor, imgUrl, title) => {
+  let tooltip = "<div class='d3plus-tooltip-title-wrapper'>";
+
+  if (imgUrl) {
+    tooltip += `<div class="icon" style="background-color: ${bgColor}"><img src="${imgUrl}" /></div>`;
+  }
+
+  tooltip += `<div class="title"><span>${title}</span></div>`;
+  tooltip += "</div>";
+  return tooltip;
+};
+
+export const findIconV2 = (key, d) => {
+  console.log(key)
+  const icon = `icon${key}`;
+  const iconID = d[`${key} ID`] || d[`ID ${key}`];
+
+  return icons.includes(icon) ?
+        icon === "State" ? "/icons/dimensions/Geography-Splash.png" :
+        icons[icon[iconID]] : undefined
+};
+
 const labelPadding = 5;
 
 const axisStyles = {
@@ -187,6 +235,16 @@ export default {
     }
   },
   legendPosition: "bottom",
+  legendTooltip: {
+    title(d) {
+      const {item, itemId, parent, parentId} = getTooltipTitle(this, d);
+      const title = Array.isArray(item) ? `${parent || "Valores"}` : item;
+      const itemBgImg = parentId;
+      const bgColor = findColor(d);
+      const imgUrl = findIconV2(itemBgImg, d);
+      return tooltipTitle(bgColor, imgUrl, title);
+    }
+  },
   loadingHTML: `<div style="left: 50%; top: 50%; position: absolute; transform: translate(-50%, -50%); font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 400;">
     Loading Visualization
   </div>`,
@@ -303,20 +361,35 @@ export default {
   },
   tooltipConfig: {
     background: "white",
-    border: "1px solid #888",
+    border: "1px solid #E5E5E5",
     footerStyle: {
-      "color": "#666",
-      "font-family": "'Palanquin', sans-serif",
-      "font-size": "12px",
+      "color": "#869DAD",
+      "font-family": "Palanquin",
+      "font-size": "10px",
       "font-weight": "300",
-      "padding-top": "5px"
+      "text-transform": "uppercase"
     },
-    padding: "10px",
     titleStyle: {
-      "color": d => colorLegible(findColor(d)),
-      "font-family": "'Palanquin', sans-serif",
+      "color": "#303F50",
+      "font-family": "Palanquin",
       "font-size": "16px",
-      "font-weight": "300"
+      "font-weight": "500",
+      "text-align": "center"
+    },
+    tbodyStyle: {
+      "color": "#6D7B8E",
+      "text-transform": "uppercase",
+      "font-size": "11px",
+      "padding": "10px"
+    },
+    title(d) {
+      const {item, itemId, parent, parentId} = getTooltipTitle(this, d);
+      const aggregated = Array.isArray(parent) ? "Valores" : parent;
+      const title = Array.isArray(item) ? `Otros ${aggregated || "Valores"}` : item;
+      const itemBgImg = parentId;
+      let bgColor = findColor(d);
+      let imgUrl = findIconV2(itemBgImg, d);
+      return tooltipTitle(bgColor, imgUrl, title);
     }
   },
   xConfig: {...axisStyles},
