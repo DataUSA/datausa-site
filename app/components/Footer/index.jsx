@@ -9,14 +9,14 @@ export default class Footer extends Component {
     return <footer id="Footer">
       <div className="footer-content">
         <div className="footer-links">
-          <img src="/images/logo_sm.png" alt="Data USA" />
+          <img id="datausa" src="/images/logo_sm.png" alt="Data USA" />
           <p>Explore, map, compare, and download U.S. data</p>
           <div className="footer-column">
-            <div><h4><Link to="/">Home</Link></h4></div>
-            <div><h4><Link to="/search/">Reports</Link></h4></div>
-            <div><h4><Link to="/visualize">VizBuilder</Link></h4></div>
-            <div><h4><Link to="/map/">Maps</Link></h4></div>
-            <div><h4><Link to="/about/background">About</Link></h4></div>
+            <div className="link-column"><Link to="/">Home</Link></div>
+            <div className="link-column"><Link to="/search/">Reports</Link></div>
+            <div className="link-column"><Link to="/visualize">VizBuilder</Link></div>
+            <div className="link-column"><Link to="/map/">Maps</Link></div>
+            <div className="link-column"><Link to="/about/background">About</Link></div>
           </div>
         </div>
         <div className="footer-contact">
@@ -24,7 +24,6 @@ export default class Footer extends Component {
               <div id="mc_embed_signup_scroll">
                 <div className="input-container">
                   <input type="email" defaultValue="" name="EMAIL" className="email" id="mce-EMAIL" placeholder="RECEIVE UPDATES ON NEWS, DATASETS, AND FEATURES?" required="" />
-                  <span className="bp3-icon bp3-icon-envelope"></span>
                   <input type="submit" defaultValue="Sign Up" name="subscribe" id="mc-embedded-subscribe" className="email-btn" />
                 </div>
                 <div style={{position: "absolute", left: "-5000px"}} aria-hidden="true">
