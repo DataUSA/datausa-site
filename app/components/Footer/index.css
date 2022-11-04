@@ -1,8 +1,11 @@
 #Footer {
   background-color: var(--dark);
-  padding: 50px 0px 0px;
+  padding: 90px 0px 0px;
   text-align: center;
   width: 100%;
+  @media (max-width: 768px) {
+    padding: 75px 0px 0px;
+  }
   & .footer-content {
     color: white;
     margin: 0 auto;
@@ -10,22 +13,20 @@
     @media (max-width: 768px) {
       align-items: center;
     }
-    & img {
-      height: 22px;
-      width: 90px;
-    }
     & .footer-links {
       @media (max-width: 768px) {
         margin-bottom: 50px;
       }
       & p {
-        color: lightgray;
+        color: var(--lightgray);
         font-size: 16px;
         font-family: "Palanquin";
-        padding-bottom: 12px;
+        padding-bottom: 54px;
+        padding-top: 7px;
         @media (max-width: 768px) {
-          padding-right: 30%;
-          padding-left: 30%;
+          padding-right: 25%;
+          padding-left: 25%;
+          padding-top: 32px;
         }
       }
       & .footer-column {
@@ -36,17 +37,19 @@
         margin: 0 auto;
         @media (max-width: 768px) {
           display: block;
+          padding-bottom: 30px;
         }
-        & h4 {
+        & .link-column {
           color: white;
-          font-size: 16px;
-          font-weight: 600;
-          letter-spacing: 0.1em;
+          font-size: 18px;
+          font-weight: 400;
+          letter-spacing: 0.03em;
           text-transform: uppercase;
           font-family: "Pathway Gothic One", sans-serif;
-          padding-bottom: 12px;
+          padding-bottom: 54px;
           @media (max-width: 768px) {
             font-size: 18px;
+            padding-bottom: 35.49px;
           }
           & a {
             color: white;
@@ -62,34 +65,26 @@
     & .footer-contact {
       max-width: 480px;
       margin: 0 auto;
-      padding-bottom: 12px;
+      padding-right: 25px;
+      padding-left: 25px;
+      padding-bottom: 40px;
       width: 100%;
       @media (max-width: 768px) {
-        padding-left: 25px;
-        padding-right: 25px;
+        padding-bottom: 85px;
       }
       & .input-container {
         color: #404A59;
         border-bottom: 1px solid var(--red);
         display: flex;
-        padding: 5px 0 5px;
-        & .bp3-icon {
-          font-size: 30px;
-          color: var(--red);
-          padding-bottom: 5px;
-          @media (max-width: 768px) {
-            position: absolute;
-            left: 140px;
-            bottom: 152px;
-          }
-        }
+        padding: 5px 0 13px;
         & .email {
           background-color: transparent;
           border: 0;
           box-sizing: border-box;
           color: white;
-          font-family: "Palanquin", sans-serif;
-          font-size: 14px;
+          font-family: "Pathway Gothic One";
+          letter-spacing: 0.03em;
+          font-size: 17px;
           font-weight: 400;
           width: 100%;
           &:focus {
@@ -98,25 +93,26 @@
           }
           @media (max-width: 768px) {
             position: absolute;
-            bottom: 190px;
+            bottom: 320px;
+            left: 31px;
+            right: 43px;
           }
         }
         & .email-btn {
-          background-position: 90% center;
+          background-position: left, right;
           background-color: transparent;
-          background-image: url("/icons/footer/arrow.svg");
-          background-repeat: no-repeat;
+          background-image: url("/icons/footer/group.svg"), url("/icons/footer/arrow.svg");
+          background-repeat: no-repeat, no-repeat;
           border: 0;
           box-sizing: border-box;
           color: white;
           font-family: "Palanquin", sans-serif;
-          font-size: 14px;
-          font-weight: 800;
-          min-width: 90px;
-          padding-right: 25px;
+          font-size: 17px;
+          font-weight: 600;
+          padding-right: 22px;
+          padding-left: 28px;
           text-transform: uppercase;
           transition: background-position 0.1s;
-          width: 90px;
           &:hover {
             background-position: 100% center;
             cursor: pointer;
@@ -131,8 +127,9 @@
     }
   }
   & .footer-logos {
-    background-color: #404A594D;
-    margin: 25px 0px 0px;
+    background-color: rgba(64, 74, 89, 0.3);
+    margin: 40px 0px 0px;
+    padding-top: 5px;
     @media (max-width: 768px) {
       padding-top: 5px;
       padding-bottom: 5px;
@@ -143,9 +140,19 @@
       @media (max-width: 768px) {
         display: block;
       }
-      & img {
-        height: 20px;
-      }
     }
   }
+}
+
+#datausa {
+  height: 28px;
+  width: 113.42px;
+}
+
+#deloitte {
+  height: 20px;
+}
+
+#datawheel {
+  height: 24px;
 }
