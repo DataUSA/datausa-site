@@ -123,7 +123,7 @@ const getTooltipTitle = (d3plusConfig, d) => {
 
 export const tooltipTitle = (bgColor, imgUrl, title) => {
   let tooltip = "<div class='d3plus-tooltip-title-wrapper'>";
-
+  console.log("img", imgUrl)
   if (imgUrl) {
     tooltip += `<div class="icon" style="background-color: ${bgColor}"><img src="${imgUrl}" /></div>`;
   }
@@ -134,13 +134,12 @@ export const tooltipTitle = (bgColor, imgUrl, title) => {
 };
 
 export const findIconV2 = (key, d) => {
-  console.log(key)
   const icon = `icon${key}`;
   const iconID = d[`${key} ID`] || d[`ID ${key}`];
+  console.log(icon)
 
-  return icons.includes(icon) ?
-        icon === "State" ? "/icons/dimensions/Geography-Splash.png" :
-        icons[icon[iconID]] : undefined
+  return icon === "iconState" ? "/icons/dimensions/Geography-Splash.png" :
+        icons[icon] ? icons[icon[iconID]] : undefined;
 };
 
 const labelPadding = 5;
@@ -361,26 +360,25 @@ export default {
   },
   tooltipConfig: {
     background: "white",
-    border: "1px solid #E5E5E5",
     footerStyle: {
       "color": "#869DAD",
       "font-family": "Palanquin",
       "font-size": "10px",
-      "font-weight": "300",
+      "font-weight": "700",
       "text-transform": "uppercase"
     },
     titleStyle: {
       "color": "#303F50",
       "font-family": "Palanquin",
-      "font-size": "16px",
-      "font-weight": "500",
+      "font-size": "14px",
+      "font-weight": "600",
       "text-align": "center"
     },
     tbodyStyle: {
       "color": "#6D7B8E",
       "text-transform": "uppercase",
-      "font-size": "11px",
-      "padding": "10px"
+      "font-size": "10px",
+      "font-family": "Palanquin"
     },
     title(d) {
       const {item, itemId, parent, parentId} = getTooltipTitle(this, d);
