@@ -14,17 +14,24 @@
   border-radius: 6px !important;
   & .d3plus-tooltip-title {
     background: #F6F8FA;
-    padding-bottom: 26px;
     border-radius: 6px 6px 0px 0px;
     & .icon {
       margin: 0 auto;
-      width: 50px;
-      height: 50px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
-      padding-top: 9px;
+      padding-top: 5px;
     }
     & .title {
       padding-top: 15px;
+    }
+    & .subtitle {
+      padding-top: 4px;
+      padding-bottom: 7px;
+      color: #869DAD;
+      font-size: 8px;
+      font-weight: 500px;
+      text-transform: uppercase;
     }
   }
   & .d3plus-tooltip-table {
@@ -41,6 +48,9 @@
           text-align: left;
           font-weight: 600;
           padding-bottom: 7px;
+          &:last-child {
+            text-align: right;
+          }
         }
       }
     }
@@ -52,5 +62,9 @@
     padding-bottom: 16px;
     border-radius: 0px 0px 6px 6px;
     border-top: 1px solid #DAE0E4;
+    background-image: url("/icons/tooltip/template.svg");
+    background-repeat: no-repeat;
+    background-position: 17% 40%;
+    background-color: transparent;
   }
 }
