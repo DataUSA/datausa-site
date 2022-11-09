@@ -392,7 +392,7 @@ export default {
       let bgColor = findColor(d);
       //let subtitle = findSubtitle;
       let imgUrl = findIconV2(itemBgImg, d);
-      console.log(item, parent)
+      console.log(item, parent, bgColor)
       return tooltipTitle(bgColor, imgUrl, title, parent);
     }
   },

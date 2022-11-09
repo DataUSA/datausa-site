@@ -16,14 +16,17 @@
     background: #F6F8FA;
     border-radius: 6px 6px 0px 0px;
     & .icon {
-      margin: 0 auto;
+      position: fixed;
+      bottom: 160px;
+      left: 78px;
+      //margin-bottom: 0 auto;
       width: 42px;
       height: 42px;
       border-radius: 50%;
       padding-top: 5px;
     }
     & .title {
-      padding-top: 15px;
+      padding-top: 25px;
     }
     & .subtitle {
       padding-top: 4px;
