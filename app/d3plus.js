@@ -121,14 +121,19 @@ const getTooltipTitle = (d3plusConfig, d) => {
   return {item, itemId, parent, parentId};
 };
 
-export const tooltipTitle = (bgColor, imgUrl, title) => {
+export const tooltipTitle = (bgColor, imgUrl, title, subtitle=false) => {
   let tooltip = "<div class='d3plus-tooltip-title-wrapper'>";
-  console.log("img", imgUrl)
+
   if (imgUrl) {
     tooltip += `<div class="icon" style="background-color: ${bgColor}"><img src="${imgUrl}" /></div>`;
   }
 
   tooltip += `<div class="title"><span>${title}</span></div>`;
+  console.log(subtitle)
+  if(subtitle){
+    subtitle = imgUrl && imgUrl == "/icons/dimensions/Geography-Splash.png" ? "State" : subtitle;
+    tooltip += `<div class="subtitle"><span>${subtitle}</span></div>`;
+  }
   tooltip += "</div>";
   return tooltip;
 };
@@ -136,7 +141,6 @@ export const tooltipTitle = (bgColor, imgUrl, title) => {
 export const findIconV2 = (key, d) => {
   const icon = `icon${key}`;
   const iconID = d[`${key} ID`] || d[`ID ${key}`];
-  console.log(icon)
 
   return icon === "iconState" ? "/icons/dimensions/Geography-Splash.png" :
         icons[icon] ? icons[icon[iconID]] : undefined;
@@ -386,8 +390,10 @@ export default {
       const title = Array.isArray(item) ? `Otros ${aggregated || "Valores"}` : item;
       const itemBgImg = parentId;
       let bgColor = findColor(d);
+      //let subtitle = findSubtitle;
       let imgUrl = findIconV2(itemBgImg, d);
-      return tooltipTitle(bgColor, imgUrl, title);
+      console.log(item, parent)
+      return tooltipTitle(bgColor, imgUrl, title, parent);
     }
   },
   xConfig: {...axisStyles},
