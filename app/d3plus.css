@@ -17,9 +17,8 @@
     border-radius: 6px 6px 0px 0px;
     & .icon {
       position: fixed;
-      bottom: 160px;
-      left: 78px;
-      //margin-bottom: 0 auto;
+      bottom: 90%;
+      right: 40%;
       width: 42px;
       height: 42px;
       border-radius: 50%;
