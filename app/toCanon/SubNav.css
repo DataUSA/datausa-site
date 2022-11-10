@@ -15,14 +15,14 @@
   }
 
   &.top {
-    height: var(--subnav-height);
+    height: 85px;
     left: 0;
     transition: top 0.2s;
     top: 0;
     width: 100%;
 
     &.scroll.hidden {
-      top: calc(var(--subnav-height) * -1);
+      top: calc(85px * -1);
     }
   }
 
@@ -31,10 +31,10 @@
     right: 0;
     transition: right 0.2s;
     top: 0;
-    width: var(--subnav-height);
+    width: 85px;
 
     &.scroll.hidden {
-      right: calc(var(--subnav-height) * -1);
+      right: calc(85px * -1);
     }
   }
 
@@ -43,22 +43,22 @@
     left: 0;
     transition: left 0.2s;
     top: 0;
-    width: var(--subnav-height);
+    width: 85px;
 
     &.scroll.hidden {
-      left: calc(var(--subnav-height) * -1);
+      left: calc(85px * -1);
     }
   }
 
   &.bottom {
     bottom: 0;
-    height: var(--subnav-height);
+    height: 85px;
     transition: bottom 0.2s;
     top: 0;
     width: 100%;
 
     &.scroll.hidden {
-      bottom: calc(var(--subnav-height) * -1);
+      bottom: calc(85px * -1);
     }
   }
 

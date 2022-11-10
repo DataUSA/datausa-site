@@ -199,7 +199,7 @@
     background: #fff;
     border: solid #727682;
     border-width: 0.1em 0.1em 0.1em 0.8em;
-    color: #141b2e;
+    color: var(--darkbluegray);
     margin: 15px 10px;
     overflow: auto;
     overflow-wrap: break-word;

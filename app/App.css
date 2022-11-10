@@ -82,7 +82,7 @@ body {
   font-smoothing: antialiased;
   -webkit-font-smoothing: antialiased;
   & #App {
-    background-color: var(--dark);
+    background-color: var(--darkbluegray);
     box-sizing: border-box;
     padding-top: 0;
     position: relative;

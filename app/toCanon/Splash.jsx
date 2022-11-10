@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import Stat from "./Stat";
-import SectionIcon from "./SectionIcon";
 import Search from "toCanon/Search";
 import "./Splash.css";
 import {Button} from "@blueprintjs/core";
@@ -58,15 +57,15 @@ class Splash extends Component {
   render() {
     const {revealPhoto} = this.state;
     const {addComparison} = this.context;
-    const {data: profile, height, comparisons} = this.props;
+    const {data: profile, comparisons} = this.props;
 
     const data = [profile].concat(comparisons);
 
     const slug = profile.meta[0].slug;
     const dimension = profile.meta[0].dimension;
 
-    return <div id="Splash" style={{height}} className={`splash-${slug} splash-${(data[0].sections || data[0].topics)[0].stats.length}${revealPhoto ? " reveal-photo" : ""}`}>
-      <div className="image-container" style={{height}}>
+    return <div id="Splash" className={`cp-hero splash-${slug} splash-${(data[0].sections || data[0].topics)[0].stats.length}${revealPhoto ? " reveal-photo" : ""}`}>
+      <div className="image-container">
         { data.map((d, i) => <div key={i} className="image" style={{backgroundImage: `url("/api/profile/${d.dims[0].slug}/${d.variables.slug1}/splash")`}}></div>) }
         <Button onClick={this.revealPhoto.bind(this)} icon="camera" className={ `bp3-minimal ${revealPhoto ? "bp3-active" : ""}` } />
       </div>
@@ -94,12 +93,6 @@ class Splash extends Component {
           { (d.sections || d.topics)[0].stats.map((s, ii) => <Stat key={ii} data={s} />) }
         </div>) }
       </div>
-      { profile.sections &&
-        <div className="profile-sections">
-          <SectionIcon slug="about" title="About" />
-          { profile.sections.filter(d => d.type === "Grouping").map((s, i) => <SectionIcon key={i} {...s} />) }
-        </div>
-      }
     </div>;
   }
 
@@ -117,8 +110,7 @@ Splash.contextTypes = {
 };
 
 Splash.defaultProps = {
-  comparisons: [],
-  height: "100vh"
+  comparisons: []
 };
 
 export default Splash;

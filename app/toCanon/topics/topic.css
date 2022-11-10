@@ -144,7 +144,7 @@
     top: 0;
   }
 
-  &.Column {
+  &.Column, &.SubGrouping {
     flex: 1;
     flex-direction: column;
     width: auto;
@@ -168,6 +168,17 @@
     }
     & .stat-value {
       font-size: 24px;
+    }
+  }
+
+  &.SubGrouping {
+    & .topic-title {
+      font-size: 28px;
+      font-weight: 500;
+      margin-bottom: 0;
+      padding: 45px 0 0;
+      position: relative;
+      text-transform: uppercase;
     }
   }
 

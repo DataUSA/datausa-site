@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 
 import TextViz from "toCanon/topics/TextViz";
 import Column from "toCanon/topics/Column";
-const topicTypes = {Column, TextViz};
+import SubGrouping from "toCanon/topics/SubGrouping";
+
+const topicTypes = {Column, SubGrouping, TextViz};
 
 class Topic extends Component {
 

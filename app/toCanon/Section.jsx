@@ -11,11 +11,12 @@ class Section extends Component {
   render() {
     const {children, data: profile, comparisons, breadcrumbs, photo} = this.props;
     const {stripP} = this.context.formatters;
-    const {slug, title} = profile;
+    const {icon, slug, title} = profile;
     const data = [profile].concat(comparisons).filter(Boolean);
 
-    return <div className={ `Section ${slug} ${ comparisons.length ? "compare" : "" }` }>
+    return <div className={ `cp-section Section ${slug} ${ comparisons.length ? "compare" : "" }` }>
       <h2 className="section-title">
+        { icon ? <Icon iconSize={32} icon={icon} /> : null }
         <AnchorLink to={ slug } id={ slug } className="anchor" dangerouslySetInnerHTML={{__html: stripP(title)}}></AnchorLink>
       </h2>
       <div className="section-body">
