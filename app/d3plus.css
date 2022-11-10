@@ -8,21 +8,23 @@
 .d3plus-tooltip {
   box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 3px;
   max-width: 224px;
-  min-width: 200px;
+  min-width: 224px;
   z-index: 30;
   padding: 0px !important;
   border-radius: 6px !important;
   & .d3plus-tooltip-title {
-    //width: 100%;
+    min-width: 224px;
     background: #F6F8FA;
     border-radius: 6px 6px 0px 0px;
     padding-left: 5px;
     padding-right: 5px;
     padding-bottom: 7px;
+    padding-top: 10px;
     & .icon {
       position: fixed;
-      bottom: 88%;
-      right: 39%;
+      top: -21px;
+      right: 91px;
+      left: 91px;
       width: 42px;
       height: 42px;
       border-radius: 50%;
@@ -32,10 +34,10 @@
       }
     }
     & .title {
-      padding-top: 25px;
+      padding-top: 15px;
     }
     & .title-without-icon {
-      padding-top: 10px;
+      padding-top: 0px;
     }
     & .subtitle {
       padding-top: 4px;
@@ -73,9 +75,10 @@
     padding-bottom: 16px;
     border-radius: 0px 0px 6px 6px;
     border-top: 1px solid #DAE0E4;
-    background-image: url("/icons/tooltip/template.svg");
-    background-repeat: no-repeat;
-    background-position: 17% 40%;
-    background-color: transparent;
+    //background-image: url("/icons/tooltip/template.svg");
+    //background-repeat: no-repeat;
+    //background-position: 20% 40%;
+    //background-color: transparent;
+    //background-size: 8%;
   }
 }
