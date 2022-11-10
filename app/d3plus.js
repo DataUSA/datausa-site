@@ -133,7 +133,7 @@ export const tooltipTitle = (bgColor, imgUrl, title, subtitle=false) => {
     tooltip += `<div class="icon" style="background-color: ${bgColor}"><img src="${imgUrl}" /></div>`;
   }
 
-  tooltip += `<div class="title"><span>${title}</span></div>`;
+  tooltip += `<div class=${imgUrl ? "title" : "title-without-icon"}><span>${title}</span></div>`;
   console.log(subtitle)
   if(subtitle){
     //subtitle = imgUrl && imgUrl == "/icons/dimensions/Geography-Splash.png" ? "State" : subtitle;
