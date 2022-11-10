@@ -128,5 +128,7 @@
     "6": "/icons/visualizations/person_walk.png",
     "7": "/icons/visualizations/thing_scooter.png",
     "8": "/icons/visualizations/place_home.png"
-  }
+  },
+  "iconGeo": "/icons/dimensions/Geography-Splash.png",
+  "iconNAPCS": "/icons/dimensions/NAPCS.svg"
 }

@@ -80,13 +80,18 @@ function findColor(d) {
     for (const key in colors) {
       // Mondrian-Only
       if (`ID ${key}` in d) {
-        const color = colors[key][`${d[`ID ${key}`]}`] || colors[key][`${d[key]}`];
+        const color = key === "NAPCS" ? colors[key] : colors[key][`${d[`ID ${key}`]}`] || colors[key][`${d[key]}`];
         if (color) return color;
         else continue;
       }
       // Tesseract-Only
       else if (`${key} ID` in d) {
         const color = colors[key][`${d[`${key} ID`]}`] || colors[key][`${d[key]}`];
+        if (color) return color;
+        else continue;
+      }
+      else if (Object.keys(d).find(dimension => ["State", "Origin State", "Destination State"].includes(dimension))) {
+        const color = colors.Geo;
         if (color) return color;
         else continue;
       }
@@ -123,7 +128,7 @@ const getTooltipTitle = (d3plusConfig, d) => {
 
 export const tooltipTitle = (bgColor, imgUrl, title, subtitle=false) => {
   let tooltip = "<div class='d3plus-tooltip-title-wrapper'>";
-
+  console.log(bgColor, imgUrl)
   if (imgUrl) {
     tooltip += `<div class="icon" style="background-color: ${bgColor}"><img src="${imgUrl}" /></div>`;
   }
@@ -131,7 +136,7 @@ export const tooltipTitle = (bgColor, imgUrl, title, subtitle=false) => {
   tooltip += `<div class="title"><span>${title}</span></div>`;
   console.log(subtitle)
   if(subtitle){
-    subtitle = imgUrl && imgUrl == "/icons/dimensions/Geography-Splash.png" ? "State" : subtitle;
+    //subtitle = imgUrl && imgUrl == "/icons/dimensions/Geography-Splash.png" ? "State" : subtitle;
     tooltip += `<div class="subtitle"><span>${subtitle}</span></div>`;
   }
   tooltip += "</div>";
@@ -139,11 +144,11 @@ export const tooltipTitle = (bgColor, imgUrl, title, subtitle=false) => {
 };
 
 export const findIconV2 = (key, d) => {
-  const icon = `icon${key}`;
+  const icon = key === "State" || key === "Destination State" || key === "Origin State" ? "iconGeo" : `icon${key}`;
   const iconID = d[`${key} ID`] || d[`ID ${key}`];
-
-  return icon === "iconState" ? "/icons/dimensions/Geography-Splash.png" :
-        icons[icon] ? icons[icon[iconID]] : undefined;
+  const iconName = d[`${key}`]
+  console.log(icon, iconName, iconID)
+  return icons[icon] ? icons[icon][iconID] || icons[icon][iconName] ? icons[icon][iconID] || icons[icon][iconName] : icons[icon] : undefined;
 };
 
 const labelPadding = 5;
@@ -390,10 +395,8 @@ export default {
       const title = Array.isArray(item) ? `Otros ${aggregated || "Valores"}` : item;
       const itemBgImg = parentId;
       let bgColor = findColor(d);
-      //let subtitle = findSubtitle;
       let imgUrl = findIconV2(itemBgImg, d);
-      console.log(item, parent, bgColor)
-      return tooltipTitle(bgColor, imgUrl, title, parent);
+      return tooltipTitle(bgColor, imgUrl, title, parentId);
     }
   },
   xConfig: {...axisStyles},
