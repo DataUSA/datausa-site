@@ -13,6 +13,7 @@
   padding: 0px !important;
   border-radius: 6px !important;
   & .d3plus-tooltip-title {
+    //width: 100%;
     background: #F6F8FA;
     border-radius: 6px 6px 0px 0px;
     padding-left: 5px;
@@ -26,13 +27,15 @@
       height: 42px;
       border-radius: 50%;
       padding-top: 5px;
-
       & img {
         height: 30px;
       }
     }
     & .title {
       padding-top: 25px;
+    }
+    & .title-without-icon {
+      padding-top: 10px;
     }
     & .subtitle {
       padding-top: 4px;
