@@ -61,6 +61,8 @@ const badMeasures = [
   "Default Rate"
 ];
 
+const listGeo = ["State", "Destination State", "Origin State", "County", "PUMA"]
+
 export {badMeasures};
 
 const pathway = ["Pathway Gothic One", "Arial Narrow", "sans-serif"];
@@ -71,31 +73,23 @@ const palanquin = ["Palanquin", "sans-serif"];
  * Finds a color if defined in the color lookup.
  * @param {Object} d
  */
-function findColor(d) {
+function findColor(key, d) {
   let detectedColors = [];
   if (this && this._filteredData) {
     detectedColors = Array.from(new Set(this._filteredData.map(findColor)));
   }
   if (detectedColors.length !== 1) {
-    for (const key in colors) {
-      // Mondrian-Only
-      if (`ID ${key}` in d) {
-        const color = key === "NAPCS" ? colors[key] : colors[key][`${d[`ID ${key}`]}`] || colors[key][`${d[key]}`];
-        if (color) return color;
-        else continue;
-      }
-      // Tesseract-Only
-      else if (`${key} ID` in d) {
-        const color = colors[key][`${d[`${key} ID`]}`] || colors[key][`${d[key]}`];
-        if (color) return color;
-        else continue;
-      }
-      else if (Object.keys(d).find(dimension => ["State", "Origin State", "Destination State"].includes(dimension))) {
-        const color = colors.Geo;
-        if (color) return color;
-        else continue;
-      }
+    //console.log("Dimension", key)
+    if (colors[key]) {
+      //console.log("color", d[`ID ${key}`], colors[key][`${d[`ID ${key}`]}`])
+      const color = key === "NAPCS" ? colors[key] : colors[key][`${d[`ID ${key}`]}`] || colors[key][`${d[key]}`] || colors[key][`${d[`${key} ID`]}`];
+      if (color) return color;
     }
+    else if (listGeo.includes(key)) {
+      const color = colors.Geo;
+      if (color) return color;
+    }
+
     return colors.colorGrey;
   }
   return Object.keys(d).some(v => badMeasures.includes(v)) ? bad : good;
@@ -144,7 +138,7 @@ export const tooltipTitle = (bgColor, imgUrl, title, subtitle=false) => {
 };
 
 export const findIconV2 = (key, d) => {
-  const icon = key === "State" || key === "Destination State" || key === "Origin State" ? "iconGeo" : `icon${key}`;
+  const icon = listGeo.includes(key) ? "iconGeo" : `icon${key}`;
   const iconID = d[`${key} ID`] || d[`ID ${key}`];
   const iconName = d[`${key}`]
   console.log(icon, iconName, iconID)
@@ -246,11 +240,12 @@ export default {
   legendTooltip: {
     title(d) {
       const {item, itemId, parent, parentId} = getTooltipTitle(this, d);
-      const title = Array.isArray(item) ? `${parent || "Valores"}` : item;
+      const aggregated = Array.isArray(parent) ? "Valores" : parent;
+      const title = Array.isArray(item) ? `Otros ${aggregated || "Valores"}` : item;
       const itemBgImg = parentId;
-      const bgColor = findColor(d);
-      const imgUrl = findIconV2(itemBgImg, d);
-      return tooltipTitle(bgColor, imgUrl, title);
+      let bgColor = findColor(itemBgImg, d);
+      let imgUrl = findIconV2(itemBgImg, d);
+      return tooltipTitle(bgColor, imgUrl, title, parentId);
     }
   },
   loadingHTML: `<div style="left: 50%; top: 50%; position: absolute; transform: translate(-50%, -50%); font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 400;">
@@ -394,8 +389,9 @@ export default {
       const aggregated = Array.isArray(parent) ? "Valores" : parent;
       const title = Array.isArray(item) ? `Otros ${aggregated || "Valores"}` : item;
       const itemBgImg = parentId;
-      let bgColor = findColor(d);
+      let bgColor = findColor(itemBgImg, d);
       let imgUrl = findIconV2(itemBgImg, d);
+      console.log(itemBgImg, parent, item, itemId)
       return tooltipTitle(bgColor, imgUrl, title, parentId);
     }
   },
