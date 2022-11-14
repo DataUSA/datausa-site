@@ -104,9 +104,7 @@ function findColorTooltip(key, d) {
     detectedColors = Array.from(new Set(this._filteredData.map(findColor)));
   }
   if (detectedColors.length !== 1) {
-    //console.log("Dimension", key)
     if (colors[key]) {
-      //console.log("color", d[`ID ${key}`], colors[key][`${d[`ID ${key}`]}`])
       const color = key === "NAPCS" ? colors[key] : colors[key][`${d[`ID ${key}`]}`] || colors[key][`${d[key]}`] || colors[key][`${d[`${key} ID`]}`];
       if (color) return color;
     }
@@ -146,15 +144,14 @@ const getTooltipTitle = (d3plusConfig, d) => {
 
 export const tooltipTitle = (bgColor, imgUrl, title, subtitle=false) => {
   let tooltip = "<div class='d3plus-tooltip-title-wrapper'>";
-  console.log(bgColor, imgUrl)
+
   if (imgUrl) {
     tooltip += `<div class="icon" style="background-color: ${bgColor}"><img src="${imgUrl}" /></div>`;
   }
 
   tooltip += `<div class=${imgUrl ? "title" : "title-without-icon"}><span>${title}</span></div>`;
-  console.log(subtitle)
+
   if(subtitle){
-    //subtitle = imgUrl && imgUrl == "/icons/dimensions/Geography-Splash.png" ? "State" : subtitle;
     tooltip += `<div class="subtitle"><span>${subtitle}</span></div>`;
   }
   tooltip += "</div>";
@@ -416,7 +413,6 @@ export default {
       const itemBgImg = parentId;
       let bgColor = findColorTooltip(itemBgImg, d);
       let imgUrl = findIconV2(itemBgImg, d);
-      console.log(itemBgImg, parent, item, itemId)
       return tooltipTitle(bgColor, imgUrl, title, parentId);
     }
   },
