@@ -126,6 +126,22 @@
     "92": "/icons/visualizations/person_family.png",
     "928110": "/icons/visualizations/thing_airplane.png"
   },
+  "iconIndustry Sector": {
+    "11-21": "/icons/visualizations/thing_wheat.png",
+    "23": "/icons/visualizations/thing_trafficcone.png",
+    "31-33": "/icons/visualizations/place_factory.png",
+    "42": "/icons/visualizations/thing_box.png",
+    "44-45": "/icons/visualizations/place_store.png",
+    "48-49, 22": "/icons/visualizations/thing_truck.png",
+    "51": "/icons/visualizations/thing_computer.png",
+    "52-53": "/icons/visualizations/place_moneyhouse.png",
+    "54-56": "/icons/visualizations/person_business.png",
+    "61-62": "/icons/visualizations/thing_medic.png",
+    "71-72": "/icons/visualizations/thing_theater.png",
+    "81": "/icons/visualizations/person_general.png",
+    "92": "/icons/visualizations/person_family.png",
+    "928110": "/icons/visualizations/thing_airplane.png"
+  },
   "iconNativity": {
     "Native Born": "/icons/visualizations/thing_passportusa.png",
     "Foreign Born": "/icons/visualizations/thing_passportwld.png"

@@ -61,7 +61,7 @@ const badMeasures = [
   "Default Rate"
 ];
 
-const listGeo = ["State", "Destination State", "Origin State", "County", "PUMA"]
+const listGeo = ["State", "Destination State", "Origin State", "County", "PUMA", "Geography"]
 
 export {badMeasures};
 
@@ -73,7 +73,32 @@ const palanquin = ["Palanquin", "sans-serif"];
  * Finds a color if defined in the color lookup.
  * @param {Object} d
  */
-function findColor(key, d) {
+function findColor(d) {
+  let detectedColors = [];
+  if (this && this._filteredData) {
+    detectedColors = Array.from(new Set(this._filteredData.map(findColor)));
+  }
+  if (detectedColors.length !== 1) {
+    for (const key in colors) {
+      // Mondrian-Only
+      if (`ID ${key}` in d) {
+        const color = colors[key][`${d[`ID ${key}`]}`] || colors[key][`${d[key]}`];
+        if (color) return color;
+        else continue;
+      }
+      // Tesseract-Only
+      else if (`${key} ID` in d) {
+        const color = colors[key][`${d[`${key} ID`]}`] || colors[key][`${d[key]}`];
+        if (color) return color;
+        else continue;
+      }
+    }
+    return colors.colorGrey;
+  }
+  return Object.keys(d).some(v => badMeasures.includes(v)) ? bad : good;
+}
+
+function findColorTooltip(key, d) {
   let detectedColors = [];
   if (this && this._filteredData) {
     detectedColors = Array.from(new Set(this._filteredData.map(findColor)));
@@ -89,7 +114,6 @@ function findColor(key, d) {
       const color = colors.Geo;
       if (color) return color;
     }
-
     return colors.colorGrey;
   }
   return Object.keys(d).some(v => badMeasures.includes(v)) ? bad : good;
@@ -142,7 +166,8 @@ export const findIconV2 = (key, d) => {
   const iconID = d[`${key} ID`] || d[`ID ${key}`];
   const iconName = d[`${key}`]
   console.log(icon, iconName, iconID)
-  return icons[icon] ? icons[icon][iconID] || icons[icon][iconName] ? icons[icon][iconID] || icons[icon][iconName] : icons[icon] : undefined;
+  return icons[icon] ? icon === "iconGeo" || icon === "iconRace" ? icons[icon] :
+        icons[icon][iconID] || icons[icon][iconName] ? icons[icon][iconID] || icons[icon][iconName] : undefined : undefined;
 };
 
 const labelPadding = 5;
@@ -243,7 +268,7 @@ export default {
       const aggregated = Array.isArray(parent) ? "Valores" : parent;
       const title = Array.isArray(item) ? `Otros ${aggregated || "Valores"}` : item;
       const itemBgImg = parentId;
-      let bgColor = findColor(itemBgImg, d);
+      let bgColor = findColorTooltip(itemBgImg, d);
       let imgUrl = findIconV2(itemBgImg, d);
       return tooltipTitle(bgColor, imgUrl, title, parentId);
     }
@@ -389,7 +414,7 @@ export default {
       const aggregated = Array.isArray(parent) ? "Valores" : parent;
       const title = Array.isArray(item) ? `Otros ${aggregated || "Valores"}` : item;
       const itemBgImg = parentId;
-      let bgColor = findColor(itemBgImg, d);
+      let bgColor = findColorTooltip(itemBgImg, d);
       let imgUrl = findIconV2(itemBgImg, d);
       console.log(itemBgImg, parent, item, itemId)
       return tooltipTitle(bgColor, imgUrl, title, parentId);
