@@ -158,11 +158,10 @@ export const tooltipTitle = (bgColor, imgUrl, title, subtitle=false) => {
   return tooltip;
 };
 
-export const findIconV2 = (key, d) => {
+export const findIcon = (key, d) => {
   const icon = listGeo.includes(key) ? "iconGeo" : `icon${key}`;
   const iconID = d[`${key} ID`] || d[`ID ${key}`];
   const iconName = d[`${key}`]
-  console.log(icon, iconName, iconID)
   return icons[icon] ? icon === "iconGeo" || icon === "iconRace" ? icons[icon] :
         icons[icon][iconID] || icons[icon][iconName] ? icons[icon][iconID] || icons[icon][iconName] : undefined : undefined;
 };
@@ -266,7 +265,7 @@ export default {
       const title = Array.isArray(item) ? `Otros ${aggregated || "Valores"}` : item;
       const itemBgImg = parentId;
       let bgColor = findColorTooltip(itemBgImg, d);
-      let imgUrl = findIconV2(itemBgImg, d);
+      let imgUrl = findIcon(itemBgImg, d);
       return tooltipTitle(bgColor, imgUrl, title, parentId);
     }
   },
@@ -386,19 +385,31 @@ export default {
   },
   tooltipConfig: {
     background: "white",
+    borderRadius: "6px",
+    padding: "0px",
+    width: "224px",
     footerStyle: {
       "color": "#869DAD",
       "font-family": "Palanquin",
       "font-size": "10px",
       "font-weight": "700",
-      "text-transform": "uppercase"
+      "text-transform": "uppercase",
+      "background": "#FFFFFF",
+      "text-align": "center",
+      "padding-top": "10px",
+      "padding-bottom": "16px",
+      "border-radius": "0px 0px 6px 6px",
+      "border-top": "1px solid #dae0e4"
     },
     titleStyle: {
       "color": "#303F50",
       "font-family": "Palanquin",
       "font-size": "14px",
       "font-weight": "600",
-      "text-align": "center"
+      "text-align": "center",
+      "border-radius": "6px 6px 0px 0px",
+      "padding": "10px 5px 7px 5px",
+      "background": "#F6F8FA"
     },
     tbodyStyle: {
       "color": "#6D7B8E",
@@ -406,13 +417,26 @@ export default {
       "font-size": "10px",
       "font-family": "Palanquin"
     },
+    tableStyle: {
+      "border-collapse": "unset",
+      "padding": "14px 24px 9px 19px"
+    },
+    trStyle: {
+      "font-family": "Palanquin",
+      "border": "none"
+    },
+    tdStyle: {
+      "text-align": "left",
+      "font-weight": "600",
+      "padding-bottom": "7px"
+    },
     title(d) {
       const {item, itemId, parent, parentId} = getTooltipTitle(this, d);
       const aggregated = Array.isArray(parent) ? "Valores" : parent;
       const title = Array.isArray(item) ? `Otros ${aggregated || "Valores"}` : item;
       const itemBgImg = parentId;
       let bgColor = findColorTooltip(itemBgImg, d);
-      let imgUrl = findIconV2(itemBgImg, d);
+      let imgUrl = findIcon(itemBgImg, d);
       return tooltipTitle(bgColor, imgUrl, title, parentId);
     }
   },
