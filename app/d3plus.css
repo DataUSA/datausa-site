@@ -7,19 +7,9 @@
 
 .d3plus-tooltip {
   box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 3px;
-  max-width: 224px;
-  min-width: 224px;
   z-index: 30;
-  padding: 0px !important;
-  border-radius: 6px !important;
   & .d3plus-tooltip-title {
     min-width: 224px;
-    background: var(--tooltip-background);
-    border-radius: 6px 6px 0px 0px;
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-bottom: 7px;
-    padding-top: 10px;
     & .icon {
       position: fixed;
       top: -21px;
@@ -48,36 +38,16 @@
     }
   }
   & .d3plus-tooltip-table {
-    border-collapse: unset !important;
-    padding-left: 19px;
-    padding-right: 24px;
-    padding-top: 14px;
-    padding-bottom: 9px;
     & .d3plus-tooltip-tbody {
-      & tr {
-        font-family: "Palanquin";
-        border: none !important;
-        & td {
-          text-align: left;
-          font-weight: 600;
-          padding-bottom: 7px;
-          &:last-child {
-            text-align: right;
-          }
-        }
+      & tr td:last-child {
+        text-align: right !important;
       }
     }
   }
-  & .d3plus-tooltip-footer {
-    background: white;
-    text-align: center;
-    padding-top: 10px;
-    padding-bottom: 16px;
-    border-radius: 0px 0px 6px 6px;
-    border-top: 1px solid var(--light-3);
+  /*& .d3plus-tooltip-footer {
     //background-image: url("/icons/tooltip/template.svg");
     //background-repeat: no-repeat;
     //background-position: 20% 40%;
     //background-color: transparent;
-  }
+  }*/
 }

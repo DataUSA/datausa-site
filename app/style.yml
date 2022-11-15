@@ -76,7 +76,6 @@ type-error:         "#DB64A6"
 type-error-dark:    "#75224D"
 
 #tooltip
-tooltip-background: "#F6F8FA"
 tooltip-subtitle: "#869DAD"
 
 # measurements
