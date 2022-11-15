@@ -166,6 +166,16 @@ export const findIcon = (key, d) => {
         icons[icon][iconID] || icons[icon][iconName] ? icons[icon][iconID] || icons[icon][iconName] : undefined : undefined;
 };
 
+export const findTooltipTitle = (d, d3plusConfig) => {
+  const {item, itemId, parent, parentId} = getTooltipTitle(d3plusConfig, d);
+  const aggregated = Array.isArray(parent) ? "Valores" : parent;
+  const title = Array.isArray(item) ? `Otros ${aggregated || "Valores"}` : item;
+  const itemBgImg = parentId;
+  let bgColor = findColorTooltip(itemBgImg, d);
+  let imgUrl = findIcon(itemBgImg, d);
+  return tooltipTitle(bgColor, imgUrl, title, parentId);
+}
+
 const labelPadding = 5;
 
 const axisStyles = {
@@ -260,13 +270,7 @@ export default {
   legendPosition: "bottom",
   legendTooltip: {
     title(d) {
-      const {item, itemId, parent, parentId} = getTooltipTitle(this, d);
-      const aggregated = Array.isArray(parent) ? "Valores" : parent;
-      const title = Array.isArray(item) ? `Otros ${aggregated || "Valores"}` : item;
-      const itemBgImg = parentId;
-      let bgColor = findColorTooltip(itemBgImg, d);
-      let imgUrl = findIcon(itemBgImg, d);
-      return tooltipTitle(bgColor, imgUrl, title, parentId);
+      return findTooltipTitle(d, this)
     }
   },
   loadingHTML: `<div style="left: 50%; top: 50%; position: absolute; transform: translate(-50%, -50%); font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 400;">
@@ -431,13 +435,7 @@ export default {
       "padding-bottom": "7px"
     },
     title(d) {
-      const {item, itemId, parent, parentId} = getTooltipTitle(this, d);
-      const aggregated = Array.isArray(parent) ? "Valores" : parent;
-      const title = Array.isArray(item) ? `Otros ${aggregated || "Valores"}` : item;
-      const itemBgImg = parentId;
-      let bgColor = findColorTooltip(itemBgImg, d);
-      let imgUrl = findIcon(itemBgImg, d);
-      return tooltipTitle(bgColor, imgUrl, title, parentId);
+      return findTooltipTitle(d, this)
     }
   },
   xConfig: {...axisStyles},
