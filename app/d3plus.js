@@ -105,11 +105,11 @@ function findColorTooltip(key, d) {
   }
   if (detectedColors.length !== 1) {
     if (colors[key]) {
-      const color = key === "NAPCS" ? colors[key] : colors[key][`${d[`ID ${key}`]}`] || colors[key][`${d[key]}`] || colors[key][`${d[`${key} ID`]}`];
+      const color = key === "NAPCS" ? styles.naics : colors[key][`${d[`ID ${key}`]}`] || colors[key][`${d[key]}`] || colors[key][`${d[`${key} ID`]}`];
       if (color) return color;
     }
     else if (listGeo.includes(key)) {
-      const color = colors.Geo;
+      const color = styles.geo;
       if (color) return color;
     }
     return colors.colorGrey;
