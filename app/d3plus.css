@@ -45,9 +45,9 @@
     }
   }
   /*& .d3plus-tooltip-footer {
-    //background-image: url("/icons/tooltip/template.svg");
-    //background-repeat: no-repeat;
-    //background-position: 20% 40%;
-    //background-color: transparent;
+    background-image: url("/icons/tooltip/template.svg") !important;
+    background-repeat: no-repeat !important;
+    background-position: 20% 40% !important;
+    background-color: transparent !important;
   }*/
 }
