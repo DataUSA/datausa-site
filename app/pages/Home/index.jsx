@@ -110,7 +110,7 @@ class Home extends Component {
                 },
                 tiles: false,
                 tooltipConfig: {
-                  footer: "Click to View Report",
+                  footer: `<img src="/icons/tooltip/template.svg" style="padding-right:2px;"/> Click to View Report`,
                   tbody: [
                     ["Year", d => d.Year],
                     ["Population", d => formatAbbreviate(d.Population)]
