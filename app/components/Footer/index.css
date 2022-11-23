@@ -142,17 +142,17 @@
       }
     }
   }
-}
 
-#datausa {
-  height: 28px;
-  width: 113.42px;
-}
+  & #datausa {
+    height: 28px;
+    width: 113.42px;
+  }
 
-#deloitte {
-  height: 20px;
-}
+  & #deloitte {
+    height: 20px;
+  }
 
-#datawheel {
-  height: 24px;
+  & #datawheel {
+    height: 24px;
+  }
 }
