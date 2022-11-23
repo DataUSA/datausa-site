@@ -19,9 +19,10 @@ class TextViz extends Component {
 
   onSelector(name, value) {
     const {onSelector, updateSource} = this.context;
+    const {comparison} = this.props.contents;
     this.setState({loading: true});
     if (updateSource) updateSource(false);
-    onSelector(name, value, () => this.setState({loading: false}));
+    onSelector(name, value, comparison, () => this.setState({loading: false}));
   }
 
   render() {
@@ -29,10 +30,11 @@ class TextViz extends Component {
     const {stripP} = formatters;
     const {contents, sources} = this.props;
     const {loading} = this.state;
-    const {descriptions, selectors, slug, stats, subtitles, title, titleCompare, visualizations} = contents;
+    const {descriptions, slug, stats, subtitles, title, titleCompare, visualizations} = contents;
 
     const miniviz = visualizations.length > 1 ? visualizations[0] : false;
     const mainviz = visualizations.length > 1 ? visualizations.slice(1) : visualizations;
+    const selectors = contents.selectors.filter(selector => selector.options.length > 1);
 
     if (router.location.query.viz === "true") {
       return <div className={ `topic ${slug || ""} Column ${loading ? "topic-loading" : ""}` }>

@@ -5,6 +5,7 @@ import {Helmet} from "react-helmet-async";
 
 import {fetchData} from "@datawheel/canon-core";
 import Subnav from "@datawheel/canon-cms/src/components/sections/components/Subnav";
+import prepareProfile from "@datawheel/canon-cms/src/utils/prepareProfile";
 import Splash from "toCanon/Splash";
 import Topic from "toCanon/Topic";
 
@@ -18,16 +19,32 @@ import {updateTitle} from "actions/title";
 
 import NotFound from "../pages/NotFound/NotFound";
 
+const splitComparisonKeys = obj => {
+  const split = {
+    profile: {},
+    comparison: {}
+  };
+  Object.keys(obj).forEach(k => {
+    split
+      [k.startsWith("compare_") ? "comparison" : "profile"]
+      [k.replace("compare_", "")] =
+    obj[k];
+  });
+  return split;
+};
+
 class Profile extends Component {
 
   constructor(props) {
 
     super(props);
+    const query = {...props.router.location.query};
 
     this.state = {
       comparisons: [],
       loading: false,
-      profile: props.profile
+      profile: props.profile,
+      selectors: query
     };
   }
 
@@ -101,20 +118,50 @@ class Profile extends Component {
     this.props.updateTitle(false);
   }
 
-  onSelector(name, value, callback) {
+  updateQuery() {
 
-    const {profile} = this.state;
-    const {id, variables} = profile;
-    const {params} = this.props;
+    const {router} = this.props;
+    const {location} = router;
+    const {basename, pathname, query} = location;
 
-    const payload = {variables};
-    const url = `/api/profile?profile=${id}&slug=${params.slug}&id=${params.id}&${name}=${value}`;
+    const {comparisons, selectors} = this.state;
 
-    axios.post(url, payload)
-      .then(resp => {
-        this.setState({profile: resp.data});
-        if (callback) callback();
-      });
+    const newQuery = {...query, ...selectors};
+
+    if (comparisons.length) newQuery.compare = comparisons[0].dims[0].memberSlug;
+    else delete newQuery.compare;
+
+    const queryString = Object.entries(newQuery).map(([key, val]) => `${key}=${val}`).join("&");
+    router.replace(`${basename}${pathname}${queryString ? `?${queryString}` : ""}`);
+
+  }
+
+  onSelector(name, value, isComparison, callback) {
+
+    const {comparisons, profile, selectors} = this.state;
+    const {formatters} = this.context;
+    const {locale} = this.props;
+
+    const comparison = comparisons.length ? comparisons[0] : false;
+
+    selectors[`${isComparison ? "compare_" : ""}${name}`] = value;
+    const split = splitComparisonKeys(selectors);
+
+    const {variables} = profile;
+    const newProfile = prepareProfile(variables._rawProfile, variables, formatters, locale, split.profile);
+    const payload = {selectors, profile: {...profile, ...newProfile}};
+
+    if (comparison) {
+      const compVars = comparison.variables;
+      const newComp = prepareProfile(compVars._rawProfile, compVars, formatters, locale, split.comparison);
+      payload.comparisons = [{...comparison, ...newComp}];
+    }
+
+    this.setState(payload, () => {
+      if (callback) callback();
+      this.updateQuery.bind(this)();
+    });
+
   }
 
   render() {
@@ -151,6 +198,7 @@ class Profile extends Component {
             arr.push(<Topic key={`topic_${t.id}${comparisons.length ? "_orig" : ""}`} contents={t} />);
             sectionCompares
               .forEach((tt, i) => {
+                tt.comparison = true;
                 tt.titleCompare = tt.title.replace("</p>", ` ${joiner} ${stripHTML(comparisons[i].title)}</p>`);
                 arr.push(<Topic variables={comparisons[i].variables} key={`topic_${tt.id}_comp`} contents={tt} />);
               });
