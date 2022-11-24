@@ -5,6 +5,7 @@ import Search from "toCanon/Search";
 import "./Splash.css";
 import {Button} from "@blueprintjs/core";
 import SVG from "react-inlinesvg";
+import stripP from "@datawheel/canon-cms/src/utils/formatters/stripP";
 
 class CompareButton extends Component {
 
@@ -78,7 +79,7 @@ class Splash extends Component {
       <Search className="SearchButton"
         icon={ false }
         inactiveComponent={ CompareButton }
-        placeholder={ `Search ${profile.label.replace(/([A-z]$)/g, chr => chr === "y" ? "ies" : `${chr}s`)}` }
+        placeholder={ `Search ${stripP(profile.label).replace(/([A-z]$)/g, chr => chr === "y" ? "ies" : `${chr}s`)}` }
         primary={false}
         resultRender={d => <div onClick={() => addComparison(d.slug || d.id)} className="result-container">
           <SVG className={`result-icon ${d.profile}`} src={ `/icons/dimensions/${d.dimension}.svg` } />

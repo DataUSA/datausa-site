@@ -16,9 +16,10 @@ class Column extends Component {
 
   onSelector(name, value) {
     const {onSelector, updateSource} = this.context;
+    const {comparison} = this.props.contents;
     this.setState({loading: true});
     if (updateSource) updateSource(false);
-    onSelector(name, value, () => this.setState({loading: false}));
+    onSelector(name, value, comparison, () => this.setState({loading: false}));
   }
 
   render() {
@@ -27,8 +28,9 @@ class Column extends Component {
     const {stripP} = formatters;
     const {contents, sources} = this.props;
     const {loading} = this.state;
-    const {descriptions, selectors, slug, subtitles, title, titleCompare, visualizations} = contents;
+    const {descriptions, slug, subtitles, title, titleCompare, visualizations} = contents;
 
+    const selectors = contents.selectors.filter(selector => selector.options.length > 1);
     const hideText = router.location.query.viz === "true";
 
     return <div className={ `topic ${slug} Column ${loading ? "topic-loading" : ""}` }>
