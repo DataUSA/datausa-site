@@ -92,6 +92,13 @@ module.exports = function(app) {
     else if (dimension === "CIP") {
       retObj.stem = id.length === 6 ? stems.includes(id) ? "Stem Major" : false : "Contains Stem Majors"
     }
+    else if (dimension === "University") {
+      const opeid = await axios.get(`${origin}/api/university/opeid/${id}`)
+        .then(resp => resp.data)
+        .catch(() => []);
+
+      retObj.opeid = opeid && opeid.opeid ? opeid.opeid : false;
+    }
 
     return res.json(retObj);
 
