@@ -30,7 +30,7 @@ const blsIndustryMap = [
 module.exports = function(app) {
 
   const {db} = app.settings;
-  const {blsMonthlyIndustries, urls} = app.settings.cache;
+  const {blsMonthlyIndustries, urls, opeid} = app.settings.cache;
 
   app.post("/api/cms/customAttributes/:pid", async(req, res) => {
 
@@ -93,11 +93,7 @@ module.exports = function(app) {
       retObj.stem = id.length === 6 ? stems.includes(id) ? "Stem Major" : false : "Contains Stem Majors"
     }
     else if (dimension === "University") {
-      const opeid = await axios.get(`${origin}/api/university/opeid/${id}`)
-        .then(resp => resp.data)
-        .catch(() => []);
-
-      retObj.opeid = opeid && opeid.opeid ? opeid.opeid : false;
+      retObj.opeid = opeid && opeid[id]? opeid[id] : false;
     }
 
     return res.json(retObj);
