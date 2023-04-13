@@ -20,6 +20,29 @@ if (!level || !urls[level]) {
   shell.exit(1);
 }
 
+// Internal list of HTML entities for escaping.
+const entities = {
+  "&amp;": "&",
+  "&lt;": "<",
+  "&gt;": ">",
+  "&quot;": "\"",
+  "&#x27;": "'",
+  "&#x60;": "`",
+  "&nbsp;": ""
+};
+
+const source = `(?:${ Object.keys(entities).join("|")  })`;
+const testRegexp = RegExp(source);
+const replaceRegexp = RegExp(source, "g");
+
+/**
+* Converts html tags to spaces, then removes redundant spaces
+*/
+function stripHTML(n) {
+  const s = String(n).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  return testRegexp.test(s) ? s.replace(replaceRegexp, match => entities[match]) : s;
+}
+
 /** */
 async function run() {
 
@@ -36,8 +59,7 @@ async function run() {
     .querySelectorAll("th")
     .reduce((arr, d) => {
       const cols = d.rawAttrs.includes("colspan") ? +d.rawAttrs.match(/colspan="([0-9])"/)[1] : 1;
-      const text = d.querySelector("span").innerHTML
-        .replace(/\<br[\s\=\"\'A-z0-9]{1,}\/\>/g, " ");
+      const text = stripHTML(d.querySelector("span").innerHTML).replace(/\s\[[0-9].*\]/g, "");
       for (let i = 0; i < cols; i++) arr.push(text);
       return arr;
     }, []);
@@ -45,6 +67,7 @@ async function run() {
   let colOffset = 0;
   const candidates = table.querySelectorAll("tr")
     .slice(1)
+    // .slice(1, 2)
     // .slice(7, 12)
     .reduce((arr, row, ii) => {
       const obj = {};
@@ -52,9 +75,7 @@ async function run() {
       row.childNodes
         .filter(d => d.nodeType !== 3)
         .forEach((column, i) => {
-          const header = headers[i + colOffset]
-            .replace(/<br[^>]*>/g, " ")
-            .replace(/\<.*$/g, "");
+          const header = headers[i + colOffset];
           let data = column;
           while (data.querySelector(".cx-segment") || data.querySelector(".cx-link")) {
             data = data.querySelector(".cx-segment") || data.querySelector(".cx-link");
@@ -76,8 +97,8 @@ async function run() {
               obj.Image = `https:${data.querySelector("img").getAttribute("src")}`;
             }
           }
-          else if (header === "Term up") {
-            obj[header] = data.innerHTML.slice(0, 4);
+          else if (header === "Class") {
+            obj["Term up"] = data.innerHTML.slice(0, 4);
           }
           else if (!["Born", "Education", "Prior experience", "Occupation(s)", "Previous office(s)", "Previous elective office(s)", "Residence"].includes(header)) {
             obj[header] = data.innerHTML

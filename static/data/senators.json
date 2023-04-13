@@ -1,19 +1,18 @@
 [
   {
     "State": "Alabama",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Richard_Shelby%2C_official_portrait%2C_112th_Congress_%28cropped%29.jpg/95px-Richard_Shelby%2C_official_portrait%2C_112th_Congress_%28cropped%29.jpg",
-    "Senator": "Richard Shelby",
-    "Party": "Republican",
-    "note": "Until 1994, Richard Shelby won election to the Senate as a member of the Democratic Party.",
-    "Assumed office": "January 3, 1987",
-    "Term up": "2022"
-  },
-  {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Tommy_Tuberville_117th_Congress_Portrait.jpg/95px-Tommy_Tuberville_117th_Congress_Portrait.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Tommy_Tuberville_official_portrait_%28cropped%29.jpg/94px-Tommy_Tuberville_official_portrait_%28cropped%29.jpg",
     "Senator": "Tommy Tuberville",
     "Party": "Republican",
     "Assumed office": "January 3, 2021",
-    "Term up": "2026",
+    "Term up": "2026"
+  },
+  {
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Katie_Boyd_Britt_official_Senate_photo_%28cropped%29.jpg/95px-Katie_Boyd_Britt_official_Senate_photo_%28cropped%29.jpg",
+    "Senator": "Katie Britt",
+    "Party": "Republican",
+    "Assumed office": "January 3, 2023",
+    "Term up": "2028",
     "State": "Alabama"
   },
   {
@@ -22,8 +21,8 @@
     "Senator": "Lisa Murkowski",
     "Party": "Republican",
     "Assumed office": "December 20, 2002",
-    "note": "Appointed to the seat following the resignation of her father Frank Murkowski, who was elected List of Governors of Alaska|Governor of Alaska.",
-    "Term up": "2022"
+    "note": "Appointed to the seat following the resignation of her father Frank Murkowski, who was elected List of governors of Alaska|Governor of Alaska.",
+    "Term up": "2028"
   },
   {
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Senator_Dan_Sullivan_official_%28cropped%29.jpg/95px-Senator_Dan_Sullivan_official_%28cropped%29.jpg",
@@ -37,17 +36,18 @@
     "State": "Arizona",
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Kyrsten_Sinema_%28cropped%29.jpg/95px-Kyrsten_Sinema_%28cropped%29.jpg",
     "Senator": "Kyrsten Sinema",
-    "Party": "Democratic",
+    "Party": "Independent",
+    "note": "Until 2022; Kyrsten Sinema won election to the Senate as a member of the Democratic Party.",
     "Assumed office": "January 3, 2019",
     "Term up": "2024"
   },
   {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/SenatorKellyOfficialPhoto_%28cropped2%29.jpg/95px-SenatorKellyOfficialPhoto_%28cropped2%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Mark_Kelly%2C_Official_Portrait_117th_%28cropped%29.jpg/95px-Mark_Kelly%2C_Official_Portrait_117th_%28cropped%29.jpg",
     "Senator": "Mark Kelly",
     "Party": "Democratic",
     "Assumed office": "December 2, 2020",
     "note": "Elected to the seat to succeed Martha McSally, who had been appointed to the seat following the death of John McCain and the resignation of Jon Kyl.",
-    "Term up": "2022",
+    "Term up": "2028",
     "State": "Arizona"
   },
   {
@@ -56,7 +56,7 @@
     "Senator": "John Boozman",
     "Party": "Republican",
     "Assumed office": "January 3, 2011",
-    "Term up": "2022"
+    "Term up": "2028"
   },
   {
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Tom_Cotton_official_Senate_photo_%28cropped%29.jpg/95px-Tom_Cotton_official_Senate_photo_%28cropped%29.jpg",
@@ -79,19 +79,19 @@
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Alex_Padilla_117th_Congress_portrait_%28cropped%29.jpg/95px-Alex_Padilla_117th_Congress_portrait_%28cropped%29.jpg",
     "Senator": "Alex Padilla",
     "Party": "Democratic",
-    "Assumed office": "January 20, 2021",
+    "Assumed office": "January 18, 2021",
     "note": "Appointed to the seat following the resignation of Kamala Harris, who had become Vice President of the United States.",
-    "Term up": "2022",
+    "Term up": "2028",
     "State": "California"
   },
   {
     "State": "Colorado",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Michael_Bennet_Official_Photo_%28cropped%29.jpg/95px-Michael_Bennet_Official_Photo_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Senator_Mike_Bennett_%28cropped%29_2.jpg/95px-Senator_Mike_Bennett_%28cropped%29_2.jpg",
     "Senator": "Michael Bennet",
     "Party": "Democratic",
     "Assumed office": "January 21, 2009",
     "note": "Appointed to the seat following the resignation of Ken Salazar, who had become Secretary of the Interior.",
-    "Term up": "2022"
+    "Term up": "2028"
   },
   {
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/John_Hickenlooper%2C_official_portrait%2C_117th_Congress_%28cropped%29.jpeg/95px-John_Hickenlooper%2C_official_portrait%2C_117th_Congress_%28cropped%29.jpeg",
@@ -107,7 +107,7 @@
     "Senator": "Richard Blumenthal",
     "Party": "Democratic",
     "Assumed office": "January 3, 2011",
-    "Term up": "2022"
+    "Term up": "2028"
   },
   {
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Chris_Murphy%2C_official_portrait%2C_113th_Congress_%28cropped%29.jpg/95px-Chris_Murphy%2C_official_portrait%2C_113th_Congress_%28cropped%29.jpg",
@@ -140,7 +140,7 @@
     "Senator": "Marco Rubio",
     "Party": "Republican",
     "Assumed office": "January 3, 2011",
-    "Term up": "2022"
+    "Term up": "2028"
   },
   {
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Official_Portrait_of_Senator_Rick_Scott_%28cropped%29.jpg/95px-Official_Portrait_of_Senator_Rick_Scott_%28cropped%29.jpg",
@@ -157,6 +157,7 @@
     "Senator": "Jon Ossoff",
     "Party": "Democratic",
     "Assumed office": "January 20, 2021",
+    "note": "Inauguration delayed as incumbent senator David Perdue's term expired on January 3, 2021, two days prior to the 2020–21 United States Senate election in Georgia|runoff election.",
     "Term up": "2026"
   },
   {
@@ -165,7 +166,7 @@
     "Party": "Democratic",
     "Assumed office": "January 20, 2021",
     "note": "Elected to the seat to succeed Kelly Loeffler, who had been appointed to the seat following the resignation of Johnny Isakson.",
-    "Term up": "2022",
+    "Term up": "2028",
     "State": "Georgia"
   },
   {
@@ -175,7 +176,7 @@
     "Party": "Democratic",
     "Assumed office": "December 26, 2012",
     "note": "Appointed to the seat following the death of Daniel Inouye.",
-    "Term up": "2022"
+    "Term up": "2028"
   },
   {
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Mazie_Hirono%2C_official_portrait%2C_113th_Congress_%28cropped%29.jpg/95px-Mazie_Hirono%2C_official_portrait%2C_113th_Congress_%28cropped%29.jpg",
@@ -191,7 +192,7 @@
     "Senator": "Mike Crapo",
     "Party": "Republican",
     "Assumed office": "January 3, 1999",
-    "Term up": "2022"
+    "Term up": "2028"
   },
   {
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Jim_Risch_official_portrait_%28cropped%29.jpg/95px-Jim_Risch_official_portrait_%28cropped%29.jpg",
@@ -203,7 +204,7 @@
   },
   {
     "State": "Illinois",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Dick_Durbin_October_2017_%28cropped%29_1.jpg/95px-Dick_Durbin_October_2017_%28cropped%29_1.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Dick_Durbin_117th_Congress_portrait_%281%29_%28tight_crop%29.jpeg/95px-Dick_Durbin_117th_Congress_portrait_%281%29_%28tight_crop%29.jpeg",
     "Senator": "Dick Durbin",
     "Party": "Democratic",
     "Assumed office": "January 3, 1997",
@@ -214,16 +215,16 @@
     "Senator": "Tammy Duckworth",
     "Party": "Democratic",
     "Assumed office": "January 3, 2017",
-    "Term up": "2022",
+    "Term up": "2028",
     "State": "Illinois"
   },
   {
     "State": "Indiana",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Senator_Todd_Young_official_portrait_%28cropped%29.jpg/95px-Senator_Todd_Young_official_portrait_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Sen._Todd_Young_official_photo_%28cropped%29.jpg/95px-Sen._Todd_Young_official_photo_%28cropped%29.jpg",
     "Senator": "Todd Young",
     "Party": "Republican",
     "Assumed office": "January 3, 2017",
-    "Term up": "2022"
+    "Term up": "2028"
   },
   {
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Mike_Braun%2C_Official_Portrait%2C_116th_Congress_%28cropped%29.jpg/95px-Mike_Braun%2C_Official_Portrait%2C_116th_Congress_%28cropped%29.jpg",
@@ -239,10 +240,10 @@
     "Senator": "Chuck Grassley",
     "Party": "Republican",
     "Assumed office": "January 3, 1981",
-    "Term up": "2022"
+    "Term up": "2028"
   },
   {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Joni_Ernst%2C_official_portrait%2C_116th_Congress_3.jpg/95px-Joni_Ernst%2C_official_portrait%2C_116th_Congress_3.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Joni_Ernst%2C_official_portrait%2C_116th_Congress_3_%28cropped%29.jpg/95px-Joni_Ernst%2C_official_portrait%2C_116th_Congress_3_%28cropped%29.jpg",
     "Senator": "Joni Ernst",
     "Party": "Republican",
     "Assumed office": "January 3, 2015",
@@ -255,7 +256,7 @@
     "Senator": "Jerry Moran",
     "Party": "Republican",
     "Assumed office": "January 3, 2011",
-    "Term up": "2022"
+    "Term up": "2028"
   },
   {
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Roger_Marshall_117th_Congress_portrait_%28cropped%29.jpg/95px-Roger_Marshall_117th_Congress_portrait_%28cropped%29.jpg",
@@ -278,7 +279,7 @@
     "Senator": "Rand Paul",
     "Party": "Republican",
     "Assumed office": "January 3, 2011",
-    "Term up": "2022",
+    "Term up": "2028",
     "State": "Kentucky"
   },
   {
@@ -290,16 +291,16 @@
     "Term up": "2026"
   },
   {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/John_Neely_Kennedy%2C_official_portrait%2C_115th_Congress_2.jpg/95px-John_Neely_Kennedy%2C_official_portrait%2C_115th_Congress_2.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/John_Neely_Kennedy%2C_official_portrait%2C_115th_Congress.jpg/95px-John_Neely_Kennedy%2C_official_portrait%2C_115th_Congress.jpg",
     "Senator": "John Kennedy",
     "Party": "Republican",
     "Assumed office": "January 3, 2017",
-    "Term up": "2022",
+    "Term up": "2028",
     "State": "Louisiana"
   },
   {
     "State": "Maine",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Susan_Collins_official_Senate_photo_%28cropped%29.jpg/95px-Susan_Collins_official_Senate_photo_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Senator_Susan_Collins_2014_official_portrait_%28cropped%29.jpg/95px-Senator_Susan_Collins_2014_official_portrait_%28cropped%29.jpg",
     "Senator": "Susan Collins",
     "Party": "Republican",
     "Assumed office": "January 3, 1997",
@@ -309,6 +310,7 @@
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Angus_King%2C_official_portrait%2C_113th_Congress_%28cropped%29.jpg/95px-Angus_King%2C_official_portrait%2C_113th_Congress_%28cropped%29.jpg",
     "Senator": "Angus King",
     "Party": "Independent",
+    "note": "The independent senators, Angus King of Maine and Bernie Sanders of Vermont, Senate Democratic Caucus|caucus with the Democrats.",
     "Assumed office": "January 3, 2013",
     "Term up": "2024",
     "State": "Maine"
@@ -326,7 +328,7 @@
     "Senator": "Chris Van Hollen",
     "Party": "Democratic",
     "Assumed office": "January 3, 2017",
-    "Term up": "2022",
+    "Term up": "2028",
     "State": "Maryland"
   },
   {
@@ -366,14 +368,15 @@
     "State": "Minnesota",
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Amy_Klobuchar%2C_official_portrait%2C_113th_Congress_%28cropped%29.jpg/95px-Amy_Klobuchar%2C_official_portrait%2C_113th_Congress_%28cropped%29.jpg",
     "Senator": "Amy Klobuchar",
-    "Party": "Democratic",
+    "Party": "Democratic<br id=\"mwB1M\" >(DFL)",
+    "note": "The Minnesota Democratic–Farmer–Labor Party (DFL) is the Minnesota affiliate of the Democratic Party (United States)|U.S. Democratic Party and its members are counted as Democrats.",
     "Assumed office": "January 3, 2007",
     "Term up": "2024"
   },
   {
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Tina_Smith%2C_official_portrait%2C_116th_congress_%28cropped%29.jpg/95px-Tina_Smith%2C_official_portrait%2C_116th_congress_%28cropped%29.jpg",
     "Senator": "Tina Smith",
-    "Party": "Democratic",
+    "Party": "Democratic<br id=\"mwB3Q\" >(DFL)",
     "Assumed office": "January 3, 2018",
     "note": "Appointed to the seat following the resignation of Al Franken.",
     "Term up": "2026",
@@ -389,7 +392,7 @@
     "Term up": "2024"
   },
   {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Official_headshot_of_US_Senator_Cindy_Hyde-Smith.jpg/95px-Official_headshot_of_US_Senator_Cindy_Hyde-Smith.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Official_headshot_of_US_Senator_Cindy_Hyde-Smith_%28cropped%29.jpg/95px-Official_headshot_of_US_Senator_Cindy_Hyde-Smith_%28cropped%29.jpg",
     "Senator": "Cindy Hyde-Smith",
     "Party": "Republican",
     "Assumed office": "April 9, 2018",
@@ -399,18 +402,18 @@
   },
   {
     "State": "Missouri",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Roy_Blunt%2C_Official_Portrait%2C_112th_Congress_%28cropped%29.jpg/95px-Roy_Blunt%2C_Official_Portrait%2C_112th_Congress_%28cropped%29.jpg",
-    "Senator": "Roy Blunt",
-    "Party": "Republican",
-    "Assumed office": "January 3, 2011",
-    "Term up": "2022"
-  },
-  {
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Josh_Hawley%2C_official_portrait%2C_116th_congress_%28cropped%29.jpg/95px-Josh_Hawley%2C_official_portrait%2C_116th_congress_%28cropped%29.jpg",
     "Senator": "Josh Hawley",
     "Party": "Republican",
     "Assumed office": "January 3, 2019",
-    "Term up": "2024",
+    "Term up": "2024"
+  },
+  {
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Eric_Schmitt_official_photo_%28cropped%29.jpg/95px-Eric_Schmitt_official_photo_%28cropped%29.jpg",
+    "Senator": "Eric Schmitt",
+    "Party": "Republican",
+    "Assumed office": "January 3, 2023",
+    "Term up": "2028",
     "State": "Missouri"
   },
   {
@@ -438,20 +441,21 @@
     "Term up": "2024"
   },
   {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Ben_Sasse_Official_photo_%28cropped%29.jpg/95px-Ben_Sasse_Official_photo_%28cropped%29.jpg",
-    "Senator": "Ben Sasse",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Sen._Pete_Ricketts_official_portrait%2C_118th_Congress_%28cropped%29.jpg/95px-Sen._Pete_Ricketts_official_portrait%2C_118th_Congress_%28cropped%29.jpg",
+    "Senator": "Pete Ricketts",
     "Party": "Republican",
-    "Assumed office": "January 3, 2015",
-    "Term up": "2026",
+    "Assumed office": "January 23, 2023",
+    "note": "Appointed to the seat on January 12, 2023 following the resignation of Ben Sasse.",
+    "Term up": "2024",
     "State": "Nebraska"
   },
   {
     "State": "Nevada",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Catherine_Cortez_Masto_official_portrait_%28cropped%29.jpg/95px-Catherine_Cortez_Masto_official_portrait_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Catherine_Cortez_Masto_portrait_red_%28cropped%29.jpg/95px-Catherine_Cortez_Masto_portrait_red_%28cropped%29.jpg",
     "Senator": "Catherine Cortez Masto",
     "Party": "Democratic",
     "Assumed office": "January 3, 2017",
-    "Term up": "2022"
+    "Term up": "2028"
   },
   {
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Jacky_Rosen%2C_official_portrait%2C_116th_congress_%28cropped-1%29.jpg/95px-Jacky_Rosen%2C_official_portrait%2C_116th_congress_%28cropped-1%29.jpg",
@@ -463,7 +467,7 @@
   },
   {
     "State": "New Hampshire",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Jeanne_Shaheen%2C_official_Senate_photo_portrait%2C_2009_%28cropped%29.jpg/95px-Jeanne_Shaheen%2C_official_Senate_photo_portrait%2C_2009_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Shaheen_Senate_Portrait.jpg/95px-Shaheen_Senate_Portrait.jpg",
     "Senator": "Jeanne Shaheen",
     "Party": "Democratic",
     "Assumed office": "January 3, 2009",
@@ -474,12 +478,12 @@
     "Senator": "Maggie Hassan",
     "Party": "Democratic",
     "Assumed office": "January 3, 2017",
-    "Term up": "2022",
+    "Term up": "2028",
     "State": "New Hampshire"
   },
   {
     "State": "New Jersey",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Robert_Menendez_official_Senate_portrait_%28cropped%29.jpg/95px-Robert_Menendez_official_Senate_portrait_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Senator_Bob_Menendez_%282022%29_%28cropped%29.jpg/95px-Senator_Bob_Menendez_%282022%29_%28cropped%29.jpg",
     "Senator": "Bob Menendez",
     "Party": "Democratic",
     "Assumed office": "January 17, 2006",
@@ -517,7 +521,7 @@
     "Senator": "Chuck Schumer",
     "Party": "Democratic",
     "Assumed office": "January 3, 1999",
-    "Term up": "2022"
+    "Term up": "2028"
   },
   {
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Kirsten_Gillibrand%2C_official_photo%2C_116th_Congress_%28cropped%29.jpg/95px-Kirsten_Gillibrand%2C_official_photo%2C_116th_Congress_%28cropped%29.jpg",
@@ -530,18 +534,18 @@
   },
   {
     "State": "North Carolina",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Richard_Burr_official_portrait_%28cropped%29.jpg/95px-Richard_Burr_official_portrait_%28cropped%29.jpg",
-    "Senator": "Richard Burr",
-    "Party": "Republican",
-    "Assumed office": "January 3, 2005",
-    "Term up": "2022"
-  },
-  {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Thom_Tillis_Official_Photo_%28cropped%29.jpg/95px-Thom_Tillis_Official_Photo_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Sen._Thom_Tillis_official_photo_%28cropped%29.jpg/95px-Sen._Thom_Tillis_official_photo_%28cropped%29.jpg",
     "Senator": "Thom Tillis",
     "Party": "Republican",
     "Assumed office": "January 3, 2015",
-    "Term up": "2026",
+    "Term up": "2026"
+  },
+  {
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Senator_Ted_Budd_official_portrait_%28cropped_2%29.jpg/100px-Senator_Ted_Budd_official_portrait_%28cropped_2%29.jpg",
+    "Senator": "Ted Budd",
+    "Party": "Republican",
+    "Assumed office": "January 3, 2023",
+    "Term up": "2028",
     "State": "North Carolina"
   },
   {
@@ -550,7 +554,7 @@
     "Senator": "John Hoeven",
     "Party": "Republican",
     "Assumed office": "January 3, 2011",
-    "Term up": "2022"
+    "Term up": "2028"
   },
   {
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Kevin_Cramer%2C_official_portrait%2C_116th_congress_%28cropped%29.jpg/95px-Kevin_Cramer%2C_official_portrait%2C_116th_congress_%28cropped%29.jpg",
@@ -562,36 +566,36 @@
   },
   {
     "State": "Ohio",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Sherrod_Brown_official_photo_2009_2_%28cropped%29.jpg/95px-Sherrod_Brown_official_photo_2009_2_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Sherrod_Brown_117th_Congress_%282%29_%28cropped%29.jpg/95px-Sherrod_Brown_117th_Congress_%282%29_%28cropped%29.jpg",
     "Senator": "Sherrod Brown",
     "Party": "Democratic",
     "Assumed office": "January 3, 2007",
     "Term up": "2024"
   },
   {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Rob_Portman_official_portrait_%28cropped%29.jpg/95px-Rob_Portman_official_portrait_%28cropped%29.jpg",
-    "Senator": "Rob Portman",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Senator_Vance_official_portrait._118th_Congress_%28cropped%29.jpg/95px-Senator_Vance_official_portrait._118th_Congress_%28cropped%29.jpg",
+    "Senator": "J. D. Vance",
     "Party": "Republican",
-    "Assumed office": "January 3, 2011",
-    "Term up": "2022",
+    "Assumed office": "January 3, 2023",
+    "Term up": "2028",
     "State": "Ohio"
   },
   {
     "State": "Oklahoma",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Jim_Inhofe_official_portrait_%28cropped%29.jpg/95px-Jim_Inhofe_official_portrait_%28cropped%29.jpg",
-    "Senator": "Jim Inhofe",
-    "Party": "Republican",
-    "Assumed office": "November 16, 1994",
-    "note": "Elected to the seat following the resignation of David Boren.",
-    "Term up": "2026"
-  },
-  {
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/James_Lankford_official_Senate_photo_%28cropped%29.jpg/95px-James_Lankford_official_Senate_photo_%28cropped%29.jpg",
     "Senator": "James Lankford",
     "Party": "Republican",
     "Assumed office": "January 3, 2015",
     "note": "Elected to the seat following the resignation of Tom Coburn.",
-    "Term up": "2022",
+    "Term up": "2028"
+  },
+  {
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Markwayne_Mullin_official_Senate_photo_%28cropped%29.jpg/95px-Markwayne_Mullin_official_Senate_photo_%28cropped%29.jpg",
+    "Senator": "Markwayne Mullin",
+    "Party": "Republican",
+    "Assumed office": "January 3, 2023",
+    "note": "Elected to the seat following the resignation of Jim Inhofe.",
+    "Term up": "2026",
     "State": "Oklahoma"
   },
   {
@@ -601,7 +605,7 @@
     "Party": "Democratic",
     "Assumed office": "February 5, 1996",
     "note": "Elected to the seat following the resignation of Bob Packwood.",
-    "Term up": "2022"
+    "Term up": "2028"
   },
   {
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Jeff_Merkley%2C_115th_official_photo_%28cropped%29.jpg/95px-Jeff_Merkley%2C_115th_official_photo_%28cropped%29.jpg",
@@ -620,11 +624,11 @@
     "Term up": "2024"
   },
   {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Pat_Toomey_official_photo_%28cropped%29.jpg/95px-Pat_Toomey_official_photo_%28cropped%29.jpg",
-    "Senator": "Pat Toomey",
-    "Party": "Republican",
-    "Assumed office": "January 3, 2011",
-    "Term up": "2022",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/John_Fetterman_official_portrait_%283x4%29.jpg/95px-John_Fetterman_official_portrait_%283x4%29.jpg",
+    "Senator": "John Fetterman",
+    "Party": "Democratic",
+    "Assumed office": "January 3, 2023",
+    "Term up": "2028",
     "State": "Pennsylvania"
   },
   {
@@ -655,9 +659,9 @@
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Tim_Scott%2C_official_portrait%2C_113th_Congress_%28cropped_2%29.jpg/95px-Tim_Scott%2C_official_portrait%2C_113th_Congress_%28cropped_2%29.jpg",
     "Senator": "Tim Scott",
     "Party": "Republican",
-    "Assumed office": "January 3, 2013",
+    "Assumed office": "January 2, 2013",
     "note": "Appointed to the seat following the resignation of Jim DeMint.",
-    "Term up": "2022",
+    "Term up": "2028",
     "State": "South Carolina"
   },
   {
@@ -666,7 +670,7 @@
     "Senator": "John Thune",
     "Party": "Republican",
     "Assumed office": "January 3, 2005",
-    "Term up": "2022"
+    "Term up": "2028"
   },
   {
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Mike_Rounds_official_Senate_portrait_%28cropped%29.jpg/95px-Mike_Rounds_official_Senate_portrait_%28cropped%29.jpg",
@@ -678,7 +682,7 @@
   },
   {
     "State": "Tennessee",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Marsha_Blackburn%2C_official_photo%2C_116th_Congress_%28cropped%29.jpg/95px-Marsha_Blackburn%2C_official_photo%2C_116th_Congress_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Sen._Marsha_Blackburn_%28R-TN%29_official_headshot_-_116th_Congress_%28Cropped%29.jpg/94px-Sen._Marsha_Blackburn_%28R-TN%29_official_headshot_-_116th_Congress_%28Cropped%29.jpg",
     "Senator": "Marsha Blackburn",
     "Party": "Republican",
     "Assumed office": "January 3, 2019",
@@ -694,7 +698,7 @@
   },
   {
     "State": "Texas",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/John_Cornyn_%28cropped%29.jpg/95px-John_Cornyn_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/John_Cornyn_official_senate_portrait_%28cropped%29.jpg/95px-John_Cornyn_official_senate_portrait_%28cropped%29.jpg",
     "Senator": "John Cornyn",
     "Party": "Republican",
     "Assumed office": "December 2, 2002",
@@ -715,7 +719,7 @@
     "Senator": "Mike Lee",
     "Party": "Republican",
     "Assumed office": "January 3, 2011",
-    "Term up": "2022"
+    "Term up": "2028"
   },
   {
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Mitt_Romney_official_US_Senate_portrait_%28cropped%29.jpg/95px-Mitt_Romney_official_US_Senate_portrait_%28cropped%29.jpg",
@@ -727,18 +731,18 @@
   },
   {
     "State": "Vermont",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Patrick_Leahy_official_photo_%28cropped%29.jpg/95px-Patrick_Leahy_official_photo_%28cropped%29.jpg",
-    "Senator": "Patrick Leahy",
-    "Party": "Democratic",
-    "Assumed office": "January 3, 1975",
-    "Term up": "2022"
-  },
-  {
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Bernie_Sanders_%28cropped%29.jpg/95px-Bernie_Sanders_%28cropped%29.jpg",
     "Senator": "Bernie Sanders",
     "Party": "Independent",
     "Assumed office": "January 3, 2007",
-    "Term up": "2024",
+    "Term up": "2024"
+  },
+  {
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Peter_Welch_official_Senate_photo_%28cropped%29.jpg/95px-Peter_Welch_official_Senate_photo_%28cropped%29.jpg",
+    "Senator": "Peter Welch",
+    "Party": "Democratic",
+    "Assumed office": "January 3, 2023",
+    "Term up": "2028",
     "State": "Vermont"
   },
   {
@@ -763,7 +767,7 @@
     "Senator": "Patty Murray",
     "Party": "Democratic",
     "Assumed office": "January 3, 1993",
-    "Term up": "2022"
+    "Term up": "2028"
   },
   {
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Maria_Cantwell_%28cropped%29.jpg/95px-Maria_Cantwell_%28cropped%29.jpg",
@@ -796,7 +800,7 @@
     "Senator": "Ron Johnson",
     "Party": "Republican",
     "Assumed office": "January 3, 2011",
-    "Term up": "2022"
+    "Term up": "2028"
   },
   {
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Tammy_Baldwin%2C_official_portrait%2C_113th_Congress_%28cropped%29.jpg/95px-Tammy_Baldwin%2C_official_portrait%2C_113th_Congress_%28cropped%29.jpg",
