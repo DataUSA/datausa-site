@@ -1,6 +1,9 @@
 const axios = require("axios");
 const colors = require("../static/data/colors.json");
 
+const loadJSON = require("../utils/loadJSON");
+const universitySimilar = loadJSON("/static/data/similar_universities_with_dist.json");
+
 const colorMapping = Object.keys(colors)
   .reduce((obj, k) => {
     const newKey = k.split(" ").reverse().join(""); // flip word order, if multiple
@@ -93,22 +96,12 @@ module.exports = function(app) {
       retObj.stem = id.length === 6 ? stems.includes(id) ? "Stem Major" : false : "Contains Stem Majors"
     }
     else if (dimension === "University") {
-      const loadJSON = require("../utils/loadJSON");
-      const universitySimilar = loadJSON("/static/data/similar_universities_with_dist.json");
-
-      const similarID = universitySimilar[id.toString()] ? universitySimilar[id.toString()].map(d => d.university) : false
-
-      const similarOpedId = similarID ? similarID.map(d => {
-        if(opeid[d]) {
-          return [
-            opeid[d]
-          ]
-        }
-      }).join(",") : false
+      const similarID = universitySimilar[id] ? universitySimilar[id].map(d => d.university) : [];
+      const similarOpeidID = similarID.map(d => opeid[d]).filter(Boolean).join(",");
 
       retObj.opeid = opeid && opeid[id]? opeid[id] : false;
-      retObj.similarID =  similarID ? similarID.join(",") : false
-      retObj.similarOpedId = similarOpedId;
+      retObj.similarID = similarID.join(",");
+      retObj.similarOpedId = similarOpeidID;
     }
 
     return res.json(retObj);
