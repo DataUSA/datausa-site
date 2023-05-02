@@ -93,7 +93,22 @@ module.exports = function(app) {
       retObj.stem = id.length === 6 ? stems.includes(id) ? "Stem Major" : false : "Contains Stem Majors"
     }
     else if (dimension === "University") {
+      const loadJSON = require("../utils/loadJSON");
+      const universitySimilar = loadJSON("/static/data/similar_universities_with_dist.json");
+
+      const similarID = universitySimilar[id.toString()] ? universitySimilar[id.toString()].map(d => d.university) : false
+
+      const similarOpedId = similarID ? similarID.map(d => {
+        if(opeid[d]) {
+          return [
+            opeid[d]
+          ]
+        }
+      }).join(",") : false
+
       retObj.opeid = opeid && opeid[id]? opeid[id] : false;
+      retObj.similarID =  similarID ? similarID.join(",") : false
+      retObj.similarOpedId = similarOpedId;
     }
 
     return res.json(retObj);
