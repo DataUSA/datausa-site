@@ -101,7 +101,7 @@ module.exports = function(app) {
 
       retObj.opeid = opeid && opeid[id]? opeid[id] : false;
       retObj.similarID = similarID.join(",");
-      retObj.similarOpedId = similarOpeidID;
+      retObj.similarOpeidId = similarOpeidID;
     }
 
     return res.json(retObj);
