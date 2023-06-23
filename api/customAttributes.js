@@ -98,9 +98,15 @@ module.exports = function(app) {
       retObj.beaL0 = beaIds && beaIds.L0 ? beaIds.L0 : false;
       retObj.beaL1 = beaIds && beaIds.L1 ? beaIds.L1 : false;
       retObj.blsIds = blsInds[id] || false;
+      retObj.pumsLatestYear = await axios.get(`${origin}/api/data?${hierarchy}=${id}&measures=Total%20Population&limit=1&order=Year&sort=desc`)
+          .then(resp => resp.data.data[0]["ID Year"])
+          .catch(() => 2020);
     }
     else if (dimension === "PUMS Occupation") {
       retObj.blsIds = blsOccs[id] || false;
+      retObj.pumsLatestYear = await axios.get(`${origin}/api/data?${hierarchy}=${id}&measures=Total%20Population&limit=1&order=Year&sort=desc`)
+          .then(resp => resp.data.data[0]["ID Year"])
+          .catch(() => 2020);
     }
     else if (dimension === "CIP") {
       retObj.stem = id.length === 6 ? stems.includes(id) ? "Stem Major" : false : "Contains Stem Majors"
