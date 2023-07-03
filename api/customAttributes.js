@@ -44,7 +44,7 @@ module.exports = function(app) {
     const meta = await db.profile_meta.findOne({where: {dimension}}).catch(() => {});
     const {slug} = meta;
 
-    const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
+    const origin = process.env.CANON_API;
 
     const breadcrumbs = await axios.get(`${origin}/api/parents/${slug}/${id}`)
         .then(resp => resp.data)
