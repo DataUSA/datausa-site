@@ -269,6 +269,7 @@ export default {
   },
   legendPosition: "bottom",
   legendTooltip: {
+    tbody: [],
     title(d) {
       return findTooltipTitle(d, this)
     }

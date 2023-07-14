@@ -1,5 +1,11 @@
 const axios = require("axios");
 const colors = require("../static/data/colors.json");
+const iocodes = require("../static/data/pums_naics_to_iocode.json");
+const blsInds = require("../static/data/pums_bls_industry_crosswalk.json");
+const blsOccs = require("../static/data/pums_bls_occupation_crosswalk.json");
+
+const loadJSON = require("../utils/loadJSON");
+const universitySimilar = loadJSON("/static/data/similar_universities_with_dist.json");
 
 const colorMapping = Object.keys(colors)
   .reduce((obj, k) => {
@@ -30,7 +36,7 @@ const blsIndustryMap = [
 module.exports = function(app) {
 
   const {db} = app.settings;
-  const {blsMonthlyIndustries, urls} = app.settings.cache;
+  const {blsMonthlyIndustries, urls, opeid} = app.settings.cache;
 
   app.post("/api/cms/customAttributes/:pid", async(req, res) => {
 
@@ -38,7 +44,7 @@ module.exports = function(app) {
     const meta = await db.profile_meta.findOne({where: {dimension}}).catch(() => {});
     const {slug} = meta;
 
-    const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
+    const origin = process.env.CANON_API;
 
     const breadcrumbs = await axios.get(`${origin}/api/parents/${slug}/${id}`)
         .then(resp => resp.data)
@@ -88,9 +94,30 @@ module.exports = function(app) {
         retObj.blsMonthlyID = mapped ? mapped[1] : false;
         retObj.blsMonthlyDimension = "Supersector";
       }
+      const beaIds = iocodes[id];
+      retObj.beaL0 = beaIds && beaIds.L0 ? beaIds.L0 : false;
+      retObj.beaL1 = beaIds && beaIds.L1 ? beaIds.L1 : false;
+      retObj.blsIds = blsInds[id] || false;
+      retObj.pumsLatestYear = await axios.get(`${origin}/api/data?${hierarchy}=${id}&measures=Total%20Population&limit=1&order=Year&sort=desc`)
+          .then(resp => resp.data.data[0]["ID Year"])
+          .catch(() => 2020);
+    }
+    else if (dimension === "PUMS Occupation") {
+      retObj.blsIds = blsOccs[id] || false;
+      retObj.pumsLatestYear = await axios.get(`${origin}/api/data?${hierarchy}=${id}&measures=Total%20Population&limit=1&order=Year&sort=desc`)
+          .then(resp => resp.data.data[0]["ID Year"])
+          .catch(() => 2020);
     }
     else if (dimension === "CIP") {
       retObj.stem = id.length === 6 ? stems.includes(id) ? "Stem Major" : false : "Contains Stem Majors"
+    }
+    else if (dimension === "University") {
+      const similarID = universitySimilar[id] ? universitySimilar[id].map(d => d.university) : [];
+      const similarOpeidID = similarID.map(d => opeid[d]).filter(Boolean).join(",");
+
+      retObj.opeid = opeid && opeid[id]? opeid[id] : false;
+      retObj.similarID = similarID.join(",");
+      retObj.similarOpeidId = similarOpeidID;
     }
 
     return res.json(retObj);

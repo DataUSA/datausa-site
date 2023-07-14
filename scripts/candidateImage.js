@@ -72,7 +72,7 @@ async function printProgress() {
 
 /** */
 function getFileName(member) {
-  const {key} = member;
+  const key = member.key || member["Candidate ID"];
   return path.join(process.cwd(), `static/images/candidates/${cube}/${key}.jpg`);
 }
 
