@@ -6,7 +6,7 @@ FROM node:12
 # RUN apt-get install default-mysql-client -y
 
 # create the app directory inside the image
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # install app dependencies from the files package.json and package-lock.json
 # installing before transfering the app files allows us to take advantage of cached Docker layers
