@@ -1,0 +1,8 @@
+*.md
+*.env
+*.gcp.json
+*.gcp.encoded
+npm-debug.log*
+Dockerfile
+.github
+node_modules

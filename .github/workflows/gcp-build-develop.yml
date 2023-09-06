@@ -1,0 +1,65 @@
+name: "Build Development into Artifact Registry"
+
+# trigger the workflow when a push is committed to the develop branch
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  # builds the docker image via cloud build
+  build:
+    runs-on: ubuntu-latest
+    environment: develop
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Authentication via credentials json
+      - name: Google Auth
+        id: auth
+        uses: 'google-github-actions/auth@v0'
+        with:
+          project_id: '${{ vars.GCP_PROJECT_ID }}'
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+      # Build image on Google Cloud Artifact Registry
+      - name: Build Docker Image
+        run: |-
+          gcloud builds submit \
+            --quiet \
+            --timeout=60m \
+            --config=cloudbuild.yml \
+            --substitutions=_GCP_ARTIFACT_REGISTRY_LOCATION=${{ vars.GCP_ARTIFACT_REGISTRY_LOCATION }},_GCP_PROJECT_ID=${{ vars.GCP_PROJECT_ID }},_GCP_ARTIFACT_REGISTRY_NAME=${{ vars.GCP_ARTIFACT_REGISTRY_NAME }},_GCP_APP_NAME=${{ vars.GCP_APP_NAME }},_GITHUB_SHA=${{ github.sha }}
+
+      # Uncomment for adding the latest tag to the latest image created
+      - name: Add 'Latest' Tag to Development Environments
+        run: |-
+          gcloud beta artifacts docker tags add \
+            --quiet \
+            ${{ env.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}/${{ env.GCP_CLOUDRUN_SERVICE }}:${{ github.sha }} \
+            ${{ env.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}/${{ env.GCP_CLOUDRUN_SERVICE }}:latest
+
+  deploy:
+    name: Deploy Docker Image on GKE
+    needs: build
+    environment: develop_environment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v3
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v0
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Get GKE Credentials
+        uses: google-github-actions/get-gke-credentials@v0
+        with:
+          cluster_name: ${{ secrets.GKE_CLUSTER }}
+          location: ${{ secrets.GKE_ZONE }}
+
+      - name: Restart Deployment
+        run: kubectl rollout restart deployment/${{ secrets.GKE_DEPLOYMENT_NAME }}
