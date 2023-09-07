@@ -37,8 +37,8 @@ jobs:
         run: |-
           gcloud beta artifacts docker tags add \
             --quiet \
-            ${{ env.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}/${{ env.GCP_APP_NAME }}:${{ github.sha }} \
-            ${{ env.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}/${{ env.GCP_APP_NAME }}:latest
+            ${{ vars.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REGISTRY_NAME }}/${{ vars.GCP_APP_NAME }}:${{ github.sha }} \
+            ${{ vars.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REGISTRY_NAME }}/${{ vars.GCP_APP_NAME }}:latest
 
   deploy:
     name: Deploy Docker Image on GKE
