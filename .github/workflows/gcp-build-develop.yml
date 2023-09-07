@@ -30,20 +30,20 @@ jobs:
             --quiet \
             --timeout=60m \
             --config=cloudbuild.yml \
-            --substitutions=_GCP_ARTIFACT_REGISTRY_LOCATION=${{ vars.GCP_ARTIFACT_REGISTRY_LOCATION }},_GCP_PROJECT_ID=${{ vars.GCP_PROJECT_ID }},_GCP_ARTIFACT_REGISTRY_NAME=${{ vars.GCP_ARTIFACT_REGISTRY_NAME }},_GCP_APP_NAME=${{ vars.GCP_APP_NAME }},_GITHUB_SHA=${{ github.sha }}
+            --substitutions=_GCP_ARTIFACT_REGISTRY_LOCATION=${{ vars.GCP_ARTIFACT_REGISTRY_LOCATION }},_GCP_PROJECT_ID=${{ vars.GCP_PROJECT_ID }},_GCP_ARTIFACT_REGISTRY_NAME=${{ vars.GCP_ARTIFACT_REGISTRY_NAME }},_GCP_ARTIFACT_REGISTRY_TAG=${{ vars.GCP_ARTIFACT_REGISTRY_TAG }},_GITHUB_SHA=${{ github.sha }}
 
       # Uncomment for adding the latest tag to the latest image created
       - name: Add 'Latest' Tag to Development Environments
         run: |-
           gcloud beta artifacts docker tags add \
             --quiet \
-            ${{ vars.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REGISTRY_NAME }}/${{ vars.GCP_APP_NAME }}:${{ github.sha }} \
-            ${{ vars.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REGISTRY_NAME }}/${{ vars.GCP_APP_NAME }}:latest
+            ${{ vars.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REGISTRY_NAME }}/${{ vars.GCP_ARTIFACT_REGISTRY_TAG }}:${{ github.sha }} \
+            ${{ vars.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REGISTRY_NAME }}/${{ vars.GCP_ARTIFACT_REGISTRY_TAG }}:latest
 
   deploy:
     name: Deploy Docker Image on GKE
     needs: build
-    environment: develop_environment
+    environment: develop
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Source Code
@@ -52,14 +52,14 @@ jobs:
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v0
         with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          project_id: ${{ vars.GCP_PROJECT_ID }}
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
       - name: Get GKE Credentials
         uses: google-github-actions/get-gke-credentials@v0
         with:
-          cluster_name: ${{ secrets.GKE_CLUSTER }}
-          location: ${{ secrets.GKE_ZONE }}
+          cluster_name: ${{ vars.GKE_CLUSTER }}
+          location: ${{ vars.GKE_ZONE }}
 
       - name: Restart Deployment
-        run: kubectl rollout restart deployment/${{ secrets.GKE_DEPLOYMENT_NAME }}
+        run: kubectl rollout restart -n ${{ vars.GKE_DEPLOYMENT_NAMESPACE }} deployment/${{ vars.GKE_DEPLOYMENT_NAME }}
