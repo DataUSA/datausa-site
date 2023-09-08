@@ -10,7 +10,7 @@ const naics2io = loadJSON("/static/data/pums_naics_to_iocode.json");
 const naics2bls = loadJSON("/static/data/pums_bls_industry_crosswalk.json");
 const soc2bls = loadJSON("/static/data/pums_bls_occupation_crosswalk.json");
 
-const {CANON_API, CANON_LOGICLAYER_CUBE} = process.env;
+const {CANON_API, CANON_GEOSERVICE_API} = process.env;
 const geoOrder = ["Nation", "State", "County", "MSA", "Place", "PUMA"];
 
 module.exports = function(app) {
@@ -43,7 +43,7 @@ module.exports = function(app) {
         drilldown = "MSA-Tract";
       }
       else {
-        const url = `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}?targetLevels=state&overlapSize=true`;
+        const url = `${CANON_GEOSERVICE_API}/api/relations/intersects/${id}?targetLevels=state&overlapSize=true`;
         const cuts = await axios.get(url)
           .then(resp => resp.data)
           .then(resp => {
@@ -101,7 +101,7 @@ module.exports = function(app) {
       level = "State";
     }
     else if (prefix === "310") {
-      const url = `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}?targetLevels=state&overlapSize=true`;
+      const url = `${CANON_GEOSERVICE_API}/api/relations/intersects/${id}?targetLevels=state&overlapSize=true`;
       const parents = await axios.get(url)
         .then(resp => resp.data)
         .then(resp => {
@@ -199,8 +199,8 @@ module.exports = function(app) {
                         : false;
 
             const url = targetLevels
-              ? `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}?targetLevels=${targetLevels}`
-              : `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}`;
+              ? `${CANON_GEOSERVICE_API}/api/relations/intersects/${id}?targetLevels=${targetLevels}`
+              : `${CANON_GEOSERVICE_API}/api/relations/intersects/${id}`;
 
             let ids = await axios.get(url)
               .then(resp => resp.data)
@@ -487,8 +487,8 @@ module.exports = function(app) {
                       : false;
 
           const url = targetLevels
-            ? `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${attr.id}?targetLevels=${targetLevels}&overlapSize=true`
-            : `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${attr.id}&overlapSize=true`;
+            ? `${CANON_GEOSERVICE_API}/api/relations/intersects/${attr.id}?targetLevels=${targetLevels}&overlapSize=true`
+            : `${CANON_GEOSERVICE_API}/api/relations/intersects/${attr.id}&overlapSize=true`;
 
           const parents = await axios.get(url)
             .then(resp => resp.data)
@@ -562,7 +562,7 @@ module.exports = function(app) {
 
     if (dimension === "Geography") {
 
-      const url = `${CANON_LOGICLAYER_CUBE}/geoservice-api/neighbors/${id}`;
+      const url = `${CANON_GEOSERVICE_API}/api/neighbors/${id}`;
       const neighbors = await axios.get(url)
         .then(resp => resp.data)
         .then(resp => {

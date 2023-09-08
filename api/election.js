@@ -6,7 +6,7 @@ const candidates = {
   representative: loadJSON("/static/data/representatives.json")
 };
 
-const {CANON_LOGICLAYER_CUBE} = process.env;
+const {CANON_GEOSERVICE_API} = process.env;
 
 module.exports = function(app) {
 
@@ -24,7 +24,7 @@ module.exports = function(app) {
 
       if (!geo.startsWith("040")) {
         const targetLevels = type === "senator" ? "state" : "state,congressionaldistrict";
-        const url = `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${geo}?targetLevels=${targetLevels}&overlapSize=true`;
+        const url = `${CANON_GEOSERVICE_API}/api/relations/intersects/${geo}?targetLevels=${targetLevels}&overlapSize=true`;
         const parents = await axios.get(url)
           .then(resp => resp.data)
           .then(resp => {

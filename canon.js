@@ -1,6 +1,6 @@
 const d3Array = require("d3-array");
 
-const {CANON_API, CANON_LOGICLAYER_CUBE} = process ? process.env : {};
+const {CANON_API, CANON_GEOSERVICE_API} = process ? process.env : {};
 
 const geoRelations = {
   children: {
@@ -19,7 +19,7 @@ const geoRelations = {
     url: id => `${CANON_API}/api/geo/childrenCounty/${id}/`
   },
   neighbors: {
-    url: id => `${CANON_LOGICLAYER_CUBE}/geoservice-api/neighbors/${id}`,
+    url: id => `${CANON_GEOSERVICE_API}/api/neighbors/${id}`,
     callback: resp => {
       if (resp.error) {
         console.error("[geoservice error]");
@@ -149,7 +149,7 @@ module.exports = {
         },
         url: (id, level) => {
           const targetLevel = level.toLowerCase();
-          return `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}?targetLevels=${targetLevel}&overlapSize=true`;
+          return `${CANON_GEOSERVICE_API}/api/relations/intersects/${id}?targetLevels=${targetLevel}&overlapSize=true`;
         },
         callback: resp => {
           let arr = [];
