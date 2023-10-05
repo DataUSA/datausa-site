@@ -1,0 +1,18 @@
+# A description for the application chart
+apiVersion: v2
+name: canon-site
+description: A Helm chart for Kubernetes
+icon: https://connect.redhat.com/sites/default/files/2021-05/helm.png
+
+# A chart can be either an 'application' or a 'library' chart.
+# Application charts are a collection of templates that can be packaged into versioned archives
+# to be deployed.
+type: application
+
+# This is the chart version. This version number should be incremented each time you make changes
+# to the chart and its templates.
+version: 1.0.0
+
+# This is the version number of the application being deployed. This version number should be
+# incremented each time you make changes to the application.
+appVersion: 1.0.0

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{.Values.fullnameOverride}}
+  labels:
+    {{- include "chart-app.labels" . | nindent 4 }}
+data:
+  {{- with .Values.configMap }}
+    {{- toYaml . | nindent 2 }}
+  {{- end }}

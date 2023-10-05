@@ -1,0 +1,9 @@
+steps:
+  # [START cloudbuild_image_yaml]
+  # Docker Build with Cache
+  - name: 'gcr.io/kaniko-project/executor:latest'
+    args:
+    - --destination=$_GCP_ARTIFACT_REGISTRY_LOCATION-docker.pkg.dev/$_GCP_PROJECT_ID/$_GCP_ARTIFACT_REGISTRY_NAME/$_GCP_IMAGE_NAME:$_GITHUB_SHA
+    - --cache=true
+    - --cache-ttl=336h
+  # [END cloudbuild_image_yaml]
