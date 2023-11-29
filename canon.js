@@ -19,7 +19,7 @@ const geoRelations = {
     url: id => `${CANON_API}/api/geo/childrenCounty/${id}/`
   },
   neighbors: {
-    url: id => `${CANON_GEOSERVICE_API}/api/neighbors/${id}`,
+    url: id => `${CANON_GEOSERVICE_API}neighbors/${id}`,
     callback: resp => {
       if (resp.error) {
         console.error("[geoservice error]");
@@ -149,7 +149,7 @@ module.exports = {
         },
         url: (id, level) => {
           const targetLevel = level.toLowerCase();
-          return `${CANON_GEOSERVICE_API}/api/relations/intersects/${id}?targetLevels=${targetLevel}&overlapSize=true`;
+          return `${CANON_GEOSERVICE_API}relations/intersects/${id}?targetLevels=${targetLevel}&overlapSize=true`;
         },
         callback: resp => {
           let arr = [];
