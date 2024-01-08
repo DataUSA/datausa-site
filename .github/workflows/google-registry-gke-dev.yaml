@@ -63,7 +63,7 @@ on:
   push:
     branches: [ "develop" ]
     paths:
-      - .github/workflows/google-registry-nextjs-dev.yaml
+      - .github/workflows/google-registry-gke-dev.yaml
       - helm/development.yaml
       - api/**
       - app/**
