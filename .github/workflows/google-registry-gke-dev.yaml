@@ -120,7 +120,7 @@ jobs:
             --quiet \
             --timeout=40m \
             --config=cloudbuild.yml \
-            --substitutions=_GCP_ARTIFACT_REGISTRY_LOCATION=${{ vars.GCP_ARTIFACT_REGISTRY_LOCATION }},_GCP_PROJECT_ID=${{ vars.GCP_PROJECT_ID }},_GCP_ARTIFACT_REGISTRY_NAME=${{ vars.GCP_ARTIFACT_REGISTRY_NAME }},_GCP_IMAGE_NAME=${{ vars.GCP_IMAGE_NAME }},_GCP_IMAGE_TAG=${{ github.sha }}
+            --substitutions=_GCP_ARTIFACT_REGISTRY_LOCATION=${{ vars.GCP_ARTIFACT_REGISTRY_LOCATION }},_GCP_PROJECT_ID=${{ vars.GCP_PROJECT_ID }},_GCP_ARTIFACT_REGISTRY_NAME=${{ vars.GCP_ARTIFACT_REGISTRY_NAME }},_GCP_IMAGE_NAME=${{ vars.GCP_IMAGE_NAME }},_GCP_IMAGE_TAG=${{ github.sha }},_GCP_IMAGE_ENVIRONMENT=${{ vars.GKE_APP_NAMESPACE }}
 
   deploy:
     needs: build
