@@ -61,7 +61,7 @@ name: "[GCP] Build NextJS to Registry and Deploy via Helm"
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "develop" ]
     paths:
       - .github/workflows/google-registry-nextjs-dev.yaml
       - helm/development.yaml
