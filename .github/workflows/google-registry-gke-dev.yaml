@@ -73,6 +73,7 @@ on:
       - sketch/**
       - static/**
       - utils/**
+      - cloudbuild.yml
       - canon.js
       - package-lock.json
       - package.json
