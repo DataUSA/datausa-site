@@ -1,4 +1,5 @@
 # This workflow build and push a Docker container to Google Artifact Registry and deploy it on a Google Kubernetes Instance when a commit is pushed to the "develop" branch
+# You can start your commit with `#update` and the workflow will just trigger an update of the Helm installation, without building a new image
 #
 # To configure this workflow:
 #
@@ -50,20 +51,32 @@
 #      GKE_CLUSTER                       (Kubernetes Cluster Name)
 #      GKE_ZONE                          (Kubernetes Cluster Location)
 #
-# 6. Ensure the following files exists for Helm
-#   ./helm/values.yaml                   (Development Environment Values)
-#
 # Further reading:
 #   Cloud Run IAM permissions                 - https://cloud.google.com/run/docs/deploying
 #   Artifact Registry IAM permissions         - https://cloud.google.com/artifact-registry/docs/access-control#roles
 #   Container Registry vs Artifact Registry   - https://cloud.google.com/blog/products/application-development/understanding-artifact-registry-vs-container-registry
 #   Principle of least privilege              - https://cloud.google.com/blog/products/identity-security/dont-get-pwned-practicing-the-principle-of-least-privilege
 #   Deploy CloudRun Github Actions            - https://github.com/google-github-actions/deploy-cloudrun
-name: Build a Development Artifact and Deploy using Helm
+name: "[GCP] Build NextJS to Registry and Deploy via Helm"
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ "main" ]
+    paths:
+      - .github/workflows/google-registry-nextjs-dev.yaml
+      - helm/development.yaml
+      - api/**
+      - app/**
+      - cache/**
+      - locales/**
+      - scripts/**
+      - sketch/**
+      - static/**
+      - utils/**
+      - canon.js
+      - package-lock.json
+      - package.json
+      - requirements.txt
 
 env:
   GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
@@ -78,8 +91,9 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
     environment: development
+    runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.head_commit.message, '#update') }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -87,32 +101,30 @@ jobs:
       # Authentication via credentials json
       - name: Google Auth
         id: auth
-        uses: google-github-actions/auth@v0
+        uses: google-github-actions/auth@v2
         with:
           project_id: ${{ env.GCP_PROJECT_ID }}
           credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      # Install Cloud SDK
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          install_components: "beta"
 
       # Build image on Google Cloud Artifact Registry
       - name: Build Docker Image
         run: |-
           gcloud builds submit \
             --quiet \
-            --timeout=30m \
+            --timeout=40m \
             --config=cloudbuild.yml \
-            --substitutions=_GCP_ARTIFACT_REGISTRY_LOCATION=${{ env.GCP_ARTIFACT_REGISTRY_LOCATION }},_GCP_PROJECT_ID=${{ env.GCP_PROJECT_ID }},_GCP_ARTIFACT_REGISTRY_NAME=${{ env.GCP_ARTIFACT_REGISTRY_NAME }},_GCP_IMAGE_NAME=${{ env.GCP_IMAGE_NAME }},_GITHUB_SHA=${{ github.sha }}
-
-      # Uncomment for adding the latest tag to the latest image created
-      - name: Add 'Latest' Tag to Development Environments
-        run: |-
-          gcloud beta artifacts docker tags add \
-            --quiet \
-            ${{ env.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}/${{ env.GCP_IMAGE_NAME }}:${{ github.sha }} \
-            ${{ env.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}/${{ env.GCP_IMAGE_NAME }}:latest
+            --substitutions=_GCP_ARTIFACT_REGISTRY_LOCATION=${{ vars.GCP_ARTIFACT_REGISTRY_LOCATION }},_GCP_PROJECT_ID=${{ vars.GCP_PROJECT_ID }},_GCP_ARTIFACT_REGISTRY_NAME=${{ vars.GCP_ARTIFACT_REGISTRY_NAME }},_GCP_IMAGE_NAME=${{ vars.GCP_IMAGE_NAME }},_GCP_IMAGE_TAG=${{ github.sha }}
 
   deploy:
     needs: build
-    runs-on: ubuntu-latest
     environment: development
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -120,14 +132,20 @@ jobs:
       # Authentication via credentials json
       - name: Google Auth
         id: auth
-        uses: google-github-actions/auth@v0
+        uses: google-github-actions/auth@v2
         with:
           project_id: ${{ env.GCP_PROJECT_ID }}
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
+      # Install Cloud SDK
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          install_components: "beta"
+
       # Get google kubernetes engine credentials
       - name: Get GKE Credentials
-        uses: google-github-actions/get-gke-credentials@v0
+        uses: google-github-actions/get-gke-credentials@v2
         with:
           cluster_name: ${{ env.GKE_CLUSTER }}
           location: ${{ env.GKE_ZONE }}
@@ -136,4 +154,57 @@ jobs:
       - name: Helm install
         uses: WyriHaximus/github-action-helm3@v2
         with:
-          exec: helm upgrade --install --create-namespace --namespace ${{ env.GKE_APP_NAMESPACE }} --set app.environment=${{ env.GKE_APP_NAMESPACE }} --set app.release=${{ env.GKE_APP_RELEASE }} --set image.repository=${{ env.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}/${{ env.GCP_IMAGE_NAME }} --set image.tag=${{ github.sha }} --set nameOverride=${{ env.GKE_APP_NAME }} --set fullnameOverride=${{ env.GKE_APP_NAME }} ${{ env.GKE_APP_NAME }} ./helm --values=./helm/values.yaml
+          exec: |
+            helm upgrade --install --create-namespace \
+              --namespace ${{ env.GKE_APP_NAMESPACE }} \
+              --set app.environment=${{ env.GKE_APP_NAMESPACE }} \
+              --set app.release=${{ env.GKE_APP_NAMESPACE }} \
+              --set image.repository=${{ env.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}/${{ env.GCP_IMAGE_NAME }} \
+              --set image.tag=${{ github.sha }} \
+              --set nameOverride=${{ env.GKE_APP_NAME }} \
+              --set fullnameOverride=${{ env.GKE_APP_NAME }} \
+              ${{ env.GKE_APP_NAME }} --values=./helm/development.yaml ./helm
+
+  update:
+    environment: development
+    runs-on: ubuntu-latest
+    if: ${{ contains(github.event.head_commit.message, '#update') }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Authentication via credentials json
+      - name: Google Auth
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          project_id: ${{ env.GCP_PROJECT_ID }}
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      # Install Cloud SDK
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          install_components: "beta"
+
+      # Get google kubernetes engine credentials
+      - name: Get GKE Credentials
+        uses: google-github-actions/get-gke-credentials@v2
+        with:
+          cluster_name: ${{ env.GKE_CLUSTER }}
+          location: ${{ env.GKE_ZONE }}
+
+      # Install Helm chart
+      - name: Helm install
+        uses: WyriHaximus/github-action-helm3@v2
+        with:
+          exec: |
+            helm upgrade --install --create-namespace \
+              --namespace ${{ env.GKE_APP_NAMESPACE }} \
+              --set app.environment=${{ env.GKE_APP_NAMESPACE }} \
+              --set app.release=${{ env.GKE_APP_NAMESPACE }} \
+              --set image.repository=${{ env.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}/${{ env.GCP_IMAGE_NAME }} \
+              --set image.tag=${{ env.GKE_APP_NAMESPACE }} \
+              --set nameOverride=${{ env.GKE_APP_NAME }} \
+              --set fullnameOverride=${{ env.GKE_APP_NAME }} \
+              ${{ env.GKE_APP_NAME }} --values=./helm/development.yaml ./helm

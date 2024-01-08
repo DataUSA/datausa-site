@@ -7,19 +7,19 @@ imagePullSecrets:
 replicaCount: 1
 
 autoscaling:
-  enabled: false
-  # minReplicas: 1
-  # maxReplicas: 10
-  # targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 120
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 120
 
 resources:
   requests:
-    cpu: 500m
+    cpu: 250m
     memory: 2Gi
   limits:
-    cpu: 1000m
-    memory: 6Gi
+    cpu: 500m
+    memory: 4Gi
 
 livenessProbe:
   failureThreshold: 3
@@ -105,6 +105,7 @@ ingress:
     - host: app-dev.datausa.io
       paths:
         - /
+        - /ws
   tls:
     - secretName: canon-site-ingress-tls
       hosts:
