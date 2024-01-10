@@ -1,9 +1,19 @@
 steps:
   # [START cloudbuild_image_yaml]
-  # Docker Build with Cache
-  - name: 'gcr.io/kaniko-project/executor:latest'
-    args:
-    - --destination=$_GCP_ARTIFACT_REGISTRY_LOCATION-docker.pkg.dev/$_GCP_PROJECT_ID/$_GCP_ARTIFACT_REGISTRY_NAME/$_GCP_IMAGE_NAME:$_GITHUB_SHA
-    - --cache=true
-    - --cache-ttl=336h
+  # Start from previous build
+  - name: "gcr.io/cloud-builders/docker"
+    entrypoint: "bash"
+    args: ["-c", "docker pull ${_GCP_ARTIFACT_REGISTRY_LOCATION}-docker.pkg.dev/${_GCP_PROJECT_ID}/${_GCP_ARTIFACT_REGISTRY_NAME}/${_GCP_IMAGE_NAME}:${_GCP_IMAGE_ENVIRONMENT} || exit 0"]
+  # Docker Build
+  - name: "gcr.io/cloud-builders/docker"
+    args: [
+      "build",
+      "-t", "${_GCP_ARTIFACT_REGISTRY_LOCATION}-docker.pkg.dev/${_GCP_PROJECT_ID}/${_GCP_ARTIFACT_REGISTRY_NAME}/${_GCP_IMAGE_NAME}:${_GCP_IMAGE_TAG}",
+      "-t", "${_GCP_ARTIFACT_REGISTRY_LOCATION}-docker.pkg.dev/${_GCP_PROJECT_ID}/${_GCP_ARTIFACT_REGISTRY_NAME}/${_GCP_IMAGE_NAME}:${_GCP_IMAGE_ENVIRONMENT}",
+      "--cache-from", "${_GCP_ARTIFACT_REGISTRY_LOCATION}-docker.pkg.dev/${_GCP_PROJECT_ID}/${_GCP_ARTIFACT_REGISTRY_NAME}/${_GCP_IMAGE_NAME}:${_GCP_IMAGE_ENVIRONMENT}",
+      "."
+    ]
   # [END cloudbuild_image_yaml]
+images:
+  - "${_GCP_ARTIFACT_REGISTRY_LOCATION}-docker.pkg.dev/${_GCP_PROJECT_ID}/${_GCP_ARTIFACT_REGISTRY_NAME}/${_GCP_IMAGE_NAME}:${_GCP_IMAGE_TAG}"
+  - "${_GCP_ARTIFACT_REGISTRY_LOCATION}-docker.pkg.dev/${_GCP_PROJECT_ID}/${_GCP_ARTIFACT_REGISTRY_NAME}/${_GCP_IMAGE_NAME}:${_GCP_IMAGE_ENVIRONMENT}"

@@ -102,11 +102,11 @@ ingress:
           return 308 https://$host$request_uri;
       }
   hosts:
-    - host: app-prod.datausa.io
+    - host: app-dev.datausa.io
       paths:
         - /
         - /ws
   tls:
     - secretName: canon-site-ingress-tls
       hosts:
-        - app-prod.datausa.io
+        - app-dev.datausa.io

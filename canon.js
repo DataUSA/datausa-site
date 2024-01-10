@@ -50,7 +50,7 @@ module.exports = {
       pass: process.env.CANON_DB_PW,
       tables: [
         require("@datawheel/canon-cms/models"),
-	      require("@datawheel/canon-core/models")
+        require("@datawheel/canon-core/models")
       ]
     }
   ],
