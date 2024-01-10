@@ -57,7 +57,7 @@
 #   Container Registry vs Artifact Registry   - https://cloud.google.com/blog/products/application-development/understanding-artifact-registry-vs-container-registry
 #   Principle of least privilege              - https://cloud.google.com/blog/products/identity-security/dont-get-pwned-practicing-the-principle-of-least-privilege
 #   Deploy CloudRun Github Actions            - https://github.com/google-github-actions/deploy-cloudrun
-name: "[GCP] Build NextJS to Registry and Deploy via Helm"
+name: "[GCP][DEV] Build NextJS to Registry and Deploy via Helm"
 
 on:
   push:
