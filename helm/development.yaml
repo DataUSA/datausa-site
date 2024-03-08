@@ -57,7 +57,7 @@ serviceAccount:
   name: ""
 
 configMap:
-  CANON_API: "https://dev.datausa.io"
+  CANON_API: "https://app-dev.datausa.io"
   CANON_CMS_CUBES: "https://arkansas-api.datausa.io/"
   CANON_CMS_ENABLE: "true"
   CANON_CMS_FORCE_HTTPS: "true"
@@ -75,7 +75,7 @@ configMap:
   CANON_GOOGLE_ANALYTICS: "UA-70325841-1"
   CANON_LANGUAGES: "en"
   CANON_LANGUAGE_DEFAULT: "en"
-  CANON_LOGICLAYER_CUBE: "https://arkansas-api.datausa.io/"
+  CANON_LOGICLAYER_CUBE: "https://app-arkansas-api.datausa.io/"
   CANON_LOGICLAYER_SLUGS: "true"
   CANON_LOGINS: "true"
 
