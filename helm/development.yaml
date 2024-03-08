@@ -57,8 +57,8 @@ serviceAccount:
   name: ""
 
 configMap:
-  CANON_API: "https://zircon.datausa.io"
-  CANON_CMS_CUBES: "https://zircon-api.datausa.io/"
+  CANON_API: "https://dev.datausa.io"
+  CANON_CMS_CUBES: "https://arkansas-api.datausa.io/"
   CANON_CMS_ENABLE: "true"
   CANON_CMS_FORCE_HTTPS: "true"
   CANON_CMS_GENERATOR_TIMEOUT: "600000"
@@ -66,8 +66,8 @@ configMap:
   CANON_CMS_MINIMUM_ROLE: "1"
   CANON_CMS_REQUESTS_PER_SECOND: "60"
   CANON_CONST_CART: "datausa-cart-v3"
-  CANON_CONST_CUBE: "https://zircon-api.datausa.io/"
-  CANON_CONST_TESSERACT: "https://api-ts-zircon.datausa.io/"
+  CANON_CONST_CUBE: "https://arkansas-api.datausa.io/"
+  CANON_CONST_TESSERACT: "https://api-dev.datausa.io/tesseract/"
   CANON_DB_HOST: "104.154.115.126"
   CANON_DB_NAME: "datausa-cms-21"
   CANON_DB_USER: "deploy"
@@ -75,7 +75,7 @@ configMap:
   CANON_GOOGLE_ANALYTICS: "UA-70325841-1"
   CANON_LANGUAGES: "en"
   CANON_LANGUAGE_DEFAULT: "en"
-  CANON_LOGICLAYER_CUBE: "https://zircon-api.datausa.io/"
+  CANON_LOGICLAYER_CUBE: "https://arkansas-api.datausa.io/"
   CANON_LOGICLAYER_SLUGS: "true"
   CANON_LOGINS: "true"
 
