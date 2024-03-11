@@ -91,6 +91,7 @@ ingress:
     ingress.kubernetes.io/ssl-redirect: "false"
     nginx.org/proxy-connect-timeout: "480s"
     nginx.org/proxy-read-timeout: "480s"
+    nginx.org/proxy_send_timeout: "480s"
     nginx.org/proxy-buffers: "8 16k"
     nginx.org/proxy-buffer-size: "16k"
     nginx.org/proxy-busy-buffers-size: "64k"
