@@ -98,7 +98,7 @@ ingress:
     nginx.org/location-snippets: |
       add_header Access-Control-Allow-Origin *;
     nginx.org/server-snippets: |
-      if ($http_x_forwarded_proto = 'http') {
+      if ($scheme != "https") {
           return 308 https://$host$request_uri;
       }
   hosts:
