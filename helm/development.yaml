@@ -103,11 +103,11 @@ ingress:
           return 308 https://$host$request_uri;
       }
   hosts:
-    - host: app-dev.datausa.io
+    - host: arkansas.datausa.io
       paths:
         - /
         - /ws
   tls:
-    - secretName: canon-site-ingress-tls
+    - secretName: canon-site-tls
       hosts:
-        - app-dev.datausa.io
+        - arkansas.datausa.io
