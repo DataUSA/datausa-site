@@ -7,7 +7,7 @@ imagePullSecrets:
 replicaCount: 1
 
 autoscaling:
-  enabled: true
+  enabled: false
   minReplicas: 1
   maxReplicas: 10
   targetCPUUtilizationPercentage: 80
@@ -15,33 +15,33 @@ autoscaling:
 
 resources:
   requests:
-    cpu: 250m
+    cpu: 500m
     memory: 2Gi
   limits:
-    cpu: 500m
+    cpu: 1000m
     memory: 4Gi
 
-#livenessProbe:
-#  failureThreshold: 3
-#  httpGet:
-#    path: /
-#    port: 3300
-#    scheme: HTTP
-#  initialDelaySeconds: 60
-#  periodSeconds: 60
-#  timeoutSeconds: 60
-#  successThreshold: 1
+livenessProbe:
+  failureThreshold: 3
+  httpGet:
+    path: /
+    port: 3300
+    scheme: HTTP
+  initialDelaySeconds: 60
+  periodSeconds: 60
+  timeoutSeconds: 60
+  successThreshold: 1
 
-#readinessProbe:
-#  failureThreshold: 3
-#  httpGet:
-#    path: /
-#    port: 3300
-#    scheme: HTTP
-#  initialDelaySeconds: 60
-#  periodSeconds: 60
-#  timeoutSeconds: 60
-#  successThreshold: 2
+readinessProbe:
+  failureThreshold: 3
+  httpGet:
+    path: /
+    port: 3300
+    scheme: HTTP
+  initialDelaySeconds: 60
+  periodSeconds: 60
+  timeoutSeconds: 60
+  successThreshold: 2
 
 service:
   type: ClusterIP
@@ -57,7 +57,7 @@ serviceAccount:
   name: ""
 
 configMap:
-  CANON_API: "https://arkansas.datausa.io"
+  CANON_API: "http://localhost:3300"
   CANON_CMS_CUBES: "https://arkansas-api.datausa.io/"
   CANON_CMS_ENABLE: "true"
   CANON_CMS_FORCE_HTTPS: "true"
