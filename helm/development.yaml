@@ -57,7 +57,7 @@ serviceAccount:
   name: ""
 
 configMap:
-  CANON_API: "https://zircon.datausa.io"
+  CANON_API: "https://app-dev.datausa.io"
   CANON_CMS_CUBES: "https://zircon-api.datausa.io/"
   CANON_CMS_ENABLE: "true"
   CANON_CMS_FORCE_HTTPS: "true"
