@@ -53,7 +53,7 @@ module.exports = function(app) {
     const retObj = {
       ...colorMapping,
       breadcrumbs,
-      freightYear: 2020,
+      freightYear: 2023,
       neverShow: false,
       geoservice: process.env.CANON_GEOSERVICE_API,
       tesseract: process.env.CANON_CONST_TESSERACT,
