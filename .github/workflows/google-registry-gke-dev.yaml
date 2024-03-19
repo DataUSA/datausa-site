@@ -152,6 +152,11 @@ jobs:
           cluster_name: ${{ env.GKE_CLUSTER }}
           location: ${{ env.GKE_ZONE }}
 
+      # Transform GitHub secrets to base64 encoded
+      - name: Set encoded secret values
+        run: |
+          echo "ENCODED_GA_KEYFILE=$(echo -n "${{ secrets.GA_KEYFILE }}" | base64 | tr -d '\n')" >> $GITHUB_ENV
+
       # Install Helm chart
       - name: Helm install
         uses: WyriHaximus/github-action-helm3@v2
@@ -165,7 +170,7 @@ jobs:
               --set image.tag=${{ github.sha }} \
               --set nameOverride=${{ env.GKE_APP_NAME }} \
               --set fullnameOverride=${{ env.GKE_APP_NAME }} \
-              --set secrets.DB_CMS=${{ secrets.GA_KEYFILE }} \
+              --set secrets.DB_CMS=$ENCODED_GA_KEYFILE \
               ${{ env.GKE_APP_NAME }} --values=./helm/development.yaml ./helm
 
   update:
@@ -197,6 +202,11 @@ jobs:
           cluster_name: ${{ env.GKE_CLUSTER }}
           location: ${{ env.GKE_ZONE }}
 
+      # Transform GitHub secrets to base64 encoded
+      - name: Set encoded secret values
+        run: |
+          echo "ENCODED_GA_KEYFILE=$(echo -n "${{ secrets.GA_KEYFILE }}" | base64 | tr -d '\n')" >> $GITHUB_ENV
+
       # Install Helm chart
       - name: Helm install
         uses: WyriHaximus/github-action-helm3@v2
@@ -210,5 +220,5 @@ jobs:
               --set image.tag=${{ env.GKE_APP_NAMESPACE }} \
               --set nameOverride=${{ env.GKE_APP_NAME }} \
               --set fullnameOverride=${{ env.GKE_APP_NAME }} \
-              --set secrets.DB_CMS=${{ secrets.GA_KEYFILE }} \
+              --set secrets.DB_CMS=$ENCODED_GA_KEYFILE \
               ${{ env.GKE_APP_NAME }} --values=./helm/development.yaml ./helm
