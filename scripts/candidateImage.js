@@ -21,7 +21,8 @@ const predefined = {
   "George Bush": "George H. W. Bush",
   "George Walker Bush": "George W. Bush",
   "Rafael Edward Ted Cruz": "Ted Cruz",
-  "Joseph R Biden Jr.": "Joe Biden"
+  "Joseph R Biden Jr.": "Joe Biden",
+  "James Mac Warren": "James Warren"
 };
 
 const matchWords = [
@@ -35,7 +36,8 @@ const matchWords = [
   "senat",
   "social",
   "united states",
-  "u.s."
+  "u.s.",
+  "party"
 ];
 
 /** */
@@ -108,7 +110,7 @@ async function fetchImage(member) {
           const lines = resp.extract
             .replace(/^.+:/g, "");
           if (!lines.length) return true;
-          const names = lines
+          let names = lines
             .split("\n")
             .filter(d => {
               const years = d.match(/\(([0-9]{4})\–([0-9]{4})\)/);
@@ -121,6 +123,7 @@ async function fetchImage(member) {
             })
             .filter(matches)
             .map(d => d.replace(/\,.+$/g, "").replace(/\s\(.+\)$/g, ""));
+          if (predefined[name]) names = predefined.filter(d => d === predefined[name]);
           const uniques = Array.from(new Set(names));
           const exactMatch = names.length === 1 ? names
             : names.filter(n => {
@@ -145,7 +148,6 @@ async function fetchImage(member) {
           else {
             console.log(chalk.yellow(`\nMultiples found for ${name}:`));
             names.forEach(n => console.log(chalk.grey(` - ${n}`)));
-            // console.log(resp.extract);
             return true;
           }
         }

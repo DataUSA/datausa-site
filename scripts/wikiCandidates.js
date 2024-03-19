@@ -89,13 +89,9 @@ async function run() {
             obj.District = district;
             obj.State = split.join(" ");
           }
-          else if (header === "Image") {
-            obj[header] = `https:${data.querySelector("img").getAttribute("src")}`;
-          }
-          else if (header === "Portrait") {
-            if (data.querySelector("img")) {
-              obj.Image = `https:${data.querySelector("img").getAttribute("src")}`;
-            }
+          else if ((header === "Image" || header === "Portrait") && data.querySelector("img")) {
+            obj.Image = `https:${data.querySelector("img").getAttribute("src")}`;
+            obj.Image = `https:${data.querySelector("img").getAttribute("src")}`;
           }
           else if (header === "Class") {
             obj["Term up"] = data.innerHTML.slice(0, 4);
@@ -104,21 +100,35 @@ async function run() {
             obj[header] = data.innerHTML
               .replace("<span typeof=\"mw:Entity\"> </span>", " ")
               .split("<sup")[0]
-              .split(" <span")[0];
+              .split(" <span")[0]
+              .replace(/\<br\sid=\"[A-z0-9]{1,}\"\s\>/g, " ")
+              .replace(/\u2013|\u2014/g, "-");
           }
+
           if (column.querySelector(".mw-ref")) {
             const ref = JSON.parse(column.querySelector(".mw-ref").getAttribute("data-mw"));
             if (ref.parts && ref.parts[0].template.params["1"]) {
               obj.note = ref.parts[0].template.params["1"]
                 .wt.replace(/\<.*$/g, "")
                 .replace(/\[\[/g, "")
-                .replace(/\]\]/g, "");
+                .replace(/\]\]/g, "")
+                .replace(/^\s+/g, "")
+                .replace(/\s+$/g, "")
+                .replace(/\u2013|\u2014/g, "-");
             }
+          }
+
+          if (obj.State === "Georgia" && obj.District === "5" && header === "Member") {
+            console.log(column.innerHTML);
           }
 
           if (header === "Member" && column.querySelector("img")) {
             obj.Image = `https:${column.querySelector("img").getAttribute("src")}`;
+            if (column.querySelector(".cx-link")) {
+              obj.Member = column.querySelector(".cx-link").getAttribute("title").replace(/\s{1,}\(.*\)/g, "");
+            }
           }
+
         });
 
       if (colOffset) {

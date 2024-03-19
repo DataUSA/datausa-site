@@ -1,14 +1,14 @@
 [
   {
     "State": "Alabama",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Tommy_Tuberville_official_portrait_%28cropped%29.jpg/94px-Tommy_Tuberville_official_portrait_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Tommy_Tuberville%2C_official_portrait%2C_118th_Congress_%28slight_crop%29.jpg/95px-Tommy_Tuberville%2C_official_portrait%2C_118th_Congress_%28slight_crop%29.jpg",
     "Senator": "Tommy Tuberville",
     "Party": "Republican",
     "Assumed office": "January 3, 2021",
     "Term up": "2026"
   },
   {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Katie_Boyd_Britt_official_Senate_photo_%28cropped%29.jpg/95px-Katie_Boyd_Britt_official_Senate_photo_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Katie_Britt_%28cropped%29.jpg/95px-Katie_Britt_%28cropped%29.jpg",
     "Senator": "Katie Britt",
     "Party": "Republican",
     "Assumed office": "January 3, 2023",
@@ -37,12 +37,12 @@
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Kyrsten_Sinema_%28cropped%29.jpg/95px-Kyrsten_Sinema_%28cropped%29.jpg",
     "Senator": "Kyrsten Sinema",
     "Party": "Independent",
-    "note": "Until 2022; Kyrsten Sinema won election to the Senate as a member of the Democratic Party.",
+    "note": "Kyrsten Sinema won election to the Senate as a Democrat in 2018",
     "Assumed office": "January 3, 2019",
     "Term up": "2024"
   },
   {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Mark_Kelly%2C_Official_Portrait_117th_%28cropped%29.jpg/95px-Mark_Kelly%2C_Official_Portrait_117th_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Mark_Kelly%2C_Official_Portrait_117th_%28cropped%29_2.jpg/95px-Mark_Kelly%2C_Official_Portrait_117th_%28cropped%29_2.jpg",
     "Senator": "Mark Kelly",
     "Party": "Democratic",
     "Assumed office": "December 2, 2020",
@@ -68,25 +68,25 @@
   },
   {
     "State": "California",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Dianne_Feinstein%2C_official_Senate_photo_2_%28cropped%29.jpg/95px-Dianne_Feinstein%2C_official_Senate_photo_2_%28cropped%29.jpg",
-    "Senator": "Dianne Feinstein",
-    "Party": "Democratic",
-    "Assumed office": "November 10, 1992",
-    "note": "Elected to the seat to succeed John Seymour (California politician)|John Seymour, who had been appointed to the seat after Pete Wilson was elected Governor of California.",
-    "Term up": "2024"
-  },
-  {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Alex_Padilla_117th_Congress_portrait_%28cropped%29.jpg/95px-Alex_Padilla_117th_Congress_portrait_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Alex_Padilla_117th_Congress_portrait_%283%29_%28crop%29.jpg/95px-Alex_Padilla_117th_Congress_portrait_%283%29_%28crop%29.jpg",
     "Senator": "Alex Padilla",
     "Party": "Democratic",
-    "Assumed office": "January 18, 2021",
+    "Assumed office": "January 20, 2021",
     "note": "Appointed to the seat following the resignation of Kamala Harris, who had become Vice President of the United States.",
-    "Term up": "2028",
+    "Term up": "2028"
+  },
+  {
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Laphonza_Butler_Senate_photo%2C_2023_%28close_crop%29.jpg/95px-Laphonza_Butler_Senate_photo%2C_2023_%28close_crop%29.jpg",
+    "Senator": "Laphonza Butler",
+    "Party": "Democratic",
+    "Assumed office": "October 3, 2023",
+    "note": "Appointed to the seat following the death of Dianne Feinstein.",
+    "Term up": "2024",
     "State": "California"
   },
   {
     "State": "Colorado",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Senator_Mike_Bennett_%28cropped%29_2.jpg/95px-Senator_Mike_Bennett_%28cropped%29_2.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Senator_Mike_Bennett_%284x5_crop%29.jpg/95px-Senator_Mike_Bennett_%284x5_crop%29.jpg",
     "Senator": "Michael Bennet",
     "Party": "Democratic",
     "Assumed office": "January 21, 2009",
@@ -94,7 +94,7 @@
     "Term up": "2028"
   },
   {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/John_Hickenlooper%2C_official_portrait%2C_117th_Congress_%28cropped%29.jpeg/95px-John_Hickenlooper%2C_official_portrait%2C_117th_Congress_%28cropped%29.jpeg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/John_Hickenlooper%2C_official_portrait%2C_117th_Congress_%284x5_crop%29.jpeg/95px-John_Hickenlooper%2C_official_portrait%2C_117th_Congress_%284x5_crop%29.jpeg",
     "Senator": "John Hickenlooper",
     "Party": "Democratic",
     "Assumed office": "January 3, 2021",
@@ -103,7 +103,7 @@
   },
   {
     "State": "Connecticut",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Richard_Blumenthal_Official_Portrait_%28cropped%29.jpg/95px-Richard_Blumenthal_Official_Portrait_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Richard_Blumenthal_Official_Portrait_%284x5_crop%29.jpg/95px-Richard_Blumenthal_Official_Portrait_%284x5_crop%29.jpg",
     "Senator": "Richard Blumenthal",
     "Party": "Democratic",
     "Assumed office": "January 3, 2011",
@@ -157,11 +157,11 @@
     "Senator": "Jon Ossoff",
     "Party": "Democratic",
     "Assumed office": "January 20, 2021",
-    "note": "Inauguration delayed as incumbent senator David Perdue's term expired on January 3, 2021, two days prior to the 2020–21 United States Senate election in Georgia|runoff election.",
+    "note": "Inauguration delayed as incumbent senator David Perdue's term expired on January 3, 2021, two days prior to the 2020-21 United States Senate election in Georgia|runoff election.",
     "Term up": "2026"
   },
   {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Raphael_Warnock_official_photo_%28cropped%29.jpg/95px-Raphael_Warnock_official_photo_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Raphael_Warnock_official_photo_%284x5_crop%29.jpg/95px-Raphael_Warnock_official_photo_%284x5_crop%29.jpg",
     "Senator": "Raphael Warnock",
     "Party": "Democratic",
     "Assumed office": "January 20, 2021",
@@ -204,7 +204,7 @@
   },
   {
     "State": "Illinois",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Dick_Durbin_117th_Congress_portrait_%281%29_%28tight_crop%29.jpeg/95px-Dick_Durbin_117th_Congress_portrait_%281%29_%28tight_crop%29.jpeg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Dick_Durbin_2022_official_portrait_%28cropped%29_2.jpg/95px-Dick_Durbin_2022_official_portrait_%28cropped%29_2.jpg",
     "Senator": "Dick Durbin",
     "Party": "Democratic",
     "Assumed office": "January 3, 1997",
@@ -310,7 +310,7 @@
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Angus_King%2C_official_portrait%2C_113th_Congress_%28cropped%29.jpg/95px-Angus_King%2C_official_portrait%2C_113th_Congress_%28cropped%29.jpg",
     "Senator": "Angus King",
     "Party": "Independent",
-    "note": "The independent senators, Angus King of Maine and Bernie Sanders of Vermont, Senate Democratic Caucus|caucus with the Democrats.",
+    "note": "Angus King of Maine and Bernie Sanders of Vermont join meetings of the Senate Democratic Caucus.",
     "Assumed office": "January 3, 2013",
     "Term up": "2024",
     "State": "Maine"
@@ -333,7 +333,7 @@
   },
   {
     "State": "Massachusetts",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Elizabeth_Warren--2016_Official_Portrait--%28cropped%29.jpg/95px-Elizabeth_Warren--2016_Official_Portrait--%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Elizabeth_Warren--2016_Official_Portrait--%28cropped%29_%28cropped%29.jpg/95px-Elizabeth_Warren--2016_Official_Portrait--%28cropped%29_%28cropped%29.jpg",
     "Senator": "Elizabeth Warren",
     "Party": "Democratic",
     "Assumed office": "January 3, 2013",
@@ -350,7 +350,7 @@
   },
   {
     "State": "Michigan",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Debbie_Stabenow%2C_official_photo%2C_116th_Congress_%28cropped%29.jpg/95px-Debbie_Stabenow%2C_official_photo%2C_116th_Congress_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Debbie_Stabenow%2C_official_photo%2C_116th_Congress_%284x5_crop%29.jpg/95px-Debbie_Stabenow%2C_official_photo%2C_116th_Congress_%284x5_crop%29.jpg",
     "Senator": "Debbie Stabenow",
     "Party": "Democratic",
     "Assumed office": "January 3, 2001",
@@ -368,15 +368,15 @@
     "State": "Minnesota",
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Amy_Klobuchar%2C_official_portrait%2C_113th_Congress_%28cropped%29.jpg/95px-Amy_Klobuchar%2C_official_portrait%2C_113th_Congress_%28cropped%29.jpg",
     "Senator": "Amy Klobuchar",
-    "Party": "Democratic<br id=\"mwB1M\" >(DFL)",
-    "note": "The Minnesota Democratic–Farmer–Labor Party (DFL) is the Minnesota affiliate of the Democratic Party (United States)|U.S. Democratic Party and its members are counted as Democrats.",
+    "Party": "Democratic (DFL)",
+    "note": "The Minnesota Democratic-Farmer-Labor Party (DFL) is the Minnesota affiliate of the Democratic Party (United States)|U.S. Democratic Party and its members are counted as Democrats.",
     "Assumed office": "January 3, 2007",
     "Term up": "2024"
   },
   {
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Tina_Smith%2C_official_portrait%2C_116th_congress_%28cropped%29.jpg/95px-Tina_Smith%2C_official_portrait%2C_116th_congress_%28cropped%29.jpg",
     "Senator": "Tina Smith",
-    "Party": "Democratic<br id=\"mwB3Q\" >(DFL)",
+    "Party": "Democratic (DFL)",
     "Assumed office": "January 3, 2018",
     "note": "Appointed to the seat following the resignation of Al Franken.",
     "Term up": "2026",
@@ -409,7 +409,7 @@
     "Term up": "2024"
   },
   {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Eric_Schmitt_official_photo_%28cropped%29.jpg/95px-Eric_Schmitt_official_photo_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Sen._Eric_Schmitt%2C_official_portrait%2C_118th_Congress_%28cropped_2%29.jpg/95px-Sen._Eric_Schmitt%2C_official_portrait%2C_118th_Congress_%28cropped_2%29.jpg",
     "Senator": "Eric Schmitt",
     "Party": "Republican",
     "Assumed office": "January 3, 2023",
@@ -444,14 +444,14 @@
     "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Sen._Pete_Ricketts_official_portrait%2C_118th_Congress_%28cropped%29.jpg/95px-Sen._Pete_Ricketts_official_portrait%2C_118th_Congress_%28cropped%29.jpg",
     "Senator": "Pete Ricketts",
     "Party": "Republican",
-    "Assumed office": "January 23, 2023",
+    "Assumed office": "January 12, 2023",
     "note": "Appointed to the seat on January 12, 2023 following the resignation of Ben Sasse.",
     "Term up": "2024",
     "State": "Nebraska"
   },
   {
     "State": "Nevada",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Catherine_Cortez_Masto_portrait_red_%28cropped%29.jpg/95px-Catherine_Cortez_Masto_portrait_red_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Catherine_Cortez_Masto_portrait_red_%28_4x5_crop%29.jpg/95px-Catherine_Cortez_Masto_portrait_red_%28_4x5_crop%29.jpg",
     "Senator": "Catherine Cortez Masto",
     "Party": "Democratic",
     "Assumed office": "January 3, 2017",
@@ -467,7 +467,7 @@
   },
   {
     "State": "New Hampshire",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Shaheen_Senate_Portrait.jpg/95px-Shaheen_Senate_Portrait.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Shaheen_Senate_Portrait_%28cropped%29_%28cropped%29.jpg/95px-Shaheen_Senate_Portrait_%28cropped%29_%28cropped%29.jpg",
     "Senator": "Jeanne Shaheen",
     "Party": "Democratic",
     "Assumed office": "January 3, 2009",
@@ -524,7 +524,7 @@
     "Term up": "2028"
   },
   {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Kirsten_Gillibrand%2C_official_photo%2C_116th_Congress_%28cropped%29.jpg/95px-Kirsten_Gillibrand%2C_official_photo%2C_116th_Congress_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Kirsten_Gillibrand%2C_official_photo%2C_116th_Congress_%284x5_crop%29.jpg/95px-Kirsten_Gillibrand%2C_official_photo%2C_116th_Congress_%284x5_crop%29.jpg",
     "Senator": "Kirsten Gillibrand",
     "Party": "Democratic",
     "Assumed office": "January 26, 2009",
@@ -557,7 +557,7 @@
     "Term up": "2028"
   },
   {
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Kevin_Cramer%2C_official_portrait%2C_116th_congress_%28cropped%29.jpg/95px-Kevin_Cramer%2C_official_portrait%2C_116th_congress_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Kevin_Cramer%2C_official_portrait%2C_116th_congress_2_%284x5_crop%29.jpg/95px-Kevin_Cramer%2C_official_portrait%2C_116th_congress_2_%284x5_crop%29.jpg",
     "Senator": "Kevin Cramer",
     "Party": "Republican",
     "Assumed office": "January 3, 2019",
@@ -566,7 +566,7 @@
   },
   {
     "State": "Ohio",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Sherrod_Brown_117th_Congress_%282%29_%28cropped%29.jpg/95px-Sherrod_Brown_117th_Congress_%282%29_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Sherrod_Brown_117th_Congress_%282%29_%284x5_crop%29.jpg/95px-Sherrod_Brown_117th_Congress_%282%29_%284x5_crop%29.jpg",
     "Senator": "Sherrod Brown",
     "Party": "Democratic",
     "Assumed office": "January 3, 2007",
@@ -582,11 +582,11 @@
   },
   {
     "State": "Oklahoma",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/James_Lankford_official_Senate_photo_%28cropped%29.jpg/95px-James_Lankford_official_Senate_photo_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/James_Lankford_official_portrait%2C_118th_Congress_%28cropped%29.jpg/95px-James_Lankford_official_portrait%2C_118th_Congress_%28cropped%29.jpg",
     "Senator": "James Lankford",
     "Party": "Republican",
     "Assumed office": "January 3, 2015",
-    "note": "Elected to the seat following the resignation of Tom Coburn.",
+    "note": "Took office following the resignation of Tom Coburn.",
     "Term up": "2028"
   },
   {
@@ -594,7 +594,7 @@
     "Senator": "Markwayne Mullin",
     "Party": "Republican",
     "Assumed office": "January 3, 2023",
-    "note": "Elected to the seat following the resignation of Jim Inhofe.",
+    "note": "Took office following the resignation of Jim Inhofe.",
     "Term up": "2026",
     "State": "Oklahoma"
   },
@@ -682,7 +682,7 @@
   },
   {
     "State": "Tennessee",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Sen._Marsha_Blackburn_%28R-TN%29_official_headshot_-_116th_Congress_%28Cropped%29.jpg/94px-Sen._Marsha_Blackburn_%28R-TN%29_official_headshot_-_116th_Congress_%28Cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Marsha_Blackburn%2C_official_photo%2C_116th_Congress_%28cropped%29.jpg/93px-Marsha_Blackburn%2C_official_photo%2C_116th_Congress_%28cropped%29.jpg",
     "Senator": "Marsha Blackburn",
     "Party": "Republican",
     "Assumed office": "January 3, 2019",
@@ -698,7 +698,7 @@
   },
   {
     "State": "Texas",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/John_Cornyn_official_senate_portrait_%28cropped%29.jpg/95px-John_Cornyn_official_senate_portrait_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/John_Cornyn_%28cropped%29.jpg/97px-John_Cornyn_%28cropped%29.jpg",
     "Senator": "John Cornyn",
     "Party": "Republican",
     "Assumed office": "December 2, 2002",
@@ -715,7 +715,7 @@
   },
   {
     "State": "Utah",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Mike_Lee%2C_official_portrait_%28cropped%29.jpg/95px-Mike_Lee%2C_official_portrait_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Mike_Lee%2C_official_portrait_%284x5_crop%29.jpg/95px-Mike_Lee%2C_official_portrait_%284x5_crop%29.jpg",
     "Senator": "Mike Lee",
     "Party": "Republican",
     "Assumed office": "January 3, 2011",
@@ -731,7 +731,7 @@
   },
   {
     "State": "Vermont",
-    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Bernie_Sanders_%28cropped%29.jpg/95px-Bernie_Sanders_%28cropped%29.jpg",
+    "Image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Bernie_Sanders_2023_%28cropped%29.jpg/95px-Bernie_Sanders_2023_%28cropped%29.jpg",
     "Senator": "Bernie Sanders",
     "Party": "Independent",
     "Assumed office": "January 3, 2007",
