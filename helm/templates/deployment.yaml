@@ -65,7 +65,7 @@ spec:
               mountPath: {{ .Values.volumeMounts.mountPath }}
           {{- end }}
       {{- if .Values.volumesEnabled }}
-      volumeMounts:
+      volumes:
         - name: {{ .Values.volumes.name }}
           configMap:
             name: {{ .Values.volumes.configMap.name }}
