@@ -48,13 +48,13 @@ readinessProbe:
 volumeMountsEnabled: true
 
 volumeMounts:
-  name: google-analytics-vol
-  mountPath: /app
+  name: google-analytics-volumen
+  mountPath: /app/google
 
 volumesEnabled: true
 
 volumes:
-  name: google-analytics-vol
+  name: google-analytics-volumen
   configMap:
     name: google-analytics
 
