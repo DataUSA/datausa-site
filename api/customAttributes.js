@@ -6,6 +6,7 @@ const blsOccs = require("../static/data/pums_bls_occupation_crosswalk.json");
 
 const loadJSON = require("../utils/loadJSON");
 const universitySimilar = loadJSON("/static/data/similar_universities_with_dist.json");
+const napcs2sctg = loadJSON("/static/data/nacps2sctg.json");
 
 const colorMapping = Object.keys(colors)
   .reduce((obj, k) => {
@@ -119,6 +120,9 @@ module.exports = function(app) {
       retObj.opeid = opeid && opeid[id]? opeid[id] : false;
       retObj.similarID = similarID.join(",");
       retObj.similarOpeidId = similarOpeidID;
+    }
+    else if (dimension === "NAPCS") {
+      retObj.sctg = (napcs2sctg[id] || []).join(",");
     }
 
     return res.json(retObj);
