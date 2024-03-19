@@ -170,7 +170,7 @@ jobs:
               --set image.tag=${{ github.sha }} \
               --set nameOverride=${{ env.GKE_APP_NAME }} \
               --set fullnameOverride=${{ env.GKE_APP_NAME }} \
-              --set secrets.DB_CMS=$ENCODED_GA_KEYFILE \
+              --set secrets.GA_KEYFILE=$ENCODED_GA_KEYFILE \
               ${{ env.GKE_APP_NAME }} --values=./helm/development.yaml ./helm
 
   update:
@@ -220,5 +220,5 @@ jobs:
               --set image.tag=${{ env.GKE_APP_NAMESPACE }} \
               --set nameOverride=${{ env.GKE_APP_NAME }} \
               --set fullnameOverride=${{ env.GKE_APP_NAME }} \
-              --set secrets.DB_CMS=$ENCODED_GA_KEYFILE \
+              --set secrets.GA_KEYFILE=$ENCODED_GA_KEYFILE \
               ${{ env.GKE_APP_NAME }} --values=./helm/development.yaml ./helm
