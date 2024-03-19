@@ -8,6 +8,8 @@ const loadJSON = require("../utils/loadJSON");
 const universitySimilar = loadJSON("/static/data/similar_universities_with_dist.json");
 const napcs2sctg = loadJSON("/static/data/nacps2sctg.json");
 
+const {CANON_API, CANON_CONST_TESSERACT, CANON_GEOSERVICE_API} = process.env;
+
 const colorMapping = Object.keys(colors)
   .reduce((obj, k) => {
     const newKey = k.split(" ").reverse().join(""); // flip word order, if multiple
@@ -45,7 +47,7 @@ module.exports = function(app) {
     const meta = await db.profile_meta.findOne({where: {dimension}}).catch(() => {});
     const {slug} = meta;
 
-    const origin = process.env.CANON_API;
+    const origin = CANON_API;
 
     const breadcrumbs = await axios.get(`${origin}/api/parents/${slug}/${id}`)
         .then(resp => resp.data)
@@ -56,8 +58,8 @@ module.exports = function(app) {
       breadcrumbs,
       freightYear: 2023,
       neverShow: false,
-      geoservice: process.env.CANON_GEOSERVICE_API,
-      tesseract: process.env.CANON_CONST_TESSERACT,
+      geoservice: CANON_GEOSERVICE_API,
+      tesseract: CANON_CONST_TESSERACT,
       url: urls[id]
     };
 
@@ -83,6 +85,29 @@ module.exports = function(app) {
       retObj.stateElectionId = ["Nation", "State", "County"].includes(hierarchy) ? id : stateElection.join(",");
       retObj.electionCut = hierarchy === "Nation" ? `State` : hierarchy === "County" ? `County&State+County=${retObj.stateDataID}` : `County&State+County=${retObj.stateElectionId}`;
       retObj.hierarchySub = hierarchy === "Nation" ? "State" : "County";
+
+      if (hierarchy !== "Nation") {
+        const url = `${CANON_GEOSERVICE_API}neighbors/${state ? state.id : id}`;
+        const neighbors = await axios.get(url)
+          .then(resp => resp.data)
+          .then(resp => {
+            if (resp.error) {
+              console.error(`[geoservice error] ${url}`);
+              console.error(resp.error);
+              return [];
+            }
+            else {
+              return resp || [];
+            }
+          })
+          .then(resp => resp.map(d => d.geoid))
+          .catch(() => []);
+        retObj.stateNeighbors = neighbors.join(",");
+      }
+      else {
+        retObj.stateNeighbors = "";
+      }
+
     }
     else if (dimension === "PUMS Industry") {
       if (blsMonthlyIndustries[id]) {
