@@ -61,9 +61,12 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- if .Values.volumeMountsEnabled }}
           volumeMounts:
-            {{- toYaml .Values.volumeMounts | nindent 12 }}
+            - name: {{ .Values.volumeMounts.name }}
+              mountPath: {{ .Values.volumeMounts.mountPath }}
           {{- end }}
       {{- if .Values.volumesEnabled }}
       volumeMounts:
-        {{- toYaml .Values.volumes | nindent 8 }}
+        - name: {{ .Values.volumes.name }}
+          configMap:
+            name: {{ .Values.volumes.configMap.name }}
       {{- end }}
