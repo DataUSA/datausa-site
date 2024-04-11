@@ -105,7 +105,7 @@ ingress:
     - host: app-prod.datausa.io
       paths:
         - path: /
-          service: cache-api-service
+          service: cache-site-service
           port: 80
         - path: /ws
           service: canon-site
