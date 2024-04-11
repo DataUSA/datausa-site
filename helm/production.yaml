@@ -102,7 +102,7 @@ ingress:
           return 308 https://$host$request_uri;
       }
   customHosts:
-    - host: api-prod.datausa.io
+    - host: app-prod.datausa.io
       paths:
         - path: /
           service: cache-api-service
