@@ -26,18 +26,35 @@ spec:
     {{- end }}
   {{- end }}
   rules:
-    {{- range .Values.ingress.hosts }}
-    - host: {{ .host | quote }}
-      http:
-        paths:
-          {{- range .paths }}
-          - path: {{ . }}
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ $fullName }}
-                port:
-                  number: {{ $servicePort }}
-          {{- end }}
-    {{- end }}
+    {{ if .Values.ingress.customHosts }}
+      {{- range .Values.ingress.customHosts }}
+      - host: {{ .host | quote }}
+        http:
+          paths:
+            {{- range .paths }}
+            - path: {{ .path }}
+              pathType: Prefix
+              backend:
+                service:
+                  name: {{ .service }}
+                  port:
+                    number: {{ .port }}
+            {{- end }}
+      {{- end }}
+    {{ else }}
+      {{- range .Values.ingress.hosts }}
+      - host: {{ .host | quote }}
+        http:
+          paths:
+            {{- range .paths }}
+            - path: {{ . }}
+              pathType: Prefix
+              backend:
+                service:
+                  name: {{ $fullName }}
+                  port:
+                    number: {{ $servicePort }}
+            {{- end }}
+      {{- end }}
+    {{ end }}
 {{- end }}
