@@ -11,6 +11,11 @@
       min-width: 100%;
       width: 100%;
     }
+    & .candidate-image {
+      height: 40px;
+      min-width: 40px;
+      width: 40px;
+    }
   }
   &.multi {
     min-width: 100%;

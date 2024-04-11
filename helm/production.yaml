@@ -57,8 +57,8 @@ serviceAccount:
   name: ""
 
 configMap:
-  CANON_API: "https://zircon.datausa.io"
-  CANON_CMS_CUBES: "https://zircon-api.datausa.io/"
+  CANON_API: "https://app-prod.datausa.io"
+  CANON_CMS_CUBES: "https://arkansas-api.datausa.io/"
   CANON_CMS_ENABLE: "true"
   CANON_CMS_FORCE_HTTPS: "true"
   CANON_CMS_GENERATOR_TIMEOUT: "600000"
@@ -66,16 +66,16 @@ configMap:
   CANON_CMS_MINIMUM_ROLE: "1"
   CANON_CMS_REQUESTS_PER_SECOND: "60"
   CANON_CONST_CART: "datausa-cart-v3"
-  CANON_CONST_CUBE: "https://zircon-api.datausa.io/"
-  CANON_CONST_TESSERACT: "https://api-ts-zircon.datausa.io/"
-  CANON_DB_HOST: "34.170.243.154"
-  CANON_DB_NAME: "datausa-0.21"
+  CANON_CONST_CUBE: "https://arkansas-api.datausa.io/"
+  CANON_CONST_TESSERACT: "https://api-prod.datausa.io/"
+  CANON_DB_HOST: "104.154.115.126"
+  CANON_DB_NAME: "datausa-cms-21"
   CANON_DB_USER: "deploy"
   CANON_GEOSERVICE_API : "https://geoservice.datausa.io/"
   CANON_GOOGLE_ANALYTICS: "UA-70325841-1"
   CANON_LANGUAGES: "en"
   CANON_LANGUAGE_DEFAULT: "en"
-  CANON_LOGICLAYER_CUBE: "https://zircon-api.datausa.io/"
+  CANON_LOGICLAYER_CUBE: "https://arkansas-api.datausa.io/"
   CANON_LOGICLAYER_SLUGS: "true"
   CANON_LOGINS: "true"
 
@@ -101,11 +101,15 @@ ingress:
       if ($http_x_forwarded_proto = 'http') {
           return 308 https://$host$request_uri;
       }
-  hosts:
+  customHosts:
     - host: app-prod.datausa.io
       paths:
-        - /
-        - /ws
+        - path: /
+          service: cache-api-service
+          port: 80
+        - path: /ws
+          service: canon-site
+          port: 3300
   tls:
     - secretName: canon-site-ingress-tls
       hosts:

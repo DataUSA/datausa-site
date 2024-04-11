@@ -64,6 +64,7 @@ on:
     branches: [ "develop" ]
     paths:
       - .github/workflows/google-registry-gke-dev.yaml
+      - helm/templates
       - helm/development.yaml
       - api/**
       - app/**

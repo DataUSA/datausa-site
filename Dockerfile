@@ -1,5 +1,5 @@
 # starting point: an image of node-16
-FROM node:12
+FROM node:16
 
 # install mysql
 # RUN apt-get update

@@ -17,6 +17,7 @@
     "test": "eslint --color api/*.js api/**/*.js app/*.js app/**/*.js db/*.js db/**/*.js",
     "locales": "canon-locales",
     "release": "canon-release",
+    "topomerge": "node scripts/topomerge.js",
     "wikiCandidates": "node scripts/wikiCandidates.js",
     "zvalue": "node scripts/zvalue.js"
   },
@@ -32,19 +33,19 @@
   "homepage": "https://github.com/datausa/datausa-site#readme",
   "dependencies": {
     "@blueprintjs/table": "^3.8.33",
-    "@datawheel/canon-cms": "^0.21.32",
-    "@datawheel/canon-core": "^0.25.15",
-    "@datawheel/canon-logiclayer": "^0.5.1",
-    "@datawheel/canon-vizbuilder": "^0.5.2",
+    "@datawheel/canon-cms": "^0.22.10",
+    "@datawheel/canon-core": "^0.26.1",
+    "@datawheel/canon-logiclayer": "^0.6.1",
+    "@datawheel/canon-vizbuilder": "^0.5.3",
     "@datawheel/olap-client": "^2.0.0-beta.3",
+    "@google-analytics/data": "^4.4.0",
     "buble": "^0.19.3",
     "countries-list": "^2.5.4",
     "csvtojson": "^2.0.10",
-    "d3plus-axis": "^1.0.1",
+    "d3plus-axis": "~1.1.6",
     "eslint": "^7.28.0",
     "flickr-sdk": "^3.7.0",
     "google-spreadsheet": "^3.1.15",
-    "googleapis": "^92.0.0",
     "jsdoc-to-markdown": "^4.0.1",
     "jszip": "^3.1.5",
     "katex": "^0.9.0",
@@ -52,11 +53,18 @@
     "lunr": "^2.3.5",
     "node-html-parser": "^1.2.8",
     "promise-throttle": "^1.0.0",
+    "prop-types": "^15.8.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "query-string": "^6.1.0",
     "react-inlinesvg": "^0.8.4",
     "react-katex": "^2.0.2",
     "react-slick": "^0.23.2",
     "react-sparklines": "^1.7.0",
     "sharp": "^0.28.3"
+  },
+  "devDependencies": {
+    "shapefile": "^0.6.6",
+    "topojson": "^3.0.2"
   }
 }

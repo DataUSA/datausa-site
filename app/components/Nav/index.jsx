@@ -149,9 +149,9 @@ class Nav extends Component {
                 <li><Link to="/search/?dimension=NAPCS">Products &amp; Services</Link></li>
               </ul>
             </li>
-            <li>
+            {/* <li>
               <Link to="/coronavirus">Coronavirus</Link>
-            </li>
+            </li> */}
             <li>
               <Link to="/map">Maps</Link>
             </li>

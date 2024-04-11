@@ -1,12 +1,10 @@
-const {google} = require("googleapis");
-const analytics = google.analytics("v3");
+const {BetaAnalyticsDataClient} = require('@google-analytics/data');
 const {sum} = require("d3-array");
 const {Op} = require("sequelize");
 
 // configure an auth client
-const jwtClient = new google.auth.GoogleAuth({
+const client = new BetaAnalyticsDataClient({
   keyFilename: process.env.GA_KEYFILE,
-  scopes: "https://www.googleapis.com/auth/analytics.readonly"
 });
 
 const slugMap = {
@@ -38,25 +36,45 @@ const prepTile = (row, profile) => ({
   image: `/api/profile/${profile}/${row.slug || row.id}/thumb`
 });
 
-const fetchProfileViews = (slug, daysAgo = 7) => analytics.data.ga
-  .get({
-    "auth": jwtClient,
-    "dimensions": "ga:pagePath",
-    "ids": "ga:111999474",
-    "start-date": `${daysAgo}daysAgo`,
-    "end-date": "yesterday",
-    "metrics": "ga:pageviews",
-    "sort": "-ga:pageviews",
-    "max-results": tilesPerColumn * 4,
-    "filters": `ga:pagePath=~\/profile\/(${slug})\/.*`
+const fetchProfileViews = async(slug, daysAgo = 7) => client
+  .runReport({
+    property: "properties/402781720",
+    dateRanges: [
+      {
+        startDate: `${daysAgo}daysAgo`,
+        endDate: "yesterday",
+      }
+    ],
+    metrics: [
+      {name: "screenPageViews"}
+    ],
+    dimensions: [
+      {name: "pagePath"}
+    ],
+    dimensionFilter:  {
+      filter: {
+        fieldName: "pagePath",
+        stringFilter: {
+          matchType: "FULL_REGEXP",
+          value: `\/profile\/(${slug})\/.*`
+        }
+      }
+    },
+    orderBys: [
+      {metric: {metricName: "screenPageViews"}, desc: true}
+    ],
+    limit: tilesPerColumn * 4
   })
-  .then(resp => resp.data.rows)
+  .then(resp => resp[0].rows)
   .then(rows => (
     rows
-      .map(row => row[0].split("/")[3].split("?")[0])
+      .map(row => row.dimensionValues[0].value.split("/")[3].split("?")[0])
       .filter(slug => !hiddenProfiles.includes(slug))
   ))
-  .catch(() => []);
+  .catch(err => {
+    // console.error(err.message);
+    return [];
+  });
 
 module.exports = function(app) {
 
