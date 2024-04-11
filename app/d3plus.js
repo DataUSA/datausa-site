@@ -168,8 +168,8 @@ export const findIcon = (key, d) => {
 
 export const findTooltipTitle = (d, d3plusConfig) => {
   const {item, itemId, parent, parentId} = getTooltipTitle(d3plusConfig, d);
-  const aggregated = Array.isArray(parent) ? "Valores" : parent;
-  const title = Array.isArray(item) ? `Otros ${aggregated || "Valores"}` : item;
+  const aggregated = Array.isArray(parent) ? "Values" : parent;
+  const title = Array.isArray(item) ? `Other ${aggregated || "Values"}` : item;
   const itemBgImg = parentId;
   let bgColor = findColorTooltip(itemBgImg, d);
   let imgUrl = findIcon(itemBgImg, d);
