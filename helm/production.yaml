@@ -43,6 +43,19 @@ readinessProbe:
   timeoutSeconds: 30
   successThreshold: 2
 
+volumeMountsEnabled: true
+
+volumeMounts:
+  name: google-analytics-volumen
+  mountPath: /app/google
+
+volumesEnabled: true
+
+volumes:
+  name: google-analytics-volumen
+  configMap:
+    name: google-analytics
+
 service:
   type: ClusterIP
   port: 3300
