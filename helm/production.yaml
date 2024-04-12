@@ -43,13 +43,13 @@ readinessProbe:
   timeoutSeconds: 30
   successThreshold: 2
 
-volumeMountsEnabled: true
+volumeMountsEnabled: false
 
 volumeMounts:
   name: google-analytics-volumen
   mountPath: /app/google
 
-volumesEnabled: true
+volumesEnabled: false
 
 volumes:
   name: google-analytics-volumen
