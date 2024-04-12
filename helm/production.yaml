@@ -7,7 +7,7 @@ imagePullSecrets:
 replicaCount: 3
 
 autoscaling:
-  enabled: true
+  enabled: false
   minReplicas: 1
   maxReplicas: 10
   targetCPUUtilizationPercentage: 80
@@ -15,10 +15,10 @@ autoscaling:
 
 resources:
   requests:
-    cpu: 250m
+    cpu: 500m
     memory: 2Gi
   limits:
-    cpu: 500m
+    cpu: 1000m
     memory: 4Gi
 
 livenessProbe:
