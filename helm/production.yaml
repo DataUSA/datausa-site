@@ -91,6 +91,7 @@ configMap:
   CANON_LOGICLAYER_CUBE: "https://arkansas-api.datausa.io/"
   CANON_LOGICLAYER_SLUGS: "true"
   CANON_LOGINS: "true"
+  GA_KEYFILE: "/app/google/googleAnalyticsKey.json"
 
 secrets:
   CANON_DB_PW: TEpLcndzWDc5WTg3ZWVxTUdNemdjd0E2bVZyQ3Rp
