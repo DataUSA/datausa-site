@@ -110,6 +110,9 @@ ingress:
         - path: /ws
           service: canon-site
           port: 3300
+        - path: /signaller
+          service: cache-site-service
+          port: 8090
   tls:
     - secretName: canon-site-ingress-tls
       hosts:
