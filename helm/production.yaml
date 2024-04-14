@@ -121,6 +121,9 @@ ingress:
         - path: /
           service: cache-site-service
           port: 80
+        - path: /api/cms/customAttributes
+          service: canon-site
+          port: 3300
         - path: /ws
           service: canon-site
           port: 3300
