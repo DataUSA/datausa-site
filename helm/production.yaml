@@ -70,7 +70,7 @@ serviceAccount:
   name: ""
 
 configMap:
-  CANON_API: "https://app-prod.datausa.io"
+  CANON_API: "https://app-test.datausa.io"
   CANON_CMS_CUBES: "https://arkansas-api.datausa.io/"
   CANON_CMS_ENABLE: "true"
   CANON_CMS_FORCE_HTTPS: "true"
@@ -116,7 +116,7 @@ ingress:
           return 308 https://$host$request_uri;
       }
   customHosts:
-    - host: app-prod.datausa.io
+    - host: app-test.datausa.io
       paths:
         - path: /
           service: cache-site-service
@@ -133,4 +133,4 @@ ingress:
   tls:
     - secretName: canon-site-ingress-tls
       hosts:
-        - app-prod.datausa.io
+        - app-test.datausa.io
