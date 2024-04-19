@@ -116,7 +116,7 @@ ingress:
           return 308 https://$host$request_uri;
       }
   customHosts:
-    - host: app-prod.datausa.io
+    - host: app-test.datausa.io
       paths:
         - path: /
           service: cache-site-service
@@ -136,4 +136,4 @@ ingress:
   tls:
     - secretName: canon-site-ingress-tls
       hosts:
-        - app-prod.datausa.io
+        - app-test.datausa.io
