@@ -138,4 +138,4 @@ jobs:
               --set secrets.CANON_DB_HOST=$ENCODED_CANON_DB_HOST \
               --set secrets.CANON_DB_PW=$ENCODED_CANON_DB_PW \
               --set secrets.CANON_HOTJAR=$ENCODED_CANON_HOTJAR \
-              ${{ env.GKE_APP_NAME }} --values=./helm/production.yaml ./helm
+              ${{ env.GKE_APP_NAME }} --values=./helm/staging.yaml ./helm
