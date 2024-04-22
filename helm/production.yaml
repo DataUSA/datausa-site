@@ -69,6 +69,14 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
+hostAliases:
+  - ip: "api-prod.datausa.io"
+    hostnames:
+      - "api.datausa.io"
+  - ip: "app-testing.datausa.io"
+    hostnames:
+      - "datausa.io"
+
 configMap:
   CANON_API: "https://datausa.io"
   CANON_CMS_CUBES: "https://arkansas-api.datausa.io/"

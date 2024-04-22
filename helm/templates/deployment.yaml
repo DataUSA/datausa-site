@@ -27,6 +27,14 @@ spec:
       serviceAccountName: {{.Values.fullnameOverride}}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      hostAliases:
+        {{- toYaml .Values.hostAliases | default "" | nindent 8 }}
+      {{- if .Values.volumesEnabled }}
+      volumes:
+        - name: {{ .Values.volumes.name }}
+          configMap:
+            name: {{ .Values.volumes.configMap.name }}
+      {{- end }}
       containers:
         - name: {{.Values.fullnameOverride}}
           securityContext:
@@ -64,9 +72,3 @@ spec:
             - name: {{ .Values.volumeMounts.name }}
               mountPath: {{ .Values.volumeMounts.mountPath }}
           {{- end }}
-      {{- if .Values.volumesEnabled }}
-      volumes:
-        - name: {{ .Values.volumes.name }}
-          configMap:
-            name: {{ .Values.volumes.configMap.name }}
-      {{- end }}
