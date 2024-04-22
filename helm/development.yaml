@@ -72,7 +72,7 @@ serviceAccount:
   name: ""
 
 configMap:
-  CANON_API: "https://app-dev.datausa.io"
+  CANON_API: "https://dev.datausa.io"
   CANON_CMS_CUBES: "https://arkansas-api.datausa.io/"
   CANON_CMS_ENABLE: "true"
   CANON_CMS_FORCE_HTTPS: "true"
@@ -114,11 +114,11 @@ ingress:
           return 308 https://$host$request_uri;
       }
   hosts:
-    - host: app-dev.datausa.io
+    - host: dev.datausa.io
       paths:
         - /
         - /ws
   tls:
     - secretName: canon-site-tls
       hosts:
-        - app-dev.datausa.io
+        - dev.datausa.io
