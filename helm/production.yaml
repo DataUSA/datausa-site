@@ -15,11 +15,11 @@ autoscaling:
 
 resources:
   requests:
-    cpu: 500m
-    memory: 2Gi
+    cpu: 128m
+    memory: 1Gi
   limits:
-    cpu: 1000m
-    memory: 4Gi
+    cpu: 500m
+    memory: 6Gi
 
 livenessProbe:
   failureThreshold: 3
@@ -70,7 +70,7 @@ serviceAccount:
   name: ""
 
 configMap:
-  CANON_API: "https://app-prod.datausa.io"
+  CANON_API: "https://datausa.io"
   CANON_CMS_CUBES: "https://arkansas-api.datausa.io/"
   CANON_CMS_ENABLE: "true"
   CANON_CMS_FORCE_HTTPS: "true"
@@ -80,7 +80,7 @@ configMap:
   CANON_CMS_REQUESTS_PER_SECOND: "60"
   CANON_CONST_CART: "datausa-cart-v3"
   CANON_CONST_CUBE: "https://arkansas-api.datausa.io/"
-  CANON_CONST_TESSERACT: "https://api-prod.datausa.io/"
+  CANON_CONST_TESSERACT: "https://api.datausa.io/"
   CANON_DB_HOST: "104.154.115.126"
   CANON_DB_NAME: "datausa-cms-21"
   CANON_DB_USER: "deploy"
@@ -121,6 +121,9 @@ ingress:
         - path: /
           service: cache-site-service
           port: 80
+        - path: /signaller
+          service: cache-site-service
+          port: 8090
         - path: /api/cms
           service: canon-site
           port: 3300
@@ -130,9 +133,6 @@ ingress:
         - path: /ws
           service: canon-site
           port: 3300
-        - path: /signaller
-          service: cache-site-service
-          port: 8090
   tls:
     - secretName: canon-site-ingress-tls
       hosts:
