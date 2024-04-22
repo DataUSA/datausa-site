@@ -114,6 +114,13 @@ jobs:
             ${{ env.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}/${{ env.GCP_IMAGE_NAME }}:${{ env.GKE_APP_NAMESPACE }} \
             ${{ env.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}/${{ env.GCP_IMAGE_NAME }}:${{ inputs.release }}
 
+      # Transform GitHub secrets to base64 encoded
+      - name: Set encoded secret values
+        run: |
+          echo "ENCODED_CANON_DB_HOST=$(echo -n "${{ secrets.CANON_DB_HOST }}" | base64 | tr -d '\n')" >> $GITHUB_ENV
+          echo "ENCODED_CANON_DB_PW=$(echo -n "${{ secrets.CANON_DB_PW }}" | base64 | tr -d '\n')" >> $GITHUB_ENV
+          echo "ENCODED_CANON_HOTJAR=$(echo -n "${{ secrets.CANON_HOTJAR }}" | base64 | tr -d '\n')" >> $GITHUB_ENV
+
       # Install Helm chart
       # for secrets, use --set secrets.DB_USER=$ENCODED_DB_USER
       - name: Helm install
@@ -128,4 +135,7 @@ jobs:
               --set image.tag=${{ inputs.release }} \
               --set nameOverride=${{ env.GKE_APP_NAME }} \
               --set fullnameOverride=${{ env.GKE_APP_NAME }} \
+              --set secrets.CANON_DB_HOST=$ENCODED_CANON_DB_HOST \
+              --set secrets.CANON_DB_PW=$ENCODED_CANON_DB_PW \
+              --set secrets.CANON_HOTJAR=$ENCODED_CANON_HOTJAR \
               ${{ env.GKE_APP_NAME }} --values=./helm/production.yaml ./helm

@@ -83,7 +83,6 @@ configMap:
   CANON_CONST_CART: "datausa-cart-v3"
   CANON_CONST_CUBE: "https://arkansas-api.datausa.io/"
   CANON_CONST_TESSERACT: "https://api-dev.datausa.io/"
-  CANON_DB_HOST: "104.154.115.126"
   CANON_DB_NAME: "datausa-cms-21-dev"
   CANON_DB_USER: "deploy"
   CANON_GEOSERVICE_API : "https://geoservice.datausa.io/api/"
@@ -94,10 +93,6 @@ configMap:
   CANON_LOGICLAYER_SLUGS: "true"
   CANON_LOGINS: "true"
   GA_KEYFILE: "/app/google/googleAnalyticsKey.json"
-
-secrets:
-  CANON_DB_PW: TEpLcndzWDc5WTg3ZWVxTUdNemdjd0E2bVZyQ3Rp
-  CANON_HOTJAR: MTI1NzU3MA==
 
 ingress:
   enabled: true

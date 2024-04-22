@@ -69,6 +69,14 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
+hostAliases:
+  - ip: "api-prod.datausa.io"
+    hostnames:
+      - "api.datausa.io"
+  - ip: "app-testing.datausa.io"
+    hostnames:
+      - "datausa.io"
+
 configMap:
   CANON_API: "https://datausa.io"
   CANON_CMS_CUBES: "https://arkansas-api.datausa.io/"
@@ -81,7 +89,6 @@ configMap:
   CANON_CONST_CART: "datausa-cart-v3"
   CANON_CONST_CUBE: "https://arkansas-api.datausa.io/"
   CANON_CONST_TESSERACT: "https://api.datausa.io/"
-  CANON_DB_HOST: "104.154.115.126"
   CANON_DB_NAME: "datausa-cms-21"
   CANON_DB_USER: "deploy"
   CANON_GEOSERVICE_API : "https://geoservice.datausa.io/"
@@ -92,10 +99,6 @@ configMap:
   CANON_LOGICLAYER_SLUGS: "true"
   CANON_LOGINS: "true"
   GA_KEYFILE: "/app/google/googleAnalyticsKey.json"
-
-secrets:
-  CANON_DB_PW: TEpLcndzWDc5WTg3ZWVxTUdNemdjd0E2bVZyQ3Rp
-  CANON_HOTJAR: MTI1NzU3MA==
 
 ingress:
   enabled: true
