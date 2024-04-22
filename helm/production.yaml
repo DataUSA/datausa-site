@@ -70,10 +70,7 @@ serviceAccount:
   name: ""
 
 hostAliases:
-  - ip: "api-prod.datausa.io"
-    hostnames:
-      - "api.datausa.io"
-  - ip: "app-testing.datausa.io"
+  - ip: "127.0.0.1"
     hostnames:
       - "datausa.io"
 
