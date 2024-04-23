@@ -143,3 +143,25 @@ jobs:
               --set secrets.CANON_DB_PW=$ENCODED_CANON_DB_PW \
               --set secrets.CANON_HOTJAR=$ENCODED_CANON_HOTJAR \
               ${{ env.GKE_APP_NAME }}-${{ inputs.release }} --values=./helm/${{ inputs.release }}.yaml ./helm
+
+     # Install Cache Helm chart
+      - name: Add Helm cache repo
+        uses: WyriHaximus/github-action-helm3@v2
+        with:
+          exec: |
+            helm repo add mittwald https://helm.mittwald.de
+
+      - name: Helm Cache install
+        uses: WyriHaximus/github-action-helm3@v2
+        with:
+          exec: |
+            helm upgrade --install --create-namespace \
+              --namespace ${{ env.GKE_APP_NAMESPACE }} \
+              --set app.environment=${{ env.GKE_APP_NAMESPACE }} \
+              --set app.release=${{ env.GKE_APP_NAMESPACE }} \
+              --set image.repository=quay.io/mittwald/kube-httpcache \
+              --set image.tag=stable \
+              --set nameOverride=${{ env.GKE_APP_NAME }}-${{ inputs.release }}-cache \
+              --set fullnameOverride=${{ env.GKE_APP_NAME }}-${{ inputs.release }}-cache \
+              --set secrets.TESSERACT_BACKEND=$ENCODED_TESSERACT_BACKEND \
+              ${{ env.GKE_APP_NAME }}-${{ inputs.release }}-cache --values=./helm/${{ inputs.release }}-cache.yaml mittwald/kube-httpcache
