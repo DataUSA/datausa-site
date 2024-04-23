@@ -1,0 +1,470 @@
+# Default values for kube-httpcache.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 3
+
+image:
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+
+# Enable StatefulSet (Deployment is default)
+useStatefulset:
+  enabled: true
+
+# Enable configMap for Varnish Template File (see below vclTemplate)
+# OR use extravolume with name "template" if the file is too big
+configmap:
+  enabled: true
+
+# kube-httpcache specific configuration
+cache:
+  # name of frontend service
+  # frontendService: kube-httpcache-headless
+  # name of backend service (this value is evaluated as a template)
+  backendService: canon-site-arkansas
+  # name of backend service namespace
+  # backendServiceNamespace: backend-service-namespace
+  # watching for frontend changes is true by default
+  frontendWatch: true
+  # watching for backend changes is true by default
+  backendWatch: true
+  # Varnish storage backend type (https://varnish-cache.org/docs/trunk/users-guide/storage-backends.html)
+  varnishStorage: malloc # default,malloc,umem,file...
+  # Varnish storage backend size
+  storageSize: 128M # K(ibibytes), M(ebibytes), G(ibibytes), T(ebibytes) ... unlimited
+  # Varnish transient storage backend type (https://varnish-cache.org/docs/trunk/users-guide/storage-backends.html)
+  #varnishTransientStorage: malloc
+  # Varnish transient storage backend size
+  #transientStorageSize: 128M # K(ibibytes), M(ebibytes), G(ibibytes), T(ebibytes) ... unlimited
+  # Secret for Varnish admin credentials
+  #secret: "12345678"
+  # Read admin credentials from user provided secret
+  #existingSecret: kubecache-secret
+
+cacheExtraArgs: {}
+# cacheExtraArgs: |
+  # - -v=8
+  # - -varnish-additional-parameters=vcc_allow_inline_c=on
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  enabled: false
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "kube-httpcache"
+
+rbac:
+  enabled: false
+
+# create a prometheus operator ServiceMonitor
+serviceMonitor:
+  enabled: false
+
+  additionalLabels: {}
+  ## Scrape interval. If not set, the Prometheus default scrape interval is used.
+  interval: 10s
+  ## Scrape Timeout. If not set, the Prometheus default scrape timeout is used.
+  scrapeTimeout: ""
+
+  # Set this to also scrape the signaller metrics in addition to the varnish metrics
+  scrapeSignaller: false
+
+podSecurityPolicy:
+  enabled: false
+  # name: unrestricted-psp
+
+annotations: {}
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+lifecycle: {}
+  # preStop:
+  #   exec:
+  #     command:
+  #     - /bin/sh
+  #     - -c
+  #     - touch /etc/varnish/fail_probes; sleep 25
+
+topologySpreadConstraints: {}
+  # - topologyKey: topology.kubernetes.io/zone
+  #   maxSkew: 1
+  #   whenUnsatisfiable: ScheduleAnyway
+  #   labelSelector:
+  #     matchLabels:
+  #       app.kubernetes.io/name: kube-httpcache
+  # - topologyKey: kubernetes.io/hostname
+  #   maxSkew: 1
+  #   whenUnsatisfiable: ScheduleAnyway
+  #   labelSelector:
+  #     matchLabels:
+  #       app.kubernetes.io/name: kube-httpcache
+
+initContainers: {}
+# initContainers: |
+#   - args:
+#     - -c
+#     - |
+#       echo "Copying external varnish template from..."
+#     command:
+#     - sh
+#     image: busybox:latest
+#     imagePullPolicy: IfNotPresent
+#     name: varnishtemplate
+#     resources: {}
+#     terminationMessagePath: /dev/termination-log
+#     terminationMessagePolicy: File
+#     volumeMounts:
+#     - name: template
+#       mountPath: /etc/varnish/tmpl
+
+extraContainers: []
+# - name: my-sidecar
+#   image: myapp/my-sidecar
+#   command:
+#   - my-sidecar-command
+
+extraVolumes: {}
+# extraVolumes:
+#   - emptyDir: {}
+#     name: template
+
+extraMounts: {}
+# extraMounts:
+#   - name: geoip
+#     mountPath: /var/lib/geoip
+
+extraEnvVars: {}
+#extraEnvVars:
+#  - name: foo
+#    value: bar
+
+
+extraEnvFromConfig: {}
+#extraEnvFromConfig:
+#  - configMapRef:
+#      name: my-configmap-name
+#  - secretRef:
+#      name: my-secret-name
+
+
+exporter:
+  enabled: false
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+  resources: {}
+  livenessProbe: {}
+  # livenessProbe:
+  #   httpGet:
+  #    path: /
+  #    port: 6083
+  readinessProbe: {}
+
+service:
+  type: ClusterIP
+  port: 80
+  target: 8080
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/tls-acme: "true"
+  className: nginx
+  hosts: []
+  # hosts:
+  #   - host: www.example.com
+  #     paths:
+  #       - path: /
+  #         pathType: Prefix
+  #         backend:
+  #           service:
+  #             name: kube-httpcache
+  #             port:
+  #               number: 80
+  #       - path: /backend
+  #         backend:
+  #           name: backend-service
+  #           port:
+  #             number: 8080
+  #   - host: www2.example.com
+  #     paths:
+  #       - path: /
+  #         pathType: Prefix
+  #         backend:
+  #           name: kube-httpcache
+  #           port:
+  #             number: 80
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+#terminationGracePeriodSeconds: 60
+
+affinity: {}
+
+livenessProbe: {}
+# livenessProbe:
+#   httpGet:
+#    path: /
+#    port: 6083
+readinessProbe: {}
+
+vclTemplate: |
+  vcl 4.0;
+
+  import std;
+  import directors;
+  import purge;
+
+  // ".Frontends" is a slice that contains all known Varnish instances
+  // (as selected by the service specified by -frontend-service).
+  // The backend name needs to be the Pod name, since this value is compared
+  // to the server identity ("server.identity" [1]) later.
+  //
+  //   [1]: https://varnish-cache.org/docs/6.4/reference/vcl.html#local-server-remote-and-client
+  {{ range .Frontends }}
+  backend {{ .Name }} {
+    .host = "{{ .Host }}";
+    .port = "{{ .Port }}";
+  }
+  {{- end }}
+
+  {{ range .Backends }}
+  backend be-{{ .Name }} {
+    .host = "{{ .Host }}";
+    .port = "{{ .Port }}";
+  }
+  {{- end }}
+
+  sub vcl_init {
+    new cluster = directors.shard();
+
+    {{ range .Frontends -}}
+    cluster.add_backend({{ .Name }});
+    {{ end }}
+
+    cluster.set_warmup(180);
+
+    cluster.reconfigure();
+
+    new lb = directors.round_robin();
+
+    {{ range .Backends -}}
+    lb.add_backend(be-{{ .Name }});
+    {{ end }}
+  }
+
+  sub cache_files
+  {
+    # set cache logic header
+    set req.http.X-Varnish-Cache-Logic = "HIT";
+
+    # caching logic
+    unset req.http.Accept-Encoding;
+    unset req.http.Authorization;
+    unset req.http.Cache-Control;
+    unset req.http.Cookie;
+    unset req.http.Pragma;
+    unset req.http.User-Agent;
+    unset req.http.Vary;
+  }
+
+  sub vcl_recv
+  {
+    # Set backend hint for non cachable objects.
+    set req.backend_hint = lb.backend();
+
+    # Routing logic. Pass a request to an appropriate Varnish node.
+    # See https://info.varnish-software.com/blog/creating-self-routing-varnish-cluster for more info.
+    unset req.http.x-cache;
+    set req.backend_hint = cluster.backend(by=URL);
+    set req.http.x-shard = req.backend_hint;
+    if (req.http.x-shard != server.identity) {
+      return(pass);
+    }
+    set req.backend_hint = lb.backend();
+
+    # Purge logic
+    if (req.method == "PURGE") {
+      if (req.http.X-Varnish-Token != "A7XvbpYE3Ph95T") {
+        return (synth(403, "User not allowed to PURGE."));
+      }
+      if (req.http.X-Host) {
+        set req.http.host = req.http.X-Host;
+      }
+      return (purge);
+    }
+
+    # Ban logic
+    if (req.method == "BAN") {
+      if (req.http.X-Varnish-Token != "A7XvbpYE3Ph95T") {
+        return (synth(403, "User not allowed to PURGE."));
+      }
+      if (req.http.Cache-Tags) {
+        ban("obj.http.Cache-Tags ~ " + req.http.Cache-Tags);
+        return (synth(200, "Ban added " + req.http.host));
+      }
+      if (req.http.X-Url) {
+        ban("obj.http.X-Url == " + req.http.X-Url);
+        return (synth(200, "Ban added " + req.http.host));
+      }
+      return (synth(403, "Cache-Tags or X-Url header missing."));
+    }
+
+    # Command to clear complete cache for all URLs and all sub-domains
+    if (req.method == "FULLBAN") {
+      if (req.http.X-Varnish-Token != "A7XvbpYE3Ph95T") {
+        return(synth(405, "User not allowed to BAN."));
+      }
+      ban("req.http.host ~ .*");
+      return (synth(200, "Full cache cleared"));
+    }
+
+    # Varnish configuration https://www.varnish-software.com/developers/tutorials/example-vcl-template/
+    # Remove Google Analytics based cookies
+    if (req.url ~ "(\?|&)(utm_source|utm_medium|utm_campaign|utm_content|gclid|cx|ie|cof|siteurl)=") {
+      set req.url = regsuball(req.url, "&(utm_source|utm_medium|utm_campaign|utm_content|gclid|cx|ie|cof|siteurl)=([A-z0-9_\-\.%25]+)", "");
+      set req.url = regsuball(req.url, "\?(utm_source|utm_medium|utm_campaign|utm_content|gclid|cx|ie|cof|siteurl)=([A-z0-9_\-\.%25]+)", "?");
+      set req.url = regsub(req.url, "\?&", "?");
+      set req.url = regsub(req.url, "\?$", "");
+    }
+    set req.http.Cookie = regsuball(req.http.Cookie, "(__utm|_ga|_opt)[a-z_]*=[^;]+(; )?", "");
+    set req.http.Cookie = regsuball(req.http.Cookie, "(utmctr|utmcmd|utmccn)=[^;]+(; )?", "");
+
+    # Remove httpoxy impact
+    unset req.http.proxy;
+
+    if (req.http.Host == "app-prod.datausa.io") {
+      # Remove the host from the cache key
+      set req.http.Host = "app-arkansas.datausa.io";
+    }
+
+    # No Cache Site URLS
+    # ignore cache for homepage
+    if (req.url == "/") {
+      set req.http.X-Varnish-Cache-Logic = "PASS";
+      return (pass);
+    }
+
+    # ignore auth cache
+    if (req.url ~ "^/auth/") {
+      set req.http.X-Varnish-Cache-Logic = "PASS";
+      return (pass);
+    }
+
+    # Cache Site URLS
+    # cache profile endpoints
+    if (req.url ~ "^/profile") {
+      call cache_files;
+    }
+
+    # cache api endpoints
+    if (req.url ~ "^/api/data") {
+      unset req.http.Set-Cookie;
+      call cache_files;
+    }
+
+    # cache topojson endpoints
+    if (req.url ~ "^/topojson") {
+      call cache_files;
+    }
+
+    # cache topojson endpoints
+    if (req.url ~ "^/images/") {
+      call cache_files;
+    }
+
+    # cache static content
+    if (req.url ~ "^[^?]*\.(7z|avi|bmp|bz2|css|csv|doc|docx|eot|flac|flv|gif|gz|ico|jpeg|jpg|js|json|less|mka|mkv|mov|mp3|mp4|mpeg|mpg|odt|ogg|ogm|opus|otf|pdf|png|ppt|pptx|rar|rtf|svg|svgz|swf|tar|tbz|tgz|ttf|txt|txz|wav|webm|webp|woff|woff2|xls|xlsx|xml|xz|zip)(\?.*)?$") {
+      call cache_files;
+    }
+
+    return(hash);
+  }
+
+  sub vcl_hash
+  {
+    # Use the modified URL for cache key generation
+    hash_data(req.url);
+    if (req.http.host) {
+        hash_data(req.http.host);
+    } else {
+        hash_data(server.ip);
+    }
+    return (lookup);
+  }
+
+  sub vcl_backend_response
+  {
+    # set X-Backend header
+    set beresp.http.X-Backend = beresp.backend.name;
+
+    # Set cache control headers for a one-year cache lifetime
+    set beresp.ttl = 365d; # Cache for 365 days (1 year)
+
+    # delete cookies on api server response
+    if (bereq.url ~ "^/api/data") {
+      unset beresp.http.Cookie;
+      unset beresp.http.Set-Cookie;
+    }
+
+    # delete cookies for static content on server response
+    if (bereq.url ~ "^[^?]*\.(7z|avi|bmp|bz2|css|csv|doc|docx|eot|flac|flv|gif|gz|ico|jpeg|jpg|js|json|less|mka|mkv|mov|mp3|mp4|mpeg|mpg|odt|ogg|ogm|opus|otf|pdf|png|ppt|pptx|rar|rtf|svg|svgz|swf|tar|tbz|tgz|ttf|txt|txz|wav|webm|webp|woff|woff2|xls|xlsx|xml|xz|zip)(\?.*)?$") {
+      unset beresp.http.Cookie;
+      unset beresp.http.Set-Cookie;
+    }
+  }
+
+  sub vcl_deliver
+  {
+    # set cache headers on content delivery
+    set resp.http.X-Varnish-Cache-Logic = req.http.X-Varnish-Cache-Logic;
+    if (obj.hits > 0) {
+      set resp.http.X-Varnish-Cache = "HIT";
+    } else {
+      set resp.http.X-Varnish-Cache = "MISS";
+    }
+  }

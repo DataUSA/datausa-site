@@ -80,7 +80,7 @@ configMap:
   CANON_CMS_REQUESTS_PER_SECOND: "60"
   CANON_CONST_CART: "datausa-cart-v3"
   CANON_CONST_CUBE: "https://arkansas-api.datausa.io/"
-  CANON_CONST_TESSERACT: "https://api-staging.datausa.io/"
+  CANON_CONST_TESSERACT: "https://api-ts-arkansas.datausa.io/"
   CANON_DB_NAME: "datausa-cms-21"
   CANON_DB_USER: "deploy"
   CANON_GEOSERVICE_API : "https://geoservice.datausa.io/"
@@ -114,36 +114,36 @@ ingress:
     - host: app-arkansas.datausa.io
       paths:
         - path: /
-          service: cache-site-service
+          service: canon-site-arkansas-cache
           port: 80
         - path: /signaller
-          service: cache-site-service
+          service: canon-site-arkansas-cache
           port: 8090
         - path: /api/cms
-          service: canon-site
+          service: canon-site-arkansas
           port: 3300
         - path: /api/cms/customAttributes
-          service: canon-site
+          service: canon-site-arkansas
           port: 3300
         - path: /ws
-          service: canon-site
+          service: canon-site-arkansas
           port: 3300
     - host: app-prod.datausa.io
       paths:
         - path: /
-          service: cache-site-service
+          service: canon-site-arkansas-cache
           port: 80
         - path: /signaller
-          service: cache-site-service
+          service: canon-site-arkansas-cache
           port: 8090
         - path: /api/cms
-          service: canon-site
+          service: canon-site-arkansas
           port: 3300
         - path: /api/cms/customAttributes
-          service: canon-site
+          service: canon-site-arkansas
           port: 3300
         - path: /ws
-          service: canon-site
+          service: canon-site-arkansas
           port: 3300
   tls:
     - secretName: canon-site-ingress-tls
