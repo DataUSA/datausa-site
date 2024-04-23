@@ -65,6 +65,10 @@ on:
         description: 'Production Release Name'
         required: true
         type: string
+      date:
+        description: 'Production Release Date'
+        required: true
+        type: string
       update_release:
           description: 'Check if you are updating the production release name of the latest image'
           required: true
@@ -112,7 +116,7 @@ jobs:
           gcloud beta artifacts docker tags add \
             --quiet \
             ${{ env.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}/${{ env.GCP_IMAGE_NAME }}:${{ env.GKE_APP_NAMESPACE }} \
-            ${{ env.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}/${{ env.GCP_IMAGE_NAME }}:${{ inputs.release }}
+            ${{ env.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}/${{ env.GCP_IMAGE_NAME }}:${{ inputs.release }}-${{ inputs.date }}
 
       # Transform GitHub secrets to base64 encoded
       - name: Set encoded secret values
@@ -132,10 +136,10 @@ jobs:
               --set app.environment=${{ env.GKE_APP_NAMESPACE }} \
               --set app.release=${{ env.GKE_APP_NAMESPACE }} \
               --set image.repository=${{ env.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}/${{ env.GCP_IMAGE_NAME }} \
-              --set image.tag=${{ inputs.release }} \
-              --set nameOverride=${{ env.GKE_APP_NAME }} \
-              --set fullnameOverride=${{ env.GKE_APP_NAME }} \
+              --set image.tag=${{ inputs.release }}-${{ inputs.date }} \
+              --set nameOverride=${{ env.GKE_APP_NAME }}-${{ inputs.release }} \
+              --set fullnameOverride=${{ env.GKE_APP_NAME }}-${{ inputs.release }} \
               --set secrets.CANON_DB_HOST=$ENCODED_CANON_DB_HOST \
               --set secrets.CANON_DB_PW=$ENCODED_CANON_DB_PW \
               --set secrets.CANON_HOTJAR=$ENCODED_CANON_HOTJAR \
-              ${{ env.GKE_APP_NAME }} --values=./helm/staging.yaml ./helm
+              ${{ env.GKE_APP_NAME }}-${{ inputs.release }} --values=./helm/${{ inputs.release }}.yaml ./helm
