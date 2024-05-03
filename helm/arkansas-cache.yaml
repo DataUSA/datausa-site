@@ -269,6 +269,8 @@ vclTemplate: |
   backend {{ .Name }} {
     .host = "{{ .Host }}";
     .port = "{{ .Port }}";
+    .first_byte_timeout = 420s;
+    .between_bytes_timeout = 420s;
   }
   {{- end }}
 
@@ -276,6 +278,8 @@ vclTemplate: |
   backend be-{{ .Name }} {
     .host = "{{ .Host }}";
     .port = "{{ .Port }}";
+    .first_byte_timeout = 420s;
+    .between_bytes_timeout = 420s;
   }
   {{- end }}
 
