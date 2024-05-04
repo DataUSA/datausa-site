@@ -119,7 +119,7 @@ ingress:
         - path: /signaller
           service: canon-site-arkansas-cache
           port: 8090
-        - path: /api/cms
+        - path: /api/
           service: canon-site-arkansas
           port: 3300
         - path: /api/cms/customAttributes
