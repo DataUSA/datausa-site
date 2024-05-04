@@ -122,6 +122,9 @@ ingress:
         - path: /api/
           service: canon-site-arkansas
           port: 3300
+        - path: /api/candidate/
+          service: canon-site-arkansas
+          port: 3300
         - path: /api/materializers/
           service: canon-site-arkansas
           port: 3300
