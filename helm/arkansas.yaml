@@ -125,6 +125,9 @@ ingress:
         - path: /api/cms/customAttributes
           service: canon-site-arkansas
           port: 3300
+        - path: /api/materializers/
+          service: canon-site-arkansas
+          port: 3300
         - path: /ws
           service: canon-site-arkansas
           port: 3300
