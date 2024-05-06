@@ -83,7 +83,7 @@ configMap:
   CANON_CONST_TESSERACT: "https://api-ts-arkansas.datausa.io/"
   CANON_DB_NAME: "datausa-cms-21"
   CANON_DB_USER: "deploy"
-  CANON_GEOSERVICE_API : "https://geoservice.datausa.io/"
+  CANON_GEOSERVICE_API : "https://geoservice.datausa.io/api/"
   CANON_GOOGLE_ANALYTICS: "UA-70325841-1"
   CANON_LANGUAGES: "en"
   CANON_LANGUAGE_DEFAULT: "en"
