@@ -98,11 +98,11 @@ ingress:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     acme.cert-manager.io/http01-edit-in-place: "true"
     ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.org/proxy-connect-timeout: "480s"
-    nginx.org/proxy-read-timeout: "480s"
-    nginx.org/proxy-buffers: "8 16k"
-    nginx.org/proxy-buffer-size: "16k"
-    nginx.org/proxy-busy-buffers-size: "64k"
+    nginx.org/proxy-connect-timeout: "600s"
+    nginx.org/proxy-read-timeout: "600s"
+    nginx.org/proxy-buffers: "8 32k"
+    nginx.org/proxy-buffer-size: "32k"
+    nginx.org/proxy-busy-buffers-size: "128k"
     nginx.org/websocket-services: "canon-site-arkansas"
     nginx.org/location-snippets: |
       add_header Access-Control-Allow-Origin *;
@@ -119,10 +119,10 @@ ingress:
         - path: /signaller
           service: canon-site-arkansas-cache
           port: 8090
-        - path: /api/
+        - path: /api/candidate/
           service: canon-site-arkansas
           port: 3300
-        - path: /api/candidate/
+        - path: /api/generators/
           service: canon-site-arkansas
           port: 3300
         - path: /api/materializers/
