@@ -33,20 +33,22 @@ cache:
   # Varnish storage backend type (https://varnish-cache.org/docs/trunk/users-guide/storage-backends.html)
   varnishStorage: malloc # default,malloc,umem,file...
   # Varnish storage backend size
-  storageSize: 128M # K(ibibytes), M(ebibytes), G(ibibytes), T(ebibytes) ... unlimited
+  storageSize: 256M # K(ibibytes), M(ebibytes), G(ibibytes), T(ebibytes) ... unlimited
   # Varnish transient storage backend type (https://varnish-cache.org/docs/trunk/users-guide/storage-backends.html)
   #varnishTransientStorage: malloc
   # Varnish transient storage backend size
-  #transientStorageSize: 128M # K(ibibytes), M(ebibytes), G(ibibytes), T(ebibytes) ... unlimited
+  transientStorageSize: 256M # K(ibibytes), M(ebibytes), G(ibibytes), T(ebibytes) ... unlimited
   # Secret for Varnish admin credentials
   #secret: "12345678"
   # Read admin credentials from user provided secret
   #existingSecret: kubecache-secret
 
-cacheExtraArgs: {}
-# cacheExtraArgs: |
-  # - -v=8
-  # - -varnish-additional-parameters=vcc_allow_inline_c=on
+# cacheExtraArgs: {}
+cacheExtraArgs: |
+  - -v=8
+  - -varnish-additional-parameters=cli_limit=128k
+  - -varnish-additional-parameters=cli_timeout=480
+  - -varnish-additional-parameters=workspace_client=128k
 
 serviceAccount:
   # Specifies whether a service account should be created
