@@ -72,7 +72,7 @@ serviceAccount:
 configMap:
   CANON_API: "https://app-arkansas.datausa.io"
   CANON_CMS_CUBES: "https://arkansas-api.datausa.io/"
-  CANON_CMS_ENABLE: "true"
+  CANON_CMS_ENABLE: "false"
   CANON_CMS_FORCE_HTTPS: "true"
   CANON_CMS_GENERATOR_TIMEOUT: "600000"
   CANON_CMS_LOGGING: "true"
