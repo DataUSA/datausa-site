@@ -385,6 +385,11 @@ vclTemplate: |
     # Remove httpoxy impact
     unset req.http.proxy;
 
+    if (req.http.Host == "datausa.io") {
+      # Remove the host from the cache key
+      set req.http.Host = "app-arkansas.datausa.io";
+    }
+
     if (req.http.Host == "app-prod.datausa.io") {
       # Remove the host from the cache key
       set req.http.Host = "app-arkansas.datausa.io";
