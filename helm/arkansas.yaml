@@ -98,6 +98,7 @@ ingress:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     acme.cert-manager.io/http01-edit-in-place: "true"
     ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.org/client-max-body-size: "500m"
     nginx.org/proxy-connect-timeout: "420s"
     nginx.org/proxy-read-timeout: "420s"
     nginx.org/proxy-buffers: "8 32k"
