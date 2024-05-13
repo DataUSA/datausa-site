@@ -228,9 +228,11 @@ resources:
   requests:
     cpu: 100m
     memory: 2Gi
+    ephemeral-storage: 100Mi
   limits:
     cpu: 200m
     memory: 17Gi
+    ephemeral-storage: 500Mi
 
 autoscaling:
   enabled: false
