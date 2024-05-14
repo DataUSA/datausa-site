@@ -31,7 +31,8 @@ cache:
   # watching for backend changes is true by default
   backendWatch: true
   # Varnish storage backend type (https://varnish-cache.org/docs/trunk/users-guide/storage-backends.html)
-  varnishStorage: file,/var/lib/varnish/varnish_storage.bin,50% # default,malloc,umem,file...
+  #varnishStorage: file,/var/lib/varnish/varnish_storage.bin,50% # default,malloc,umem,file...
+  varnishStorage: malloc # default,malloc,umem,file...
   # Varnish storage backend size
   storageSize: 6G # K(ibibytes), M(ebibytes), G(ibibytes), T(ebibytes) ... unlimited
   # Varnish transient storage backend type (https://varnish-cache.org/docs/trunk/users-guide/storage-backends.html)
@@ -90,9 +91,7 @@ podAnnotations:
 podLabels: {}
 
 podSecurityContext:
-  runAsUser: 1001
-  runAsGroup: 1001
-  fsGroup: 1001
+  fsGroup: 0
 
 securityContext:
   capabilities: {}

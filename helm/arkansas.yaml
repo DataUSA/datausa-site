@@ -64,10 +64,15 @@ persistentVolume:
       - ReadWriteMany
     storage: 30Gi
     storageClassName:
+  mountOptions:
+    - implicit-dirs
+    - file-mode=777
+    - dir-mode=777
+    - debug_fuse
+    - debug_fuse_errors
+    - debug_gcs
   csi:
     volumeHandle: datausa-site-cache # bucket name
-    volumeAttributes:
-      flags: '--implicit-dirs --uid="1001" --gid="1001" --dir-mode="777" --file-mode="777" -o="user,rw,allow_other"'
     readOnly: false
 
 service:
