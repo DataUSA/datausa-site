@@ -68,6 +68,7 @@ persistentVolume:
     - implicit-dirs
     - uid=1001
     - gid=1001
+    - o=allow_other
   csi:
     volumeHandle: datausa-site-cache # bucket name
     readOnly: false
