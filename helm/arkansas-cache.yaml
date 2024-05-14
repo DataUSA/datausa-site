@@ -89,10 +89,10 @@ podAnnotations:
 
 podLabels: {}
 
-podSecurityContext:
-  runAsUser: 1001
-  runAsGroup: 1001
-  fsGroup: 1001
+# podSecurityContext:
+#   runAsUser: 1001
+#   runAsGroup: 1001
+#   fsGroup: 1001
 
   # fsGroup: 2000
 
@@ -163,7 +163,7 @@ extraVolumes:
 
 extraMounts:
   - name: varnish-cache
-    mountPath: /var/lib/varnish/cache-storage
+    mountPath: /cache-storage
     subPath: arkansas
     readOnly: false
 # extraMounts:
@@ -175,14 +175,12 @@ extraEnvVars: {}
 #  - name: foo
 #    value: bar
 
-
 extraEnvFromConfig: {}
 #extraEnvFromConfig:
 #  - configMapRef:
 #      name: my-configmap-name
 #  - secretRef:
 #      name: my-secret-name
-
 
 exporter:
   enabled: false
@@ -251,7 +249,7 @@ resources:
     ephemeral-storage: 100Mi
   limits:
     cpu: 200m
-    memory: 7Gi
+    memory: 8Gi
     ephemeral-storage: 500Mi
 
 autoscaling:
