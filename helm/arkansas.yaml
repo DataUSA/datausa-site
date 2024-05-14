@@ -65,9 +65,7 @@ persistentVolume:
     storage: 30Gi
     storageClassName:
   mountOptions:
-    - implicit-dirs
-    - file_mode=777
-    - dir_mode=777
+    - o=implicit-dirs,allow_other,file_mode=777,dir_mode=777
   csi:
     volumeHandle: datausa-site-cache # bucket name
     readOnly: false
