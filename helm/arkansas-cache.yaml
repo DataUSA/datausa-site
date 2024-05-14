@@ -58,7 +58,7 @@ serviceAccount:
     - iam.gke.io/gcp-service-account=bucket-admin@data-usa-174910.iam.gserviceaccount.com
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: "varnish-bucket-access"
+  name: "kube-httpcache"
 
 rbac:
   enabled: false
