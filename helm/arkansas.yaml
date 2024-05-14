@@ -65,13 +65,16 @@ persistentVolume:
     storage: 30Gi
     storageClassName:
   mountOptions:
+    - user
+    - rw
     - implicit-dirs
     - uid=1001
     - gid=1001
+    - file-mode=777
+    - dir-mode=777
     - debug_fuse
     - debug_fuse_errors
     - debug_gcs
-    - o=rw
   csi:
     volumeHandle: datausa-site-cache # bucket name
     readOnly: false
