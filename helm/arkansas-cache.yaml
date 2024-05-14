@@ -58,10 +58,10 @@ serviceAccount:
     - iam.gke.io/gcp-service-account=bucket-admin@data-usa-174910.iam.gserviceaccount.com
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: "kube-httpcache"
+  name: "bucket-admin"
 
 rbac:
-  enabled: true
+  enabled: false
 
 # create a prometheus operator ServiceMonitor
 serviceMonitor:
