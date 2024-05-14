@@ -68,6 +68,9 @@ persistentVolume:
     - implicit-dirs
     - uid=1001
     - gid=1001
+    - debug_fuse
+    - debug_fuse_errors
+    - debug_gcs
     - o=allow_other
   csi:
     volumeHandle: datausa-site-cache # bucket name
