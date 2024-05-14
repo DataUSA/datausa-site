@@ -58,6 +58,20 @@ volumes:
   configMap:
     name: google-analytics
 
+persistentVolume:
+  storageClass:
+    accessModes:
+      - ReadWriteMany
+    storage: 30Gi
+    storageClassName:
+  mountOptions:
+    - implicit-dirs
+    - uid=1001
+    - gid=1001
+  csi:
+    volumeHandle: datausa-site-cache # bucket name
+    readOnly: false
+
 service:
   type: ClusterIP
   port: 3300
