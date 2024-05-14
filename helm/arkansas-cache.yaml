@@ -163,7 +163,7 @@ extraVolumes:
 
 extraMounts:
   - name: varnish-cache
-    mountPath: /etc/varnish/cache-storage
+    mountPath: /var/lib/varnish/cache-storage
     readOnly: false
 # extraMounts:
 #   - name: geoip
