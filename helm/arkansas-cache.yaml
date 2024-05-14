@@ -80,13 +80,26 @@ podSecurityPolicy:
   # name: unrestricted-psp
 
 annotations: {}
-podAnnotations: {}
+
+podAnnotations:
+  gke-gcsfuse/volumes: "true"
+  gke-gcsfuse/cpu-limit: 500m
+  gke-gcsfuse/memory-limit: 256Mi
+  gke-gcsfuse/ephemeral-storage-limit: 2Gi
+
 podLabels: {}
 
-podSecurityContext: {}
+podSecurityContext:
+  runAsUser: 1001
+  runAsGroup: 1001
+  fsGroup: 1001
+
   # fsGroup: 2000
 
-securityContext: {}
+securityContext:
+  capabilities: {}
+  privileged: true
+
   # capabilities:
   #   drop:
   #   - ALL
@@ -140,12 +153,19 @@ extraContainers: []
 #   command:
 #   - my-sidecar-command
 
-extraVolumes: {}
+extraVolumes:
+  - name: varnish-cache
+    persistentVolumeClaim:
+      claimName: canon-site-arkansas-pvc
 # extraVolumes:
 #   - emptyDir: {}
 #     name: template
 
-extraMounts: {}
+extraMounts:
+  - name: varnish-cache
+    mountPath: /var/lib/varnish/cache-storage
+    subPath: arkansas
+    readOnly: false
 # extraMounts:
 #   - name: geoip
 #     mountPath: /var/lib/geoip
