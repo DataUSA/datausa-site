@@ -66,8 +66,8 @@ persistentVolume:
     storageClassName:
   mountOptions:
     - implicit-dirs
-    - allow-other
     - file-mode=777
+    - dir-mode=777
   csi:
     volumeHandle: datausa-site-cache # bucket name
     readOnly: false
