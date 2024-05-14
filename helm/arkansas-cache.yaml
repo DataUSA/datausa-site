@@ -54,11 +54,10 @@ serviceAccount:
   # Specifies whether a service account should be created
   enabled: false
   # Annotations to add to the service account
-  annotations:
-    - iam.gke.io/gcp-service-account=bucket-admin@data-usa-174910.iam.gserviceaccount.com
+  annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: "kube-httpcache"
+  name: "bucket-download-sa"
 
 rbac:
   enabled: false
