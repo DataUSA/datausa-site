@@ -67,8 +67,8 @@ persistentVolume:
   mountOptions:
     - implicit-dirs
     - allow_other
-    - uid=0
-    - gid=0
+    - uid=1000
+    - gid=1000
   csi:
     volumeHandle: datausa-site-cache # bucket name
     readOnly: false
