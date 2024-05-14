@@ -33,11 +33,11 @@ cache:
   # Varnish storage backend type (https://varnish-cache.org/docs/trunk/users-guide/storage-backends.html)
   varnishStorage: malloc # default,malloc,umem,file...
   # Varnish storage backend size
-  storageSize: 16G # K(ibibytes), M(ebibytes), G(ibibytes), T(ebibytes) ... unlimited
+  storageSize: 6G # K(ibibytes), M(ebibytes), G(ibibytes), T(ebibytes) ... unlimited
   # Varnish transient storage backend type (https://varnish-cache.org/docs/trunk/users-guide/storage-backends.html)
   #varnishTransientStorage: malloc
   # Varnish transient storage backend size
-  transientStorageSize: 16G # K(ibibytes), M(ebibytes), G(ibibytes), T(ebibytes) ... unlimited
+  transientStorageSize: 6G # K(ibibytes), M(ebibytes), G(ibibytes), T(ebibytes) ... unlimited
   # Secret for Varnish admin credentials
   #secret: "12345678"
   # Read admin credentials from user provided secret
@@ -84,7 +84,7 @@ annotations: {}
 podAnnotations:
   gke-gcsfuse/volumes: "true"
   gke-gcsfuse/cpu-limit: 500m
-  gke-gcsfuse/memory-limit: 256Mi
+  gke-gcsfuse/memory-limit: 512Mi
   gke-gcsfuse/ephemeral-storage-limit: 2Gi
 
 podLabels: {}
@@ -251,7 +251,7 @@ resources:
     ephemeral-storage: 100Mi
   limits:
     cpu: 200m
-    memory: 17Gi
+    memory: 7Gi
     ephemeral-storage: 500Mi
 
 autoscaling:
