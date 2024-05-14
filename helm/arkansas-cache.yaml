@@ -163,8 +163,7 @@ extraVolumes:
 
 extraMounts:
   - name: varnish-cache
-    mountPath: /cache-storage
-    subPath: arkansas
+    mountPath: /etc/varnish/cache-storage
     readOnly: false
 # extraMounts:
 #   - name: geoip
