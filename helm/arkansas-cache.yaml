@@ -61,7 +61,7 @@ serviceAccount:
   name: "kube-httpcache"
 
 rbac:
-  enabled: false
+  enabled: true
 
 # create a prometheus operator ServiceMonitor
 serviceMonitor:
@@ -90,12 +90,10 @@ podAnnotations:
 
 podLabels: {}
 
-# podSecurityContext:
-#   runAsUser: 1001
-#   runAsGroup: 1001
-#   fsGroup: 1001
-
-  # fsGroup: 2000
+podSecurityContext:
+  runAsUser: 1001
+  runAsGroup: 1001
+  fsGroup: 1001
 
 securityContext:
   capabilities: {}
