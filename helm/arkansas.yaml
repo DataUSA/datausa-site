@@ -20,8 +20,8 @@ resources:
     ephemeral-storage: 100Mi
   limits:
     cpu: 1500m
-    memory: 2Gi
-    ephemeral-storage: 100Mi
+    memory: 3Gi
+    ephemeral-storage: 512Mi
 
 livenessProbe:
   failureThreshold: 3
@@ -57,23 +57,6 @@ volumes:
   name: google-analytics-volumen
   configMap:
     name: google-analytics
-
-persistentVolume:
-  storageClass:
-    accessModes:
-      - ReadWriteMany
-    storage: 30Gi
-    storageClassName:
-  mountOptions:
-    - implicit-dirs
-    - file-mode=777
-    - dir-mode=777
-    - debug_fuse
-    - debug_fuse_errors
-    - debug_gcs
-  csi:
-    volumeHandle: datausa-site-cache # bucket name
-    readOnly: false
 
 service:
   type: ClusterIP
@@ -118,8 +101,8 @@ ingress:
     acme.cert-manager.io/http01-edit-in-place: "true"
     ingress.kubernetes.io/ssl-redirect: "false"
     nginx.org/client-max-body-size: "500m"
-    nginx.org/proxy-connect-timeout: "420s"
-    nginx.org/proxy-read-timeout: "420s"
+    nginx.org/proxy-connect-timeout: "300s"
+    nginx.org/proxy-read-timeout: "300s"
     nginx.org/proxy-buffers: "8 32k"
     nginx.org/proxy-buffer-size: "32k"
     nginx.org/proxy-busy-buffers-size: "128k"

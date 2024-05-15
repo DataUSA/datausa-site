@@ -31,14 +31,13 @@ cache:
   # watching for backend changes is true by default
   backendWatch: true
   # Varnish storage backend type (https://varnish-cache.org/docs/trunk/users-guide/storage-backends.html)
-  #varnishStorage: file,/var/lib/varnish/varnish_storage.bin,50% # default,malloc,umem,file...
   varnishStorage: malloc # default,malloc,umem,file...
   # Varnish storage backend size
-  storageSize: 6G # K(ibibytes), M(ebibytes), G(ibibytes), T(ebibytes) ... unlimited
+  storageSize: 14G # K(ibibytes), M(ebibytes), G(ibibytes), T(ebibytes) ... unlimited
   # Varnish transient storage backend type (https://varnish-cache.org/docs/trunk/users-guide/storage-backends.html)
   #varnishTransientStorage: malloc
   # Varnish transient storage backend size
-  transientStorageSize: 6G # K(ibibytes), M(ebibytes), G(ibibytes), T(ebibytes) ... unlimited
+  transientStorageSize: 14G # K(ibibytes), M(ebibytes), G(ibibytes), T(ebibytes) ... unlimited
   # Secret for Varnish admin credentials
   #secret: "12345678"
   # Read admin credentials from user provided secret
@@ -48,7 +47,7 @@ cache:
 cacheExtraArgs: |
   - -v=8
   - -varnish-additional-parameters=cli_limit=128k
-  - -varnish-additional-parameters=cli_timeout=480
+  - -varnish-additional-parameters=cli_timeout=360
   - -varnish-additional-parameters=workspace_client=128k
 
 serviceAccount:
@@ -81,22 +80,13 @@ podSecurityPolicy:
   # name: unrestricted-psp
 
 annotations: {}
-
-podAnnotations:
-  gke-gcsfuse/volumes: "true"
-  gke-gcsfuse/cpu-limit: 500m
-  gke-gcsfuse/memory-limit: 512Mi
-  gke-gcsfuse/ephemeral-storage-limit: 2Gi
-
+podAnnotations: {}
 podLabels: {}
 
-podSecurityContext:
-  fsGroup: 0
+podSecurityContext: {}
+  # fsGroup: 2000
 
-securityContext:
-  capabilities: {}
-  privileged: true
-
+securityContext: {}
   # capabilities:
   #   drop:
   #   - ALL
@@ -150,18 +140,12 @@ extraContainers: []
 #   command:
 #   - my-sidecar-command
 
-extraVolumes:
-  - name: varnish-cache
-    persistentVolumeClaim:
-      claimName: canon-site-arkansas-pvc
+extraVolumes: {}
 # extraVolumes:
 #   - emptyDir: {}
 #     name: template
 
-extraMounts:
-  - name: varnish-cache
-    mountPath: /var/lib/varnish/cache-storage
-    readOnly: false
+extraMounts: {}
 # extraMounts:
 #   - name: geoip
 #     mountPath: /var/lib/geoip
@@ -171,12 +155,14 @@ extraEnvVars: {}
 #  - name: foo
 #    value: bar
 
+
 extraEnvFromConfig: {}
 #extraEnvFromConfig:
 #  - configMapRef:
 #      name: my-configmap-name
 #  - secretRef:
 #      name: my-secret-name
+
 
 exporter:
   enabled: false
@@ -240,12 +226,12 @@ resources:
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   requests:
-    cpu: 100m
+    cpu: 250m
     memory: 2Gi
     ephemeral-storage: 100Mi
   limits:
-    cpu: 200m
-    memory: 8Gi
+    cpu: 750m
+    memory: 16Gi
     ephemeral-storage: 500Mi
 
 autoscaling:
@@ -287,9 +273,9 @@ vclTemplate: |
   backend {{ .Name }} {
     .host = "{{ .Host }}";
     .port = "{{ .Port }}";
-    .connect_timeout = 420s;
-    .first_byte_timeout = 420s;
-    .between_bytes_timeout = 420s;
+    .connect_timeout = 360s;
+    .first_byte_timeout = 360s;
+    .between_bytes_timeout = 360s;
   }
   {{- end }}
 
@@ -297,9 +283,9 @@ vclTemplate: |
   backend be-{{ .Name }} {
     .host = "{{ .Host }}";
     .port = "{{ .Port }}";
-    .connect_timeout = 420s;
-    .first_byte_timeout = 420s;
-    .between_bytes_timeout = 420s;
+    .connect_timeout = 360s;
+    .first_byte_timeout = 360s;
+    .between_bytes_timeout = 360s;
   }
   {{- end }}
 
