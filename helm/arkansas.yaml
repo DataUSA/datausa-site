@@ -78,20 +78,20 @@ persistentVolume:
     storageClassName:
   mountOptions:
     - implicit-dirs
-    - uid=1001
-    - gid=1001
+    # - uid=1001
+    # - gid=1001
   csi:
     volumeHandle: datausa-site-cache # bucket name
     readOnly: false
 
-securityContext:
-  capabilities: {}
-  privileged: true
+# securityContext:
+#   capabilities: {}
+#   privileged: true
 
-podSecurityContext:
-  runAsUser: 1001
-  runAsGroup: 1001
-  fsGroup: 1001
+# podSecurityContext:
+#   runAsUser: 1001
+#   runAsGroup: 1001
+#   fsGroup: 1001
 
 service:
   type: ClusterIP
