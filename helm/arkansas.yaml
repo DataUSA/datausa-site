@@ -86,9 +86,9 @@ persistentVolume:
     volumeHandle: datausa-site-cache # bucket name
     readOnly: false
 
-securityContext:
-  capabilities: {}
-  privileged: true
+# securityContext:
+#   capabilities: {}
+#   privileged: true
 
 # podSecurityContext:
 #   runAsUser: 1001
