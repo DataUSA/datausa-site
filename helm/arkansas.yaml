@@ -78,15 +78,17 @@ persistentVolume:
     storageClassName:
   mountOptions:
     - implicit-dirs
+    - file_mode=664
+    - dir_mode=775
     # - uid=1001
     # - gid=1001
   csi:
     volumeHandle: datausa-site-cache # bucket name
     readOnly: false
 
-# securityContext:
-#   capabilities: {}
-#   privileged: true
+securityContext:
+  capabilities: {}
+  privileged: true
 
 # podSecurityContext:
 #   runAsUser: 1001
