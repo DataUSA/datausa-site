@@ -78,8 +78,8 @@ persistentVolume:
     storageClassName:
   mountOptions:
     - implicit-dirs
-    - file_mode=664
-    - dir_mode=775
+    - file-mode=664
+    - dir-mode=775
     # - uid=1001
     # - gid=1001
   csi:
