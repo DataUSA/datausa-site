@@ -82,7 +82,7 @@ configMap:
   CANON_CMS_REQUESTS_PER_SECOND: "60"
   CANON_CONST_CART: "datausa-cart-v3"
   CANON_CONST_CUBE: "https://boston-api.datausa.io/"
-  CANON_CONST_TESSERACT: "https://api-dev.datausa.io/"
+  CANON_CONST_TESSERACT: "https://api-ts-dev.datausa.io/"
   CANON_DB_NAME: "datausa-cms-21-dev"
   CANON_DB_USER: "deploy"
   CANON_GEOSERVICE_API : "https://geoservice.datausa.io/api/"
