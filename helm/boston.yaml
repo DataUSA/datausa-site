@@ -137,6 +137,6 @@ ingress:
           service: canon-site-boston
           port: 3300
   tls:
-    - secretName: canon-site-ingress-tls
+    - secretName: canon-site-ingress-boston-tls
       hosts:
         - boston-app.datausa.io
