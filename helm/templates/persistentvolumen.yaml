@@ -32,14 +32,10 @@ spec:
   {{- end }}
   {{- if .Values.persistentVolume.csi }}
   csi:
-    driver: gcsfuse.csi.storage.gke.io
-    volumeHandle: {{ .Values.persistentVolume.csi.volumeHandle }}
-    readOnly: {{ .Values.persistentVolume.csi.readOnly }}
+    {{ toYaml .Values.persistentVolume.csi | indent 4 }}
   {{- end }}
   {{- if .Values.persistentVolume.nfs }}
   nfs:
-    path: {{ .Values.persistentVolume.nfs.path }}
-    server: {{ .Values.persistentVolume.nfs.server }}
-    readOnly: {{ .Values.persistentVolume.nfs.readOnly }}
+    {{ toYaml .Values.persistentVolume.nfs | indent 4 }}
   {{- end }}
 {{ end -}}
