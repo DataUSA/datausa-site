@@ -59,6 +59,7 @@ volumes:
     name: google-analytics
 
 persistentVolume:
+  namespace: nginx-ingress
   storageClass:
     accessModes:
       - ReadWriteMany
