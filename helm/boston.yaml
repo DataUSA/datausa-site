@@ -58,22 +58,22 @@ volumes:
   configMap:
     name: google-analytics
 
-persistentVolume:
-  namespace: nginx-ingress
-  storageClass:
-    accessModes:
-      - ReadWriteMany
-    storage: 30Gi
-    # storageClassName:
-  mountOptions:
-    - implicit-dirs
-    - uid=101
-    - gid=101
-    # - file_mode=777
-    # - dir_mode=777
-  csi:
-    volumeHandle: datausa-site-cache # bucket name
-    readOnly: false
+# persistentVolume:
+#   namespace: nginx-ingress
+#   storageClass:
+#     accessModes:
+#       - ReadWriteMany
+#     storage: 30Gi
+#     storageClassName:
+#   mountOptions:
+#     - implicit-dirs
+#     - uid=101
+#     - gid=101
+#     - file_mode=777
+#     - dir_mode=777
+#   csi:
+#     volumeHandle: datausa-site-cache # bucket name
+#     readOnly: false
 
 service:
   type: ClusterIP
@@ -126,6 +126,9 @@ ingress:
     nginx.org/websocket-services: "canon-site-boston"
     nginx.org/location-snippets: |
       add_header Access-Control-Allow-Origin *;
+      add_header X-Cache-Status $upstream_cache_status;
+      proxy_cache                           test_cache;
+      proxy_cache_valid                      200  365d;
     nginx.org/server-snippets: |
       if ($http_x_forwarded_proto = 'http') {
           return 308 https://$host$request_uri;
