@@ -58,22 +58,27 @@ volumes:
   configMap:
     name: google-analytics
 
-# persistentVolume:
-#   namespace: nginx-ingress
-#   storageClass:
-#     accessModes:
-#       - ReadWriteMany
-#     storage: 30Gi
-#     storageClassName:
-#   mountOptions:
-#     - implicit-dirs
-#     - uid=101
-#     - gid=101
-#     - file_mode=777
-#     - dir_mode=777
-#   csi:
-#     volumeHandle: datausa-site-cache # bucket name
-#     readOnly: false
+persistentVolume:
+  namespace: nginx-ingress
+  storageClass:
+    accessModes:
+      - ReadWriteMany
+    storage: 1Gi
+    storageClassName:
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /opt/sfw
+    server: 34.41.5.18
+    readOnly: false
+  # mountOptions:
+  #   - implicit-dirs
+  #   - uid=101
+  #   - gid=101
+  #   - file_mode=777
+  #   - dir_mode=777
+  # csi:
+  #   volumeHandle: datausa-site-cache # bucket name
+  #   readOnly: false
 
 service:
   type: ClusterIP
