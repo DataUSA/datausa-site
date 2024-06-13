@@ -124,7 +124,6 @@ jobs:
           echo "ENCODED_CANON_DB_HOST=$(echo -n "${{ secrets.CANON_DB_HOST }}" | base64 | tr -d '\n')" >> $GITHUB_ENV
           echo "ENCODED_CANON_DB_PW=$(echo -n "${{ secrets.CANON_DB_PW }}" | base64 | tr -d '\n')" >> $GITHUB_ENV
           echo "ENCODED_CANON_HOTJAR=$(echo -n "${{ secrets.CANON_HOTJAR }}" | base64 | tr -d '\n')" >> $GITHUB_ENV
-          echo "ENCODED_CACHE_IP_BOSTON=$(echo -n "${{ secrets.CACHE_IP_BOSTON }}" | base64 | tr -d '\n')" >> $GITHUB_ENV
 
       # Install Helm chart
       # for secrets, use --set secrets.DB_USER=$ENCODED_DB_USER
@@ -143,7 +142,7 @@ jobs:
               --set secrets.CANON_DB_HOST=$ENCODED_CANON_DB_HOST \
               --set secrets.CANON_DB_PW=$ENCODED_CANON_DB_PW \
               --set secrets.CANON_HOTJAR=$ENCODED_CANON_HOTJAR \
-              --set persistentVolume.nfs.server=$ENCODED_CACHE_IP_BOSTON \
+              --set persistentVolume.nfs.server=${{ secrets.CACHE_IP_BOSTON }} \
               ${{ env.GKE_APP_NAME }}-${{ inputs.release }} --values=./helm/${{ inputs.release }}.yaml ./helm
 
      # Install Cache Helm chart
