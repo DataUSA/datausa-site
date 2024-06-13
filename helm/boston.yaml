@@ -68,7 +68,6 @@ persistentVolume:
   persistentVolumeReclaimPolicy: Retain
   nfs:
     path: /opt/sfw
-    subPath: boston
     server: 34.41.5.18
     readOnly: false
   # mountOptions:
