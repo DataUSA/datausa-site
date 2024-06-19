@@ -132,7 +132,9 @@ ingress:
     nginx.org/websocket-services: "canon-site-boston"
     nginx.org/location-snippets: |
       add_header Access-Control-Allow-Origin *;
+      add_header X-Cache-Key $cache_key;
       add_header X-Cache-Status $upstream_cache_status;
+      add_header X-Frame-Options $response_xframe_option;
 
       proxy_cache test_cache;
       proxy_cache_bypass $http_x_update;
