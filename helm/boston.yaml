@@ -134,9 +134,16 @@ ingress:
       add_header Access-Control-Allow-Origin *;
       add_header X-Cache-Status $upstream_cache_status;
 
-      proxy_set_header Host $served_host;
       proxy_cache test_cache;
+      proxy_cache_bypass $http_x_update;
+      proxy_cache_key $cache_key;
+      proxy_cache_methods GET HEAD;
       proxy_cache_valid 200 365d;
+      proxy_ignore_headers Vary;
+      proxy_set_header Connection "";
+      proxy_set_header Host $served_host;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
     nginx.org/server-snippets: |
       if ($http_x_forwarded_proto = 'http') {
           return 308 https://$host$request_uri;
