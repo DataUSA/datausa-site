@@ -12,3 +12,5 @@ data:
       default $http_host;
       prod-app.datausa.io boston-app.datausa.io;
     }
+
+    gzip on;

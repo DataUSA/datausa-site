@@ -123,17 +123,20 @@ ingress:
     acme.cert-manager.io/http01-edit-in-place: "true"
     ingress.kubernetes.io/ssl-redirect: "false"
     nginx.org/client-max-body-size: "500m"
-    nginx.org/proxy-connect-timeout: "420s"
-    nginx.org/proxy-read-timeout: "420s"
-    nginx.org/proxy-buffers: "8 32k"
-    nginx.org/proxy-buffer-size: "32k"
-    nginx.org/proxy-busy-buffers-size: "128k"
+    nginx.org/proxy-buffer-size: "12m"
+    nginx.org/proxy-buffers: "8 2m"
+    nginx.org/proxy-busy-buffers-size: "12m"
+    nginx.org/proxy-connect-timeout: "600s"
+    nginx.org/proxy-read-timeout: "600s"
+    nginx.org/proxy-send-timeout: "600s"
     nginx.org/websocket-services: "canon-site-boston"
     nginx.org/location-snippets: |
       add_header Access-Control-Allow-Origin *;
       add_header X-Cache-Status $upstream_cache_status;
-      proxy_cache                           test_cache;
-      proxy_cache_valid                      200  365d;
+
+      proxy_set_header Host $served_host;
+      proxy_cache test_cache;
+      proxy_cache_valid 200 365d;
     nginx.org/server-snippets: |
       if ($http_x_forwarded_proto = 'http') {
           return 308 https://$host$request_uri;
