@@ -10,6 +10,5 @@ data:
 
     map $http_host $served_host {
       default $http_host;
-      datausa.io arkansas-app.datausa.io;
-      datausa.io boston-app.datausa.io;
+      prod-app.datausa.io boston-app.datausa.io;
     }
