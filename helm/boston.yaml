@@ -146,6 +146,7 @@ ingress:
       proxy_set_header Host $served_host;
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
       proxy_set_header X-Forwarded-Proto $scheme;
+      set $cache_key https://datausa.io$uri$is_args$args;
     nginx.org/server-snippets: |
       if ($http_x_forwarded_proto = 'http') {
           return 308 https://$host$request_uri;
