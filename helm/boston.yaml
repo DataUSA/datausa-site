@@ -123,9 +123,9 @@ ingress:
     acme.cert-manager.io/http01-edit-in-place: "true"
     ingress.kubernetes.io/ssl-redirect: "false"
     nginx.org/client-max-body-size: "500m"
-    nginx.org/proxy-buffer-size: "12m"
-    nginx.org/proxy-buffers: "8 4m"
-    nginx.org/proxy-busy-buffers-size: "12m"
+    nginx.org/proxy-buffer-size: "10m"
+    nginx.org/proxy-buffers: "8 2m"
+    nginx.org/proxy-busy-buffers-size: "10m"
     nginx.org/proxy-connect-timeout: "600s"
     nginx.org/proxy-read-timeout: "600s"
     nginx.org/proxy-send-timeout: "600s"
@@ -142,12 +142,6 @@ ingress:
       proxy_set_header Host $served_host;
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
       proxy_set_header X-Forwarded-Proto $scheme;
-
-      #add_header X-Frame-Options $response_xframe_option;
-      #proxy_cache_bypass $http_x_update;
-      #proxy_ignore_headers Vary;
-      #proxy_set_header Connection "";
-      #set $cache_key https://datausa.io$uri$is_args$args;
     nginx.org/server-snippets: |
       if ($http_x_forwarded_proto = 'http') {
           return 308 https://$host$request_uri;
