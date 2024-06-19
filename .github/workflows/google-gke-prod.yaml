@@ -118,6 +118,10 @@ jobs:
             ${{ env.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}/${{ env.GCP_IMAGE_NAME }}:${{ env.GKE_APP_NAMESPACE }} \
             ${{ env.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}/${{ env.GCP_IMAGE_NAME }}:${{ inputs.release }}-${{ inputs.date }}
 
+      # Update NGINX Prod Config
+      - name: Update NGINX Configuration
+        run: kubectl apply -f ./helm/nginx/prod-conf.yaml
+
       # Transform GitHub secrets to base64 encoded
       - name: Set encoded secret values
         run: |
