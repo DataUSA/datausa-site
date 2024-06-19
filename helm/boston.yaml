@@ -124,7 +124,7 @@ ingress:
     ingress.kubernetes.io/ssl-redirect: "false"
     nginx.org/client-max-body-size: "500m"
     nginx.org/proxy-buffer-size: "12m"
-    nginx.org/proxy-buffers: "8 2m"
+    nginx.org/proxy-buffers: "8 4m"
     nginx.org/proxy-busy-buffers-size: "12m"
     nginx.org/proxy-connect-timeout: "600s"
     nginx.org/proxy-read-timeout: "600s"
