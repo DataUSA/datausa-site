@@ -4,10 +4,10 @@ image:
 imagePullSecrets:
   - name: github
 
-replicaCount: 1
+replicaCount: 3
 
 autoscaling:
-  enabled: false
+  enabled: true
   minReplicas: 1
   maxReplicas: 10
   targetCPUUtilizationPercentage: 80
@@ -15,34 +15,34 @@ autoscaling:
 
 resources:
   requests:
-    cpu: 128m
-    memory: 2Gi
-  limits:
     cpu: 500m
-    memory: 4Gi
+    memory: 1Gi
+    ephemeral-storage: 100Mi
+  limits:
+    cpu: 1500m
+    memory: 2Gi
+    ephemeral-storage: 100Mi
 
 livenessProbe:
-  enabled: false
   failureThreshold: 3
   httpGet:
     path: /
     port: 3300
     scheme: HTTP
-  initialDelaySeconds: 60
-  periodSeconds: 60
-  timeoutSeconds: 60
+  initialDelaySeconds: 40
+  periodSeconds: 30
+  timeoutSeconds: 30
   successThreshold: 1
 
 readinessProbe:
-  enabled: false
   failureThreshold: 3
   httpGet:
     path: /
     port: 3300
     scheme: HTTP
-  initialDelaySeconds: 60
-  periodSeconds: 60
-  timeoutSeconds: 60
+  initialDelaySeconds: 40
+  periodSeconds: 30
+  timeoutSeconds: 30
   successThreshold: 2
 
 volumeMountsEnabled: true
@@ -58,6 +58,28 @@ volumes:
   configMap:
     name: google-analytics
 
+persistentVolume:
+  namespace: nginx-ingress
+  storageClass:
+    accessModes:
+      - ReadWriteMany
+    storage: 1Gi
+    storageClassName:
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /opt/sfw
+    # server: 10.128.1.33 on secrets
+    readOnly: false
+  # mountOptions:
+  #   - implicit-dirs
+  #   - uid=101
+  #   - gid=101
+  #   - file_mode=777
+  #   - dir_mode=777
+  # csi:
+  #   volumeHandle: datausa-site-cache # bucket name
+  #   readOnly: false
+
 service:
   type: ClusterIP
   port: 3300
@@ -72,9 +94,9 @@ serviceAccount:
   name: ""
 
 configMap:
-  CANON_API: "https://app-dev.datausa.io"
+  CANON_API: "https://boston-app.datausa.io"
   CANON_CMS_CUBES: "https://boston-api.datausa.io/"
-  CANON_CMS_ENABLE: "true"
+  CANON_CMS_ENABLE: "false"
   CANON_CMS_FORCE_HTTPS: "true"
   CANON_CMS_GENERATOR_TIMEOUT: "600000"
   CANON_CMS_LOGGING: "true"
@@ -82,8 +104,8 @@ configMap:
   CANON_CMS_REQUESTS_PER_SECOND: "60"
   CANON_CONST_CART: "datausa-cart-v3"
   CANON_CONST_CUBE: "https://boston-api.datausa.io/"
-  CANON_CONST_TESSERACT: "https://api-ts-dev.datausa.io/"
-  CANON_DB_NAME: "datausa-cms-21-dev"
+  CANON_CONST_TESSERACT: "https://boston-api-ts.datausa.io/"
+  CANON_DB_NAME: "datausa-cms-21"
   CANON_DB_USER: "deploy"
   CANON_GEOSERVICE_API : "https://geoservice.datausa.io/api/"
   CANON_GOOGLE_ANALYTICS: "UA-70325841-1"
@@ -101,25 +123,31 @@ ingress:
     acme.cert-manager.io/http01-edit-in-place: "true"
     ingress.kubernetes.io/ssl-redirect: "false"
     nginx.org/client-max-body-size: "500m"
-    nginx.org/proxy-buffer-size: "32k"
-    nginx.org/proxy-buffers: "16 32k"
-    nginx.org/proxy-busy-buffers-size: "128k"
     nginx.org/proxy-connect-timeout: "420s"
     nginx.org/proxy-read-timeout: "420s"
-    nginx.org/proxy-send-timeout: "420s"
-    nginx.org/websocket-services: "canon-site"
+    nginx.org/proxy-buffers: "8 32k"
+    nginx.org/proxy-buffer-size: "32k"
+    nginx.org/proxy-busy-buffers-size: "128k"
+    nginx.org/websocket-services: "canon-site-boston"
     nginx.org/location-snippets: |
       add_header Access-Control-Allow-Origin *;
+      add_header X-Cache-Status $upstream_cache_status;
+      proxy_cache                           test_cache;
+      proxy_cache_valid                      200  365d;
     nginx.org/server-snippets: |
-      if ($scheme != "https") {
+      if ($http_x_forwarded_proto = 'http') {
           return 308 https://$host$request_uri;
       }
-  hosts:
-    - host: app-dev.datausa.io
+  customHosts:
+    - host: boston-app.datausa.io
       paths:
-        - /
-        - /ws
+        - path: /
+          service: canon-site-boston
+          port: 3300
+        - path: /ws
+          service: canon-site-boston
+          port: 3300
   tls:
-    - secretName: canon-site-tls
+    - secretName: canon-site-ingress-boston-tls
       hosts:
-        - app-dev.datausa.io
+        - boston-app.datausa.io
