@@ -146,7 +146,8 @@ ingress:
       if ($http_x_forwarded_proto = 'http') {
           return 308 https://$host$request_uri;
       }
-  customHosts:
+  className: nginx-boston
+  hosts:
     - host: boston-app.datausa.io
       paths:
         - path: /
