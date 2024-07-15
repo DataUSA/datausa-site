@@ -116,7 +116,7 @@ jobs:
         with:
           exec: |
             helm upgrade --install --create-namespace \
-              --namespace nginx-ingress-${{ inputs.release }} ]
+              --namespace nginx-ingress-${{ inputs.release }} \
               --set app.environment=nginx-ingress-${{ inputs.release }} \
               --set app.release=${{ inputs.date }} \
               --set controller.ingressClass.name=nginx-${{ inputs.release }} \
