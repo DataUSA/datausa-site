@@ -109,6 +109,26 @@ jobs:
           cluster_name: ${{ env.GKE_CLUSTER }}
           location: ${{ env.GKE_ZONE }}
 
+      ## INSTALL NGINX INSTANCE FOR THE ENVIRONMENT ON THE CLUSTER
+      # Install Helm chart
+      - name: Install NGINX instance for the cluster
+        uses: WyriHaximus/github-action-helm3@v2
+        with:
+          exec: |
+            helm upgrade --install --create-namespace \
+              --namespace nginx-ingress-${{ inputs.release }} ]
+              --set app.environment=nginx-ingress-${{ inputs.release }} \
+              --set app.release=${{ inputs.date }} \
+              --set controller.ingressClass.name=nginx-${{ inputs.release }} \
+              --set controller.enableSnippets=true \
+              --set controller.name=nginx-ingress \
+              --set controller.service.name=nginx-ingress-service \
+              nginx-ingress-${{ inputs.release }} nginx-stable/nginx-ingress \
+
+      # Update NGINX Prod Config
+      - name: Update NGINX Configuration
+        run: kubectl apply --namespace nginx-ingress-${{ inputs.release }} -f ./helm/nginx/prod-conf.yaml
+
       # Retag latest image
       - name: Retag Image to Production Release
         if:  ${{ inputs.update_release }}
@@ -117,10 +137,6 @@ jobs:
             --quiet \
             ${{ env.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}/${{ env.GCP_IMAGE_NAME }}:${{ env.GKE_APP_NAMESPACE }} \
             ${{ env.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}/${{ env.GCP_IMAGE_NAME }}:${{ inputs.release }}-${{ inputs.date }}
-
-      # Update NGINX Prod Config
-      - name: Update NGINX Configuration
-        run: kubectl apply -f ./helm/nginx/prod-conf.yaml
 
       # Transform GitHub secrets to base64 encoded
       - name: Set encoded secret values
