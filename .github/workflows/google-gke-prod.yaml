@@ -125,9 +125,10 @@ jobs:
       # Install Helm chart
       - name: Install NGINX instance for the cluster
         uses: WyriHaximus/github-action-helm3@v2
+        # helm upgrade --install --create-namespace \
         with:
           exec: |
-            helm upgrade --install --create-namespace \
+            helm install --create-namespace \
               --namespace nginx-ingress-${{ inputs.release }} \
               --set app.environment=nginx-ingress-${{ inputs.release }} \
               --set app.release=${{ inputs.date }} \
