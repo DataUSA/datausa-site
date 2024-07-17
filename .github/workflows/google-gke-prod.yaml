@@ -134,8 +134,8 @@ jobs:
               --set app.release=${{ inputs.date }} \
               --set controller.ingressClass.name=nginx-${{ inputs.release }} \
               --set controller.enableSnippets=true \
-              --set controller.name=nginx-ingress \
-              --set controller.service.name=nginx-ingress-service \
+              --set controller.name=nginx-ingress-${{ inputs.release }} \
+              --set controller.service.name=nginx-ingress-${{ inputs.release }}-service \
               --set controller.debug.enable=true \
               nginx-ingress-${{ inputs.release }} nginx-stable/nginx-ingress \
 
