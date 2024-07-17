@@ -135,8 +135,8 @@ jobs:
               --set controller.enableSnippets=true \
               --set controller.name=nginx-ingress \
               --set controller.service.name=nginx-ingress-service \
-              --set controller.debug.enable=true \
-              nginx-ingress-${{ inputs.release }} nginx-stable/nginx-ingress \
+              --set controller.debug.enable=false \
+              nginx-ingress-${{ inputs.release }} nginx-stable/nginx-ingress
 
       # Update NGINX Prod Config
       - name: Update NGINX Configuration
