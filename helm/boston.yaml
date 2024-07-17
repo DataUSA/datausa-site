@@ -147,21 +147,15 @@ ingress:
           return 308 https://$host$request_uri;
       }
   className: nginx-boston
-  hosts:
+  customHosts:
     - host: boston-app.datausa.io
       paths:
-      - path: /
-        backend:
-          service:
-            name: canon-site-boston
-            port:
-              number: 3300
-      - path: /ws
-        backend:
-          service:
-            name: canon-site-boston
-            port:
-              number: 3300
+        - path: /
+          service: canon-site-boston
+          port: 3300
+        - path: /ws
+          service: canon-site-boston
+          port: 3300
   tls:
     - secretName: canon-site-ingress-boston-tls
       hosts:
