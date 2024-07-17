@@ -116,53 +116,53 @@ configMap:
   CANON_LOGINS: "true"
   GA_KEYFILE: "/app/google/googleAnalyticsKey.json"
 
-  ingress:
-    enabled: true
-    annotations:
-      cert-manager.io/cluster-issuer: "letsencrypt-prod"
-      acme.cert-manager.io/http01-edit-in-place: "true"
-      ingress.kubernetes.io/ssl-redirect: "false"
-      nginx.org/client-max-body-size: "500m"
-      nginx.org/proxy-buffers: "8 32k"
-      nginx.org/proxy-buffer-size: "32k"
-      nginx.org/proxy-busy-buffers-size: "128k"
-      nginx.org/proxy-connect-timeout: "600s"
-      nginx.org/proxy-read-timeout: "600s"
-      nginx.org/proxy-send-timeout: "600s"
-      nginx.org/websocket-services: "canon-site-boston"
-      nginx.org/location-snippets: |
-        add_header Access-Control-Allow-Origin *;
-        add_header X-Cache-Key $cache_key;
-        add_header X-Cache-Status $upstream_cache_status;
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    acme.cert-manager.io/http01-edit-in-place: "true"
+    ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.org/client-max-body-size: "500m"
+    nginx.org/proxy-buffers: "8 32k"
+    nginx.org/proxy-buffer-size: "32k"
+    nginx.org/proxy-busy-buffers-size: "128k"
+    nginx.org/proxy-connect-timeout: "600s"
+    nginx.org/proxy-read-timeout: "600s"
+    nginx.org/proxy-send-timeout: "600s"
+    nginx.org/websocket-services: "canon-site-boston"
+    nginx.org/location-snippets: |
+      add_header Access-Control-Allow-Origin *;
+      add_header X-Cache-Key $cache_key;
+      add_header X-Cache-Status $upstream_cache_status;
 
-        proxy_cache test_cache;
-        proxy_cache_key $cache_key;
-        proxy_cache_methods GET HEAD;
-        proxy_cache_valid 200 365d;
-        proxy_set_header Host $served_host;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-      nginx.org/server-snippets: |
-        if ($http_x_forwarded_proto = 'http') {
-            return 308 https://$host$request_uri;
-        }
-    className: nginx-boston
-    hosts:
-      - host: boston-app.datausa.io
-        paths:
-        - path: /
-          backend:
-            service:
-              name: canon-site-boston
-              port:
-                number: 3300
-        - path: /ws
-          backend:
-            service:
-              name: canon-site-boston
-              port:
-                number: 3300
-    tls:
-      - secretName: canon-site-ingress-boston-tls
-        hosts:
-          - boston-app.datausa.io
+      proxy_cache test_cache;
+      proxy_cache_key $cache_key;
+      proxy_cache_methods GET HEAD;
+      proxy_cache_valid 200 365d;
+      proxy_set_header Host $served_host;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
+    nginx.org/server-snippets: |
+      if ($http_x_forwarded_proto = 'http') {
+          return 308 https://$host$request_uri;
+      }
+  className: nginx-boston
+  hosts:
+    - host: boston-app.datausa.io
+      paths:
+      - path: /
+        backend:
+          service:
+            name: canon-site-boston
+            port:
+              number: 3300
+      - path: /ws
+        backend:
+          service:
+            name: canon-site-boston
+            port:
+              number: 3300
+  tls:
+    - secretName: canon-site-ingress-boston-tls
+      hosts:
+        - boston-app.datausa.io

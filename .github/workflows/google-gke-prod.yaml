@@ -111,13 +111,13 @@ jobs:
 
       ## INSTALL NGINX INSTANCE FOR THE ENVIRONMENT ON THE CLUSTER
       # Add nginx repo to Helm
-      - name: Install NGINX instance for the cluster
+      - name: Add NGINX repo to Helm
         uses: WyriHaximus/github-action-helm3@v2
         with:
           exec: helm repo add nginx-stable https://helm.nginx.com/stable
 
       # Update Helm repos
-      - name: Install NGINX instance for the cluster
+      - name: Update Helm repos
         uses: WyriHaximus/github-action-helm3@v2
         with:
           exec: helm repo update
@@ -125,7 +125,6 @@ jobs:
       # Install Helm chart
       - name: Install NGINX instance for the cluster
         uses: WyriHaximus/github-action-helm3@v2
-        # helm upgrade --install --create-namespace \
         with:
           exec: |
             helm upgrade --install --create-namespace \
