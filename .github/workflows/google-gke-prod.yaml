@@ -128,7 +128,7 @@ jobs:
         # helm upgrade --install --create-namespace \
         with:
           exec: |
-            helm install --create-namespace \
+            helm upgrade --install --create-namespace \
               --namespace nginx-ingress-${{ inputs.release }} \
               --set app.environment=nginx-ingress-${{ inputs.release }} \
               --set app.release=${{ inputs.date }} \
