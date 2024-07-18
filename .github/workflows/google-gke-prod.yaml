@@ -128,10 +128,10 @@ jobs:
         with:
           exec: |
             helm upgrade --install --create-namespace \
-              --namespace nginx-ingress-${{ inputs.release }} \
-              --set app.environment=nginx-ingress-${{ inputs.release }} \
+              --namespace nginx-ingress-canon \
+              --set app.environment=nginx-ingress-canon \
               --set app.release=${{ inputs.date }} \
-              --set controller.ingressClass.name=nginx-${{ inputs.release }} \
+              --set controller.ingressClass.name=nginx-canon \
               --set controller.enableSnippets=true \
               --set controller.name=nginx-ingress \
               --set controller.service.name=nginx-ingress-service \
