@@ -94,7 +94,7 @@ serviceAccount:
   name: ""
 
 configMap:
-  CANON_API: "https://boston-app.datausa.io"
+  CANON_API: "https://app-boston.datausa.io"
   CANON_CMS_CUBES: "https://boston-api.datausa.io/"
   CANON_CMS_ENABLE: "false"
   CANON_CMS_FORCE_HTTPS: "true"
@@ -148,7 +148,7 @@ ingress:
       }
   className: nginx-canon
   customHosts:
-    - host: boston-app.datausa.io
+    - host: app-boston.datausa.io
       paths:
         - path: /
           service: canon-site-boston
@@ -159,4 +159,4 @@ ingress:
   tls:
     - secretName: canon-ingress-boston-tls
       hosts:
-        - boston-app.datausa.io
+        - app-boston.datausa.io

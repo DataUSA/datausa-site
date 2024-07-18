@@ -7,7 +7,7 @@ data:
   http-snippets: |
     map $http_host $served_host {
       default $http_host;
-      prod.datausa.io boston-app.datausa.io;
+      app-prod.datausa.io app-boston.datausa.io;
     }
 
     gzip on;
