@@ -136,11 +136,11 @@ jobs:
               --set controller.name=nginx-ingress \
               --set controller.service.name=nginx-ingress-service \
               --set controller.debug.enable=false \
-              nginx-ingress-${{ inputs.release }} nginx-stable/nginx-ingress
+              nginx-ingress-canon nginx-stable/nginx-ingress
 
       # Update NGINX Prod Config
       - name: Update NGINX Configuration
-        run: kubectl apply --namespace nginx-ingress-${{ inputs.release }} -f ./helm/nginx/prod-conf.yaml
+        run: kubectl apply --namespace nginx-ingress-canon -f ./helm/nginx/prod-conf.yaml
 
       # Retag latest image
       - name: Retag Image to Production Release
