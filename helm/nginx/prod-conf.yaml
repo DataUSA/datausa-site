@@ -1,13 +1,13 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: nginx-ingress
+  name: nginx-ingress-canon
 data:
   server-tokens: "false"
   http-snippets: |
     map $http_host $served_host {
       default $http_host;
-      prod-app.datausa.io boston-app.datausa.io;
+      prod.datausa.io boston-app.datausa.io;
     }
 
     gzip on;

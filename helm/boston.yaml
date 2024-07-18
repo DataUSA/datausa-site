@@ -119,7 +119,7 @@ configMap:
 ingress:
   enabled: true
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod-canon"
+    cert-manager.io/cluster-issuer: "letsencrypt-canon"
     acme.cert-manager.io/http01-edit-in-place: "true"
     ingress.kubernetes.io/ssl-redirect: "false"
     nginx.org/client-max-body-size: "500m"
@@ -157,6 +157,6 @@ ingress:
           service: canon-site-boston
           port: 3300
   tls:
-    - secretName: canon-site-ingress-boston-tls
+    - secretName: canon-ingress-boston-tls
       hosts:
         - boston-app.datausa.io
