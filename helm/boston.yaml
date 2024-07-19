@@ -132,23 +132,14 @@ ingress:
     nginx.org/websocket-services: "canon-site-boston"
     nginx.org/location-snippets: |
       add_header Access-Control-Allow-Origin *;
-      add_header X-Cache-Key $cache_key;
-      add_header X-Cache-Status $upstream_cache_status;
-
-      proxy_cache test_cache;
-      proxy_cache_key $cache_key;
-      proxy_cache_methods GET HEAD;
-      proxy_cache_valid 200 365d;
       proxy_set_header Host $served_host;
-      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-      proxy_set_header X-Forwarded-Proto $scheme;
     nginx.org/server-snippets: |
       if ($http_x_forwarded_proto = 'http') {
           return 308 https://$host$request_uri;
       }
   className: nginx
   customHosts:
-    - host: app-boston.datausa.io
+    - host: test-app.datausa.io
       paths:
         - path: /
           service: canon-site-boston
@@ -157,6 +148,6 @@ ingress:
           service: canon-site-boston
           port: 3300
   tls:
-    - secretName: canon-ingress-boston-tls
+    - secretName: canon-ingress-test-tls
       hosts:
-        - app-boston.datausa.io
+        - test-app.datausa.io
