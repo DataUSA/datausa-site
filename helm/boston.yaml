@@ -119,7 +119,7 @@ configMap:
 ingress:
   enabled: true
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-canon"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
     acme.cert-manager.io/http01-edit-in-place: "true"
     ingress.kubernetes.io/ssl-redirect: "false"
     nginx.org/client-max-body-size: "500m"
@@ -146,7 +146,7 @@ ingress:
       if ($http_x_forwarded_proto = 'http') {
           return 308 https://$host$request_uri;
       }
-  className: nginx-canon
+  className: nginx
   customHosts:
     - host: app-boston.datausa.io
       paths:
