@@ -94,7 +94,7 @@ serviceAccount:
   name: ""
 
 configMap:
-  CANON_API: "https://app-boston.datausa.io"
+  CANON_API: "https://apssp-boston.datausa.io"
   CANON_CMS_CUBES: "https://boston-api.datausa.io/"
   CANON_CMS_ENABLE: "false"
   CANON_CMS_FORCE_HTTPS: "true"

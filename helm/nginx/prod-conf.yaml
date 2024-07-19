@@ -3,11 +3,3 @@ apiVersion: v1
 metadata:
   name: nginx-ingress-canon
 data:
-  server-tokens: "false"
-  http-snippets: |
-    map $http_host $served_host {
-      default $http_host;
-      app-prod.datausa.io app-boston.datausa.io;
-    }
-
-    gzip on;
