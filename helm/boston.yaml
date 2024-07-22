@@ -94,7 +94,7 @@ serviceAccount:
   name: ""
 
 configMap:
-  CANON_API: "https://apssp-boston.datausa.io"
+  CANON_API: "https://test-app.datausa.io"
   CANON_CMS_CUBES: "https://boston-api.datausa.io/"
   CANON_CMS_ENABLE: "false"
   CANON_CMS_FORCE_HTTPS: "true"
@@ -137,7 +137,7 @@ ingress:
       if ($http_x_forwarded_proto = 'http') {
           return 308 https://$host$request_uri;
       }
-  className: nginx
+  className: nginx-canon
   customHosts:
     - host: test-app.datausa.io
       paths:
