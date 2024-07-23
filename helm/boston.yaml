@@ -23,27 +23,27 @@ resources:
     memory: 2Gi
     ephemeral-storage: 100Mi
 
-livenessProbe:
-  failureThreshold: 3
-  httpGet:
-    path: /
-    port: 3300
-    scheme: HTTP
-  initialDelaySeconds: 40
-  periodSeconds: 30
-  timeoutSeconds: 30
-  successThreshold: 1
+# livenessProbe:
+#   failureThreshold: 3
+#   httpGet:
+#     path: /
+#     port: 3300
+#     scheme: HTTP
+#   initialDelaySeconds: 40
+#   periodSeconds: 30
+#   timeoutSeconds: 30
+#   successThreshold: 1
 
-readinessProbe:
-  failureThreshold: 3
-  httpGet:
-    path: /
-    port: 3300
-    scheme: HTTP
-  initialDelaySeconds: 40
-  periodSeconds: 30
-  timeoutSeconds: 30
-  successThreshold: 2
+# readinessProbe:
+#   failureThreshold: 3
+#   httpGet:
+#     path: /
+#     port: 3300
+#     scheme: HTTP
+#   initialDelaySeconds: 40
+#   periodSeconds: 30
+#   timeoutSeconds: 30
+#   successThreshold: 2
 
 volumeMountsEnabled: true
 
