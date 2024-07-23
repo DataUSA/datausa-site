@@ -58,18 +58,18 @@ volumes:
   configMap:
     name: google-analytics
 
-persistentVolume:
-  namespace: nginx-ingress
-  storageClass:
-    accessModes:
-      - ReadWriteMany
-    storage: 1Gi
-    storageClassName:
-  persistentVolumeReclaimPolicy: Retain
-  nfs:
-    path: /opt/sfw
-    # server: 10.128.1.33 on secrets
-    readOnly: false
+# persistentVolume:
+#   namespace: nginx-ingress
+#   storageClass:
+#     accessModes:
+#       - ReadWriteMany
+#     storage: 1Gi
+#     storageClassName:
+#   persistentVolumeReclaimPolicy: Retain
+#   nfs:
+#     path: /opt/sfw
+#     # server: 10.128.1.33 on secrets
+#     readOnly: false
   # mountOptions:
   #   - implicit-dirs
   #   - uid=101
@@ -94,7 +94,7 @@ serviceAccount:
   name: ""
 
 configMap:
-  CANON_API: "https://test-app.datausa.io"
+  CANON_API: "https://boston-app.datausa.io"
   CANON_CMS_CUBES: "https://boston-api.datausa.io/"
   CANON_CMS_ENABLE: "false"
   CANON_CMS_FORCE_HTTPS: "true"
@@ -137,9 +137,9 @@ ingress:
       if ($http_x_forwarded_proto = 'http') {
           return 308 https://$host$request_uri;
       }
-  className: nginx-canon
+  className: nginx
   customHosts:
-    - host: test-app.datausa.io
+    - host: boston-app.datausa.io
       paths:
         - path: /
           service: canon-site-boston
@@ -148,6 +148,6 @@ ingress:
           service: canon-site-boston
           port: 3300
   tls:
-    - secretName: canon-ingress-test-tls
+    - secretName: canon-ingress-boston-tls
       hosts:
-        - test-app.datausa.io
+        - boston-app.datausa.io

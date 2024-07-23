@@ -139,8 +139,8 @@ jobs:
       #         nginx-ingress-canon nginx-stable/nginx-ingress
 
       # Update NGINX Prod Config
-      - name: Update NGINX Configuration
-        run: kubectl apply --namespace nginx-ingress-canon -f ./helm/nginx/prod-conf.yaml
+      # - name: Update NGINX Configuration
+      #   run: kubectl apply --namespace nginx-ingress-canon -f ./helm/nginx/prod-conf.yaml
 
       # Retag latest image
       - name: Retag Image to Production Release
