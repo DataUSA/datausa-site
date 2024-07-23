@@ -148,7 +148,16 @@ ingress:
         - path: /ws
           service: canon-site-boston
           port: 3300
+    - host: prod-app.datausa.io
+      paths:
+        - path: /
+          service: canon-site-boston
+          port: 3300
+        - path: /ws
+          service: canon-site-boston
+          port: 3300
   tls:
     - secretName: canon-ingress-boston-tls
       hosts:
         - boston-app.datausa.io
+        - prod-app.datausa.io
