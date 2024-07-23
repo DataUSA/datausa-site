@@ -132,7 +132,6 @@ ingress:
     nginx.org/websocket-services: "canon-site-boston"
     nginx.org/location-snippets: |
       add_header Access-Control-Allow-Origin *;
-      proxy_set_header Host $served_host;
     nginx.org/server-snippets: |
       if ($http_x_forwarded_proto = 'http') {
           return 308 https://$host$request_uri;
