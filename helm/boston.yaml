@@ -58,18 +58,18 @@ volumes:
   configMap:
     name: google-analytics
 
-# persistentVolume:
-#   namespace: nginx-ingress
-#   storageClass:
-#     accessModes:
-#       - ReadWriteMany
-#     storage: 1Gi
-#     storageClassName:
-#   persistentVolumeReclaimPolicy: Retain
-#   nfs:
-#     path: /opt/sfw
-#     # server: 10.128.1.33 on secrets
-#     readOnly: false
+persistentVolume:
+  namespace: nginx-ingress-canon
+  storageClass:
+    accessModes:
+      - ReadWriteMany
+    storage: 1Gi
+    storageClassName:
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /opt/sfw
+    # server: 10.128.1.33 on secrets
+    readOnly: false
   # mountOptions:
   #   - implicit-dirs
   #   - uid=101
