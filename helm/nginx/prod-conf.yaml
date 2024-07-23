@@ -5,7 +5,7 @@ metadata:
 data:
   server-tokens: "false"
   http-snippets: |
-    proxy_cache_path /opt/sfw levels=1:2 keys_zone=test_cache:75m max_size=300m inactive=365d use_temp_path=off;
+    proxy_cache_path /opt/sfw levels=1:2 keys_zone=boston-cache:75m max_size=300m inactive=365d use_temp_path=off;
 
     map $http_host $served_host {
       default $http_host;
