@@ -123,20 +123,10 @@ jobs:
       #     exec: helm repo update
 
       # Install Helm chart
-      # - name: Install NGINX instance for the cluster
-      #   uses: WyriHaximus/github-action-helm3@v2
-      #   with:
-      #     exec: |
-      #       helm upgrade --install --create-namespace \
-      #         --namespace nginx-ingress-canon \
-      #         --set app.environment=nginx-ingress-canon \
-      #         --set app.release=${{ inputs.date }} \
-      #         --set controller.ingressClass.name=nginx-canon \
-      #         --set controller.enableSnippets=true \
-      #         --set controller.name=nginx-ingress \
-      #         --set controller.service.name=nginx-ingress-service \
-      #         --set controller.debug.enable=false \
-      #         nginx-ingress-canon nginx-stable/nginx-ingress
+      - name: Update NGINX instance for the canon instance in the cluster
+        uses: WyriHaximus/github-action-helm3@v2
+        with:
+          exec: bash ./helm/nginx/helm-installation.sh
 
       # Update NGINX Prod Config
       - name: Update NGINX Configuration

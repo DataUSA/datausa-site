@@ -70,17 +70,7 @@ persistentVolume:
   persistentVolumeReclaimPolicy: Retain
   nfs:
     path: /opt/sfw
-    # server: 10.128.1.33 on secrets
     readOnly: false
-  # mountOptions:
-  #   - implicit-dirs
-  #   - uid=101
-  #   - gid=101
-  #   - file_mode=777
-  #   - dir_mode=777
-  # csi:
-  #   volumeHandle: datausa-site-cache # bucket name
-  #   readOnly: false
 
 service:
   type: ClusterIP
