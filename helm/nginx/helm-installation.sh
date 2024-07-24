@@ -13,6 +13,7 @@ helm upgrade --install --create-namespace \
   --set controller.ingressClass.create=true \
   --set controller.image.tag=3.6.1 \
   --set controller.debug.enable=false \
+  --set controller.service.loadBalancerIP="34.27.24.41" \
   --set controller.volumes[0].name=canon-site-boston-cache \
   --set controller.volumes[0].persistentVolumeClaim.claimName=canon-site-boston-pvc \
   --set controller.volumeMounts[0].name=canon-site-boston-cache \
