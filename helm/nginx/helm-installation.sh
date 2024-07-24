@@ -5,7 +5,7 @@ helm repo add nginx-stable https://helm.nginx.com/stable
 helm repo update
 
 helm upgrade --install --create-namespace \
-  nginx-ingress nginx-stable/nginx-ingress \
+  nginx-ingress-canon nginx-stable/nginx-ingress \
   --set controller.name=nginx-ingress-canon \
   --set controller.service.name=nginx-ingress-canon-service \
   --set controller.enableSnippets=true \
