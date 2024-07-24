@@ -1,3 +1,9 @@
+#!/bin/bash
+
+helm repo add nginx-stable https://helm.nginx.com/stable
+
+helm repo update
+
 helm upgrade --install --create-namespace \
   nginx-ingress nginx-stable/nginx-ingress \
   --set controller.name=nginx-ingress-canon \
