@@ -137,7 +137,12 @@ ingress:
       paths:
         - /
         - /ws
+    - host: prod-app.datausa.io
+      paths:
+        - /
+        - /ws
   tls:
-    - secretName: canon-site-boston-tls
+    - secretName: canon-site-boston-prod-tls
       hosts:
         - boston-app.datausa.io
+        - prod-app.datausa.io
