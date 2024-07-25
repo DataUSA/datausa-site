@@ -123,7 +123,7 @@ ingress:
     nginx.org/proxy-send-timeout: "600s"
     nginx.org/websocket-services: "canon-site-boston"
     nginx.org/location-snippets: |
-      # add_header Access-Control-Allow-Origin *;
+      add_header Access-Control-Allow-Origin *;
       # add_header Access-Control-Allow-Credentials true;
       # add_header Access-Control-Allow-Methods "GET, POST, OPTIONS";
 
