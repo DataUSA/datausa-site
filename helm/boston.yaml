@@ -126,8 +126,6 @@ ingress:
       add_header Access-Control-Allow-Origin *;
       add_header Access-Control-Allow-Credentials true;
       add_header Access-Control-Allow-Methods "GET, POST, OPTIONS";
-      proxy_set_header Host "datausa.io";
-      proxy_set_header Connection "";
 
       add_header X-Cache-Status $upstream_cache_status;
       proxy_cache boston-cache;
