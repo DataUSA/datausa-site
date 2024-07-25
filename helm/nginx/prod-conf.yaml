@@ -11,3 +11,31 @@ data:
       default $http_host;
       prod-app.datausa.io boston-app.datausa.io;
     }
+
+    map $request_method:$request_uri $response_xframe_option {
+    default "SAMEORIGIN";
+     "~GET:\/profile\/[a-z]+\/[a-z-]+\/[a-z-]+\/[a-z-]+" "";
+    }
+
+    map $request_method $allow_origin {
+        default "";
+        "GET"   "*";
+    }
+
+    map $request_method $allow_credentials {
+        default "false";
+        "GET"   "true";
+    }
+
+    map $request_method $allow_methods {
+        default "";
+        "GET"   "GET, POST, OPTIONS";
+    }
+
+    map $request_method $allow_headers {
+        default "";
+        "GET"   "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type";
+        "POST"  "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type";
+    }
+
+    # gzip on;
