@@ -65,7 +65,7 @@ persistentVolume:
   storageClass:
     accessModes:
       - ReadWriteMany
-    storage: 1Gi
+    storage: 30Gi
     storageClassName:
   persistentVolumeReclaimPolicy: Retain
   nfs:
