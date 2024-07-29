@@ -14,6 +14,5 @@ helm upgrade --install --create-namespace \
   --set controller.ingressClass.create=true \
   --set controller.image.tag=3.6.1 \
   --set controller.debug.enable=false \
-  --set persistentVolume.nfs.server=$CACHE_IP_BOSTON \
   --values=./helm/nginx/canon.yaml \
   --namespace nginx-ingress-canon
