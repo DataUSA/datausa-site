@@ -127,6 +127,8 @@ jobs:
         uses: WyriHaximus/github-action-helm3@v2
         with:
           exec: bash ./helm/nginx/helm-installation.sh
+        env:
+          CACHE_IP_BOSTON: ${{ secrets.CACHE_IP_BOSTON }}
 
       # Update NGINX Prod Config
       - name: Update NGINX Configuration
