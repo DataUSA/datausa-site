@@ -9,17 +9,5 @@ controller:
       name: canon-site-boston-cache
       subPath: boston-06122024
 
-persistentVolume:
-  namespace: nginx-ingress-canon
-  storageClass:
-    accessModes:
-      - ReadWriteMany
-    storage: 30Gi
-    storageClassName:
-  persistentVolumeReclaimPolicy: Retain
-  nfs:
-    path: /opt/sfw
-    readOnly: false
-
 service:
   loadBalancerIP: 34.27.24.41

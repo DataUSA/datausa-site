@@ -73,6 +73,18 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
+persistentVolume:
+  namespace: nginx-ingress-canon
+  storageClass:
+    accessModes:
+      - ReadWriteMany
+    storage: 30Gi
+    storageClassName:
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /opt/sfw
+    readOnly: false
+
 configMap:
   CANON_API: "https://boston-app.datausa.io"
   CANON_CMS_CUBES: "https://boston-api.datausa.io/"
