@@ -4,6 +4,7 @@ helm repo add nginx-stable https://helm.nginx.com/stable
 
 helm repo update
 
+# --set controller.service.loadBalancerIP="34.27.24.41" \
 helm upgrade --install --create-namespace \
   nginx-ingress-canon nginx-stable/nginx-ingress \
   --set controller.name=nginx-ingress-canon \
@@ -13,10 +14,6 @@ helm upgrade --install --create-namespace \
   --set controller.ingressClass.create=true \
   --set controller.image.tag=3.6.1 \
   --set controller.debug.enable=false \
-  --set controller.service.loadBalancerIP="34.27.24.41" \
-  --set controller.volumes[0].name=canon-site-boston-cache \
-  --set controller.volumes[0].persistentVolumeClaim.claimName=canon-site-boston-pvc \
-  --set controller.volumeMounts[0].name=canon-site-boston-cache \
-  --set controller.volumeMounts[0].mountPath=/opt/sfw \
-  --set controller.volumeMounts[0].subPath=boston \
+  --set persistentVolume.nfs.server=${{ secrets.CACHE_IP_BOSTON }} \
+  --values=./helm/nginx/canon.yaml \
   --namespace nginx-ingress-canon

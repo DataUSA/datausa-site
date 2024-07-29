@@ -38,4 +38,4 @@ data:
         "POST"  "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type";
     }
 
-    # gzip on;
+    gzip on;

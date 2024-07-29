@@ -60,18 +60,6 @@ volumes:
   configMap:
     name: google-analytics
 
-persistentVolume:
-  namespace: nginx-ingress-canon
-  storageClass:
-    accessModes:
-      - ReadWriteMany
-    storage: 30Gi
-    storageClassName:
-  persistentVolumeReclaimPolicy: Retain
-  nfs:
-    path: /opt/sfw
-    readOnly: false
-
 service:
   type: ClusterIP
   port: 3300
@@ -130,9 +118,16 @@ ingress:
       add_header X-Cache-Status $upstream_cache_status;
       proxy_cache boston-cache;
       proxy_cache_valid 200 365d;
+      proxy_cache_key "$host$request_uri";
       proxy_cache_methods GET HEAD;
       proxy_cache_bypass $http_x_update;
       proxy_ignore_headers Vary;
+
+      proxy_set_header Host $host;
+      proxy_set_header Cache-Key "$host$request_uri";
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
     nginx.org/server-snippets: |
       if ($http_x_forwarded_proto = 'http') {
           return 308 https://$host$request_uri;
