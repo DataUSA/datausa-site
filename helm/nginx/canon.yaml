@@ -9,5 +9,5 @@ controller:
       name: canon-site-boston-cache
       subPath: boston-06122024
 
-service:
-  loadBalancerIP: 34.27.24.41
+  service:
+    loadBalancerIP: 34.27.24.41
