@@ -137,7 +137,7 @@ ingress:
       proxy_ignore_headers Vary;
 
       # Add the custom header with the cache key
-      add_header X-Cache-Key $cache_key;
+      # add_header X-Cache-Key $cache_key;
       add_header X-Cache-Status $upstream_cache_status;
 
       # Other proxy settings
