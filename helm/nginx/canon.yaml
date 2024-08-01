@@ -11,3 +11,5 @@ controller:
 
   service:
     loadBalancerIP: 34.27.24.41
+
+  replicaCount: 2
