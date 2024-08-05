@@ -12,12 +12,6 @@ data:
       prod-app.datausa.io boston-app.datausa.io;
     }
 
-    # define proxy_cache_valid status per location
-    map $uri $cache_valid_loc {
-        default "200 365d";
-        "~^/$" "200 1m";
-    }
-
     map $request_method:$request_uri $response_xframe_option {
     default "SAMEORIGIN";
      "~GET:\/profile\/[a-z]+\/[a-z-]+\/[a-z-]+\/[a-z-]+" "";
