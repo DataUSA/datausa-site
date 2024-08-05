@@ -133,7 +133,9 @@ ingress:
       proxy_cache_bypass $http_x_update;
       proxy_cache_key $cache_key;
       proxy_cache_methods GET HEAD;
-      proxy_cache_valid $cache_valid_time;
+      set $cache_valid "$cache_valid_status $cache_valid_time";
+      proxy_cache_valid $cache_valid;
+      add_header X-Cache-Time $cache_valid;
       proxy_ignore_headers Vary;
 
       # Add the custom header with the cache key

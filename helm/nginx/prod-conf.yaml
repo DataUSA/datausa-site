@@ -12,10 +12,16 @@ data:
       prod-app.datausa.io boston-app.datausa.io;
     }
 
-    # define proxy_cache_valid per location
+    # define proxy_cache_valid status per location
+    map $uri $cache_valid_status {
+        default "200";
+        "~^/$" "200";
+    }
+
+    # define proxy_cache_valid time per location
     map $uri $cache_valid_time {
-        default 200 365d;
-        "~^/$" 200 1m;
+        default "365d";
+        "~^/$" "1m";
     }
 
     map $request_method:$request_uri $response_xframe_option {
