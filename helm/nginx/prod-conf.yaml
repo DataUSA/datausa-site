@@ -1,15 +1,42 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: nginx-ingress
-  namespace: nginx-ingress
+  name: nginx-ingress-canon
 data:
   server-tokens: "false"
   http-snippets: |
-    proxy_cache_path /opt/sfw levels=1:2 keys_zone=test_cache:75m max_size=300m inactive=365d use_temp_path=off;
+    proxy_cache_path /opt/sfw levels=1:2 keys_zone=cambridge-cache:256m max_size=30g inactive=365d use_temp_path=off;
 
     map $http_host $served_host {
       default $http_host;
-      datausa.io arkansas-app.datausa.io;
-      datausa.io boston-app.datausa.io;
+      datausa.io cambridge-app.datausa.io;
+      prod-app.datausa.io cambridge-app.datausa.io;
     }
+
+    map $request_method:$request_uri $response_xframe_option {
+    default "SAMEORIGIN";
+     "~GET:\/profile\/[a-z]+\/[a-z-]+\/[a-z-]+\/[a-z-]+" "";
+    }
+
+    map $request_method $allow_origin {
+        default "";
+        "GET"   "*";
+    }
+
+    map $request_method $allow_credentials {
+        default "false";
+        "GET"   "true";
+    }
+
+    map $request_method $allow_methods {
+        default "";
+        "GET"   "GET, POST, OPTIONS";
+    }
+
+    map $request_method $allow_headers {
+        default "";
+        "GET"   "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type";
+        "POST"  "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type";
+    }
+
+    gzip on;

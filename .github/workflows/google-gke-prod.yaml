@@ -109,6 +109,29 @@ jobs:
           cluster_name: ${{ env.GKE_CLUSTER }}
           location: ${{ env.GKE_ZONE }}
 
+      ## INSTALL NGINX INSTANCE FOR THE ENVIRONMENT ON THE CLUSTER
+      # Add nginx repo to Helm
+      # - name: Add NGINX repo to Helm
+      #   uses: WyriHaximus/github-action-helm3@v2
+      #   with:
+      #     exec: helm repo add nginx-stable https://helm.nginx.com/stable
+
+      # Update Helm repos
+      # - name: Update Helm repos
+      #   uses: WyriHaximus/github-action-helm3@v2
+      #   with:
+      #     exec: helm repo update
+
+      # Install Helm chart
+      - name: Update NGINX instance for the canon instance in the cluster
+        uses: WyriHaximus/github-action-helm3@v2
+        with:
+          exec: bash ./helm/nginx/helm-installation.sh
+
+      # Update NGINX Prod Config
+      - name: Update NGINX Configuration
+        run: kubectl apply --namespace nginx-ingress-canon -f ./helm/nginx/prod-conf.yaml
+
       # Retag latest image
       - name: Retag Image to Production Release
         if:  ${{ inputs.update_release }}
@@ -117,10 +140,6 @@ jobs:
             --quiet \
             ${{ env.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}/${{ env.GCP_IMAGE_NAME }}:${{ env.GKE_APP_NAMESPACE }} \
             ${{ env.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}/${{ env.GCP_IMAGE_NAME }}:${{ inputs.release }}-${{ inputs.date }}
-
-      # Update NGINX Prod Config
-      - name: Update NGINX Configuration
-        run: kubectl apply -f ./helm/nginx/prod-conf.yaml
 
       # Transform GitHub secrets to base64 encoded
       - name: Set encoded secret values
@@ -146,7 +165,7 @@ jobs:
               --set secrets.CANON_DB_HOST=$ENCODED_CANON_DB_HOST \
               --set secrets.CANON_DB_PW=$ENCODED_CANON_DB_PW \
               --set secrets.CANON_HOTJAR=$ENCODED_CANON_HOTJAR \
-              --set persistentVolume.nfs.server=${{ secrets.CACHE_IP_BOSTON }} \
+              --set persistentVolume.nfs.server=${{ secrets.CACHE_IP }} \
               ${{ env.GKE_APP_NAME }}-${{ inputs.release }} --values=./helm/${{ inputs.release }}.yaml ./helm
 
      # Install Cache Helm chart
