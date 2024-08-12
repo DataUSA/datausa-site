@@ -109,6 +109,29 @@ jobs:
           cluster_name: ${{ env.GKE_CLUSTER }}
           location: ${{ env.GKE_ZONE }}
 
+      ## INSTALL NGINX INSTANCE FOR THE ENVIRONMENT ON THE CLUSTER
+      # Add nginx repo to Helm
+      # - name: Add NGINX repo to Helm
+      #   uses: WyriHaximus/github-action-helm3@v2
+      #   with:
+      #     exec: helm repo add nginx-stable https://helm.nginx.com/stable
+
+      # Update Helm repos
+      # - name: Update Helm repos
+      #   uses: WyriHaximus/github-action-helm3@v2
+      #   with:
+      #     exec: helm repo update
+
+      # Install Helm chart
+      - name: Update NGINX instance for the canon instance in the cluster
+        uses: WyriHaximus/github-action-helm3@v2
+        with:
+          exec: bash ./helm/nginx/helm-installation.sh
+
+      # Update NGINX Prod Config
+      - name: Update NGINX Configuration
+        run: kubectl apply --namespace nginx-ingress-canon -f ./helm/nginx/prod-conf.yaml
+
       # Retag latest image
       - name: Retag Image to Production Release
         if:  ${{ inputs.update_release }}
@@ -142,26 +165,27 @@ jobs:
               --set secrets.CANON_DB_HOST=$ENCODED_CANON_DB_HOST \
               --set secrets.CANON_DB_PW=$ENCODED_CANON_DB_PW \
               --set secrets.CANON_HOTJAR=$ENCODED_CANON_HOTJAR \
+              --set persistentVolume.nfs.server=${{ secrets.CACHE_IP }} \
               ${{ env.GKE_APP_NAME }}-${{ inputs.release }} --values=./helm/${{ inputs.release }}.yaml ./helm
 
      # Install Cache Helm chart
-      - name: Add Helm cache repo
-        uses: WyriHaximus/github-action-helm3@v2
-        with:
-          exec: |
-            helm repo add mittwald https://helm.mittwald.de
+      # - name: Add Helm cache repo
+      #   uses: WyriHaximus/github-action-helm3@v2
+      #   with:
+      #     exec: |
+      #       helm repo add mittwald https://helm.mittwald.de
 
-      - name: Helm Cache install
-        uses: WyriHaximus/github-action-helm3@v2
-        with:
-          exec: |
-            helm upgrade --install --create-namespace \
-              --namespace ${{ env.GKE_APP_NAMESPACE }} \
-              --set app.environment=${{ env.GKE_APP_NAMESPACE }} \
-              --set app.release=${{ env.GKE_APP_NAMESPACE }} \
-              --set image.repository=quay.io/mittwald/kube-httpcache \
-              --set image.tag=stable \
-              --set nameOverride=${{ env.GKE_APP_NAME }}-${{ inputs.release }}-cache \
-              --set fullnameOverride=${{ env.GKE_APP_NAME }}-${{ inputs.release }}-cache \
-              --set secrets.TESSERACT_BACKEND=$ENCODED_TESSERACT_BACKEND \
-              ${{ env.GKE_APP_NAME }}-${{ inputs.release }}-cache --values=./helm/${{ inputs.release }}-cache.yaml mittwald/kube-httpcache
+      # - name: Helm Cache install
+      #   uses: WyriHaximus/github-action-helm3@v2
+      #   with:
+      #     exec: |
+      #       helm upgrade --install --create-namespace \
+      #         --namespace ${{ env.GKE_APP_NAMESPACE }} \
+      #         --set app.environment=${{ env.GKE_APP_NAMESPACE }} \
+      #         --set app.release=${{ env.GKE_APP_NAMESPACE }} \
+      #         --set image.repository=quay.io/mittwald/kube-httpcache \
+      #         --set image.tag=stable \
+      #         --set nameOverride=${{ env.GKE_APP_NAME }}-${{ inputs.release }}-cache \
+      #         --set fullnameOverride=${{ env.GKE_APP_NAME }}-${{ inputs.release }}-cache \
+      #         --set secrets.TESSERACT_BACKEND=$ENCODED_TESSERACT_BACKEND \
+      #         ${{ env.GKE_APP_NAME }}-${{ inputs.release }}-cache --values=./helm/${{ inputs.release }}-cache.yaml mittwald/kube-httpcache
