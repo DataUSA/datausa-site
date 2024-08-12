@@ -1,8 +1,8 @@
 controller:
   volumes:
-  - name: canon-site-cambridge-cache
+  - name: canon-site-cache
     persistentVolumeClaim:
-      claimName: canon-site-cambridge-pvc
+      claimName: canon-site-cache-pvc
 
   volumeMounts:
     - mountPath: /opt/sfw
@@ -13,3 +13,15 @@ controller:
     loadBalancerIP: 34.27.24.41
 
   replicaCount: 2
+
+persistentVolume:
+  namespace: nginx-ingress-canon
+  storageClass:
+    accessModes:
+      - ReadWriteMany
+    storage: 30Gi
+    storageClassName:
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /opt/sfw
+    readOnly: false
