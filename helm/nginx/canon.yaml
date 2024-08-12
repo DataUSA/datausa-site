@@ -1,12 +1,12 @@
 controller:
   volumes:
-  - name: canon-site-cache
+  - name: canon-site-cache-cambridge
     persistentVolumeClaim:
       claimName: nginx-ingress-canon-cache-pvc
 
   volumeMounts:
     - mountPath: /opt/sfw
-      name: canon-site-cache
+      name: canon-site-cache-cambridge
       subPath: cambridge-08122024
 
   service:
