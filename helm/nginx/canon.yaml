@@ -6,7 +6,7 @@ controller:
 
   volumeMounts:
     - mountPath: /opt/sfw
-      name: canon-site-cambridge-cache
+      name: canon-site-cache
       subPath: cambridge-08122024
 
   service:
