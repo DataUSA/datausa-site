@@ -136,7 +136,9 @@ module.exports = function(app) {
           .catch(() => 2020);
     }
     else if (dimension === "CIP") {
-      retObj.stem = id.length === 6 ? stems.includes(id) ? "Stem Major" : false : "Contains Stem Majors"
+      retObj.stem = id.length === 6 ? stems.includes(id) ? "Stem Major" : false : "Contains Stem Majors";
+      retObj.cip2 = id.slice(0, 2);
+      retObj.cip4 = id.length >= 4 ? id.slice(0, 4) : false;
     }
     else if (dimension === "University") {
       const similarID = universitySimilar[id] ? universitySimilar[id].map(d => d.university) : [];

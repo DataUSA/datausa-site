@@ -24,16 +24,16 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{.Values.fullnameOverride}}
+      serviceAccountName: {{.Values.serviceAccount.name}}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+        {{- toYaml .Values.volumes | default "" | nindent 8 }}
       hostAliases:
         {{- toYaml .Values.hostAliases | default "" | nindent 8 }}
       {{- if .Values.volumesEnabled }}
       volumes:
-        - name: {{ .Values.volumes.name }}
-          configMap:
-            name: {{ .Values.volumes.configMap.name }}
+        {{- toYaml .Values.volumes | default "" | nindent 8 }}
       {{- end }}
       containers:
         - name: {{.Values.fullnameOverride}}
@@ -69,6 +69,5 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- if .Values.volumeMountsEnabled }}
           volumeMounts:
-            - name: {{ .Values.volumeMounts.name }}
-              mountPath: {{ .Values.volumeMounts.mountPath }}
+            {{- toYaml .Values.volumeMounts | default "" | nindent 12 }}
           {{- end }}

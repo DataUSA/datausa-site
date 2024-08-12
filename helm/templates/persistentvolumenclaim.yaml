@@ -3,6 +3,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: {{ .Values.fullnameOverride }}-pvc
+  namespace: {{ .Values.persistentVolume.namespace }}
   labels:
     {{- include "chart-app.labels" . | nindent 4 }}
 spec:

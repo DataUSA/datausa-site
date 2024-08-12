@@ -4,10 +4,10 @@ image:
 imagePullSecrets:
   - name: github
 
-replicaCount: 1
+replicaCount: 3
 
 autoscaling:
-  enabled: false
+  enabled: true
   minReplicas: 1
   maxReplicas: 10
   targetCPUUtilizationPercentage: 80
@@ -15,11 +15,13 @@ autoscaling:
 
 resources:
   requests:
-    cpu: 128m
-    memory: 2Gi
-  limits:
     cpu: 500m
-    memory: 4Gi
+    memory: 1Gi
+    ephemeral-storage: 100Mi
+  limits:
+    cpu: 1500m
+    memory: 2Gi
+    ephemeral-storage: 100Mi
 
 livenessProbe:
   enabled: false
@@ -28,9 +30,9 @@ livenessProbe:
     path: /
     port: 3300
     scheme: HTTP
-  initialDelaySeconds: 60
-  periodSeconds: 60
-  timeoutSeconds: 60
+  initialDelaySeconds: 40
+  periodSeconds: 30
+  timeoutSeconds: 30
   successThreshold: 1
 
 readinessProbe:
@@ -40,9 +42,9 @@ readinessProbe:
     path: /
     port: 3300
     scheme: HTTP
-  initialDelaySeconds: 60
-  periodSeconds: 60
-  timeoutSeconds: 60
+  initialDelaySeconds: 40
+  periodSeconds: 30
+  timeoutSeconds: 30
   successThreshold: 2
 
 volumeMountsEnabled: true
@@ -71,10 +73,22 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
+persistentVolume:
+  namespace: nginx-ingress-canon
+  storageClass:
+    accessModes:
+      - ReadWriteMany
+    storage: 30Gi
+    storageClassName:
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /opt/sfw
+    readOnly: false
+
 configMap:
-  CANON_API: "https://app-dev.datausa.io"
+  CANON_API: "https://cambridge-app.datausa.io"
   CANON_CMS_CUBES: "https://cambridge-api.datausa.io/"
-  CANON_CMS_ENABLE: "true"
+  CANON_CMS_ENABLE: "false"
   CANON_CMS_FORCE_HTTPS: "true"
   CANON_CMS_GENERATOR_TIMEOUT: "600000"
   CANON_CMS_LOGGING: "true"
@@ -82,8 +96,8 @@ configMap:
   CANON_CMS_REQUESTS_PER_SECOND: "60"
   CANON_CONST_CART: "datausa-cart-v3"
   CANON_CONST_CUBE: "https://cambridge-api.datausa.io/"
-  CANON_CONST_TESSERACT: "https://api-ts-dev.datausa.io/"
-  CANON_DB_NAME: "datausa-cms-21-dev"
+  CANON_CONST_TESSERACT: "https://cambridge-api-ts.datausa.io/"
+  CANON_DB_NAME: "datausa-cms-21-cambridge"
   CANON_DB_USER: "deploy"
   CANON_GEOSERVICE_API : "https://geoservice.datausa.io/api/"
   CANON_GOOGLE_ANALYTICS: "UA-70325841-1"
@@ -100,26 +114,53 @@ ingress:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     acme.cert-manager.io/http01-edit-in-place: "true"
     ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.org/client-max-body-size: "1000m"
-    nginx.org/proxy-buffer-size: "32k"
+    nginx.org/client-max-body-size: "500m"
     nginx.org/proxy-buffers: "8 32k"
-    nginx.org/proxy-busy-buffers-size: "256k"
-    nginx.org/proxy-connect-timeout: "420s"
-    nginx.org/proxy-read-timeout: "420s"
-    nginx.org/proxy-send-timeout: "420s"
-    nginx.org/websocket-services: "canon-site"
+    nginx.org/proxy-buffer-size: "32k"
+    nginx.org/proxy-busy-buffers-size: "128k"
+    nginx.org/proxy-connect-timeout: "600s"
+    nginx.org/proxy-read-timeout: "600s"
+    nginx.org/proxy-send-timeout: "600s"
+    nginx.org/websocket-services: "canon-site-cambridge"
     nginx.org/location-snippets: |
       add_header Access-Control-Allow-Origin *;
+      # add_header Access-Control-Allow-Credentials true;
+      # add_header Access-Control-Allow-Methods "GET, POST, OPTIONS";
+
+      # Define the cache key
+      set $cache_key "$host$request_uri";
+      proxy_cache cambridge-cache;
+      proxy_cache_bypass $http_x_update;
+      proxy_cache_key $cache_key;
+      proxy_cache_methods GET HEAD;
+      proxy_cache_valid 200 365d;
+      proxy_ignore_headers Vary;
+
+      # Add the custom header with the cache key
+      # add_header X-Cache-Key $cache_key;
+      add_header X-Cache-Status $upstream_cache_status;
+
+      # Other proxy settings
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
     nginx.org/server-snippets: |
-      if ($scheme != "https") {
+      if ($http_x_forwarded_proto = 'http') {
           return 308 https://$host$request_uri;
       }
+  className: nginx-canon
   hosts:
-    - host: app-dev.datausa.io
+    - host: cambridge-app.datausa.io
+      paths:
+        - /
+        - /ws
+    - host: prod-app.datausa.io
       paths:
         - /
         - /ws
   tls:
-    - secretName: canon-site-tls
+    - secretName: canon-site-cambridge-prod-tls
       hosts:
-        - app-dev.datausa.io
+        - cambridge-app.datausa.io
+        - prod-app.datausa.io

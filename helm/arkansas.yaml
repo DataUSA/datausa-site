@@ -7,20 +7,20 @@ imagePullSecrets:
 replicaCount: 3
 
 autoscaling:
-  enabled: false
+  enabled: true
   minReplicas: 1
-  maxReplicas: 10
+  maxReplicas: 4
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 120
 
 resources:
   requests:
-    cpu: 500m
+    cpu: 100m
     memory: 1Gi
     ephemeral-storage: 100Mi
   limits:
-    cpu: 1500m
-    memory: 3Gi
+    cpu: 500m
+    memory: 2Gi
     ephemeral-storage: 512Mi
 
 livenessProbe:
@@ -45,18 +45,55 @@ readinessProbe:
   timeoutSeconds: 30
   successThreshold: 2
 
-volumeMountsEnabled: true
-
-volumeMounts:
-  name: google-analytics-volumen
-  mountPath: /app/google
+podAnnotations:
+  gke-gcsfuse/volumes: "true"
+  gke-gcsfuse/cpu-limit: 500m
+  gke-gcsfuse/memory-limit: 512Mi
+  gke-gcsfuse/ephemeral-storage-limit: 2Gi
 
 volumesEnabled: true
 
 volumes:
-  name: google-analytics-volumen
-  configMap:
-    name: google-analytics
+  - name: google-analytics-volumen
+    configMap:
+      name: google-analytics
+  - name: nginx-cache-volume
+    persistentVolumeClaim:
+      claimName: canon-site-arkansas-pvc
+
+volumeMountsEnabled: true
+
+volumeMounts:
+  - name: google-analytics-volumen
+    mountPath: /app/google
+  - name: nginx-cache-volume
+    mountPath: /tmp/nginx-cache
+    readOnly: false
+
+persistentVolume:
+  storageClass:
+    accessModes:
+      - ReadWriteMany
+    storage: 30Gi
+    storageClassName:
+  mountOptions:
+    - implicit-dirs
+    - file-mode=777
+    - dir-mode=777
+    # - uid=1001
+    # - gid=1001
+  csi:
+    volumeHandle: datausa-site-cache # bucket name
+    readOnly: false
+
+# securityContext:
+#   capabilities: {}
+#   privileged: true
+
+# podSecurityContext:
+#   runAsUser: 1001
+#   runAsGroup: 1001
+#   fsGroup: 1001
 
 service:
   type: ClusterIP
@@ -64,12 +101,13 @@ service:
 
 serviceAccount:
   # Specifies whether a service account should be created
-  create: true
+  create: false
   # Annotations to add to the service account
-  annotations: {}
+  annotations:
+    iam.gke.io/gcp-service-account: bucket-admin@data-usa-174910.iam.gserviceaccount.com
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: ""
+  name: "kube-httpcache"
 
 configMap:
   CANON_API: "https://app-arkansas.datausa.io"
@@ -117,11 +155,8 @@ ingress:
     - host: app-arkansas.datausa.io
       paths:
         - path: /
-          service: canon-site-arkansas-cache
-          port: 80
-        - path: /signaller
-          service: canon-site-arkansas-cache
-          port: 8090
+          service: canon-site-arkansas
+          port: 3300
         - path: /api/candidate/
           service: canon-site-arkansas
           port: 3300
@@ -143,25 +178,7 @@ ingress:
         - path: /ws
           service: canon-site-arkansas
           port: 3300
-    - host: app-prod.datausa.io
-      paths:
-        - path: /
-          service: canon-site-arkansas-cache
-          port: 80
-        - path: /signaller
-          service: canon-site-arkansas-cache
-          port: 8090
-        - path: /api/cms
-          service: canon-site-arkansas
-          port: 3300
-        - path: /api/cms/customAttributes
-          service: canon-site-arkansas
-          port: 3300
-        - path: /ws
-          service: canon-site-arkansas
-          port: 3300
   tls:
     - secretName: canon-site-ingress-tls
       hosts:
         - app-arkansas.datausa.io
-        - app-prod.datausa.io
