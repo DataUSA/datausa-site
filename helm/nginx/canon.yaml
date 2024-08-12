@@ -1,8 +1,8 @@
 controller:
   volumes:
-  - name: canon-site-cache
+  - name: canon-site-cambridge-cache
     persistentVolumeClaim:
-      claimName: canon-site-pvc
+      claimName: canon-site-cambridge-pvc
 
   volumeMounts:
     - mountPath: /opt/sfw
