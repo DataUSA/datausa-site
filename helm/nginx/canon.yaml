@@ -1,13 +1,13 @@
 controller:
   volumes:
-  - name: canon-site-boston-cache
+  - name: canon-site-cache
     persistentVolumeClaim:
-      claimName: canon-site-boston-pvc
+      claimName: canon-site-pvc
 
   volumeMounts:
     - mountPath: /opt/sfw
-      name: canon-site-boston-cache
-      subPath: boston-06122024
+      name: canon-site-cambridge-cache
+      subPath: cambridge-08122024
 
   service:
     loadBalancerIP: 34.27.24.41
