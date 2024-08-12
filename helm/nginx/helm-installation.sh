@@ -5,7 +5,7 @@ helm repo add nginx-stable https://helm.nginx.com/stable
 helm repo update
 
 helm upgrade --install --create-namespace \
-  nginx-ingress-canon-cache ./helm/nginx \
+  nginx-ingress-canon-cache ./helm/nginx/persistentvolume \
   --set controller.name=nginx-ingress-canon-cache \
   --set persistentVolume.nfs.server=$CACHE_IP \
   --values=./helm/nginx/canon.yaml \
