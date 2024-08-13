@@ -82,7 +82,7 @@ persistentVolume:
     storageClassName:
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    path: /opt/sfw/boston
+    path: /opt/sfw
     readOnly: false
 
 configMap:

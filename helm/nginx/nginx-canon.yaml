@@ -5,7 +5,7 @@ controller:
       claimName: canon-site-boston-cache-pvc
 
   volumeMounts:
-    - mountPath: /opt/sfw/boston
+    - mountPath: /opt/sfw
       name: canon-site-boston-cache
       subPath: boston-06122024
 
