@@ -5,11 +5,11 @@ metadata:
 data:
   server-tokens: "false"
   http-snippets: |
-    proxy_cache_path /opt/sfw levels=1:2 keys_zone=boston-cache:256m max_size=30g inactive=365d use_temp_path=off;
+    proxy_cache_path /opt/sfw levels=1:2 keys_zone=cambridge-cache:256m max_size=30g inactive=365d use_temp_path=off;
 
     map $http_host $served_host {
       default $http_host;
-      prod-app.datausa.io boston-app.datausa.io;
+      prod-app.datausa.io cambridge-app.datausa.io;
     }
 
     map $request_method:$request_uri $response_xframe_option {

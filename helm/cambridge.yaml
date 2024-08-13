@@ -151,11 +151,11 @@ ingress:
       }
   className: nginx-canon
   hosts:
-    - host: cambridge-app.datausa.io
+    - host: cambridge.datausa.io
       paths:
         - /
         - /ws
   tls:
     - secretName: canon-site-cambridge-prod-tls
       hosts:
-        - cambridge-app.datausa.io
+        - cambridge.datausa.io
