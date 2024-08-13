@@ -105,8 +105,8 @@ ingress:
     nginx.org/proxy-buffers: "8 32k"
     nginx.org/proxy-busy-buffers-size: "256k"
     nginx.org/proxy-connect-timeout: "420s"
-    nginx.org/proxy-read-timeout: "420s"
     nginx.org/proxy-send-timeout: "420s"
+    nginx.org/proxy-read-timeout: "420s"
     nginx.org/websocket-services: "canon-site"
     nginx.org/location-snippets: |
       add_header Access-Control-Allow-Origin *;
