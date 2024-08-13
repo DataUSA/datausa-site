@@ -82,7 +82,7 @@ persistentVolume:
     storageClassName:
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    path: /etc/nginx/cache/boston
+    path: /opt/sfw
     readOnly: false
 
 configMap:
