@@ -167,6 +167,7 @@ jobs:
               --set secrets.CANON_DB_HOST=$ENCODED_CANON_DB_HOST \
               --set secrets.CANON_DB_PW=$ENCODED_CANON_DB_PW \
               --set secrets.CANON_HOTJAR=$ENCODED_CANON_HOTJAR \
+              --set persistentVolume.nfs.server=${{ secrets.CACHE_IP }} \
               ${{ env.GKE_APP_NAME }}-${{ inputs.release }} --values=./helm/${{ inputs.release }}.yaml ./helm
 
      # Install Cache Helm chart
