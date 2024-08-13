@@ -86,7 +86,7 @@ persistentVolume:
     readOnly: false
 
 configMap:
-  CANON_API: "https://cambridge-app.datausa.io"
+  CANON_API: "https://prod-app.datausa.io"
   CANON_CMS_CUBES: "https://cambridge-api.datausa.io/"
   CANON_CMS_ENABLE: "false"
   CANON_CMS_FORCE_HTTPS: "true"
@@ -151,11 +151,16 @@ ingress:
       }
   className: nginx-canon
   hosts:
-    - host: cambridge.datausa.io
+    - host: cambridge-app.datausa.io
+      paths:
+        - /
+        - /ws
+    - host: prod-app.datausa.io
       paths:
         - /
         - /ws
   tls:
     - secretName: canon-site-cambridge-prod-tls
       hosts:
-        - cambridge.datausa.io
+        - cambridge-app.datausa.io
+        - prod-app.datausa.io

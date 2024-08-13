@@ -78,7 +78,7 @@ persistentVolume:
   storageClass:
     accessModes:
       - ReadWriteMany
-    storage: 15Gi
+    storage: 30Gi
     storageClassName:
   persistentVolumeReclaimPolicy: Retain
   nfs:
@@ -86,8 +86,8 @@ persistentVolume:
     readOnly: false
 
 configMap:
-  CANON_API: "https://prod-app.datausa.io"
-  CANON_CMS_CUBES: "https://cambridge-api.datausa.io/"
+  CANON_API: "https://boston-app.datausa.io"
+  CANON_CMS_CUBES: "https://boston-api.datausa.io/"
   CANON_CMS_ENABLE: "false"
   CANON_CMS_FORCE_HTTPS: "true"
   CANON_CMS_GENERATOR_TIMEOUT: "600000"
@@ -95,15 +95,15 @@ configMap:
   CANON_CMS_MINIMUM_ROLE: "1"
   CANON_CMS_REQUESTS_PER_SECOND: "60"
   CANON_CONST_CART: "datausa-cart-v3"
-  CANON_CONST_CUBE: "https://cambridge-api.datausa.io/"
-  CANON_CONST_TESSERACT: "https://cambridge-api-ts.datausa.io/"
-  CANON_DB_NAME: "datausa-cms-21-cambridge"
+  CANON_CONST_CUBE: "https://boston-api.datausa.io/"
+  CANON_CONST_TESSERACT: "https://boston-api-ts.datausa.io/"
+  CANON_DB_NAME: "datausa-cms-21-boston"
   CANON_DB_USER: "deploy"
   CANON_GEOSERVICE_API : "https://geoservice.datausa.io/api/"
   CANON_GOOGLE_ANALYTICS: "UA-70325841-1"
   CANON_LANGUAGES: "en"
   CANON_LANGUAGE_DEFAULT: "en"
-  CANON_LOGICLAYER_CUBE: "https://cambridge-api.datausa.io/"
+  CANON_LOGICLAYER_CUBE: "https://boston-api.datausa.io/"
   CANON_LOGICLAYER_SLUGS: "true"
   CANON_LOGINS: "true"
   GA_KEYFILE: "/app/google/googleAnalyticsKey.json"
@@ -129,7 +129,7 @@ ingress:
 
       # Define the cache key
       set $cache_key "$host$request_uri";
-      proxy_cache cambridge-cache;
+      proxy_cache boston-cache;
       proxy_cache_bypass $http_x_update;
       proxy_cache_key $cache_key;
       proxy_cache_methods GET HEAD;
@@ -151,7 +151,7 @@ ingress:
       }
   className: nginx-canon
   hosts:
-    - host: cambridge.datausa.io
+    - host: boston-app.datausa.io
       paths:
         - /
         - /ws
@@ -162,5 +162,5 @@ ingress:
   tls:
     - secretName: canon-site-boston-prod-tls
       hosts:
-        - cambridge-app.datausa.io
+        - boston-app.datausa.io
         - prod-app.datausa.io
