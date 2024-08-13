@@ -5,10 +5,10 @@ helm repo add nginx-stable https://helm.nginx.com/stable
 helm repo update
 
 helm upgrade --install --create-namespace \
-  nginx-ingress-canon-cache ./helm/nginx/persistentvolume \
-  --set fullnameOverride=nginx-ingress-canon-cache \
+  canon-site-boston-cache ./helm/nginx/persistentvolume \
+  --set fullnameOverride=canon-site-boston-cache \
   --set persistentVolume.nfs.server=$CACHE_IP \
-  --values=./helm/nginx/canon.yaml \
+  --values=./helm/boston.yaml \
   --namespace nginx-ingress-canon
 
 # --set controller.service.loadBalancerIP="34.27.24.41" \
@@ -21,5 +21,5 @@ helm upgrade --install --create-namespace \
   --set controller.ingressClass.create=true \
   --set controller.image.tag=3.6.1 \
   --set controller.debug.enable=false \
-  --values=./helm/nginx/canon.yaml \
+  --values=./helm/nginx/nginx-canon.yaml \
   --namespace nginx-ingress-canon
