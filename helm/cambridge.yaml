@@ -143,12 +143,7 @@ ingress:
       paths:
         - /
         - /ws
-    - host: prod-app.datausa.io
-      paths:
-        - /
-        - /ws
   tls:
-    - secretName: canon-site-cambridge-tls
+    - secretName: canon-site-cambridge-prod-tls
       hosts:
         - cambridge-app.datausa.io
-        - prod-app.datausa.io
