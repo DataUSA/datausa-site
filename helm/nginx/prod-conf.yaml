@@ -9,7 +9,7 @@ data:
 
     map $http_host $served_host {
       default $http_host;
-      prod-app.datausa.io cambridge.datausa.io;
+      cambridge.datausa.io prod-app.datausa.io;
     }
 
     map $request_method:$request_uri $response_xframe_option {
