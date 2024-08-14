@@ -8,7 +8,7 @@ replicaCount: 3
 
 autoscaling:
   enabled: true
-  minReplicas: 1
+  minReplicas: 4
   maxReplicas: 10
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 120
@@ -151,10 +151,6 @@ ingress:
       }
   className: nginx-canon
   hosts:
-    - host: cambridge-app.datausa.io
-      paths:
-        - /
-        - /ws
     - host: prod-app.datausa.io
       paths:
         - /
@@ -162,5 +158,4 @@ ingress:
   tls:
     - secretName: canon-site-cambridge-prod-tls
       hosts:
-        - cambridge-app.datausa.io
         - prod-app.datausa.io
