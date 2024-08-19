@@ -78,7 +78,7 @@ persistentVolume:
   storageClass:
     accessModes:
       - ReadWriteMany
-    storage: 15Gi
+    storage: 130Gi
     storageClassName:
   persistentVolumeReclaimPolicy: Retain
   nfs:
@@ -86,7 +86,7 @@ persistentVolume:
     readOnly: false
 
 configMap:
-  CANON_API: "https://prod-app.datausa.io"
+  CANON_API: "https://cambridge-app.datausa.io"
   CANON_CMS_CUBES: "https://cambridge-api.datausa.io/"
   CANON_CMS_ENABLE: "false"
   CANON_CMS_FORCE_HTTPS: "true"
@@ -137,10 +137,10 @@ ingress:
       proxy_ignore_headers Vary;
 
       # Add the custom header with the cache key
-      add_header X-Cache-Key $cache_key;
+      # add_header X-Cache-Key $cache_key;
       add_header X-Cache-Status $upstream_cache_status;
 
-      # Other proxy settings
+      # Other proxy settings (don't uncomment, doesn't work with cert-manager.io)
       # proxy_set_header Host $host;
       # proxy_set_header X-Real-IP $remote_addr;
       # proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
