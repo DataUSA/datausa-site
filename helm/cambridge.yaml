@@ -86,7 +86,7 @@ persistentVolume:
     readOnly: false
 
 configMap:
-  CANON_API: "https://cambridge-app.datausa.io"
+  CANON_API: "https://prod-app.datausa.io"
   CANON_CMS_CUBES: "https://cambridge-api.datausa.io/"
   CANON_CMS_ENABLE: "false"
   CANON_CMS_FORCE_HTTPS: "true"
