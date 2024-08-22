@@ -114,19 +114,18 @@ ingress:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     acme.cert-manager.io/http01-edit-in-place: "true"
     ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.org/client-max-body-size: "256m"
     nginx.org/proxy-buffers: "8 2m"
     nginx.org/proxy-buffer-size: "12m"
     nginx.org/proxy-busy-buffers-size: "12m"
-    nginx.org/client-max-body-size: "12m"
     nginx.org/proxy-connect-timeout: "600s"
     nginx.org/proxy-read-timeout: "600s"
     nginx.org/proxy-send-timeout: "600s"
     nginx.org/websocket-services: "canon-site-cambridge"
     nginx.org/location-snippets: |
       add_header Access-Control-Allow-Origin *;
-      add_header Access-Control-Allow-Credentials true;
-      add_header Access-Control-Allow-Methods "GET, POST, OPTIONS";
-      # add_header Access-Control-Allow-Headers "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type";
+      # add_header Access-Control-Allow-Credentials true;
+      # add_header Access-Control-Allow-Methods "GET, POST, OPTIONS";
 
       # Define the cache key
       set $cache_key "$host$request_uri";
@@ -140,8 +139,6 @@ ingress:
       # Add the custom header with the cache key
       # add_header X-Cache-Key $cache_key;
       add_header X-Cache-Status $upstream_cache_status;
-      add_header Referrer-Policy "no-referrer";
-      add_header Strict-Transport-Security "max-age=15552000; includeSubDomains" always;
 
       # Other proxy settings (don't uncomment, doesn't work with cert-manager.io)
       # proxy_set_header Host $host;
