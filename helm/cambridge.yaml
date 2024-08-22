@@ -130,7 +130,7 @@ ingress:
       # Define the cache key
       set $cache_key "$host$request_uri";
       proxy_cache cambridge-cache;
-      proxy_cache_bypass $http_x_update;
+      # proxy_cache_bypass $http_x_update;
       proxy_cache_key $cache_key;
       proxy_cache_methods GET HEAD;
       proxy_cache_valid 200 365d;
