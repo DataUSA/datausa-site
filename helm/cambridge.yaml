@@ -136,13 +136,11 @@ ingress:
       proxy_cache_methods GET HEAD;
       proxy_cache_valid 200 365d;
       proxy_ignore_headers Vary;
-      add_header Cache-Control "public";
 
       # Add the custom header with the cache key
       # add_header X-Cache-Key $cache_key;
       add_header X-Cache-Status $upstream_cache_status;
       add_header Referrer-Policy "no-referrer";
-      add_header Strict-Transport-Security "max-age=15552000; includeSubDomains" always;
 
       # Other proxy settings (don't uncomment, doesn't work with cert-manager.io)
       # proxy_set_header Host $host;
