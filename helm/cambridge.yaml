@@ -170,7 +170,7 @@ ingress:
           proxy_hide_header Set-Cookie;
           # add_header Cache-Control "public" always;
           add_header X-Cache-Status $upstream_cache_status;
-          add_header X-Static-Cache "asd";
+          add_header X-Static-Cache "static-content";
           add_header X-Cache-Key $cache_key;
       }
   className: nginx-canon
