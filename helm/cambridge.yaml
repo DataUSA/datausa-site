@@ -154,7 +154,7 @@ ingress:
           return 308 https://$host$request_uri;
       }
       # Static files configuration
-      location ~* (\.(jpg|jpeg|png|gif|ico|css|js|woff|woff2|ttf|otf|svg)$|/thumb$) {
+      location ~* (\.(jpg|jpeg|png|gif|ico|css|js|woff|woff2|ttf|otf|svg)$|\/thumb$) {
           expires 30d;
           access_log off;
           proxy_pass http://production-canon-site-cambridge-prod-app.datausa.io-canon-site-cambridge-3300;
