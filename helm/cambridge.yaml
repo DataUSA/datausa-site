@@ -121,7 +121,7 @@ ingress:
     nginx.org/proxy-connect-timeout: "600s"
     nginx.org/proxy-read-timeout: "600s"
     nginx.org/proxy-send-timeout: "600s"
-    nginx.org/websocket-services: "canon-site-cambridge"
+    # nginx.org/websocket-services: "canon-site-cambridge"
     nginx.org/location-snippets: |
       add_header Access-Control-Allow-Origin *;
       add_header Access-Control-Allow-Credentials true;
