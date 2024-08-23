@@ -153,6 +153,13 @@ ingress:
       if ($http_x_forwarded_proto = 'http') {
           return 308 https://$host$request_uri;
       }
+      # Define cache log format
+      log_format cache_log '$remote_addr - $upstream_cache_status [$time_local] '
+                          '"$request" $status $body_bytes_sent '
+                          '"$http_referer" "$http_user_agent" "$request_time"';
+
+      # Set the access log for cache
+      access_log /var/log/nginx/cache.log cache_log;
       # Static files configuration
       location ~* (\.(jpg|jpeg|png|gif|ico|css|js|woff|woff2|ttf|otf|svg)$|/thumb$) {
           expires 30d;
