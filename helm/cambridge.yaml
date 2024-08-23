@@ -153,6 +153,17 @@ ingress:
       if ($http_x_forwarded_proto = 'http') {
           return 308 https://$host$request_uri;
       }
+      # Static files configuration
+      location ~* \.(jpg|jpeg|png|gif|ico|css|js|woff|woff2|ttf|otf|svg)$ {
+          expires 30d;
+          access_log off;
+          proxy_pass http://production-canon-site-cambridge-prod-app.datausa.io-canon-site-cambridge-3300;
+          proxy_cache cambridge-cache;
+          proxy_cache_valid 200 302 10m;
+          proxy_cache_valid 404 1m;
+          add_header Cache-Control "public";
+          add_header X-Cache-Status $upstream_cache_status;
+      }
   className: nginx-canon
   hosts:
     - host: cambridge-app.datausa.io
