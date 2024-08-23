@@ -156,15 +156,15 @@ ingress:
       # Static files configuration
       location ~* (\.(jpg|jpeg|png|gif|ico|css|js|woff|woff2|ttf|otf|svg)$|\/thumb$) {
           expires 30d;
-          access_log off;
+          # access_log off;
           proxy_pass http://production-canon-site-cambridge-prod-app.datausa.io-canon-site-cambridge-3300;
           set $cache_key "$host$request_uri";
           proxy_cache cambridge-cache;
           proxy_cache_bypass $http_x_update;
           proxy_cache_key $cache_key;
           proxy_cache_methods GET HEAD;
-          proxy_cache_valid 200 302 10m;
-          proxy_cache_valid 404 1m;
+          proxy_cache_valid 200 302 100m;
+          proxy_cache_valid 404 10m;
           proxy_ignore_headers Vary;
           proxy_hide_header Cache-Control;
           proxy_hide_header Set-Cookie;
