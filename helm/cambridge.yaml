@@ -154,7 +154,7 @@ ingress:
           return 308 https://$host$request_uri;
       }
       # Static files configuration
-      location ~* \.(jpg|jpeg|png|gif|ico|css|js|woff|woff2|ttf|otf|svg)$ {
+      location ~* (\.(jpg|jpeg|png|gif|ico|css|js|woff|woff2|ttf|otf|svg)$|/thumb$) {
           expires 30d;
           access_log off;
           proxy_pass http://production-canon-site-cambridge-prod-app.datausa.io-canon-site-cambridge-3300;
@@ -163,6 +163,7 @@ ingress:
           proxy_cache_valid 404 1m;
           add_header Cache-Control "public";
           add_header X-Cache-Status $upstream_cache_status;
+          add_header X-Static-Cache "butters";
       }
   className: nginx-canon
   hosts:
