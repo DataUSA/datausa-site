@@ -169,7 +169,7 @@ jobs:
               --set secrets.CANON_HOTJAR=$ENCODED_CANON_HOTJAR \
               ${{ env.GKE_APP_NAME }}-${{ inputs.release }} --values=./helm/${{ inputs.release }}.yaml ./helm
 
-     # Install Cache Helm chart
+      # Install Cache Helm chart
       - name: Add Helm cache repo
         uses: WyriHaximus/github-action-helm3@v2
         with:
