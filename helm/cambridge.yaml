@@ -143,6 +143,7 @@ ingress:
       # add_header X-Cache-Key $cache_key;
       add_header X-Cache-Status $upstream_cache_status;
       add_header Referrer-Policy "no-referrer";
+      add_header Cache-Control "public, max-age=120";
 
       # Other proxy settings (don't uncomment, doesn't work with cert-manager.io)
       # proxy_set_header Host $host;
