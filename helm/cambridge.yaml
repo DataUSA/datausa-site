@@ -159,16 +159,24 @@ ingress:
           expires 30d;
           # access_log off;
           proxy_pass http://production-canon-site-cambridge-prod-app.datausa.io-canon-site-cambridge-3300;
+
+          # Hide the Cache-Control header from the upstream response
+          proxy_hide_header Cache-Control;
+
+          # Add your custom Cache-Control header
+          add_header Cache-Control "public, max-age=3600";
+          proxy_ignore_headers "Cache-Control" "Expires";
+
           set $cache_key "$host$request_uri";
           proxy_cache cambridge-cache;
           proxy_cache_bypass $http_x_update;
           proxy_cache_key $cache_key;
           proxy_cache_methods GET HEAD;
-          proxy_cache_valid 200 302 100m;
-          proxy_cache_valid 404 10m;
+          proxy_cache_valid 200 302 365d;
+          # proxy_cache_valid 404 10m;
           proxy_ignore_headers Vary;
-          proxy_hide_header Cache-Control;
-          proxy_hide_header Set-Cookie;
+          proxy_ignore_headers "Cache-Control" "Expires";
+
           # add_header Cache-Control "public" always;
           add_header X-Cache-Status $upstream_cache_status;
           add_header X-Static-Cache "static-content";
