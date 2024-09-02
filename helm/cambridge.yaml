@@ -140,8 +140,9 @@ ingress:
 
       # Add the custom header with the cache key
       # add_header X-Cache-Key $cache_key;
-      add_header Cache-Control "public, max-age=120";
+      add_header Cache-Control "public, max-age=3600";
       add_header Referrer-Policy "no-referrer";
+      add_header X-Cache-Date $upstream_http_date;
       add_header X-Cache-Status $upstream_cache_status;
 
       # Other proxy settings (don't uncomment, doesn't work with cert-manager.io)
@@ -159,7 +160,7 @@ ingress:
           proxy_pass http://production-canon-site-cambridge-prod-app.datausa.io-canon-site-cambridge-3300;
 
           # Add your custom Cache-Control header
-          add_header Cache-Control max-age=3600;
+          add_header Cache-Control "public, max-age=3600";
           # proxy_ignore_headers "Cache-Control" "Expires";
 
           set $cache_key "$host$request_uri";
@@ -177,6 +178,7 @@ ingress:
           add_header X-Cache-Date $upstream_http_date;
           add_header X-Cache-Status $upstream_cache_status;
           add_header X-Cache-Static "static-content";
+          add_header Referrer-Policy "no-referrer";
       }
   className: nginx-canon
   hosts:
