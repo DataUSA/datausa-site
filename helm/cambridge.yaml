@@ -135,15 +135,14 @@ ingress:
       proxy_cache_key $cache_key;
       proxy_cache_methods GET HEAD;
       proxy_cache_valid 200 365d;
-      #proxy_set_header Vary "";
       proxy_ignore_headers Vary;
       proxy_hide_header Vary;
 
       # Add the custom header with the cache key
       # add_header X-Cache-Key $cache_key;
-      add_header X-Cache-Status $upstream_cache_status;
-      add_header Referrer-Policy "no-referrer";
       add_header Cache-Control "public, max-age=120";
+      add_header Referrer-Policy "no-referrer";
+      add_header X-Cache-Status $upstream_cache_status;
 
       # Other proxy settings (don't uncomment, doesn't work with cert-manager.io)
       # proxy_set_header Host $host;
@@ -155,17 +154,13 @@ ingress:
           return 308 https://$host$request_uri;
       }
       # Static files configuration
-      location ~* (\.(jpg|jpeg|png|gif|ico|css|js|woff|woff2|ttf|otf|svg)$|\/thumb$) {
-          expires 30d;
+      location ~* (\.(jpg|jpeg|png|gif|ico|css|js|json|woff|woff2|ttf|otf|svg)$|\/thumb$) {
           # access_log off;
           proxy_pass http://production-canon-site-cambridge-prod-app.datausa.io-canon-site-cambridge-3300;
 
-          # Hide the Cache-Control header from the upstream response
-          proxy_hide_header Cache-Control;
-
           # Add your custom Cache-Control header
-          add_header Cache-Control "public, max-age=3600";
-          proxy_ignore_headers "Cache-Control" "Expires";
+          add_header Cache-Control max-age=3600;
+          # proxy_ignore_headers "Cache-Control" "Expires";
 
           set $cache_key "$host$request_uri";
           proxy_cache cambridge-cache;
@@ -175,12 +170,13 @@ ingress:
           proxy_cache_valid 200 302 365d;
           # proxy_cache_valid 404 10m;
           proxy_ignore_headers Vary;
-          proxy_ignore_headers "Cache-Control" "Expires";
+          proxy_hide_header Vary;
 
           # add_header Cache-Control "public" always;
-          add_header X-Cache-Status $upstream_cache_status;
-          add_header X-Static-Cache "static-content";
           add_header X-Cache-Key $cache_key;
+          add_header X-Cache-Date $upstream_http_date;
+          add_header X-Cache-Status $upstream_cache_status;
+          add_header X-Cache-Static "static-content";
       }
   className: nginx-canon
   hosts:
