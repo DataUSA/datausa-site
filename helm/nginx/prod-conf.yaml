@@ -9,6 +9,7 @@ data:
 
     map $http_host $served_host {
       default $http_host;
+      datausa.io prod-app.datausa.io;
       cambridge-app.datausa.io prod-app.datausa.io;
     }
 
