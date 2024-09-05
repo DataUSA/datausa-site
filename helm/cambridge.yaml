@@ -15,8 +15,8 @@ autoscaling:
 
 resources:
   requests:
-    cpu: 500m
-    memory: 1Gi
+    cpu: 1000m
+    memory: 1500Mi
     ephemeral-storage: 100Mi
   limits:
     cpu: 1500m
