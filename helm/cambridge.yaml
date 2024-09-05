@@ -8,7 +8,7 @@ replicaCount: 3
 
 autoscaling:
   enabled: true
-  minReplicas: 4
+  minReplicas: 1
   maxReplicas: 10
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 120
@@ -140,7 +140,7 @@ ingress:
 
       # Add the custom header with the cache key
       # add_header X-Cache-Key $cache_key;
-      add_header Cache-Control "public, max-age=3600";
+      # add_header Cache-Control "public, max-age=3600";
       add_header Referrer-Policy "no-referrer";
       add_header X-Cache-Date $upstream_http_date;
       add_header X-Cache-Status $upstream_cache_status;
@@ -164,13 +164,13 @@ ingress:
       paths:
         - /
         - /ws
-    - host: datausa.io
-      paths:
-        - /
-        - /ws
+    # - host: datausa.io
+    #   paths:
+    #     - /
+    #     - /ws
   tls:
     - secretName: canon-site-cambridge-prod-tls
       hosts:
         - cambridge-app.datausa.io
         - prod-app.datausa.io
-        - datausa.io
+        # - datausa.io
