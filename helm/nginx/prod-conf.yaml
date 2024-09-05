@@ -9,12 +9,12 @@ data:
 
     map $http_host $served_host {
       default $http_host;
-      datausa.io prod-app.datausa.io;
+      cambridge-app.datausa.io prod-app.datausa.io;
     }
 
     map $request_method:$request_uri $response_xframe_option {
-    default "SAMEORIGIN";
-     "~GET:\/profile\/[a-z]+\/[a-z-]+\/[a-z-]+\/[a-z-]+" "";
+      default "SAMEORIGIN";
+      "~GET:\/profile\/[a-z]+\/[a-z-]+\/[a-z-]+\/[a-z-]+" "";
     }
 
     gzip on;
