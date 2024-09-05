@@ -9,6 +9,7 @@ data:
 
     map $http_host $served_host {
       default $http_host;
+      cambridge-app.datausa.io prod-app.datausa.io;
       datausa.io prod-app.datausa.io;
     }
 
@@ -25,4 +26,4 @@ data:
     gzip_buffers 16 8k;
     gzip_http_version 1.1;
     gzip_min_length 256;
-    gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/vnd.ms-fontobject application/x-font-ttf font/opentype image/svg+xml image/x-icon image/jpeg image/png image/gif image/webp;
+    gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/vnd.ms-fontobject application/x-font-ttf font/opentype image/svg+xml image/x-icon;
