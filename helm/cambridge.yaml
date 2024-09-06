@@ -4,7 +4,7 @@ image:
 imagePullSecrets:
   - name: github
 
-replicaCount: 3
+replicaCount: 1
 
 autoscaling:
   enabled: true
@@ -15,12 +15,12 @@ autoscaling:
 
 resources:
   requests:
-    cpu: 1000m
+    cpu: 1500m
     memory: 2Gi
     ephemeral-storage: 100Mi
   limits:
-    cpu: 1500m
-    memory: 2Gi
+    cpu: 2000m
+    memory: 6Gi
     ephemeral-storage: 100Mi
 
 livenessProbe:
