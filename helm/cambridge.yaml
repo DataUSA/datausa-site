@@ -15,16 +15,12 @@ autoscaling:
 
 resources:
   requests:
-    cpu: 1500m
-    memory: 2Gi
-    ephemeral-storage: 100Mi
-  limits:
-    cpu: 2000m
-    memory: 6Gi
+    cpu: 500m
+    memory: 1Gi
     ephemeral-storage: 100Mi
 
 livenessProbe:
-  enabled: false
+  # enabled: false
   failureThreshold: 3
   httpGet:
     path: /
@@ -36,7 +32,7 @@ livenessProbe:
   successThreshold: 1
 
 readinessProbe:
-  enabled: false
+  # enabled: false
   failureThreshold: 3
   httpGet:
     path: /
