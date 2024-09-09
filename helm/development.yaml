@@ -13,16 +13,17 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 120
 
-resources:
-  requests:
-    cpu: 128m
-    memory: 2Gi
-  limits:
-    cpu: 500m
-    memory: 4Gi
+resources: {}
+# resources:
+#   requests:
+#     cpu: 128m
+#     memory: 2Gi
+#   limits:
+#     cpu: 500m
+#     memory: 4Gi
 
 livenessProbe:
-  enabled: false
+  enabled: true
   failureThreshold: 3
   httpGet:
     path: /
@@ -34,7 +35,7 @@ livenessProbe:
   successThreshold: 1
 
 readinessProbe:
-  enabled: false
+  enabled: true
   failureThreshold: 3
   httpGet:
     path: /
