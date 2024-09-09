@@ -23,7 +23,7 @@ resources: {}
 #     memory: 4Gi
 
 livenessProbe:
-  enabled: true
+  enabled: false
   failureThreshold: 3
   httpGet:
     path: /
@@ -35,7 +35,7 @@ livenessProbe:
   successThreshold: 1
 
 readinessProbe:
-  enabled: true
+  enabled: false
   failureThreshold: 3
   httpGet:
     path: /
