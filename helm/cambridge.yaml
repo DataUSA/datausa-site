@@ -94,7 +94,7 @@ configMap:
   CANON_CONST_CUBE: "https://cambridge-api.datausa.io/"
   CANON_CONST_TESSERACT: "https://cambridge-api-ts.datausa.io/"
   CANON_DB_NAME: "datausa-cms-21-cambridge"
-  CANON_DB_USER: "deploy"
+  CANON_DB_USER: "prod"
   CANON_GEOSERVICE_API : "https://geoservice.datausa.io/api/"
   CANON_GOOGLE_ANALYTICS: "UA-70325841-1"
   CANON_LANGUAGES: "en"
