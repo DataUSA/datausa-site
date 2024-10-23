@@ -151,7 +151,7 @@ ingress:
       if ($http_x_forwarded_proto = 'http') {
           return 308 https://$host$request_uri;
       }
-  className: nginx-canon
+  className: nginx-delaware
   hosts:
     - host: delaware-app.datausa.io
       paths:
