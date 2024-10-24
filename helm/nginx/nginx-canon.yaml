@@ -2,7 +2,7 @@ controller:
   volumes:
   - name: canon-site-cambridge-cache
     persistentVolumeClaim:
-      claimName: canon-site-cambridge-pvc
+      claimName: canon-site-cambridge-cache-pvc
 
   volumeMounts:
     - mountPath: /opt/sfw
@@ -12,4 +12,4 @@ controller:
   service:
     loadBalancerIP: 34.27.24.41
 
-  replicaCount: 2
+  replicaCount: 3

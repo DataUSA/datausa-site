@@ -1,0 +1,41 @@
+{{ if .Values.persistentVolume -}}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Values.fullnameOverride }}-pv
+  {{ if .Values.persistentVolume.namespace }}
+  namespace: {{ .Values.persistentVolume.namespace }}
+  {{ end }}
+  labels:
+    {{- include "chart-app.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    {{- range .Values.persistentVolume.storageClass.accessModes }}
+    - {{ . }}
+    {{- end }}
+  capacity:
+    storage: {{ .Values.persistentVolume.storageClass.storage }}
+  claimRef:
+    name: {{ .Values.fullnameOverride }}-pvc
+    {{ if .Values.persistentVolume.namespace }}
+    namespace: {{ .Values.persistentVolume.namespace }}
+    {{ end }}
+  storageClassName: {{ .Values.fullnameOverride }}
+  {{- if .Values.persistentVolume.mountOptions }}
+  mountOptions:
+    {{- range .Values.persistentVolume.mountOptions }}
+    - {{ . }}
+    {{- end }}
+  {{- end }}
+  {{- if .Values.persistentVolume.persistentVolumeReclaimPolicy }}
+  persistentVolumeReclaimPolicy: {{ .Values.persistentVolume.persistentVolumeReclaimPolicy }}
+  {{- end }}
+  {{- if .Values.persistentVolume.csi }}
+  csi:
+{{ toYaml .Values.persistentVolume.csi | indent 4 }}
+  {{- end }}
+  {{- if .Values.persistentVolume.nfs }}
+  nfs:
+{{ toYaml .Values.persistentVolume.nfs | indent 4 }}
+  {{- end }}
+{{ end -}}

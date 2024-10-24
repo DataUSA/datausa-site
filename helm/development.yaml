@@ -9,17 +9,18 @@ replicaCount: 1
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 10
+  maxReplicas: 6
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 120
 
-resources:
-  requests:
-    cpu: 128m
-    memory: 2Gi
-  limits:
-    cpu: 500m
-    memory: 4Gi
+resources: {}
+# resources:
+#   requests:
+#     cpu: 128m
+#     memory: 2Gi
+#   limits:
+#     cpu: 500m
+#     memory: 4Gi
 
 livenessProbe:
   enabled: false
@@ -73,7 +74,7 @@ serviceAccount:
 
 configMap:
   CANON_API: "https://app-dev.datausa.io"
-  CANON_CMS_CUBES: "https://cambridge-api.datausa.io/"
+  CANON_CMS_CUBES: "https://delaware-api.datausa.io/"
   CANON_CMS_ENABLE: "true"
   CANON_CMS_FORCE_HTTPS: "true"
   CANON_CMS_GENERATOR_TIMEOUT: "600000"
@@ -81,7 +82,7 @@ configMap:
   CANON_CMS_MINIMUM_ROLE: "1"
   CANON_CMS_REQUESTS_PER_SECOND: "60"
   CANON_CONST_CART: "datausa-cart-v3"
-  CANON_CONST_CUBE: "https://cambridge-api.datausa.io/"
+  CANON_CONST_CUBE: "https://delaware-api.datausa.io/"
   CANON_CONST_TESSERACT: "https://api-ts-dev.datausa.io/"
   CANON_DB_NAME: "datausa-cms-21-dev"
   CANON_DB_USER: "deploy"
@@ -89,7 +90,7 @@ configMap:
   CANON_GOOGLE_ANALYTICS: "UA-70325841-1"
   CANON_LANGUAGES: "en"
   CANON_LANGUAGE_DEFAULT: "en"
-  CANON_LOGICLAYER_CUBE: "https://cambridge-api.datausa.io/"
+  CANON_LOGICLAYER_CUBE: "https://delaware-api.datausa.io/"
   CANON_LOGICLAYER_SLUGS: "true"
   CANON_LOGINS: "true"
   GA_KEYFILE: "/app/google/googleAnalyticsKey.json"
@@ -105,8 +106,8 @@ ingress:
     nginx.org/proxy-buffers: "8 32k"
     nginx.org/proxy-busy-buffers-size: "256k"
     nginx.org/proxy-connect-timeout: "420s"
-    nginx.org/proxy-read-timeout: "420s"
     nginx.org/proxy-send-timeout: "420s"
+    nginx.org/proxy-read-timeout: "420s"
     nginx.org/websocket-services: "canon-site"
     nginx.org/location-snippets: |
       add_header Access-Control-Allow-Origin *;

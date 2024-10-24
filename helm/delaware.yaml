@@ -4,11 +4,11 @@ image:
 imagePullSecrets:
   - name: github
 
-replicaCount: 2
+replicaCount: 1
 
 autoscaling:
   enabled: true
-  minReplicas: 2
+  minReplicas: 1
   maxReplicas: 5
   targetCPUUtilizationPercentage: 120
   targetMemoryUtilizationPercentage: 120
@@ -16,7 +16,7 @@ autoscaling:
 resources:
   requests:
     cpu: 500m
-    memory: 1Gi
+    memory: 4Gi
     ephemeral-storage: 100Mi
 
 livenessProbe:
@@ -69,21 +69,21 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
-persistentVolume:
-  namespace: nginx-ingress-canon
-  storageClass:
-    accessModes:
-      - ReadWriteMany
-    storage: 300Gi
-    storageClassName:
-  persistentVolumeReclaimPolicy: Retain
-  nfs:
-    path: /opt/sfw
-    readOnly: false
+# persistentVolume:
+#   namespace: nginx-ingress-canon
+#   storageClass:
+#     accessModes:
+#       - ReadWriteMany
+#     storage: 300Gi
+#     storageClassName:
+#   persistentVolumeReclaimPolicy: Retain
+#   nfs:
+#     path: /opt/sfw
+#     readOnly: false
 
 configMap:
-  CANON_API: "https://prod-app.datausa.io"
-  CANON_CMS_CUBES: "https://cambridge-api.datausa.io/"
+  CANON_API: "https://delaware-app.datausa.io"
+  CANON_CMS_CUBES: "https://delaware-api.datausa.io/"
   CANON_CMS_ENABLE: "false"
   CANON_CMS_FORCE_HTTPS: "true"
   CANON_CMS_GENERATOR_TIMEOUT: "600000"
@@ -91,15 +91,15 @@ configMap:
   CANON_CMS_MINIMUM_ROLE: "1"
   CANON_CMS_REQUESTS_PER_SECOND: "60"
   CANON_CONST_CART: "datausa-cart-v3"
-  CANON_CONST_CUBE: "https://cambridge-api.datausa.io/"
-  CANON_CONST_TESSERACT: "https://cambridge-api-ts.datausa.io/"
-  CANON_DB_NAME: "datausa-cms-21-cambridge"
+  CANON_CONST_CUBE: "https://delaware-api.datausa.io/"
+  CANON_CONST_TESSERACT: "https://delaware-api-ts.datausa.io/"
+  CANON_DB_NAME: "datausa-cms-21-delaware"
   CANON_DB_USER: "prod"
   CANON_GEOSERVICE_API : "https://geoservice.datausa.io/api/"
   CANON_GOOGLE_ANALYTICS: "UA-70325841-1"
   CANON_LANGUAGES: "en"
   CANON_LANGUAGE_DEFAULT: "en"
-  CANON_LOGICLAYER_CUBE: "https://cambridge-api.datausa.io/"
+  CANON_LOGICLAYER_CUBE: "https://delaware-api.datausa.io/"
   CANON_LOGICLAYER_SLUGS: "true"
   CANON_LOGINS: "true"
   GA_KEYFILE: "/app/google/googleAnalyticsKey.json"
@@ -117,7 +117,7 @@ ingress:
     nginx.org/proxy-connect-timeout: "600s"
     nginx.org/proxy-read-timeout: "600s"
     nginx.org/proxy-send-timeout: "600s"
-    # nginx.org/websocket-services: "canon-site-cambridge"
+    # nginx.org/websocket-services: "canon-site-delaware"
     nginx.org/location-snippets: |
       add_header Access-Control-Allow-Origin *;
       add_header Access-Control-Allow-Credentials true;
@@ -125,9 +125,9 @@ ingress:
       # add_header Access-Control-Allow-Headers "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type";
 
       # Define the cache key
-      # set $cache_key "$host$request_uri";
-      set $cache_key "$served_host$request_uri";
-      proxy_cache cambridge-cache;
+      set $cache_key "$host$request_uri";
+      # set $cache_key "$served_host$request_uri";
+      proxy_cache delaware-cache;
       proxy_cache_bypass $http_x_update;
       proxy_cache_key $cache_key;
       proxy_cache_methods GET HEAD;
@@ -151,23 +151,23 @@ ingress:
       if ($http_x_forwarded_proto = 'http') {
           return 308 https://$host$request_uri;
       }
-  className: nginx-canon
+  className: nginx-delaware
   hosts:
-    - host: cambridge-app.datausa.io
+    - host: delaware-app.datausa.io
       paths:
         - /
         - /ws
-    - host: prod-app.datausa.io
-      paths:
-        - /
-        - /ws
-    - host: datausa.io
-      paths:
-        - /
-        - /ws
+    # - host: prod-app.datausa.io
+    #   paths:
+    #     - /
+    #     - /ws
+    # - host: datausa.io
+    #   paths:
+    #     - /
+    #     - /ws
   tls:
-    - secretName: canon-site-cambridge-prod-tls
+    - secretName: canon-site-delaware-prod-tls
       hosts:
-        - cambridge-app.datausa.io
-        - prod-app.datausa.io
-        - datausa.io
+        - delaware-app.datausa.io
+        # - prod-app.datausa.io
+        # - datausa.io
