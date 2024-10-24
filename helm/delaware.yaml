@@ -82,7 +82,7 @@ serviceAccount:
 #     readOnly: false
 
 configMap:
-  CANON_API: "https://prod-app.datausa.io"
+  CANON_API: "https://delaware-app.datausa.io"
   CANON_CMS_CUBES: "https://delaware-api.datausa.io/"
   CANON_CMS_ENABLE: "false"
   CANON_CMS_FORCE_HTTPS: "true"
@@ -125,8 +125,8 @@ ingress:
       # add_header Access-Control-Allow-Headers "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type";
 
       # Define the cache key
-      set $cache_key "$host$request_uri";
-      # set $cache_key "$served_host$request_uri";
+      # set $cache_key "$host$request_uri";
+      set $cache_key "$served_host$request_uri";
       proxy_cache delaware-cache;
       proxy_cache_bypass $http_x_update;
       proxy_cache_key $cache_key;
