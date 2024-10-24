@@ -15,9 +15,9 @@ autoscaling:
 
 resources:
   requests:
-    cpu: 500m
+    cpu: 2000m
     memory: 4Gi
-    ephemeral-storage: 100Mi
+    ephemeral-storage: 512Mi
 
 livenessProbe:
   # enabled: false
