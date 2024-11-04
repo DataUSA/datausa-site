@@ -85,6 +85,7 @@ module.exports = function(app) {
       retObj.stateElectionId = ["Nation", "State", "County"].includes(hierarchy) ? id : stateElection.join(",");
       retObj.electionCut = hierarchy === "Nation" ? `State` : hierarchy === "County" ? `County&State+County=${retObj.stateDataID}` : `County&State+County=${retObj.stateElectionId}`;
       retObj.hierarchySub = hierarchy === "Nation" ? "State" : "County";
+      retObj.CBPSection = hierarchy === "County" || (hierarchy === "State" && id !== "04000US72") || hierarchy === "MSA"
 
       if (hierarchy !== "Nation") {
         const url = `${CANON_GEOSERVICE_API}neighbors/${state ? state.id : id}`;
