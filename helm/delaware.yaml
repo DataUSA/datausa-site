@@ -4,10 +4,10 @@ image:
 imagePullSecrets:
   - name: github
 
-replicaCount: 1
+replicaCount: 2
 
 autoscaling:
-  enabled: true
+  enabled: false
   minReplicas: 1
   maxReplicas: 5
   targetCPUUtilizationPercentage: 120
@@ -15,9 +15,9 @@ autoscaling:
 
 resources:
   requests:
-    cpu: 500m
-    memory: 4Gi
-    ephemeral-storage: 100Mi
+    cpu: 1000m
+    memory: 3Gi
+    ephemeral-storage: 512Mi
 
 livenessProbe:
   # enabled: false
@@ -87,7 +87,7 @@ configMap:
   CANON_CMS_ENABLE: "false"
   CANON_CMS_FORCE_HTTPS: "true"
   CANON_CMS_GENERATOR_TIMEOUT: "600000"
-  CANON_CMS_LOGGING: "false"
+  CANON_CMS_LOGGING: "true"
   CANON_CMS_MINIMUM_ROLE: "1"
   CANON_CMS_REQUESTS_PER_SECOND: "60"
   CANON_CONST_CART: "datausa-cart-v3"
