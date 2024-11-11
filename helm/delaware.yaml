@@ -125,8 +125,8 @@ ingress:
       # add_header Access-Control-Allow-Headers "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type";
 
       # Define the cache key
-      set $cache_key "$host$request_uri";
-      # set $cache_key "$served_host$request_uri";
+      # set $cache_key "$host$request_uri";
+      set $cache_key "$served_host$request_uri";
       proxy_cache delaware-cache;
       proxy_cache_bypass $http_x_update;
       proxy_cache_key $cache_key;
