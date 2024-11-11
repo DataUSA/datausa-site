@@ -157,17 +157,17 @@ ingress:
       paths:
         - /
         - /ws
-    # - host: test.datausa.io
-    #   paths:
-    #     - /
-    #     - /ws
     - host: datausa.io
       paths:
         - /
         - /ws
+    # - host: test.datausa.io
+    #   paths:
+    #     - /
+    #     - /ws
   tls:
     - secretName: canon-site-delaware-prod-tls
       hosts:
         - delaware-app.datausa.io
-        # - test.datausa.io
         - datausa.io
+        # - test.datausa.io
