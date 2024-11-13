@@ -74,7 +74,7 @@ serviceAccount:
 
 configMap:
   CANON_API: "https://app-dev.datausa.io"
-  CANON_CMS_CUBES: "https://delaware-api.datausa.io/"
+  CANON_CMS_CUBES: "https://elpaso-api.datausa.io/"
   CANON_CMS_ENABLE: "true"
   CANON_CMS_FORCE_HTTPS: "true"
   CANON_CMS_GENERATOR_TIMEOUT: "600000"
@@ -82,7 +82,7 @@ configMap:
   CANON_CMS_MINIMUM_ROLE: "1"
   CANON_CMS_REQUESTS_PER_SECOND: "60"
   CANON_CONST_CART: "datausa-cart-v3"
-  CANON_CONST_CUBE: "https://delaware-api.datausa.io/"
+  CANON_CONST_CUBE: "https://elpaso-api.datausa.io/"
   CANON_CONST_TESSERACT: "https://api-ts-dev.datausa.io/"
   CANON_DB_NAME: "datausa-cms-21-dev"
   CANON_DB_USER: "deploy"
@@ -90,7 +90,7 @@ configMap:
   CANON_GOOGLE_ANALYTICS: "UA-70325841-1"
   CANON_LANGUAGES: "en"
   CANON_LANGUAGE_DEFAULT: "en"
-  CANON_LOGICLAYER_CUBE: "https://delaware-api.datausa.io/"
+  CANON_LOGICLAYER_CUBE: "https://elpaso-api.datausa.io/"
   CANON_LOGICLAYER_SLUGS: "true"
   CANON_LOGINS: "true"
   GA_KEYFILE: "/app/google/googleAnalyticsKey.json"
