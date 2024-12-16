@@ -157,7 +157,7 @@ jobs:
         with:
           exec: |
             helm upgrade --install --create-namespace \
-              --namespace ${{ env.GKE_APP_NAMESPACE }} \
+              --namespace ${{ inputs.release }} \
               --set app.environment=${{ env.GKE_APP_NAMESPACE }} \
               --set app.release=${{ env.GKE_APP_NAMESPACE }} \
               --set image.repository=${{ env.GCP_ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}/${{ env.GCP_IMAGE_NAME }} \
