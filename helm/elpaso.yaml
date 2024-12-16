@@ -49,7 +49,7 @@ volumeMounts:
   - name: google-analytics-volumen
     mountPath: /app/google
 
-volumesEnabled: true
+volumesEnabled: false
 
 volumes:
   - name: google-analytics-volumen
