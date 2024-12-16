@@ -62,8 +62,8 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - .github/workflows/google-registry-gke-dev.yaml
-      - helm/development.yaml
+      - .github/workflows/google-registry-prod.yaml
+      - helm/**
       - api/**
       - app/**
       - cache/**
