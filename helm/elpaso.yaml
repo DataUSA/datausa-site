@@ -43,13 +43,13 @@ readinessProbe:
   timeoutSeconds: 30
   successThreshold: 2
 
-volumeMountsEnabled: true
+volumeMountsEnabled: false
 
 volumeMounts:
   - name: google-analytics-volumen
     mountPath: /app/google
 
-volumesEnabled: true
+volumesEnabled: false
 
 volumes:
   - name: google-analytics-volumen
@@ -157,10 +157,10 @@ ingress:
       paths:
         - /
         - /ws
-    # - host: datausa.io
-    #   paths:
-    #     - /
-    #     - /ws
+    - host: datausa.io
+      paths:
+        - /
+        - /ws
     # - host: test.datausa.io
     #   paths:
     #     - /
@@ -169,5 +169,5 @@ ingress:
     - secretName: canon-site-elpaso-prod-tls
       hosts:
         - elpaso-app.datausa.io
-        # - datausa.io
+        - datausa.io
         # - test.datausa.io
