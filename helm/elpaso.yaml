@@ -43,13 +43,13 @@ readinessProbe:
   timeoutSeconds: 30
   successThreshold: 2
 
-volumeMountsEnabled: false
+volumeMountsEnabled: true
 
 volumeMounts:
   - name: google-analytics-volumen
     mountPath: /app/google
 
-volumesEnabled: false
+volumesEnabled: true
 
 volumes:
   - name: google-analytics-volumen
@@ -62,7 +62,7 @@ service:
 
 serviceAccount:
   # Specifies whether a service account should be created
-  create: true
+  create: false
   # Annotations to add to the service account
   annotations: {}
   # The name of the service account to use.
