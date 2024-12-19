@@ -44,6 +44,7 @@ echo "Creating new database on the remote instance..."
 docker exec -i $CONTAINER_NAME psql -h $POSTGRES_HOST -p $POSTGRES_PORT -U $OLD_USER <<EOF
 CREATE DATABASE "$NEW_DB" OWNER $OLD_USER;
 GRANT CONNECT ON DATABASE "$NEW_DB" TO $NEW_USER;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO $NEW_USER;
 EOF
 
 # Grant permissions
