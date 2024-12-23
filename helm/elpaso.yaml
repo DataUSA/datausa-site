@@ -135,10 +135,6 @@ ingress:
         set $no_use_cache 0;
       }
 
-      if ($request_uri ~* "/api/data") {
-        set $no_use_cache 0;
-      }
-
       proxy_cache elpaso-cache;
       proxy_cache_bypass $no_use_cache;
       proxy_no_cache $no_use_cache;
