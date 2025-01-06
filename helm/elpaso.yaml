@@ -138,6 +138,9 @@ ingress:
       if ($request_uri ~* "^/$") {
         set $no_use_cache 0;
       }
+      if ($request_uri ~* "/(assets|images|topojson|icons)") {
+        set $no_use_cache 0;
+      }
 
       proxy_cache elpaso-cache;
       proxy_cache_bypass $no_use_cache;
