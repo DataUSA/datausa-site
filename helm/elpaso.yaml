@@ -128,16 +128,14 @@ ingress:
       # set $cache_key "$host$request_uri";
       set $cache_key "$served_host$request_uri";
 
-      set $cache_key "$served_host$request_uri";
-
-      set $no_use_cache 1;
-      if ($request_uri ~* "/profile/(geo|soc|naics|napcs|university|cip)") {
-        set $no_use_cache 0;
-      }
+      # set $no_use_cache 1;
+      # if ($request_uri ~* "/profile/(geo|soc|naics|napcs|university|cip)") {
+      #   set $no_use_cache 0;
+      # }
 
       proxy_cache elpaso-cache;
-      proxy_cache_bypass $no_use_cache;
-      proxy_no_cache $no_use_cache;
+      # proxy_cache_bypass $no_use_cache;
+      # proxy_no_cache $no_use_cache;
 
       proxy_cache_key $cache_key;
       proxy_cache_methods GET HEAD;
