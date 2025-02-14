@@ -22,7 +22,8 @@ const predefined = {
   "George Walker Bush": "George W. Bush",
   "Rafael Edward Ted Cruz": "Ted Cruz",
   "Joseph R Biden Jr.": "Joe Biden",
-  "James Mac Warren": "James Warren"
+  "James Mac Warren": "James Warren",
+  "Robert Kennedy":"Robert F. Kennedy Jr."
 };
 
 const matchWords = [
