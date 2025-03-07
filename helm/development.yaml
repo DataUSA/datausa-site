@@ -120,12 +120,12 @@ ingress:
       paths:
         - /
         - /ws
-    - host: fargo-app.datausa.io
-      paths:
-        - /
-        - /ws
+    #- host: fargo-app.datausa.io
+    #  paths:
+    #    - /
+    #    - /ws
   tls:
     - secretName: canon-site-tls
       hosts:
         - app-dev.datausa.io
-        - fargo-app.datausa.io
+        #- fargo-app.datausa.io
