@@ -1,0 +1,190 @@
+image:
+  pullPolicy: Always
+
+imagePullSecrets:
+  - name: github
+
+replicaCount: 2
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 120
+  targetMemoryUtilizationPercentage: 120
+
+resources:
+  requests:
+    cpu: 1000m
+    memory: 3Gi
+    ephemeral-storage: 512Mi
+
+livenessProbe:
+  # enabled: false
+  failureThreshold: 3
+  httpGet:
+    path: /
+    port: 3300
+    scheme: HTTP
+  initialDelaySeconds: 40
+  periodSeconds: 30
+  timeoutSeconds: 30
+  successThreshold: 1
+
+readinessProbe:
+  # enabled: false
+  failureThreshold: 3
+  httpGet:
+    path: /
+    port: 3300
+    scheme: HTTP
+  initialDelaySeconds: 40
+  periodSeconds: 30
+  timeoutSeconds: 30
+  successThreshold: 2
+
+volumeMountsEnabled: true
+
+volumeMounts:
+  - name: google-analytics-volumen
+    mountPath: /app/google
+
+volumesEnabled: true
+
+volumes:
+  - name: google-analytics-volumen
+    configMap:
+      name: google-analytics
+
+service:
+  type: ClusterIP
+  port: 3300
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# persistentVolume:
+#   namespace: nginx-ingress-canon
+#   storageClass:
+#     accessModes:
+#       - ReadWriteMany
+#     storage: 300Gi
+#     storageClassName:
+#   persistentVolumeReclaimPolicy: Retain
+#   nfs:
+#     path: /opt/sfw
+#     readOnly: false
+
+configMap:
+  CANON_API: "https://fargo-app.datausa.io"
+  CANON_CMS_CUBES: "https://fargo-api.datausa.io/"
+  CANON_CMS_ENABLE: "false"
+  CANON_CMS_FORCE_HTTPS: "true"
+  CANON_CMS_GENERATOR_TIMEOUT: "1200000"
+  CANON_CMS_LOGGING: "true"
+  CANON_CMS_MINIMUM_ROLE: "1"
+  CANON_CMS_REQUESTS_PER_SECOND: "40"
+  CANON_CONST_CART: "datausa-cart-v3"
+  CANON_CONST_CUBE: "https://fargo-api.datausa.io/"
+  CANON_CONST_TESSERACT: "https://fargo-api-ts.datausa.io/"
+  CANON_DB_NAME: "datausa-cms-21-fargo"
+  CANON_DB_USER: "prod"
+  CANON_GEOSERVICE_API : "https://geoservice.datausa.io/api/"
+  CANON_GOOGLE_ANALYTICS: "UA-70325841-1"
+  CANON_LANGUAGES: "en"
+  CANON_LANGUAGE_DEFAULT: "en"
+  CANON_LOGICLAYER_CUBE: "https://fargo-api.datausa.io/"
+  CANON_LOGICLAYER_SLUGS: "true"
+  CANON_LOGINS: "true"
+  GA_KEYFILE: "/app/google/googleAnalyticsKey.json"
+
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    acme.cert-manager.io/http01-edit-in-place: "true"
+    ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.org/client-max-body-size: "512m"
+    nginx.org/proxy-buffers: "8 12m"
+    nginx.org/proxy-buffer-size: "12m"
+    nginx.org/proxy-busy-buffers-size: "32m"
+    nginx.org/proxy-connect-timeout: "600s"
+    nginx.org/proxy-read-timeout: "600s"
+    nginx.org/proxy-send-timeout: "600s"
+    # nginx.org/websocket-services: "canon-site-fargo"
+    nginx.org/location-snippets: |
+      add_header Access-Control-Allow-Origin *;
+      add_header Access-Control-Allow-Credentials true;
+      add_header Access-Control-Allow-Methods "GET, POST, OPTIONS";
+      # add_header Access-Control-Allow-Headers "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type";
+
+      # Define the cache key
+      # set $cache_key "$host$request_uri";
+      set $cache_key "$served_host$request_uri";
+
+      set $no_use_cache 1;
+      if ($request_uri ~* "/profile/(geo|soc|naics|napcs|university|cip)") {
+        set $no_use_cache 0;
+      }
+      if ($request_uri ~* "/api/profile/\?slug=(geo|soc|naics|napcs|university|cip)") {
+        set $no_use_cache 0;
+      }
+      if ($request_uri ~* "^/$") {
+        set $no_use_cache 0;
+      }
+      if ($request_uri ~* "/(assets|images|topojson|icons)") {
+        set $no_use_cache 0;
+      }
+
+      proxy_cache fargo-cache;
+      proxy_cache_bypass $no_use_cache;
+      proxy_no_cache $no_use_cache;
+
+      proxy_cache_key $cache_key;
+      proxy_cache_methods GET HEAD;
+      proxy_cache_valid 200 365d;
+      proxy_ignore_headers Vary;
+      proxy_hide_header Vary;
+
+      # Add the custom header with the cache key
+      add_header X-Cache-Key $cache_key;
+      add_header Cache-Control "public, max-age=31536000";
+      add_header Referrer-Policy "no-referrer";
+      add_header X-Cache-Date $upstream_http_date;
+      add_header X-Cache-Status $upstream_cache_status;
+
+      # Other proxy settings (don't uncomment, doesn't work with cert-manager.io)
+      # proxy_set_header Host $host;
+      # proxy_set_header X-Real-IP $remote_addr;
+      # proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      # proxy_set_header X-Forwarded-Proto $scheme;
+    nginx.org/server-snippets: |
+      if ($http_x_forwarded_proto = 'http') {
+          return 308 https://$host$request_uri;
+      }
+  className: nginx-fargo
+  hosts:
+    - host: fargo-app.datausa.io
+      paths:
+        - /
+        - /ws
+    - host: datausa.io
+      paths:
+        - /
+        - /ws
+    # - host: test.datausa.io
+    #   paths:
+    #     - /
+    #     - /ws
+  tls:
+    - secretName: canon-site-fargo-prod-tls
+      hosts:
+        - fargo-app.datausa.io
+        - datausa.io
+        # - test.datausa.io
