@@ -11,9 +11,11 @@ class Viz extends Component {
     const {updateSource} = this.context;
     if (updateSource) {
       if (resp.source) updateSource(resp.source);
-      else if (resp instanceof Array && resp.length < 5) {
+      if (resp.annotations) updateSource([resp.annotations]);
+      else if (resp instanceof Array && resp.length < 6) {
         resp.forEach(r => {
           if (r.source) updateSource(r.source);
+          if (r.annotations) updateSource([r.annotations]);
         });
       }
     }
