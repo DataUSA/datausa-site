@@ -87,7 +87,7 @@ configMap:
   CANON_CMS_ENABLE: "false"
   CANON_CMS_FORCE_HTTPS: "true"
   CANON_CMS_GENERATOR_TIMEOUT: "1200000"
-  CANON_CMS_LOGGING: "true"
+  CANON_CMS_LOGGING: "false"
   CANON_CMS_MINIMUM_ROLE: "1"
   CANON_CMS_REQUESTS_PER_SECOND: "40"
   CANON_CONST_CART: "datausa-cart-v3"
@@ -101,7 +101,7 @@ configMap:
   CANON_LANGUAGE_DEFAULT: "en"
   CANON_LOGICLAYER_CUBE: "https://fargo-api.datausa.io/"
   CANON_LOGICLAYER_SLUGS: "true"
-  CANON_LOGINS: "true"
+  CANON_LOGINS: "false"
   GA_KEYFILE: "/app/google/googleAnalyticsKey.json"
 
 ingress:
