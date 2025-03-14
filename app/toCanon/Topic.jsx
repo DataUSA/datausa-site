@@ -19,7 +19,7 @@ class Topic extends Component {
     else {
       const {sources} = this.state;
       newSources
-        .map(s => s.annotations)
+        .map(s => s.annotations || s)
         .forEach(source => {
           if (!sources.find(s => s.source_name === source.source_name)) sources.push(source);
         });
