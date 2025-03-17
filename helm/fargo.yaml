@@ -135,7 +135,7 @@ ingress:
       if ($request_uri ~* "/api/profile/\?slug=(geo|soc|naics|napcs|university|cip)") {
         set $no_use_cache 0;
       }
-      if ($request_uri ~* "/api/geo/similar") {
+      if ($request_uri ~* "/api/(geo|soc|naics|napcs|university|cip)/similar") {
         set $no_use_cache 0;
       }
       if ($request_uri ~* "^/$") {
