@@ -174,10 +174,10 @@ ingress:
       paths:
         - /
         - /ws
-    - host: datausa.io
-      paths:
-        - /
-        - /ws
+    #- host: datausa.io
+    #  paths:
+    #    - /
+    #    - /ws
     # - host: test.datausa.io
     #   paths:
     #     - /
@@ -186,5 +186,5 @@ ingress:
     - secretName: canon-site-elpaso-prod-tls
       hosts:
         - elpaso-app.datausa.io
-        - datausa.io
+        #- datausa.io
         # - test.datausa.io
