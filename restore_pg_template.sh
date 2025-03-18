@@ -42,13 +42,11 @@ fi
 # Create the new database on the remote PostgreSQL instance
 echo "Creating new database on the remote instance..."
 docker exec -i $CONTAINER_NAME psql -h $POSTGRES_HOST -p $POSTGRES_PORT -U $OLD_USER <<EOF
-CREATE DATABASE "$NEW_DB" OWNER $OLD_USER;
+DROP DATABASE IF EXISTS "$NEW_DB";
+CREATE DATABASE "$NEW_DB" OWNER $NEW_USER;
 GRANT CONNECT ON DATABASE "$NEW_DB" TO $NEW_USER;
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO $NEW_USER;
 EOF
-
-# Grant permissions
-docker exec -i $CONTAINER_NAME psql -h $POSTGRES_HOST -p $POSTGRES_PORT -U $OLD_USER -d $NEW_DB -c 'GRANT SELECT ON ALL TABLES IN SCHEMA public TO prod;'
 
 # Restore the dump to the new database
 echo "Restoring dump to the new database..."
@@ -58,6 +56,11 @@ if [ $? -ne 0 ]; then
   docker stop $CONTAINER_NAME && docker rm $CONTAINER_NAME
   exit 1
 fi
+
+# Grant permissions on tables for the new db
+docker exec -i $CONTAINER_NAME psql -h $POSTGRES_HOST -p $POSTGRES_PORT -U $OLD_USER -d $NEW_DB <<EOF
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO $NEW_USER;
+EOF
 
 # Cleanup
 echo "Cleaning up dump file..."
