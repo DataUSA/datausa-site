@@ -138,6 +138,9 @@ ingress:
       if ($request_uri ~* "/api/(geo|soc|naics|napcs|university|cip)/similar") {
         set $no_use_cache 0;
       }
+      if ($request_uri ~* "/api/data") {
+        set $no_use_cache 0;
+      }
       if ($request_uri ~* "^/$") {
         set $no_use_cache 0;
       }
