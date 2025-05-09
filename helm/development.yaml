@@ -120,12 +120,12 @@ ingress:
       paths:
         - /
         - /ws
-    - host: gary-app.datausa.io
-      paths:
-        - /
-        - /ws
+    # - host: gary-app.datausa.io
+    #   paths:
+    #     - /
+    #     - /ws
   tls:
     - secretName: canon-site-tls
       hosts:
         - app-dev.datausa.io
-        - gary-app.datausa.io
+        # - gary-app.datausa.io
