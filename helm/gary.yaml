@@ -177,10 +177,10 @@ ingress:
       paths:
         - /
         - /ws
-    # - host: datausa.io
-    #   paths:
-    #     - /
-    #     - /ws
+    - host: datausa.io
+      paths:
+        - /
+        - /ws
     # - host: test.datausa.io
     #   paths:
     #     - /
@@ -189,5 +189,5 @@ ingress:
     - secretName: canon-site-gary-prod-tls
       hosts:
         - gary-app.datausa.io
-        # - datausa.io
+        - datausa.io
         # - test.datausa.io
