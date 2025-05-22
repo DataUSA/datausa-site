@@ -408,22 +408,40 @@ module.exports = function(app) {
    * To handle the sentence: "The highest paying jobs for people who hold a degree in one of the
    * 5 most specialized majors at University."
    */
-  app.get("/api/university/highestWageLookup/:id", async(req, res) => {
+  app.get("/api/university/highestWageLookup/:id/:hierarchy", async(req, res) => {
+
+    const ipedsPumsFilterTesseract = d => ![21, 29, 32, 33, 34, 35, 36, 37, 48, 53, 60].includes(d["CIP2 ID"]);
+
     const {id} = req.params;
+    const {hierarchy} = req.params;
 
-    const cipURL = `${CANON_API}/api/data?University=${id}&measures=Completions,yuc%20RCA&year=latest&drilldowns=CIP2&order=yuc%20RCA&sort=desc`;
+    const latestYearUrl = `${CANON_CONST_TESSERACT}tesseract/data.jsonrecords?cube=ipeds_completions&drilldowns=Year&include=${hierarchy}:${id}&locale=en&measures=Completions&time=Year.latest`
+    const latestYear = await axios.get(latestYearUrl)
+      .then(resp => resp.data.data[0]["Year"]);
+
+    const cipURL = `${CANON_CONST_TESSERACT}complexity/rca_historical.jsonrecords?cube=ipeds_completions&location=${hierarchy}&activity=CIP2&measure=Completions&time=Year&filter=${hierarchy}:${id}&cuts=Year:${latestYear}`
+
     const CIP2 = await axios.get(cipURL)
-      .then(resp => resp.data.data.filter(ipedsPumsFilter).slice(0, 5).map(d => d["ID CIP2"]).join());
+      .then(resp => resp.data.data
+        .sort((a, b) => b["Completions RCA"] - a["Completions RCA"])
+        .filter(ipedsPumsFilterTesseract)
+        .slice(0, 5)
+        .map(d => `${d["CIP2 ID"]}`.padStart(2, '0')).join());
 
-    const logicUrl = `${CANON_API}/api/data?measures=Average%20Wage,Record%20Count&year=latest&drilldowns=CIP2,Detailed%20Occupation&order=Average%20Wage&sort=desc&Workforce%20Status=true&Employment%20Time%20Status=1&Record%20Count%3E=5&CIP2=${CIP2}`;
+    const logicUrl = `${CANON_CONST_TESSERACT}tesseract/data.jsonrecords?cube=pums_5&drilldowns=Year,CIP2,Detailed+Occupation&include=Workforce+Status:true;Employment+Time+Status:1;CIP2:${CIP2}&locale=en&measures=Record+Count,Average+Wage&time=Year.latest&filters=Record+Count.gte.5&sort=Average+Wage.desc`
+
     const wageList = await axios.get(logicUrl)
-      .then(resp => resp.data.data);
+    .then(resp => resp.data.data)
+
+    wageList.sort((a, b) => b["Average Wage"] - a["Average Wage"]);
 
     const dedupedWages = [];
     wageList.forEach(d => {
       if (dedupedWages.length < 5 && !dedupedWages.find(w => w["Detailed Occupation"] === d["Detailed Occupation"])) dedupedWages.push(d);
     });
 
+
+    dedupedWages.sort((a, b) => b["Average Wage"] - a["Average Wage"]);
     res.json({data: dedupedWages.slice(0, 10)});
 
   });
@@ -432,23 +450,39 @@ module.exports = function(app) {
    * To handle the sentence: "The most common industries for people who hold a degree in one
    * of the 5 most specialized majors at University."
    */
-  app.get("/api/university/commonIndustryLookup/:id", async(req, res) => {
+  app.get("/api/university/commonIndustryLookup/:id/:hierarchy", async(req, res) => {
+
+    const ipedsPumsFilterTesseract = d => ![21, 29, 32, 33, 34, 35, 36, 37, 48, 53, 60].includes(d["CIP2 ID"]);
+
     const {id} = req.params;
+    const {hierarchy} = req.params;
 
-    const cipURL = `${CANON_API}/api/data?University=${id}&measures=Completions,yuc%20RCA&year=latest&drilldowns=CIP2&order=yuc%20RCA&sort=desc`;
+    const latestYearUrl = `${CANON_CONST_TESSERACT}tesseract/data.jsonrecords?cube=ipeds_completions&drilldowns=Year&include=${hierarchy}:${id}&locale=en&measures=Completions&time=Year.latest`
+    const latestYear = await axios.get(latestYearUrl)
+      .then(resp => resp.data.data[0]["Year"]);
+
+    const cipURL = `${CANON_CONST_TESSERACT}complexity/rca_historical.jsonrecords?cube=ipeds_completions&location=${hierarchy}&activity=CIP2&measure=Completions&time=Year&filter=${hierarchy}:${id}&cuts=Year:${latestYear}`
+
     const CIP2 = await axios.get(cipURL)
-      .then(resp => resp.data.data.filter(ipedsPumsFilter).slice(0, 5).map(d => d["ID CIP2"]).join());
+      .then(resp => resp.data.data
+        .sort((a, b) => b["Completions RCA"] - a["Completions RCA"])
+        .filter(ipedsPumsFilterTesseract)
+        .slice(0, 5)
+        .map(d => `${d["CIP2 ID"]}`.padStart(2, '0')).join());
 
-    const logicUrl = `${CANON_API}/api/data?measures=Total%20Population,Record%20Count&year=latest&drilldowns=CIP2,Industry%20Group&order=Total%20Population&Workforce%20Status=true&Employment%20Time%20Status=1&sort=desc&Record%20Count>=5&CIP2=${CIP2}`;
-    const industryList = await axios.get(logicUrl)
+    const logicUrl = `${CANON_CONST_TESSERACT}tesseract/data.jsonrecords?cube=pums_5&drilldowns=Year,CIP2,Industry+Group&include=Workforce+Status:true;Employment+Time+Status:1;CIP2:${CIP2}&locale=en&measures=Record+Count,Total+Population&time=Year.latest&filters=Record+Count.gte.5&sort=Total+Population.desc`
+
+    let industryList = await axios.get(logicUrl)
       .then(resp => resp.data.data);
 
     const dedupedIndustries = [];
     // The industryList has duplicates. For example, if a Biology Major enters Biotech, and a separate
     // Science major enters Biotech, these are listed as separate data points. These must be folded
     // together under one "Biotech" to create an accurate picture of "industries entered by graduates with X degrees"
+    industryList = industryList.filter(d => d["Industry Group ID"] !== "")
+
     industryList.forEach(d => {
-      const thisIndustry = dedupedIndustries.find(j => j["Industry Group"] === d["Industry Group"]);
+    const thisIndustry = dedupedIndustries.find(j => j["Industry Group"] === d["Industry Group"]);
       if (thisIndustry) {
         thisIndustry["Total Population"] += d["Total Population"];
       }
@@ -456,6 +490,7 @@ module.exports = function(app) {
         dedupedIndustries.push(d);
       }
     });
+
     dedupedIndustries.sort((a, b) => b["Total Population"] - a["Total Population"]);
     res.json({data: dedupedIndustries.slice(0, 10)});
 

@@ -126,6 +126,7 @@ module.exports = function(app) {
       retObj.beaL0 = beaIds && beaIds.L0 ? beaIds.L0 : false;
       retObj.beaL1 = beaIds && beaIds.L1 ? beaIds.L1 : false;
       retObj.blsIds = blsInds[id] || false;
+      retObj.blsIdsStr = blsInds[id] ? blsInds[id].flat().join(",") : false;
       retObj.pumsLatestYear = await axios.get(`${origin}/api/data?${hierarchy}=${id}&measures=Total%20Population&limit=1&order=Year&sort=desc`)
           .then(resp => resp.data.data[0]["ID Year"])
           .catch(() => 2020);
