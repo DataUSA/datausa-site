@@ -642,6 +642,63 @@ module.exports = function(app) {
       res.json({data: attrs});
 
     }
+    else if (dimension === "Occupation") {
+      req.query.limit = 1000;
+      const measure = req.query.measure || req.query.measures;
+      if (req.query.measure) {
+        req.query.measures = req.query.measure;
+        delete req.query.measure;
+      }
+      delete req.query.dimension;
+      delete req.query.id;
+      delete req.query.hierarchy;
+
+      if (!req.query.sort) {
+        req.query.sort = measure.split(",")[0] + ".desc";
+      }
+
+      if (!drilldowns) {
+        req.query.drilldowns = hierarchy + ",Year";
+      }
+      else if (!drilldowns.includes(hierarchy)) {
+        req.query.drilldowns += `,${hierarchy},Year`;
+      }
+
+      const query = Object.assign({}, req.query);
+      const params = Object.entries(query).map(([key, val]) => `${key}=${val}`).join("&");
+      const newQuery = `${CANON_CONST_TESSERACT}tesseract/data.jsonrecords?${params}&time=Year.latest`
+
+      const resp = await axios.get(newQuery)
+        .then(resp => resp.data)
+        .catch(error => ({error}));
+
+      if (resp.error) res.json(resp);
+      else {
+
+        const list = resp.data.sort((a, b) => b[measure.split(",")[0]] - a[measure.split(",")[0]]);
+        const entry = list.find(d => d[`${hierarchy} ID`] === id);
+
+        const index = list.indexOf(entry);
+        let data;
+
+        if (index <= limit / 2 + 1) {
+          data = list.slice(0, limit);
+        }
+        else if (index > list.length - limit / 2 - 1) {
+          data = list.slice(-limit);
+        }
+        else {
+          const min = Math.ceil(index - limit / 2);
+          data = list.slice(min, min + limit);
+        }
+
+        data.forEach(d => {
+          d.Rank = list.indexOf(d) + 1;
+        });
+
+        res.json({data, source: resp.source});
+      }
+    }
     else {
 
       const where = {dimension, id};
