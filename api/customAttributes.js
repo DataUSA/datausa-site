@@ -87,6 +87,31 @@ module.exports = function(app) {
       retObj.hierarchySub = hierarchy === "Nation" ? "State" : "County";
       retObj.CBPSection = hierarchy === "County" || (hierarchy === "State" && id !== "04000US72") || hierarchy === "MSA"
 
+      if (hierarchy !== "Nation" && hierarchy !== "State" && hierarchy !== "PUMA") {
+        const url = `${CANON_GEOSERVICE_API}relations/intersects/${id}?targetLevels=state`;
+        const intersects = await axios.get(url)
+          .then(resp => resp.data)
+          .then(resp => {
+            if (resp.error) {
+              console.error(`[geoservice error] ${url}`);
+              console.error(resp.error);
+              return [];
+            }
+            else {
+              return resp || [];
+            }
+          })
+          .then(resp => resp.map(d => d.geoid))
+          .catch(() => []);
+        retObj.pumsID = intersects.join(",");
+        retObj.pumsHierarchy = "State";
+      }
+
+      else if (hierarchy === "PUMA" || hierarchy === "State" || hierarchy === "Nation") {
+        retObj.pumsID = id;
+        retObj.pumsHierarchy = hierarchy;
+      }
+
       if (hierarchy !== "Nation") {
         const url = `${CANON_GEOSERVICE_API}neighbors/${state ? state.id : id}`;
         const neighbors = await axios.get(url)
@@ -105,6 +130,7 @@ module.exports = function(app) {
           .catch(() => []);
         retObj.stateNeighbors = neighbors.join(",");
       }
+
       else {
         retObj.stateNeighbors = "";
       }
