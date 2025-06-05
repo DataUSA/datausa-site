@@ -86,6 +86,8 @@ module.exports = function(app) {
       retObj.electionCut = hierarchy === "Nation" ? `State` : hierarchy === "County" ? `County&State+County=${retObj.stateDataID}` : `County&State+County=${retObj.stateElectionId}`;
       retObj.hierarchySub = hierarchy === "Nation" ? "State" : "County";
       retObj.CBPSection = hierarchy === "County" || (hierarchy === "State" && id !== "04000US72") || hierarchy === "MSA"
+      retObj.includeIncome = hierarchy === "State" ? `&include=State+County:${id}` : hierarchy === "County" ? `&include=County+Tract:${id}` : hierarchy === "Place" ? `&include=Place+Place-Tract:${id}` : "";
+      retObj.incomeDrilldown = hierarchy === "Nation" ? "State" : hierarchy === "State" ? "County" : hierarchy === "County" ? "Tract" : hierarchy === "Place" ? "Place-Tract" : "";
 
       if (hierarchy !== "Nation" && hierarchy !== "State" && hierarchy !== "PUMA") {
         const url = `${CANON_GEOSERVICE_API}relations/intersects/${id}?targetLevels=state`;
