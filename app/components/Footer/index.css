@@ -33,7 +33,7 @@
         width: 373px;
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: center;
         margin: 0 auto;
         @media (max-width: 768px) {
           display: block;

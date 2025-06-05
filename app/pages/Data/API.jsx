@@ -9,7 +9,8 @@ export default class API extends Component {
       <div id="API">
         <h2>Introduction</h2>
         <p>
-          The Data USA API allows users to explore the entire database using carefully constructed query strings, returning data as JSON results. All of the visualizations on the page have a "show data" button on their top-right that displays the API call(s) used to generate that visualization. Additionally, the new <Link to="/visualize">Viz Builder</Link> is a great way to explore what's possible.  This page illustrates an example usage of exploring geographic data.
+          The Data USA API allows users to explore the entire database using carefully constructed query strings, returning data as JSON results. All of the visualizations on the page have a "show data" button on their top-right that displays the API call(s) used to generate that visualization.
+          {/* Additionally, the new <Link to="/visualize">Viz Builder</Link> is a great way to explore what's possible.  This page illustrates an example usage of exploring geographic data. */}
         </p>
         <h2>Example: Population Data</h2>
         <p>

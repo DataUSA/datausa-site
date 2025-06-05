@@ -62,26 +62,26 @@ class Nav extends Component {
 
     const dark = !splash;
 
-    const Cart = () => <div className="cart-nav-controls">
-      <div className="title">Data Cart</div>
-      { cart && cart.data.length
-        ? <div>
-          <div className="sub">
-            { cart.data.length } Dataset{ cart.data.length > 1 ? "s" : "" }
-          </div>
-          { cart.data.map(d => <div key={d.slug} className="dataset">
-            <div className="title">{d.title}</div>
-            <img src="/images/viz/remove.svg" className="remove" onClick={this.onRemove.bind(this, d)} />
-          </div>) }
-          <a href="/cart" className="bp3-button bp3-fill bp3-icon-download">
-            View Data
-          </a>
-          <div className="bp3-button bp3-fill bp3-icon-trash" onClick={this.onClear.bind(this)}>
-            Clear Cart
-          </div>
-        </div>
-        : <div className="body">Put data into your cart as you browse to merge data from multiple sources.</div> }
-    </div>;
+    // const Cart = () => <div className="cart-nav-controls">
+    //   <div className="title">Data Cart</div>
+    //   { cart && cart.data.length
+    //     ? <div>
+    //       <div className="sub">
+    //         { cart.data.length } Dataset{ cart.data.length > 1 ? "s" : "" }
+    //       </div>
+    //       { cart.data.map(d => <div key={d.slug} className="dataset">
+    //         <div className="title">{d.title}</div>
+    //         <img src="/images/viz/remove.svg" className="remove" onClick={this.onRemove.bind(this, d)} />
+    //       </div>) }
+    //       <a href="/cart" className="bp3-button bp3-fill bp3-icon-download">
+    //         View Data
+    //       </a>
+    //       <div className="bp3-button bp3-fill bp3-icon-trash" onClick={this.onClear.bind(this)}>
+    //         Clear Cart
+    //       </div>
+    //     </div>
+    //     : <div className="body">Put data into your cart as you browse to merge data from multiple sources.</div> }
+    // </div>;
 
     return <nav id="Nav" className={ `${background || dark ? "background" : ""} ${menu ? "menu" : ""}` }>
 
@@ -108,17 +108,17 @@ class Nav extends Component {
           <li>
             <Link to="/search">Reports</Link>
           </li>
-          <li>
+          {/* <li>
             <Link to="/map">Maps</Link>
           </li>
           <li>
             <Link to="/visualize">Viz Builder</Link>
-          </li>
+          </li> */}
           <li>
             <Link to="/about">About</Link>
           </li>
         </ul>
-        <Popover
+        {/* <Popover
           hoverOpenDelay={0}
           hoverCloseDelay={150}
           interactionKind={PopoverInteractionKind.HOVER}
@@ -128,7 +128,7 @@ class Nav extends Component {
             { cart && cart.data.length ? <span className="cart-size">{cart.data.length}</span> : null }
             <SVG src="/images/cart.svg" className={cart && cart.data.length ? "filled" : "empty"} width={20} height={19} />
           </a>
-        </Popover>
+        </Popover> */}
         { search && <SearchButton /> }
       </div>
 
@@ -152,7 +152,7 @@ class Nav extends Component {
             {/* <li>
               <Link to="/coronavirus">Coronavirus</Link>
             </li> */}
-            <li>
+            {/* <li>
               <Link to="/map">Maps</Link>
             </li>
             <li>
@@ -160,7 +160,7 @@ class Nav extends Component {
             </li>
             <li>
               <Link to="/cart">Data Cart</Link>
-            </li>
+            </li> */}
             <li>
               <Link to="/about">About</Link>
             </li>
@@ -173,7 +173,6 @@ class Nav extends Component {
       </Dialog>
     </nav>;
   }
-
 }
 
 export default connect(state => ({

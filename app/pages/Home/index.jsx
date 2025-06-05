@@ -164,7 +164,7 @@ class Home extends Component {
                     <SVG src="/icons/features/cart.svg" width={25} height="auto" />
                   </div>
                   <span>
-                    Merge and download data
+                    Download data
                   </span>
                 </div>
                 <div className="feature-item">
@@ -203,7 +203,7 @@ class Home extends Component {
           </Link>
         </section>
 
-        <section className="light">
+        {/* <section className="light">
           <h2>
             The most powerful tools
             <br />
@@ -255,7 +255,7 @@ class Home extends Component {
               }}
             />
           </div>
-        </section>
+        </section> */}
 
       </div>
     );
