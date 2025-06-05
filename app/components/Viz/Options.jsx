@@ -362,7 +362,7 @@ class Options extends Component {
     const cartSize = cart ? cart.data.length : 0;
     const inCart = cart ? cart.data.find(c => c.slug === cartSlug) : false;
 
-    const cartEnabled = data && slug && title;
+    const cartEnabled = false;
     const shareEnabled = topic.slug;
     const baseURL = (typeof window === "undefined" ? location : window.location).href.split("#")[0].split("/").slice(0, 6).join("/");
     const profileURL = `${baseURL}#${topic.slug}`;
