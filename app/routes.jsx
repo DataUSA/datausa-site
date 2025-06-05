@@ -71,11 +71,11 @@ export default function RouteCreate() {
       <Route path="/profile/:slug/:id" isProfile={true} onEnter={crosswalk} component={Profile} />
       <Route path="/profile/:slug/:id/:sslug/:tslug" component={Embed} />
 
-      <Route path="/visualize" component={Visualize} />
+      {/* <Route path="/visualize" component={Visualize} />
       <Route path="/map" component={MapPage} />
-      <Route path="/coronavirus" component={Coronavirus} />
+      <Route path="/coronavirus" component={Coronavirus} /> */}
 
-      <Route path="/cart" component={Cart} />
+      {/* <Route path="/cart" component={Cart} /> */}
 
       <Redirect from="/about" to="/about/background" />
       <Route path="/about(/background|press|team|glossary|usage)" component={About}>
