@@ -1,18 +1,17 @@
 const axios = require("axios");
 
-const {CANON_LOGICLAYER_CUBE} = process.env;
-const prefix = `${CANON_LOGICLAYER_CUBE}${CANON_LOGICLAYER_CUBE.slice(-1) === "/" ? "" : "/"}`;
+const {CANON_CONST_TESSERACT} = process.env;
+const prefix = `${CANON_CONST_TESSERACT}${CANON_CONST_TESSERACT.slice(-1) === "/" ? "" : "/"}`;
 
-module.exports = function() {
+module.exports = function () {
 
-  return axios.get(`${prefix}cubes/dot_faf/dimensions/SCTG/`)
+  return axios.get(`${prefix}tesseract/members?cube=dot_faf&level=SCTG2`)
     .then(resp => resp.data)
     .then(data => {
-      const {members} = data.hierarchies[0].levels[1];
-      return members.reduce((obj, d) => {
+      return data.members.reduce((obj, d) => {
         obj[d.key] = {
           id: d.key,
-          name: d.caption || d.name
+          name: d.caption
         };
         return obj;
       }, {});
@@ -22,5 +21,4 @@ module.exports = function() {
       if (err.config) console.error(err.config.url);
       return [];
     });
-
 };
