@@ -83,6 +83,8 @@ module.exports = function(app) {
       retObj.stateDataID = state && !["Nation", "State"].includes(hierarchy) ? state.id : id;
       retObj.hierarchyElectionSub = ["Nation", "County"].includes(hierarchy) ? hierarchy : "State";
       retObj.stateElectionId = ["Nation", "State", "County"].includes(hierarchy) ? id : stateElection.join(",");
+      retObj.hierarchyElectionSubTemp = ["Nation"].includes(hierarchy) ? hierarchy : "State";
+      retObj.stateElectionIdTemp = ["Nation", "State"].includes(hierarchy) ? id : stateElection.join(",");
       retObj.electionCut = hierarchy === "Nation" ? `State` : hierarchy === "County" ? `County&State+County=${retObj.stateDataID}` : `County&State+County=${retObj.stateElectionId}`;
       retObj.hierarchySub = hierarchy === "Nation" ? "State" : "County";
       retObj.CBPSection = hierarchy === "County" || (hierarchy === "State" && id !== "04000US72") || hierarchy === "MSA"
