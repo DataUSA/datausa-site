@@ -257,4 +257,10 @@ module.exports = function(app) {
 
   });
 
+  const {measures} = app.settings.cache;
+
+  app.get("/api/measures", async(req, res) => {
+    res.json(measures);
+  });
+
 };

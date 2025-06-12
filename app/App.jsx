@@ -114,19 +114,7 @@ App.childContextTypes = {
 
 App.need = [
   fetchData("formatters", "/api/formatters"),
-  fetchData("measures", "/api/cubes/", resp => {
-    const obj = {};
-    for (const measure in resp.measures) {
-      if ({}.hasOwnProperty.call(resp.measures, measure)) {
-        const annotations = resp.measures[measure].annotations;
-        const format = annotations.error_for_measure
-          ? resp.measures[annotations.error_for_measure].annotations.units_of_measurement
-          : annotations.units_of_measurement;
-        obj[measure] = format;
-      }
-    }
-    return obj;
-  })
+  fetchData("measures", "/api/measures")
 ];
 
 export default connect(state => ({
