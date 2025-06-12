@@ -149,7 +149,6 @@ module.exports = function(app) {
   app.get("/api/:slug/similar/:urlId", async(req, res) => {
 
     const {limit, slug, urlId} = req.params;
-
     const meta = await db.profile_meta.findOne({where: {slug}}).catch(() => false);
 
     if (!meta) res.json({error: "Not a valid profile type"});
@@ -171,7 +170,7 @@ module.exports = function(app) {
           if (id === "01000US") {
 
             const states = await axios
-              .get(`${CANON_API}/api/data?drilldowns=State&measure=Household%20Income%20by%20Race&Year=latest&order=Household%20Income%20by%20Race`)
+              .get(`${CANON_CONST_TESSERACT}tesseract/data.jsonrecords?cube=acs_ygr_median_household_income_race_5&drilldowns=State&locale=en&measures=Household+Income+by+Race&time=Year.latest&sort=Household+Income+by+Race.desc`)
               .then(resp => {
                 const arr = resp.data.data;
                 const l = Math.ceil(parseFloat(limit || 6) / 2);
@@ -181,7 +180,7 @@ module.exports = function(app) {
 
             attrs = states.length ? await db.search
               .findAll({
-                where: {id: states.map(d => d["ID State"]), dimension},
+                where: {id: states.map(d => d["State ID"]), dimension},
                 include: [{association: "content"}]
               })
               .catch(() => []) : [];
@@ -258,7 +257,6 @@ module.exports = function(app) {
           }
         }
         else {
-
           const parents = await axios.get(`${CANON_API}/api/parents/${slug}/${id}`)
             .then(resp => resp.data)
             .catch(() => []);
@@ -276,10 +274,9 @@ module.exports = function(app) {
             "CIP": "Completions",
             "NAPCS": "Obligation Amount"
           };
-          const neighbors = measures[dimension] ? await axios.get(`${CANON_API}/api/neighbors?dimension=${dimension}&id=${id}&measure=${measures[dimension]}`)
-            .then(resp => resp.data.data.map(d => d[`ID ${hierarchy}`]))
+          const neighbors = measures[dimension] ? await axios.get(`${CANON_API}/api/neighbors?dimension=${dimension}&id=${id}&measure=${measures[dimension]}${hierarchy ? `&hierarchy=${hierarchy}` : ""}`)
+            .then(resp => resp.data.data.map(d => d[`${hierarchy} ID`]))
             .catch(() => []) : [];
-
           const neighborAttrs = neighbors.length ? await db.search
             .findAll({
               where: {id: neighbors.filter(d => d !== id).map(String), dimension, hierarchy},
@@ -303,11 +300,8 @@ module.exports = function(app) {
             }
             return row;
           });
-
         res.json(retArray);
-
       }
-
     }
 
   });
@@ -498,12 +492,17 @@ module.exports = function(app) {
 
   app.get("/api/parents/:slug/:id", async(req, res) => {
 
-    const {slug, id} = req.params;
+    const {slug} = req.params;
+    let {id} = req.params;
     const {loose} = req.query;
 
     const meta = await db.profile_meta.findOne({where: {slug}}).catch(() => false);
     if (!meta) res.json({error: "Not a valid profile type"});
     const {dimension} = meta;
+
+    if (slug === 'cip' && (`${id}`.length === 1 || `${id}`.length === 3 || `${id}`.length === 5)) {
+      id = `0${id}`;
+    }
 
     const attr = await db.search
       .findOne({
@@ -582,7 +581,6 @@ module.exports = function(app) {
       else {
         const parents = cache.parents[slug] || {};
         const ids = parents[attr.id] || [];
-
         const attrs = ids.length ? await db.search
           .findAll({
             where: {id: ids, dimension},
@@ -606,6 +604,17 @@ module.exports = function(app) {
 
     const {dimension, drilldowns, id, limit = 5} = req.query;
     let {hierarchy} = req.query;
+
+    let cubes = {
+      "Geography": "usa_spending",
+      "University": "ipeds_completions",
+      "CIP": "ipeds_completions",
+      "NAPCS": "usa_spending",
+      "PUMS Industry": "pums_5",
+      "Industry": "pums_5",
+      "Occupation": "pums_5",
+      "PUMS Occupation": "pums_5"
+    }
 
     if (dimension === "Geography") {
 
@@ -642,34 +651,26 @@ module.exports = function(app) {
       res.json({data: attrs});
 
     }
-    else if (dimension === "Occupation") {
-      req.query.limit = 1000;
+    else if (dimension === "Occupation" || dimension === "PUMS Occupation") {
+      let {include, filters} = req.query;
+
       const measure = req.query.measure || req.query.measures;
-      if (req.query.measure) {
-        req.query.measures = req.query.measure;
-        delete req.query.measure;
+      if (!measure.includes("Average Wage")) {
+        measure += ",Average Wage";
       }
+
       delete req.query.dimension;
       delete req.query.id;
       delete req.query.hierarchy;
 
-      if (!req.query.sort) {
-        req.query.sort = measure.split(",")[0] + ".desc";
-      }
-
-      if (!drilldowns) {
-        req.query.drilldowns = hierarchy + ",Year";
-      }
-      else if (!drilldowns.includes(hierarchy)) {
-        req.query.drilldowns += `,${hierarchy},Year`;
-      }
-
-      const query = Object.assign({}, req.query);
-      const params = Object.entries(query).map(([key, val]) => `${key}=${val}`).join("&");
-      const newQuery = `${CANON_CONST_TESSERACT}tesseract/data.jsonrecords?${params}&time=Year.latest`
-
+      const newQuery = `${CANON_CONST_TESSERACT}tesseract/data.jsonrecords?cube=pums_5&drilldowns=Year,${hierarchy}&measures=${measure}&time=Year.latest&sort=Average+Wage.desc${include ? `&include=${include}` : ""}${filters ? `&filters=${filters}` : ""}`;
       const resp = await axios.get(newQuery)
-        .then(resp => resp.data)
+        .then(resp => {
+          if (resp.data && Array.isArray(resp.data)) {
+            resp.data.sort((a, b) => b["Average Wage"] - a["Average Wage"]);
+          }
+          return resp.data;
+        })
         .catch(error => ({error}));
 
       if (resp.error) res.json(resp);
@@ -700,7 +701,6 @@ module.exports = function(app) {
       }
     }
     else {
-
       const where = {dimension, id};
       if (hierarchy) where.hierarchy = hierarchy;
       const attr = await db.search.findOne({where}).catch(() => false);
@@ -710,7 +710,7 @@ module.exports = function(app) {
 
         if (!hierarchy) hierarchy = attr.hierarchy;
 
-        req.query.limit = 10000;
+        req.query.limit = 5;
         const measure = req.query.measure || req.query.measures;
         if (req.query.measure) {
           req.query.measures = req.query.measure;
@@ -733,18 +733,16 @@ module.exports = function(app) {
 
         if (measure !== "Obligation Amount" && !req.query.Year && !req.query.year) {
           const allYearQuery = Object.assign({[hierarchy]: id}, req.query);
-          const allYearParams = Object.entries(allYearQuery).map(([key, val]) => `${key}=${val}`).join("&");
-          const allYearURL = `${CANON_API}/api/data?${allYearParams}`;
+          const allYearURL = `${CANON_CONST_TESSERACT}tesseract/data.jsonrecords?cube=${cubes[dimension]}&drilldowns=Year,${hierarchy}&include=${hierarchy}:${id}&measures=${allYearQuery.measures}&sort=${allYearQuery.order}.${allYearQuery.sort}`;
           const allYearData = await axios.get(allYearURL)
             .then(resp => resp.data)
             .catch(error => ({error}));
-          if (allYearData.error) req.query.Year = "latest";
-          else req.query.Year = max(allYearData.data, d => d["ID Year"]);
+          if (allYearData.error) req.query.time = "&time=Year.latest";
+          else req.query.Year = max(allYearData.data, d => d["Year"]);
         }
 
         const query = Object.assign({}, req.query);
-        const params = Object.entries(query).map(([key, val]) => `${key}=${val}`).join("&");
-        const logicUrl = `${CANON_API}/api/data?${params}`;
+        const logicUrl = `${CANON_CONST_TESSERACT}tesseract/data.jsonrecords?cube=${cubes[dimension]}&drilldowns=Year,${hierarchy}&measures=${query.measures}&sort=${query.order}.${query.sort}${query.time ? query.time : ""}${query.Year ? `&include=Year:${query.Year}` : ""}`;
 
         const resp = await axios.get(logicUrl)
           .then(resp => resp.data)
@@ -754,9 +752,9 @@ module.exports = function(app) {
         else {
 
           const list = resp.data;
-          const entry = list.find(d => d[`ID ${hierarchy}`] === id);
-
+          const entry = list.find(d => d[`${hierarchy} ID`] == id);
           const index = list.indexOf(entry);
+
           let data;
 
           if (index <= limit / 2 + 1) {
@@ -775,12 +773,8 @@ module.exports = function(app) {
           });
 
           res.json({data, source: resp.source});
-
         }
       }
     }
-
   });
-
-
 };
