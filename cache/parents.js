@@ -93,8 +93,6 @@ module.exports = async function () {
       ...products
     ] = await Promise.all(napcsEndpoints.map(url => axios.get(prefix + url).then(r => r.data)));
 
-    console.log(parseFlatParents(courses, true));
-
     return {
       naics: parseFlatParents(industries),
       soc: parseFlatParents(occupations),
