@@ -7,18 +7,28 @@ const prefix = `${CANON_CONST_TESSERACT}${CANON_CONST_TESSERACT.slice(-1) === "/
  * @param {Array} levelsData - Array of API responses for each dimension level
  * @returns {Object} - { key: [parentKey1, parentKey2, ...] }
  */
-function parseFlatParents(levelsData) {
+function parseFlatParents(levelsData, isCIP = false) {
   const lookup = {};
   for (const level of levelsData) {
     for (const member of level.members) {
+      let key = String(member.key);
+      if (isCIP && (/^\d{1}$/.test(key) || /^\d{3}$/.test(key) || /^\d{5}$/.test(key))) {
+        key = `0${key}`;
+      }
       const parentKeys = Array.from(
         new Set(
           (member.ancestor || [])
-            .map(a => a.key)
-            .filter(k => k !== member.key)
+            .map(a => {
+              let parentKey = String(a.key);
+              if (isCIP && (/^\d{1}$/.test(parentKey) || /^\d{3}$/.test(parentKey) || /^\d{5}$/.test(parentKey))) {
+                parentKey = `0${parentKey}`;
+              }
+              return parentKey;
+            })
+            .filter(k => k !== key)
         )
       );
-      lookup[member.key] = parentKeys;
+      lookup[key] = parentKeys;
     }
   }
   return lookup;
@@ -75,7 +85,7 @@ module.exports = async function () {
       ...universities
     ] = await Promise.all(universityEndpoints.map(url => axios.get(prefix + url).then(r => r.data)));
 
-        const [
+    const [
       ...courses
     ] = await Promise.all(cipEndpoints.map(url => axios.get(prefix + url).then(r => r.data)));
 
@@ -83,10 +93,12 @@ module.exports = async function () {
       ...products
     ] = await Promise.all(napcsEndpoints.map(url => axios.get(prefix + url).then(r => r.data)));
 
+    console.log(parseFlatParents(courses, true));
+
     return {
       naics: parseFlatParents(industries),
       soc: parseFlatParents(occupations),
-      cip: parseFlatParents(courses),
+      cip: parseFlatParents(courses, true),
       university: parseFlatParents(universities),
       napcs: parseFlatParents(products)
     };
