@@ -90,6 +90,8 @@ module.exports = function(app) {
       retObj.CBPSection = hierarchy === "County" || (hierarchy === "State" && id !== "04000US72") || hierarchy === "MSA"
       retObj.includeIncome = hierarchy === "Nation" ? `&exclude=State:0` : hierarchy === "State" ? `&include=State+County:${id}` : hierarchy === "County" ? `&include=County+Tract:${id}` : hierarchy === "Place" ? `&include=Place+Place-Tract:${id}` : "";
       retObj.incomeDrilldown = hierarchy === "Nation" ? "State" : hierarchy === "State" ? "County" : hierarchy === "County" ? "Tract" : hierarchy === "Place" ? "Place-Tract" : "";
+      retObj.specialTessCut = hierarchy === "Nation" ? "&exclude=State:0" : hierarchy === "State" ? `&include=State+County:${id}` : hierarchy === "County" ? `&include=County+Tract:${id}` : hierarchy === "Place" ? `&include=State+Place:${id}` : hierarchy === "MSA" ? `&include=State+County:${id}` : hierarchy === "PUMA" ? `&include=State+PUMA:${id}` : "";
+      retObj.specialTessDrilldown = hierarchy === "Nation" ? "State" : hierarchy === "State" ? "County" : hierarchy === "MSA" ? "County" : hierarchy === "PUMA" ? "PUMA" : hierarchy === "County" ? "Tract" : hierarchy === "Place" ? "Place" : "";
 
       if (hierarchy !== "Nation" && hierarchy !== "State" && hierarchy !== "PUMA") {
         const url = `${CANON_GEOSERVICE_API}relations/intersects/${id}?targetLevels=state`;
