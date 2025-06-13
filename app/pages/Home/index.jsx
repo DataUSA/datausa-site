@@ -7,8 +7,6 @@ import {Geomap} from "d3plus-react";
 import SVG from "react-inlinesvg";
 import "./index.css";
 
-const {CANON_CONST_TESSERACT} = process.env;
-
 import {format} from "d3-format";
 const commas = format(",");
 
@@ -85,7 +83,7 @@ class Home extends Component {
               />
 
               <Geomap config={{
-                data: `${CANON_CONST_TESSERACT}tesseract/data.jsonrecords?cube=acs_yg_total_population_5&drilldowns=State&locale=en&measures=Population&time=Year.latest`,
+                data: `/api/home-geomap`,
                 groupBy: "State ID",
                 label: d => d.State,
                 legend: false,
@@ -93,7 +91,7 @@ class Home extends Component {
                 ocean: "transparent",
                 on: {
                   click: d => {
-                    router.push(`/profile/geo/${d["State ID"]}`);
+                    router.push(`/profile/geo/${d["slug"]}`);
                   }
                 },
                 projection:
@@ -266,7 +264,11 @@ class Home extends Component {
 }
 
 Home.need = [
-  fetchData("home", "/api/home")
+  fetchData("home", "/api/home"),
 ];
 
-export default connect(state => ({tiles: state.data.home}))(Home);
+export default connect(
+  state => ({
+    tiles: state.data.home,
+  })
+)(Home);
