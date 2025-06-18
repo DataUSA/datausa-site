@@ -8,4 +8,4 @@ services:
     env_file:
       - .env.gcp
     ports:
-      - "3000:3000"
+      - "3300:3300"
