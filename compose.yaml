@@ -7,6 +7,10 @@ services:
     stop_grace_period: 30s
     env_file:
       - .env.gcp
+    networks:
+      - site
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "3300:3300"
 
@@ -18,6 +22,10 @@ services:
     stop_grace_period: 30s
     env_file:
       - .env.gcp
+    networks:
+      - site
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "3301:3300"
 
@@ -29,5 +37,13 @@ services:
     stop_grace_period: 30s
     env_file:
       - .env.gcp
+    networks:
+      - site
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "3302:3300"
+
+networks:
+  site:
+    driver: bridge
