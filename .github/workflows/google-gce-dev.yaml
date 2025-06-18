@@ -2,7 +2,7 @@ name: "Deploy to GCE development"
 
 on:
   push:
-    branches: [ "vm-cd-pipeline" ]
+    branches: [ "develop" ]
 
 env:
   GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
