@@ -1,0 +1,13 @@
+services:
+  site: &app
+    container_name: site
+    image: ${GCP_ARTIFACT_REGISTRY_LOCATION}-docker.pkg.dev/${GCP_PROJECT_ID}/${GCP_ARTIFACT_REGISTRY_NAME}/${GCP_IMAGE_NAME}:${GCP_IMAGE_TAG}
+    restart: always
+    stop_signal: SIGTERM
+    stop_grace_period: 30s
+    env_file:
+      - .env.gcp
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "3000:3000"
