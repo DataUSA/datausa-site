@@ -5,6 +5,8 @@ services:
     restart: always
     stop_signal: SIGTERM
     stop_grace_period: 30s
+    volumes:
+      - "/home/${GCP_VM_USER}/${GCP_ARTIFACT_REGISTRY_NAME}-${GCP_IMAGE_NAME}/google:/app/google/"
     env_file:
       - .env.gcp
     networks:
@@ -20,6 +22,8 @@ services:
     restart: always
     stop_signal: SIGTERM
     stop_grace_period: 30s
+    volumes:
+      - "/home/${GCP_VM_USER}/${GCP_ARTIFACT_REGISTRY_NAME}-${GCP_IMAGE_NAME}/google:/app/google/"
     env_file:
       - .env.gcp
     networks:
@@ -28,21 +32,6 @@ services:
       - "host.docker.internal:host-gateway"
     ports:
       - "3301:3300"
-
-  site-2: &app
-    container_name: site-2
-    image: ${GCP_ARTIFACT_REGISTRY_LOCATION}-docker.pkg.dev/${GCP_PROJECT_ID}/${GCP_ARTIFACT_REGISTRY_NAME}/${GCP_IMAGE_NAME}:${GCP_IMAGE_TAG}
-    restart: always
-    stop_signal: SIGTERM
-    stop_grace_period: 30s
-    env_file:
-      - .env.gcp
-    networks:
-      - site
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    ports:
-      - "3302:3300"
 
 networks:
   site:

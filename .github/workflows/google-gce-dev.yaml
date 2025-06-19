@@ -102,6 +102,7 @@ jobs:
             echo "GCP_IMAGE_NAME=${{ env.GCP_IMAGE_NAME }}"
             echo "GCP_ARTIFACT_REGISTRY_NAME=${{ env.GCP_ARTIFACT_REGISTRY_NAME }}"
             echo "GCP_ARTIFACT_REGISTRY_LOCATION=${{ env.GCP_ARTIFACT_REGISTRY_LOCATION }}"
+            echo "GCP_VM_USER=${{ env.GCP_VM_USER }}"
             echo "CANON_DB_HOST=${{ secrets.CANON_DB_HOST}}"
             echo "CANON_DB_PW=${{ secrets.CANON_DB_PW}}"
             echo "CANON_HOTJAR=${{ secrets.CANON_HOTJAR}}"
@@ -127,6 +128,13 @@ jobs:
             echo "CANON_LOGINS=${{ env.CANON_LOGINS }}"
             echo "GA_KEYFILE=${{ env.GA_KEYFILE }}"
           } > .env.gcp
+
+          echo "Adding Google Analytics credentials to ./google directory"
+          mkdir -p ./google
+
+          cat << EOF > ./google/googleAnalyticsKey.json
+          ${{ secrets.GA_KEYFILE }}
+          EOF
 
           bash ./deploy_to_vm.sh
 
