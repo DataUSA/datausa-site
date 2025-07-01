@@ -7,7 +7,6 @@ import {Geomap} from "d3plus-react";
 import SVG from "react-inlinesvg";
 import "./index.css";
 
-
 import {format} from "d3-format";
 const commas = format(",");
 
@@ -84,15 +83,15 @@ class Home extends Component {
               />
 
               <Geomap config={{
-                data: `/api/data?drilldowns=State&year=latest&measures=Population`,
-                groupBy: "ID State",
+                data: `/api/home-geomap`,
+                groupBy: "State ID",
                 label: d => d.State,
                 legend: false,
                 loadingHTML: "",
                 ocean: "transparent",
                 on: {
                   click: d => {
-                    router.push(`/profile/geo/${d["Slug State"]}`);
+                    router.push(`/profile/geo/${d["slug"]}`);
                   }
                 },
                 projection:
@@ -265,7 +264,11 @@ class Home extends Component {
 }
 
 Home.need = [
-  fetchData("home", "/api/home")
+  fetchData("home", "/api/home"),
 ];
 
-export default connect(state => ({tiles: state.data.home}))(Home);
+export default connect(
+  state => ({
+    tiles: state.data.home,
+  })
+)(Home);
