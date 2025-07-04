@@ -1,0 +1,141 @@
+name: "Deploy to GCE production"
+
+on:
+  push:
+    branches: [ "main" ]
+
+env:
+  GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
+  GCP_ARTIFACT_REGISTRY_NAME: ${{ vars.GCP_ARTIFACT_REGISTRY_NAME }}
+  GCP_ARTIFACT_REGISTRY_LOCATION: ${{ vars.GCP_ARTIFACT_REGISTRY_LOCATION }}
+  GCP_IMAGE_NAME: ${{ vars.GCP_IMAGE_NAME }}
+  GCP_VM_IP: ${{ vars.GCP_VM_IP }}
+  GCP_VM_USER: ${{ vars.GCP_VM_USER }}
+
+  CANON_API: ${{ vars.CANON_API }}
+  CANON_CMS_CUBES: ${{ vars.CANON_CMS_CUBES }}
+  CANON_CMS_ENABLE: ${{ vars.CANON_CMS_ENABLE }}
+  CANON_CMS_FORCE_HTTPS: ${{ vars.CANON_CMS_FORCE_HTTPS }}
+  CANON_CMS_GENERATOR_TIMEOUT: ${{ vars.CANON_CMS_GENERATOR_TIMEOUT }}
+  CANON_CMS_LOGGING: ${{ vars.CANON_CMS_LOGGING }}
+  CANON_CMS_MINIMUM_ROLE: ${{ vars.CANON_CMS_MINIMUM_ROLE }}
+  CANON_CMS_REQUESTS_PER_SECOND: ${{ vars.CANON_CMS_REQUESTS_PER_SECOND }}
+  CANON_CONST_CART: ${{ vars.CANON_CONST_CART }}
+  CANON_CONST_CUBE: ${{ vars.CANON_CONST_CUBE }}
+  CANON_CONST_TESSERACT: ${{ vars.CANON_CONST_TESSERACT }}
+  CANON_DB_NAME: ${{ vars.CANON_DB_NAME }}
+  CANON_DB_USER: ${{ vars.CANON_DB_USER }}
+  CANON_GEOSERVICE_API: ${{ vars.CANON_GEOSERVICE_API }}
+  CANON_GOOGLE_ANALYTICS: ${{ vars.CANON_GOOGLE_ANALYTICS }}
+  CANON_LANGUAGES: ${{ vars.CANON_LANGUAGES }}
+  CANON_LANGUAGE_DEFAULT: ${{ vars.CANON_LANGUAGE_DEFAULT }}
+  CANON_LOGICLAYER_CUBE: ${{ vars.CANON_LOGICLAYER_CUBE }}
+  CANON_LOGICLAYER_SLUGS: ${{ vars.CANON_LOGICLAYER_SLUGS }}
+  CANON_LOGINS: ${{ vars.CANON_LOGINS }}
+  GA_KEYFILE: ${{ vars.GA_KEYFILE }}
+
+
+jobs:
+  build:
+    environment: production-vm
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Authenticate with Google Cloud
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+    - name: Build Docker Image
+      run: |-
+        gcloud builds submit \
+          --quiet \
+          --timeout=30m \
+          --config=cloudbuild.yml \
+          --substitutions=_GCP_PROJECT_ID=${{ env.GCP_PROJECT_ID }},_GCP_ARTIFACT_REGISTRY_NAME=${{ env.GCP_ARTIFACT_REGISTRY_NAME }},_GCP_ARTIFACT_REGISTRY_LOCATION=${{ env.GCP_ARTIFACT_REGISTRY_LOCATION }},_GCP_IMAGE_NAME=${{ env.GCP_IMAGE_NAME }},_GCP_IMAGE_TAG=${{ github.sha }},_GCP_IMAGE_ENVIRONMENT=${{ env.GCP_IMAGE_NAME }}
+
+  deploy:
+    needs: build
+    environment: production-vm
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Authenticate with Google Cloud
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+    - name: Deploy to Compute Engine
+      run: |
+          SSH_DIR=~/.ssh
+          mkdir -p $SSH_DIR
+          echo "${{ secrets.GCP_SSH_PRIVATE_KEY }}" > $SSH_DIR/id_rsa
+          chmod 600 $SSH_DIR/id_rsa
+          ssh-keyscan -H ${{ env.GCP_VM_IP }} >> $SSH_DIR/known_hosts
+
+          # Define remote path
+          REMOTE_PATH="/home/${{ env.GCP_VM_USER }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}-${{ env.GCP_IMAGE_NAME }}"
+
+          # Create remote directory and transfer files in one SSH session
+          echo "Creating remote path"
+          ssh -i $SSH_DIR/id_rsa ${{ env.GCP_VM_USER }}@${{ env.GCP_VM_IP }} "mkdir -p $REMOTE_PATH"
+          echo "Sending files"
+          scp -i $SSH_DIR/id_rsa compose.yaml deploy_to_vm.sh ${{ env.GCP_VM_USER }}@${{ env.GCP_VM_IP }}:$REMOTE_PATH
+
+          ssh -i $SSH_DIR/id_rsa ${{ env.GCP_VM_USER }}@${{ env.GCP_VM_IP }} 'bash -s' << 'ENDSSH'
+
+          # Go to working directory
+          echo "Going to working directory"
+          cd "/home/${{ env.GCP_VM_USER }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}-${{ env.GCP_IMAGE_NAME }}"
+
+          # Create .env.gcp file
+          echo "Creating .env.gcp file"
+          {
+            echo "GCP_IMAGE_TAG=${{ github.sha }}"
+            echo "GCP_PROJECT_ID=${{ env.GCP_PROJECT_ID }}"
+            echo "GCP_IMAGE_NAME=${{ env.GCP_IMAGE_NAME }}"
+            echo "GCP_ARTIFACT_REGISTRY_NAME=${{ env.GCP_ARTIFACT_REGISTRY_NAME }}"
+            echo "GCP_ARTIFACT_REGISTRY_LOCATION=${{ env.GCP_ARTIFACT_REGISTRY_LOCATION }}"
+            echo "GCP_VM_USER=${{ env.GCP_VM_USER }}"
+            echo "CANON_DB_HOST=${{ secrets.CANON_DB_HOST}}"
+            echo "CANON_DB_PW=${{ secrets.CANON_DB_PW}}"
+            echo "CANON_HOTJAR=${{ secrets.CANON_HOTJAR}}"
+            echo "CANON_API=${{ env.CANON_API }}"
+            echo "CANON_CMS_CUBES=${{ env.CANON_CMS_CUBES }}"
+            echo "CANON_CMS_ENABLE=${{ env.CANON_CMS_ENABLE }}"
+            echo "CANON_CMS_FORCE_HTTPS=${{ env.CANON_CMS_FORCE_HTTPS }}"
+            echo "CANON_CMS_GENERATOR_TIMEOUT=${{ env.CANON_CMS_GENERATOR_TIMEOUT }}"
+            echo "CANON_CMS_LOGGING=${{ env.CANON_CMS_LOGGING }}"
+            echo "CANON_CMS_MINIMUM_ROLE=${{ env.CANON_CMS_MINIMUM_ROLE }}"
+            echo "CANON_CMS_REQUESTS_PER_SECOND=${{ env.CANON_CMS_REQUESTS_PER_SECOND }}"
+            echo "CANON_CONST_CART=${{ env.CANON_CONST_CART }}"
+            echo "CANON_CONST_CUBE=${{ env.CANON_CONST_CUBE }}"
+            echo "CANON_CONST_TESSERACT=${{ env.CANON_CONST_TESSERACT }}"
+            echo "CANON_DB_NAME=${{ env.CANON_DB_NAME }}"
+            echo "CANON_DB_USER=${{ env.CANON_DB_USER }}"
+            echo "CANON_GEOSERVICE_API=${{ env.CANON_GEOSERVICE_API }}"
+            echo "CANON_GOOGLE_ANALYTICS=${{ env.CANON_GOOGLE_ANALYTICS }}"
+            echo "CANON_LANGUAGES=${{ env.CANON_LANGUAGES }}"
+            echo "CANON_LANGUAGE_DEFAULT=${{ env.CANON_LANGUAGE_DEFAULT }}"
+            echo "CANON_LOGICLAYER_CUBE=${{ env.CANON_LOGICLAYER_CUBE }}"
+            echo "CANON_LOGICLAYER_SLUGS=${{ env.CANON_LOGICLAYER_SLUGS }}"
+            echo "CANON_LOGINS=${{ env.CANON_LOGINS }}"
+            echo "GA_KEYFILE=${{ env.GA_KEYFILE }}"
+          } > .env.gcp
+
+          echo "Adding Google Analytics credentials to ./google directory"
+          mkdir -p ./google
+
+          cat << EOF > ./google/googleAnalyticsKey.json
+          ${{ secrets.GA_KEYFILE }}
+          EOF
+
+          bash ./deploy_to_vm.sh
+
+          ENDSSH

@@ -60,7 +60,7 @@ name: "[GCP][PROD] Build API to Google Registry"
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "disabled" ]
     paths:
       - .github/workflows/google-registry-prod.yaml
       - helm/**
