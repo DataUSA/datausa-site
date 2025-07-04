@@ -14,8 +14,8 @@ export default class Footer extends Component {
           <div className="footer-column">
             <div className="link-column"><Link to="/">Home</Link></div>
             <div className="link-column"><Link to="/search/">Reports</Link></div>
-            <div className="link-column"><Link to="/visualize">VizBuilder</Link></div>
-            <div className="link-column"><Link to="/map/">Maps</Link></div>
+            {/* <div className="link-column"><Link to="/visualize">VizBuilder</Link></div>
+            <div className="link-column"><Link to="/map/">Maps</Link></div> */}
             <div className="link-column"><Link to="/about/background">About</Link></div>
           </div>
         </div>

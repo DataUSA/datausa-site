@@ -257,4 +257,15 @@ module.exports = function(app) {
 
   });
 
+  const {measures} = app.settings.cache;
+  const {homeGeomap} = app.settings.cache;
+
+  app.get("/api/measures", async(req, res) => {
+    res.json(measures);
+  });
+
+  app.get("/api/home-geomap", async(req, res) => {
+      res.json(homeGeomap);
+  });
+
 };

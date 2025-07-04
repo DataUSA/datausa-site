@@ -45,7 +45,7 @@
       box-sizing: content-box;
       flex: none;
       height: 19px;
-      padding: 3px 10px 7px;
+      padding: 3px 7px;
       & img {
         height: 19px;
         width: 76px;

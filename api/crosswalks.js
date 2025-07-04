@@ -149,7 +149,6 @@ module.exports = function(app) {
   app.get("/api/:slug/similar/:urlId", async(req, res) => {
 
     const {limit, slug, urlId} = req.params;
-
     const meta = await db.profile_meta.findOne({where: {slug}}).catch(() => false);
 
     if (!meta) res.json({error: "Not a valid profile type"});
@@ -171,7 +170,7 @@ module.exports = function(app) {
           if (id === "01000US") {
 
             const states = await axios
-              .get(`${CANON_API}/api/data?drilldowns=State&measure=Household%20Income%20by%20Race&Year=latest&order=Household%20Income%20by%20Race`)
+              .get(`${CANON_CONST_TESSERACT}tesseract/data.jsonrecords?cube=acs_ygr_median_household_income_race_5&drilldowns=State&locale=en&measures=Household+Income+by+Race&time=Year.latest&sort=Household+Income+by+Race.desc`)
               .then(resp => {
                 const arr = resp.data.data;
                 const l = Math.ceil(parseFloat(limit || 6) / 2);
@@ -181,7 +180,7 @@ module.exports = function(app) {
 
             attrs = states.length ? await db.search
               .findAll({
-                where: {id: states.map(d => d["ID State"]), dimension},
+                where: {id: states.map(d => d["State ID"]), dimension},
                 include: [{association: "content"}]
               })
               .catch(() => []) : [];
@@ -258,7 +257,6 @@ module.exports = function(app) {
           }
         }
         else {
-
           const parents = await axios.get(`${CANON_API}/api/parents/${slug}/${id}`)
             .then(resp => resp.data)
             .catch(() => []);
@@ -276,10 +274,9 @@ module.exports = function(app) {
             "CIP": "Completions",
             "NAPCS": "Obligation Amount"
           };
-          const neighbors = measures[dimension] ? await axios.get(`${CANON_API}/api/neighbors?dimension=${dimension}&id=${id}&measure=${measures[dimension]}`)
-            .then(resp => resp.data.data.map(d => d[`ID ${hierarchy}`]))
+          const neighbors = measures[dimension] ? await axios.get(`${CANON_API}/api/neighbors?dimension=${dimension}&id=${id}&measure=${measures[dimension]}${hierarchy ? `&hierarchy=${hierarchy}` : ""}`)
+            .then(resp => resp.data.data.map(d => d[`${hierarchy} ID`]))
             .catch(() => []) : [];
-
           const neighborAttrs = neighbors.length ? await db.search
             .findAll({
               where: {id: neighbors.filter(d => d !== id).map(String), dimension, hierarchy},
@@ -303,11 +300,8 @@ module.exports = function(app) {
             }
             return row;
           });
-
         res.json(retArray);
-
       }
-
     }
 
   });
@@ -408,22 +402,40 @@ module.exports = function(app) {
    * To handle the sentence: "The highest paying jobs for people who hold a degree in one of the
    * 5 most specialized majors at University."
    */
-  app.get("/api/university/highestWageLookup/:id", async(req, res) => {
+  app.get("/api/university/highestWageLookup/:id/:hierarchy", async(req, res) => {
+
+    const ipedsPumsFilterTesseract = d => ![21, 29, 32, 33, 34, 35, 36, 37, 48, 53, 60].includes(d["CIP2 ID"]);
+
     const {id} = req.params;
+    const {hierarchy} = req.params;
 
-    const cipURL = `${CANON_API}/api/data?University=${id}&measures=Completions,yuc%20RCA&year=latest&drilldowns=CIP2&order=yuc%20RCA&sort=desc`;
+    const latestYearUrl = `${CANON_CONST_TESSERACT}tesseract/data.jsonrecords?cube=ipeds_completions&drilldowns=Year&include=${hierarchy}:${id}&locale=en&measures=Completions&time=Year.latest`
+    const latestYear = await axios.get(latestYearUrl)
+      .then(resp => resp.data.data[0]["Year"]);
+
+    const cipURL = `${CANON_CONST_TESSERACT}complexity/rca_historical.jsonrecords?cube=ipeds_completions&location=${hierarchy}&activity=CIP2&measure=Completions&time=Year&filter=${hierarchy}:${id}&cuts=Year:${latestYear}`
+
     const CIP2 = await axios.get(cipURL)
-      .then(resp => resp.data.data.filter(ipedsPumsFilter).slice(0, 5).map(d => d["ID CIP2"]).join());
+      .then(resp => resp.data.data
+        .sort((a, b) => b["Completions RCA"] - a["Completions RCA"])
+        .filter(ipedsPumsFilterTesseract)
+        .slice(0, 5)
+        .map(d => `${d["CIP2 ID"]}`.padStart(2, '0')).join());
 
-    const logicUrl = `${CANON_API}/api/data?measures=Average%20Wage,Record%20Count&year=latest&drilldowns=CIP2,Detailed%20Occupation&order=Average%20Wage&sort=desc&Workforce%20Status=true&Employment%20Time%20Status=1&Record%20Count%3E=5&CIP2=${CIP2}`;
+    const logicUrl = `${CANON_CONST_TESSERACT}tesseract/data.jsonrecords?cube=pums_5&drilldowns=Year,CIP2,Detailed+Occupation&include=Workforce+Status:true;Employment+Time+Status:1;CIP2:${CIP2}&locale=en&measures=Record+Count,Average+Wage&time=Year.latest&filters=Record+Count.gte.5&sort=Average+Wage.desc`
+
     const wageList = await axios.get(logicUrl)
-      .then(resp => resp.data.data);
+    .then(resp => resp.data.data)
+
+    wageList.sort((a, b) => b["Average Wage"] - a["Average Wage"]);
 
     const dedupedWages = [];
     wageList.forEach(d => {
       if (dedupedWages.length < 5 && !dedupedWages.find(w => w["Detailed Occupation"] === d["Detailed Occupation"])) dedupedWages.push(d);
     });
 
+
+    dedupedWages.sort((a, b) => b["Average Wage"] - a["Average Wage"]);
     res.json({data: dedupedWages.slice(0, 10)});
 
   });
@@ -432,23 +444,39 @@ module.exports = function(app) {
    * To handle the sentence: "The most common industries for people who hold a degree in one
    * of the 5 most specialized majors at University."
    */
-  app.get("/api/university/commonIndustryLookup/:id", async(req, res) => {
+  app.get("/api/university/commonIndustryLookup/:id/:hierarchy", async(req, res) => {
+
+    const ipedsPumsFilterTesseract = d => ![21, 29, 32, 33, 34, 35, 36, 37, 48, 53, 60].includes(d["CIP2 ID"]);
+
     const {id} = req.params;
+    const {hierarchy} = req.params;
 
-    const cipURL = `${CANON_API}/api/data?University=${id}&measures=Completions,yuc%20RCA&year=latest&drilldowns=CIP2&order=yuc%20RCA&sort=desc`;
+    const latestYearUrl = `${CANON_CONST_TESSERACT}tesseract/data.jsonrecords?cube=ipeds_completions&drilldowns=Year&include=${hierarchy}:${id}&locale=en&measures=Completions&time=Year.latest`
+    const latestYear = await axios.get(latestYearUrl)
+      .then(resp => resp.data.data[0]["Year"]);
+
+    const cipURL = `${CANON_CONST_TESSERACT}complexity/rca_historical.jsonrecords?cube=ipeds_completions&location=${hierarchy}&activity=CIP2&measure=Completions&time=Year&filter=${hierarchy}:${id}&cuts=Year:${latestYear}`
+
     const CIP2 = await axios.get(cipURL)
-      .then(resp => resp.data.data.filter(ipedsPumsFilter).slice(0, 5).map(d => d["ID CIP2"]).join());
+      .then(resp => resp.data.data
+        .sort((a, b) => b["Completions RCA"] - a["Completions RCA"])
+        .filter(ipedsPumsFilterTesseract)
+        .slice(0, 5)
+        .map(d => `${d["CIP2 ID"]}`.padStart(2, '0')).join());
 
-    const logicUrl = `${CANON_API}/api/data?measures=Total%20Population,Record%20Count&year=latest&drilldowns=CIP2,Industry%20Group&order=Total%20Population&Workforce%20Status=true&Employment%20Time%20Status=1&sort=desc&Record%20Count>=5&CIP2=${CIP2}`;
-    const industryList = await axios.get(logicUrl)
+    const logicUrl = `${CANON_CONST_TESSERACT}tesseract/data.jsonrecords?cube=pums_5&drilldowns=Year,CIP2,Industry+Group&include=Workforce+Status:true;Employment+Time+Status:1;CIP2:${CIP2}&locale=en&measures=Record+Count,Total+Population&time=Year.latest&filters=Record+Count.gte.5&sort=Total+Population.desc`
+
+    let industryList = await axios.get(logicUrl)
       .then(resp => resp.data.data);
 
     const dedupedIndustries = [];
     // The industryList has duplicates. For example, if a Biology Major enters Biotech, and a separate
     // Science major enters Biotech, these are listed as separate data points. These must be folded
     // together under one "Biotech" to create an accurate picture of "industries entered by graduates with X degrees"
+    industryList = industryList.filter(d => d["Industry Group ID"] !== "")
+
     industryList.forEach(d => {
-      const thisIndustry = dedupedIndustries.find(j => j["Industry Group"] === d["Industry Group"]);
+    const thisIndustry = dedupedIndustries.find(j => j["Industry Group"] === d["Industry Group"]);
       if (thisIndustry) {
         thisIndustry["Total Population"] += d["Total Population"];
       }
@@ -456,6 +484,7 @@ module.exports = function(app) {
         dedupedIndustries.push(d);
       }
     });
+
     dedupedIndustries.sort((a, b) => b["Total Population"] - a["Total Population"]);
     res.json({data: dedupedIndustries.slice(0, 10)});
 
@@ -463,12 +492,17 @@ module.exports = function(app) {
 
   app.get("/api/parents/:slug/:id", async(req, res) => {
 
-    const {slug, id} = req.params;
+    const {slug} = req.params;
+    let {id} = req.params;
     const {loose} = req.query;
 
     const meta = await db.profile_meta.findOne({where: {slug}}).catch(() => false);
     if (!meta) res.json({error: "Not a valid profile type"});
     const {dimension} = meta;
+
+    if (slug === 'cip' && (`${id}`.length === 1 || `${id}`.length === 3 || `${id}`.length === 5)) {
+      id = `0${id}`;
+    }
 
     const attr = await db.search
       .findOne({
@@ -547,7 +581,6 @@ module.exports = function(app) {
       else {
         const parents = cache.parents[slug] || {};
         const ids = parents[attr.id] || [];
-
         const attrs = ids.length ? await db.search
           .findAll({
             where: {id: ids, dimension},
@@ -571,6 +604,17 @@ module.exports = function(app) {
 
     const {dimension, drilldowns, id, limit = 5} = req.query;
     let {hierarchy} = req.query;
+
+    let cubes = {
+      "Geography": "usa_spending",
+      "University": "ipeds_completions",
+      "CIP": "ipeds_completions",
+      "NAPCS": "usa_spending",
+      "PUMS Industry": "pums_5",
+      "Industry": "pums_5",
+      "Occupation": "pums_5",
+      "PUMS Occupation": "pums_5"
+    }
 
     if (dimension === "Geography") {
 
@@ -607,8 +651,56 @@ module.exports = function(app) {
       res.json({data: attrs});
 
     }
-    else {
+    else if (dimension === "Occupation" || dimension === "PUMS Occupation") {
+      let {include, filters} = req.query;
 
+      const measure = req.query.measure || req.query.measures;
+      if (!measure.includes("Average Wage")) {
+        measure += ",Average Wage";
+      }
+
+      delete req.query.dimension;
+      delete req.query.id;
+      delete req.query.hierarchy;
+
+      const newQuery = `${CANON_CONST_TESSERACT}tesseract/data.jsonrecords?cube=pums_5&drilldowns=Year,${hierarchy}&measures=${measure}&time=Year.latest&sort=Average+Wage.desc${include ? `&include=${include}` : ""}${filters ? `&filters=${filters}` : ""}`;
+      const resp = await axios.get(newQuery)
+        .then(resp => {
+          if (resp.data && Array.isArray(resp.data)) {
+            resp.data.sort((a, b) => b["Average Wage"] - a["Average Wage"]);
+          }
+          return resp.data;
+        })
+        .catch(error => ({error}));
+
+      if (resp.error) res.json(resp);
+      else {
+
+        const list = resp.data.sort((a, b) => b[measure.split(",")[0]] - a[measure.split(",")[0]]);
+        const entry = list.find(d => d[`${hierarchy} ID`] === id);
+
+        const index = list.indexOf(entry);
+        let data;
+
+        if (index <= limit / 2 + 1) {
+          data = list.slice(0, limit);
+        }
+        else if (index > list.length - limit / 2 - 1) {
+          data = list.slice(-limit);
+        }
+        else {
+          const min = Math.ceil(index - limit / 2);
+          data = list.slice(min, min + limit);
+        }
+
+        data.forEach(d => {
+          d.Rank = list.indexOf(d) + 1;
+        });
+
+        res.json({data, source: resp.source});
+      }
+    }
+    else {
       const where = {dimension, id};
       if (hierarchy) where.hierarchy = hierarchy;
       const attr = await db.search.findOne({where}).catch(() => false);
@@ -618,7 +710,7 @@ module.exports = function(app) {
 
         if (!hierarchy) hierarchy = attr.hierarchy;
 
-        req.query.limit = 10000;
+        req.query.limit = 5;
         const measure = req.query.measure || req.query.measures;
         if (req.query.measure) {
           req.query.measures = req.query.measure;
@@ -641,18 +733,16 @@ module.exports = function(app) {
 
         if (measure !== "Obligation Amount" && !req.query.Year && !req.query.year) {
           const allYearQuery = Object.assign({[hierarchy]: id}, req.query);
-          const allYearParams = Object.entries(allYearQuery).map(([key, val]) => `${key}=${val}`).join("&");
-          const allYearURL = `${CANON_API}/api/data?${allYearParams}`;
+          const allYearURL = `${CANON_CONST_TESSERACT}tesseract/data.jsonrecords?cube=${cubes[dimension]}&drilldowns=Year,${hierarchy}&include=${hierarchy}:${id}&measures=${allYearQuery.measures}&sort=${allYearQuery.order}.${allYearQuery.sort}`;
           const allYearData = await axios.get(allYearURL)
             .then(resp => resp.data)
             .catch(error => ({error}));
-          if (allYearData.error) req.query.Year = "latest";
-          else req.query.Year = max(allYearData.data, d => d["ID Year"]);
+          if (allYearData.error) req.query.time = "&time=Year.latest";
+          else req.query.Year = max(allYearData.data, d => d["Year"]);
         }
 
         const query = Object.assign({}, req.query);
-        const params = Object.entries(query).map(([key, val]) => `${key}=${val}`).join("&");
-        const logicUrl = `${CANON_API}/api/data?${params}`;
+        const logicUrl = `${CANON_CONST_TESSERACT}tesseract/data.jsonrecords?cube=${cubes[dimension]}&drilldowns=Year,${hierarchy}&measures=${query.measures}&sort=${query.order}.${query.sort}${query.time ? query.time : ""}${query.Year ? `&include=Year:${query.Year}` : ""}`;
 
         const resp = await axios.get(logicUrl)
           .then(resp => resp.data)
@@ -662,9 +752,9 @@ module.exports = function(app) {
         else {
 
           const list = resp.data;
-          const entry = list.find(d => d[`ID ${hierarchy}`] === id);
-
+          const entry = list.find(d => d[`${hierarchy} ID`] == id);
           const index = list.indexOf(entry);
+
           let data;
 
           if (index <= limit / 2 + 1) {
@@ -683,12 +773,8 @@ module.exports = function(app) {
           });
 
           res.json({data, source: resp.source});
-
         }
       }
     }
-
   });
-
-
 };

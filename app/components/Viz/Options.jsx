@@ -362,7 +362,7 @@ class Options extends Component {
     const cartSize = cart ? cart.data.length : 0;
     const inCart = cart ? cart.data.find(c => c.slug === cartSlug) : false;
 
-    const cartEnabled = data && slug && title;
+    const cartEnabled = false;
     const shareEnabled = topic.slug;
     const baseURL = (typeof window === "undefined" ? location : window.location).href.split("#")[0].split("/").slice(0, 6).join("/");
     const profileURL = `${baseURL}#${topic.slug}`;
@@ -406,14 +406,14 @@ class Options extends Component {
       </div>
     </div>;
 
-    const columns = results ? Object.keys(results[0]).filter(d => d.indexOf("ID ") === -1 && d.indexOf("Slug ") === -1) : [];
+    const columns = results ? Object.keys(results[0]).filter(d => d.indexOf(" ID") === -1 && d.indexOf("Slug ") === -1) : [];
     const stickies = ["Year", "Geography", "PUMS Industry", "PUMS Occupation", "CIP", "University", "Gender"].reverse();
     columns.sort((a, b) => stickies.indexOf(b) - stickies.indexOf(a));
 
     const columnWidths = columns.map(key => {
       if (key === "Year") return 60;
       else if (key.includes("Year")) return 150;
-      else if (key.includes("ID ")) return 120;
+      else if (key.includes(" ID")) return 120;
       else if (key.includes("University") || key.includes("Insurance")) return 250;
       else if (key.includes("Gender") || key.includes("Sex")) return 100;
       else if (stickies.includes(key)) return 200;
@@ -511,11 +511,13 @@ Options.contextTypes = {
   formatters: PropTypes.object
 };
 
-export default connect(state => ({
-  cart: state.cart,
-  location: state.location,
-  measures: state.data.measures
-}), dispatch => ({
+export default connect(state => {
+  return {
+    cart: state.cart,
+    location: state.location,
+    measures: state.data.measures
+  };
+}, dispatch => ({
   addToCart: build => dispatch(addToCart(build)),
   removeFromCart: build => dispatch(removeFromCart(build))
 }))(Options);

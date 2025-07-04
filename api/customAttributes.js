@@ -83,9 +83,40 @@ module.exports = function(app) {
       retObj.stateDataID = state && !["Nation", "State"].includes(hierarchy) ? state.id : id;
       retObj.hierarchyElectionSub = ["Nation", "County"].includes(hierarchy) ? hierarchy : "State";
       retObj.stateElectionId = ["Nation", "State", "County"].includes(hierarchy) ? id : stateElection.join(",");
+      retObj.hierarchyElectionSubTemp = ["Nation"].includes(hierarchy) ? hierarchy : "State";
+      retObj.stateElectionIdTemp = ["Nation", "State"].includes(hierarchy) ? id : stateElection.join(",");
       retObj.electionCut = hierarchy === "Nation" ? `State` : hierarchy === "County" ? `County&State+County=${retObj.stateDataID}` : `County&State+County=${retObj.stateElectionId}`;
       retObj.hierarchySub = hierarchy === "Nation" ? "State" : "County";
       retObj.CBPSection = hierarchy === "County" || (hierarchy === "State" && id !== "04000US72") || hierarchy === "MSA"
+      retObj.includeIncome = hierarchy === "Nation" ? `&exclude=State:0` : hierarchy === "State" ? `&include=State+County:${id}` : hierarchy === "County" ? `&include=County+Tract:${id}` : hierarchy === "Place" ? `&include=Place+Place-Tract:${id}` : "";
+      retObj.incomeDrilldown = hierarchy === "Nation" ? "State" : hierarchy === "State" ? "County" : hierarchy === "County" ? "Tract" : hierarchy === "Place" ? "Place-Tract" : "";
+      retObj.specialTessCut = hierarchy === "Nation" ? "&exclude=State:0" : hierarchy === "State" ? `&include=State+County:${id}` : hierarchy === "County" ? `&include=County+Tract:${id}` : hierarchy === "Place" ? `&include=State+Place:${state ? state.id : id}` : hierarchy === "MSA" ? `&include=State+County:${state ? state.id : id}` : hierarchy === "PUMA" ? `&include=State+PUMA:${state ? state.id : id}` : "";
+      retObj.specialTessDrilldown = hierarchy === "Nation" ? "State" : hierarchy === "State" ? "County" : hierarchy === "MSA" ? "County" : hierarchy === "PUMA" ? "PUMA" : hierarchy === "County" ? "Tract" : hierarchy === "Place" ? "Place" : "";
+
+      if (hierarchy !== "Nation" && hierarchy !== "State" && hierarchy !== "PUMA") {
+        const url = `${CANON_GEOSERVICE_API}relations/intersects/${id}?targetLevels=state`;
+        const intersects = await axios.get(url)
+          .then(resp => resp.data)
+          .then(resp => {
+            if (resp.error) {
+              console.error(`[geoservice error] ${url}`);
+              console.error(resp.error);
+              return [];
+            }
+            else {
+              return resp || [];
+            }
+          })
+          .then(resp => resp.map(d => d.geoid))
+          .catch(() => []);
+        retObj.pumsID = intersects.join(",");
+        retObj.pumsHierarchy = "State";
+      }
+
+      else if (hierarchy === "PUMA" || hierarchy === "State" || hierarchy === "Nation") {
+        retObj.pumsID = id;
+        retObj.pumsHierarchy = hierarchy;
+      }
 
       if (hierarchy !== "Nation") {
         const url = `${CANON_GEOSERVICE_API}neighbors/${state ? state.id : id}`;
@@ -105,6 +136,7 @@ module.exports = function(app) {
           .catch(() => []);
         retObj.stateNeighbors = neighbors.join(",");
       }
+
       else {
         retObj.stateNeighbors = "";
       }
@@ -126,15 +158,10 @@ module.exports = function(app) {
       retObj.beaL0 = beaIds && beaIds.L0 ? beaIds.L0 : false;
       retObj.beaL1 = beaIds && beaIds.L1 ? beaIds.L1 : false;
       retObj.blsIds = blsInds[id] || false;
-      retObj.pumsLatestYear = await axios.get(`${origin}/api/data?${hierarchy}=${id}&measures=Total%20Population&limit=1&order=Year&sort=desc`)
-          .then(resp => resp.data.data[0]["ID Year"])
-          .catch(() => 2020);
+      retObj.blsIdsStr = blsInds[id] ? blsInds[id].flat().join(",") : false;
     }
     else if (dimension === "PUMS Occupation") {
       retObj.blsIds = blsOccs[id] || false;
-      retObj.pumsLatestYear = await axios.get(`${origin}/api/data?${hierarchy}=${id}&measures=Total%20Population&limit=1&order=Year&sort=desc`)
-          .then(resp => resp.data.data[0]["ID Year"])
-          .catch(() => 2020);
     }
     else if (dimension === "CIP") {
       retObj.stem = id.length === 6 ? stems.includes(id) ? "Stem Major" : false : "Contains Stem Majors";
