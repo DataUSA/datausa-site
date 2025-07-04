@@ -80,7 +80,7 @@ jobs:
           ssh-keyscan -H ${{ env.GCP_VM_IP }} >> $SSH_DIR/known_hosts
 
           # Define remote path
-          REMOTE_PATH="/home/${{ env.GCP_VM_USER }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}-${{ env.GCP_IMAGE_NAME }}"
+          REMOTE_PATH="/home/${{ env.GCP_VM_USER }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}"
 
           # Create remote directory and transfer files in one SSH session
           echo "Creating remote path"
@@ -92,7 +92,7 @@ jobs:
 
           # Go to working directory
           echo "Going to working directory"
-          cd "/home/${{ env.GCP_VM_USER }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}-${{ env.GCP_IMAGE_NAME }}"
+          cd "/home/${{ env.GCP_VM_USER }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}"
 
           # Create .env.gcp file
           echo "Creating .env.gcp file"
