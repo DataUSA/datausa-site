@@ -73,22 +73,25 @@ jobs:
 
     - name: Deploy to Compute Engine
       run: |
+          # Setup SSH credentials
           SSH_DIR=~/.ssh
           mkdir -p $SSH_DIR
           echo "${{ secrets.GCP_SSH_PRIVATE_KEY }}" > $SSH_DIR/id_rsa
           chmod 600 $SSH_DIR/id_rsa
-          ssh-keyscan -H ${{ env.GCP_VM_IP }} >> $SSH_DIR/known_hosts
+          ssh-keyscan -p ${{ vars.SSH_PORT }} -H ${{ env.GCP_VM_IP }} >> $SSH_DIR/known_hosts
 
           # Define remote path
-          REMOTE_PATH="/home/${{ env.GCP_VM_USER }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}"
+          REMOTE_PATH="/home/${{ env.GCP_VM_USER }}/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}"
 
           # Create remote directory and transfer files in one SSH session
           echo "Creating remote path"
-          ssh -i $SSH_DIR/id_rsa ${{ env.GCP_VM_USER }}@${{ env.GCP_VM_IP }} "mkdir -p $REMOTE_PATH"
+          ssh -p ${{ vars.SSH_PORT }} -i $SSH_DIR/id_rsa ${{ env.GCP_VM_USER }}@${{ env.GCP_VM_IP }} "mkdir -p $REMOTE_PATH"
           echo "Sending files"
-          scp -i $SSH_DIR/id_rsa compose.yaml deploy_to_vm.sh ${{ env.GCP_VM_USER }}@${{ env.GCP_VM_IP }}:$REMOTE_PATH
+          scp -P ${{ vars.SSH_PORT }} -i $SSH_DIR/id_rsa compose.yaml deploy_to_vm.sh ${{ env.GCP_VM_USER }}@${{ env.GCP_VM_IP }}:"$REMOTE_PATH/"
 
-          ssh -i $SSH_DIR/id_rsa ${{ env.GCP_VM_USER }}@${{ env.GCP_VM_IP }} 'bash -s' << 'ENDSSH'
+          echo "Deploy"
+          # SSH into VM and execute deployment
+          ssh -p ${{ vars.SSH_PORT }} -i $SSH_DIR/id_rsa ${{ env.GCP_VM_USER }}@${{ env.GCP_VM_IP }} 'bash -s' << 'ENDSSH'
 
           # Go to working directory
           echo "Going to working directory"
