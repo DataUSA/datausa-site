@@ -95,7 +95,7 @@ jobs:
 
           # Go to working directory
           echo "Going to working directory"
-          cd "/home/${{ secrets.GCP_VM_USER }}/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}"
+          cd "/home/${{ env.GCP_VM_USER }}/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}"
 
           # Create .env.gcp file
           echo "Creating .env.gcp file"
