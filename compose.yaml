@@ -1,5 +1,5 @@
 services:
-  site-blue: &app
+  site: &app
     container_name: datausa-site
     image: ${GCP_ARTIFACT_REGISTRY_LOCATION}-docker.pkg.dev/${GCP_PROJECT_ID}/${GCP_ARTIFACT_REGISTRY_NAME}/${GCP_IMAGE_NAME}:${GCP_IMAGE_TAG}
     restart: always
@@ -13,6 +13,21 @@ services:
       - "host.docker.internal:host-gateway"
     ports:
       - "9997:3300"
+
+  site-1: &app
+    container_name: datausa-site-1
+    image: ${GCP_ARTIFACT_REGISTRY_LOCATION}-docker.pkg.dev/${GCP_PROJECT_ID}/${GCP_ARTIFACT_REGISTRY_NAME}/${GCP_IMAGE_NAME}:${GCP_IMAGE_TAG}
+    restart: always
+    stop_signal: SIGTERM
+    stop_grace_period: 30s
+    env_file:
+      - .env.gcp
+    networks:
+      - site
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "9996:3300"
 
 networks:
   site:
