@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Link} from "react-router";
 import {connect} from "react-redux";
 
-class API extends Component {
+export default class API extends Component {
 
   render() {
 
@@ -34,8 +34,8 @@ class API extends Component {
           Returns a list of all available data cubes in the Tesseract server.
         </p>
         <p>
-          <a href={`${this.props.TESSERACT}tesseract/cubes`} target="_blank">
-            {this.props.TESSERACT}tesseract<strong>/cubes</strong>
+          <a href={`https://api.datausa.io/tesseract/cubes`} target="_blank">
+            https://api.datausa.io/tesseract<strong>/cubes</strong>
           </a>
         </p>
 
@@ -48,8 +48,8 @@ class API extends Component {
           Returns the full schema of a specific cube, including its measures, dimensions, and levels.
         </p>
         <p>
-          <a href={`${this.props.TESSERACT}tesseract/cubes/acs_yg_total_population_5`} target="_blank">
-            {this.props.TESSERACT}tesseract<strong>/cubes/acs_yg_total_population_5</strong>
+          <a href={`https://api.datausa.io/tesseract/cubes/acs_yg_total_population_5`} target="_blank">
+            https://api.datausa.io/tesseract<strong>/cubes/acs_yg_total_population_5</strong>
           </a>
         </p>
 
@@ -63,8 +63,8 @@ class API extends Component {
           This is useful for populating filters or understanding the scope of available data in a dimension level.
         </p>
         <p>
-          <a href={`${this.props.TESSERACT}tesseract/members?cube=acs_yg_total_population_5&level=State`} target="_blank">
-            {this.props.TESSERACT}tesseract<strong>/members?cube=acs_yg_total_population_5&level=State</strong>
+          <a href={`https://api.datausa.io/tesseract/members?cube=acs_yg_total_population_5&level=State`} target="_blank">
+            https://api.datausa.io/tesseract<strong>/members?cube=acs_yg_total_population_5&level=State</strong>
           </a>
         </p>
 
@@ -96,15 +96,15 @@ class API extends Component {
           In this case we analyze the population by state in 2023:
         </p>
         <p>
-          <a href={`${this.props.TESSERACT}tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&include=Year:2023&drilldowns=State,Year`} target="_blank">
-            {this.props.TESSERACT}tesseract/data.jsonrecords?cube=acs_yg_total_population_5&drilldowns=State,Year&measures=Population&include=Year:2023&limit=100,0
+          <a href={`https://api.datausa.io/tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&include=Year:2023&drilldowns=State,Year`} target="_blank">
+            https://api.datausa.io/tesseract/data.jsonrecords?cube=acs_yg_total_population_5&drilldowns=State,Year&measures=Population&include=Year:2023&limit=100,0
           </a>
         </p>
 
         <h4><b>1. Root URL</b></h4>
         <p>
           <code style={{backgroundColor: '#eee' }}>
-            {this.props.TESSERACT}tesseract/data.jsonrecords
+            https://api.datausa.io/tesseract/data.jsonrecords
           </code>
         </p>
         <p>
@@ -185,8 +185,8 @@ class API extends Component {
           In this case we're we'll stick with our previous example of the population by state in 2023:
         </p>
         <p>
-          <a href={`${this.props.TESSERACT}tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&include=Year:2023&drilldowns=State,Year`} target="_blank">
-            {this.props.TESSERACT}tesseract/data.jsonrecords?cube=acs_yg_total_population_5&drilldowns=State,Year&measures=Population&include=Year:2023&limit=100,0
+          <a href={`https://api.datausa.io/tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&include=Year:2023&drilldowns=State,Year`} target="_blank">
+            https://api.datausa.io/tesseract/data.jsonrecords?cube=acs_yg_total_population_5&drilldowns=State,Year&measures=Population&include=Year:2023&limit=100,0
           </a>
         </p>
 
@@ -299,8 +299,8 @@ class API extends Component {
           For example, the following API call will include data only for the 2023 and for Alabama:
         </p>
         <p>
-          <a href={`${this.props.TESSERACT}tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&include=Year:2023;State:04000US01&drilldowns=State,Year`} target="_blank">
-            {this.props.TESSERACT}tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&include=Year:2023;State:04000US01&drilldowns=State,Year
+          <a href={`https://api.datausa.io/tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&include=Year:2023;State:04000US01&drilldowns=State,Year`} target="_blank">
+            https://api.datausa.io/tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&include=Year:2023;State:04000US01&drilldowns=State,Year
           </a>
         </p>
 
@@ -320,8 +320,8 @@ class API extends Component {
           For example, the following API call will return data for all available states except for Alabama:
         </p>
         <p>
-          <a href={`${this.props.TESSERACT}tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&exclude=State:04000US01&drilldowns=State`} target="_blank">
-            {this.props.TESSERACT}tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&exclude:State:04000US01&drilldowns=State
+          <a href={`https://api.datausa.io/tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&exclude=State:04000US01&drilldowns=State`} target="_blank">
+            https://api.datausa.io/tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&exclude:State:04000US01&drilldowns=State
           </a>
         </p>
 
@@ -341,8 +341,8 @@ class API extends Component {
           For example, the following API call will include parent members for the County level:
         </p>
         <p>
-          <a href={`${this.props.TESSERACT}tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&include=Year:2023&drilldowns=County,Year&parents=True`} target="_blank">
-            {this.props.TESSERACT}tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&include=Year:2023&drilldowns=County,Year
+          <a href={`https://api.datausa.io/tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&include=Year:2023&drilldowns=County,Year&parents=True`} target="_blank">
+            https://api.datausa.io/tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&include=Year:2023&drilldowns=County,Year
             &parents=True
           </a>
         </p>
@@ -420,15 +420,15 @@ class API extends Component {
         </p>
         <p>For example, to sort by Population in ascending order:</p>
         <p>
-          <a href={`${this.props.TESSERACT}tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&include=Year:2023&drilldowns=State,Year&sort=Population.asc`} target="_blank">
-            {this.props.TESSERACT}tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&include=Year:2023&drilldowns=State,Year
+          <a href={`https://api.datausa.io/tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&include=Year:2023&drilldowns=State,Year&sort=Population.asc`} target="_blank">
+            https://api.datausa.io/tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&include=Year:2023&drilldowns=State,Year
             &sort=Population.asc
           </a>
         </p>
         <p>Or, to fetch the top state above a threshold of 30 million sorted by year:</p>
         <p>
-          <a href={`${this.props.TESSERACT}tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&drilldowns=State,Year&filters=Population.gt.30000000&sort=Year.desc`} target="_blank">
-            {this.props.TESSERACT}tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&drilldowns=State,Year&filters=Population.gt.30000000
+          <a href={`https://api.datausa.io/tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&drilldowns=State,Year&filters=Population.gt.30000000&sort=Year.desc`} target="_blank">
+            https://api.datausa.io/tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&drilldowns=State,Year&filters=Population.gt.30000000
             &sort=Year.desc
           </a>
         </p>
@@ -445,14 +445,14 @@ class API extends Component {
         </p>
         <p>For example, to get the year of the highest population for each state:</p>
         <p>
-          <a href={`${this.props.TESSERACT}tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&drilldowns=State,Year&top=1.State.Population.desc`} target="_blank">
-            {this.props.TESSERACT}tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&drilldowns=State,Year&top=1.State.Population.desc
+          <a href={`https://api.datausa.io/tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&drilldowns=State,Year&top=1.State.Population.desc`} target="_blank">
+            https://api.datausa.io/tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&drilldowns=State,Year&top=1.State.Population.desc
           </a>
         </p>
         <p>Or, to get the 2 years with the highest population for each state:</p>
         <p>
-          <a href={`${this.props.TESSERACT}tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&drilldowns=State,Year&top=2.State.Population.desc`} target="_blank">
-            {this.props.TESSERACT}tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&drilldowns=State,Year&top=2.State.Population.desc
+          <a href={`https://api.datausa.io/tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&drilldowns=State,Year&top=2.State.Population.desc`} target="_blank">
+            https://api.datausa.io/tesseract/data.jsonrecords?cube=acs_yg_total_population_5&measures=Population&drilldowns=State,Year&top=2.State.Population.desc
           </a>
         </p>
         <p><b>Note:</b> All columns mentioned in the parameter must be present in the request, either in drilldowns or measures.</p>
@@ -489,9 +489,3 @@ class API extends Component {
 
 }
 
-
-const mapStateToProps = state => ({
-  TESSERACT: state.env.TESSERACT
-});
-
-export default connect(mapStateToProps)(API);
