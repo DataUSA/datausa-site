@@ -117,6 +117,9 @@ class Nav extends Component {
           <li>
             <Link to="/about">About</Link>
           </li>
+          <li>
+            <Link to="/about/api">Data</Link>
+          </li>
         </ul>
         {/* <Popover
           hoverOpenDelay={0}
