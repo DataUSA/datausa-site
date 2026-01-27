@@ -1,8 +1,11 @@
 name: "Deploy to GCE production"
 
 on:
+  workflow_dispatch:
+
   push:
-    branches: [ "main" ]
+    branches:
+      - main
 
 env:
   GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
