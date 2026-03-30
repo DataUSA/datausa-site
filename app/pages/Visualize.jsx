@@ -301,7 +301,7 @@ class Visualize extends Component {
             "PUMA": {
               projection: albersUsaPr(),
               ocean: "transparent",
-              topojson: "/topojson/Puma.json"
+              topojson: "/topojson/PUMA.json"
             },
             "State": StateTopojson,
             "Origin State": StateTopojson,
