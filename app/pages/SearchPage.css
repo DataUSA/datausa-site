@@ -11,7 +11,10 @@
 
 #SearchPage {
   height: 100vh;
+  max-width: 100%;
+  overflow-x: hidden;
   padding-top: var(--nav-height);
+  position: relative;
   & .controls {
     height: calc(100vh - 170px);
     margin-top: 50px;
@@ -124,13 +127,19 @@
     }
   }
   & .search {
+    box-sizing: border-box;
     display: block;
+    max-width: 100%;
     & .bp3-input-group {
       border-bottom: 1px solid var(--gray);
       border-radius: 0;
+      box-sizing: border-box;
       height: 50px;
       margin: 25px;
+      max-width: calc(100% - 50px);
       transition: border-color 0.25s;
+      /* bp3-fill sets width:100%; with horizontal margin that overflows the page */
+      width: calc(100% - 50px);
       &.active {
         border-color: white;
       }
@@ -143,10 +152,13 @@
       & input {
         background-color: var(--dark);
         box-shadow: none;
+        box-sizing: border-box;
         color: white;
         font-size: 30px;
         height: 40px;
-        overflow: visible;
+        max-width: 100%;
+        min-width: 0;
+        overflow-x: auto;
         padding-left: 50px;
         &:placeholder {
           color: var(--gray);
@@ -155,17 +167,21 @@
     }
     & .results {
       border-left: 1px solid var(--gray);
+      box-sizing: border-box;
       display: block;
       height: calc(100vh - 170px);
       left: var(--panel-width);
       list-style-type: none;
       margin: 0;
+      max-width: calc(100% - var(--panel-width));
+      overflow-x: hidden;
       overflow-y: scroll;
       padding: 0;
       position: absolute;
       top: 100px;
       width: calc(100% - var(--panel-width));
       & .result {
+        max-width: 100%;
         padding: 20px;
         text-align: left;
         transition: background-color 0.25s;
@@ -173,6 +189,8 @@
         & a {
           align-items: center;
           display: flex;
+          max-width: 100%;
+          min-width: 0;
           &:hover {
             text-decoration: none;
           }
@@ -203,6 +221,8 @@
 
         & .result-text {
           flex: 1;
+          min-width: 0;
+          overflow-wrap: anywhere;
           & .title {
             color: white;
             font-size: 16px;

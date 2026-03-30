@@ -6,18 +6,49 @@ import axios from "axios";
 import {select} from "d3-selection";
 import {uuid} from "d3plus-common";
 
-let timeout;
-
 class Search extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       active: false,
+      fetching: false,
       id: uuid(),
       results: [],
       userQuery: props.defaultQuery
     };
+    this._debounceTimer = null;
+    this._fetchGeneration = 0;
+  }
+
+  componentWillUnmount() {
+    if (this._debounceTimer) {
+      clearTimeout(this._debounceTimer);
+      this._debounceTimer = null;
+    }
+    this._fetchGeneration += 1;
+  }
+
+  runSearch(userQuery, generation) {
+    const {url} = this.props;
+    if (!url) {
+      if (generation === this._fetchGeneration) {
+        this.setState({fetching: false});
+      }
+      return;
+    }
+
+    axios.get(`${url}${ url.includes("?") ? "&" : "?" }q=${userQuery}`)
+      .then(res => res.data)
+      .then(data => {
+        if (generation !== this._fetchGeneration) return;
+        const results = Array.isArray(data.results) ? data.results : [];
+        this.setState({active: true, results, userQuery, fetching: false});
+      })
+      .catch(() => {
+        if (generation !== this._fetchGeneration) return;
+        this.setState({fetching: false});
+      });
   }
 
   onChange(e) {
@@ -27,16 +58,20 @@ class Search extends Component {
     if (onChange) onChange(userQuery);
 
     if (!searchEmpty && userQuery.length === 0) {
-      this.setState({active: true, results: [], userQuery});
+      if (this._debounceTimer) {
+        clearTimeout(this._debounceTimer);
+        this._debounceTimer = null;
+      }
+      this._fetchGeneration += 1;
+      this.setState({active: true, results: [], userQuery, fetching: false});
     }
     else if (url) {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        axios.get(`${url}${ url.includes("?") ? "&" : "?" }q=${userQuery}`)
-          .then(res => res.data)
-          .then(data => {
-            this.setState({active: true, results: data.results, userQuery});
-          });
+      if (this._debounceTimer) clearTimeout(this._debounceTimer);
+      const generation = ++this._fetchGeneration;
+      this.setState({fetching: true});
+      this._debounceTimer = setTimeout(() => {
+        this._debounceTimer = null;
+        this.runSearch(userQuery, generation);
       }, 250);
     }
 
@@ -157,7 +192,7 @@ class Search extends Component {
       resultRender,
       searchEmpty
     } = this.props;
-    const {active, results, userQuery} = this.state;
+    const {active, fetching, results, userQuery} = this.state;
 
     return (
       <div ref={comp => this.container = comp} className={ `bp3-control-group ${className} ${ active ? "active" : "" }` }>
@@ -174,7 +209,8 @@ class Search extends Component {
                 { resultRender(result, this.props) }
               </li>
             )}
-            { !results.length && <li className="no-results">No Results Found</li> }
+            { fetching && <li className="no-results">Loading…</li> }
+            { !fetching && !results.length && <li className="no-results">No Results Found</li> }
             { results.length && buttonLink ? <a className="all-results bp3-button bp3-fill" href={ `${buttonLink}?q=${userQuery}` }>Show All Results</a> : null }
           </ul>
           : null }
