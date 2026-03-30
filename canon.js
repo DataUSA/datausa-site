@@ -48,6 +48,7 @@ module.exports = {
       name: process.env.CANON_DB_NAME,
       user: process.env.CANON_DB_USER,
       pass: process.env.CANON_DB_PW,
+      port: Number(process.env.CANON_DB_PORT) || 5432,
       tables: [
         require("@datawheel/canon-cms/models"),
         require("@datawheel/canon-core/models")
