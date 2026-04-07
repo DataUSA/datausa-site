@@ -370,6 +370,10 @@ module.exports = function(app) {
     });
   });
 
+  app.all("/tesseract-proxy/relations.jsonrecords", (req, res) => {
+    res.status(200).json([]);
+  });
+
   /**
    * Any path under /tesseract-proxy/cubes → upstream .../tesseract/cubes/<rest>,
    * except cubes/<cube>/aggregate.jsonrecords → .../tesseract/data.jsonrecords (logiclayer shape; see mapAggregateJsonrecordsToDataPath).
