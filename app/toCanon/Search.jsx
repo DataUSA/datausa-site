@@ -194,18 +194,22 @@ class Search extends Component {
     } = this.props;
     const {active, fetching, results, userQuery} = this.state;
 
+    const showResults = searchEmpty || (active && userQuery.length);
+
     return (
-      <div ref={comp => this.container = comp} className={ `bp3-control-group ${className} ${ active ? "active" : "" }` }>
-        { InactiveComponent && <InactiveComponent active={ active } onClick={ this.onToggle.bind(this) } /> }
-        <div className={ `bp3-input-group bp3-fill ${ active ? "active" : "" }` }>
-          { icon && <span className="bp3-icon bp3-icon-search"></span> }
-          <input key="search-input" type="text" className="bp3-input" ref={ input => this.input = input } onChange={ this.onChange.bind(this) } onFocus={ this.onFocus.bind(this) } placeholder={placeholder} defaultValue={userQuery} />
-          { buttonLink && <a href={ `${buttonLink}?q=${userQuery}` } className="bp3-button">{ buttonText }</a> }
+      <div ref={comp => this.container = comp} className={ `${className} ${ active ? "active" : "" }` }>
+        <div className="bp3-control-group">
+          { InactiveComponent && <InactiveComponent active={ active } onClick={ this.onToggle.bind(this) } /> }
+          <div className={ `bp3-input-group bp3-fill ${ active ? "active" : "" }` }>
+            { icon && <span className="bp3-icon bp3-icon-search"></span> }
+            <input key="search-input" type="text" className="bp3-input" ref={ input => this.input = input } onChange={ this.onChange.bind(this) } onFocus={ this.onFocus.bind(this) } placeholder={placeholder} defaultValue={userQuery} />
+            { buttonLink && <a href={ `${buttonLink}?q=${userQuery}` } className="bp3-button">{ buttonText }</a> }
+          </div>
         </div>
-        { searchEmpty || active && userQuery.length
+        { showResults
           ? <ul className={ active ? "results active" : "results" }>
             { results.map(result =>
-              <li key={ result.key } className="result" onClick={this.onToggle.bind(this)}>
+              <li key={ result.key || `${result.dimension}-${result.id}` } className="result" onClick={this.onToggle.bind(this)}>
                 { resultRender(result, this.props) }
               </li>
             )}
