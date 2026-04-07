@@ -55,6 +55,12 @@ module.exports = {
       ]
     }
   ],
+  express: {
+    set: {
+      // Canon-core defaults to "loopback"; behind a TLS-terminating LB, req.protocol stays http otherwise.
+      "trust proxy": 1
+    }
+  },
   // logiclayer: {
   //   aliases: {
   //     "CIP": "cip",
