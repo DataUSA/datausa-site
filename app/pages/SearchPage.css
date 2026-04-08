@@ -181,13 +181,13 @@
       position: absolute;
       top: 100px;
       width: calc(100% - var(--panel-width));
-      z-index: 2;
+      z-index: 5;
       margin-top: 30px;
       & .result {
         max-width: 100%;
         padding: 20px;
         text-align: left;
-        transition: background-color 0.25s;
+        /* transition: background-color 0.25s; */
         width: 100%;
         & a {
           align-items: center;
