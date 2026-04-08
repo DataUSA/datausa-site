@@ -209,12 +209,12 @@ class Search extends Component {
         <ul className={ "results" }>
           { fetching && <li className="no-results">Loading…</li> }
           { !fetching && !results.length && <li className="no-results">No Results Found</li> }
-          { results.length && buttonLink ? <a className="all-results bp3-button bp3-fill" href={ `${buttonLink}?q=${userQuery}` }>Show All Results</a> : null }
           { results.map(result =>
             <li key={ result.key || `${result.dimension}-${result.id}` } className="result" onClick={this.onToggle.bind(this)}>
               { resultRender(result, this.props) }
             </li>
           )}
+          { results.length && buttonLink ? <a className="all-results bp3-button bp3-fill" href={ `${buttonLink}?q=${userQuery}` }>Show All Results</a> : null }
         </ul>
       </div>
     );
