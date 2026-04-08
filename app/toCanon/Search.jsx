@@ -68,7 +68,7 @@ class Search extends Component {
     else if (url) {
       if (this._debounceTimer) clearTimeout(this._debounceTimer);
       const generation = ++this._fetchGeneration;
-      this.setState({fetching: true});
+      this.setState({fetching: true, userQuery});
       this._debounceTimer = setTimeout(() => {
         this._debounceTimer = null;
         this.runSearch(userQuery, generation);
@@ -79,6 +79,23 @@ class Search extends Component {
 
   onFocus() {
     this.setState({active: true});
+  }
+
+  onClear(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    if (this.input) this.input.value = "";
+    this.onChange({target: {value: ""}});
+    if (this.input) this.input.focus();
+  }
+
+  onClearKeyDown(e) {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      this.onClear(e);
+    }
   }
 
   onToggle() {
@@ -203,13 +220,14 @@ class Search extends Component {
           <div className={ `bp3-input-group bp3-fill ${ active ? "active" : "" }` }>
             { icon && <span className="bp3-icon bp3-icon-search"></span> }
             <input key="search-input" type="text" className="bp3-input" ref={ input => this.input = input } onChange={ this.onChange.bind(this) } onFocus={ this.onFocus.bind(this) } placeholder={placeholder} defaultValue={userQuery} />
+            { userQuery.length > 0 && <span className="bp3-icon bp3-icon-trash" role="button" tabIndex={0} aria-label="Clear search" style={{cursor: "pointer"}} onClick={ this.onClear.bind(this) } onKeyDown={ this.onClearKeyDown.bind(this) } /> }
             { buttonLink && <a href={ `${buttonLink}?q=${userQuery}` } className="bp3-button">{ buttonText }</a> }
           </div>
         </div>
         <ul className={ "results" }>
           { fetching && <li className="no-results">Loading…</li> }
           { !fetching && !results.length && <li className="no-results">No Results Found</li> }
-          { results.map(result =>
+          { !fetching && results.length && results.map(result =>
             <li key={ result.key || `${result.dimension}-${result.id}` } className="result" onClick={this.onToggle.bind(this)}>
               { resultRender(result, this.props) }
             </li>
