@@ -43,8 +43,15 @@ module.exports = function(app) {
 
   app.post("/api/cms/customAttributes/:pid", async(req, res) => {
 
-    const {id, dimension, hierarchy} = req.body.variables;
-    const meta = await db.profile_meta.findOne({where: {dimension}}).catch(() => {});
+    const variables = req.body?.variables;
+    if (!variables) return res.status(400).json({error: "Missing request body variables"});
+
+    const {id, dimension, hierarchy} = variables;
+    if (!id || !dimension || !hierarchy) return res.status(400).json({error: "Missing required variables: id, dimension, hierarchy"});
+
+    const meta = await db.profile_meta.findOne({where: {dimension}}).catch(() => null);
+    if (!meta) return res.status(404).json({error: `No profile found for dimension: ${dimension}`});
+
     const {slug} = meta;
 
     const origin = CANON_API;
