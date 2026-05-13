@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 
-const DEFAULT_COUNTY = "05000US06001";
+const DEFAULT_COUNTY = "05000US05005";
 const TOPOJSON_URL = "https://la.datausa.io/topojson/Counties_2023.json";
 const API_URL = county =>
   // `https://api-la.datausa.io/tesseract/data.jsonrecords?cube=prism_facilities_by_households_served&drilldowns=Facility%2CCounty+Facility&include=County+Facility%3A${county}&locale=en&measures=Avg+estimated+drive+time+%28min%29&properties=Latitude%2CLongitude`;
-     `https://api-la.datausa.io/tesseract/data.jsonrecords?cube=prism_facilities_by_households_served&drilldowns=Facility%2CCounty+Facility%2CHealth+Provider%2CRank+Facility%2CCounty+Household&include=County+Household%3A${county}}%3BHealth+Provider%3A1&locale=en&measures=Avg+estimated+drive+time+%28min%29`
+     `https://api-la.datausa.io/tesseract/data.jsonrecords?cube=prism_facilities_by_households_served&drilldowns=Facility%2CCounty+Facility%2CHealth+Provider%2CRank+Facility%2CCounty+Household&include=County+Household%3A${county}%3BHealth+Provider%3A1&locale=en&measures=Avg+estimated+drive+time+%28min%29&properties=Latitude%2CLongitude`
 
 const LOCK_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="white">
   <path d="M18 8h-1V6A5 5 0 0 0 7 6v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2zm-6 9a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm3.1-9H8.9V6a3.1 3.1 0 0 1 6.2 0v2z"/>
