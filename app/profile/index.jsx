@@ -330,7 +330,12 @@ Profile.contextTypes = {
 };
 
 Profile.need = [
-  fetchData("profile", "/api/profile/?slug=<slug>&id=<id>"),
+  fetchData("profile", "/api/profile/?slug=<slug>&id=<id>", {
+    format: data => {
+      console.log("profilePayload", Object.keys(data));
+      return data;
+    }
+  }),
   fetchData("similar", "/api/<slug>/similar/<id>")
 ];
 

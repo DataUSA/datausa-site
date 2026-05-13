@@ -25,6 +25,7 @@ import Data from "./pages/Data/index";
 import DataSources from "./pages/Data/DataSources";
 import API from "./pages/Data/API";
 import Classifications from "./pages/Data/Classifications";
+import PrismMap from "./pages/PrismMap";
 
 import NotFound from "./pages/NotFound/NotFound";
 
@@ -94,6 +95,7 @@ export default function RouteCreate() {
       </Route>
 
       <Route path="/cms" component={Builder} />
+      <Route path="/test" component={PrismMap} />
 
       <Route path="*" component={NotFound} status={404} />
 
