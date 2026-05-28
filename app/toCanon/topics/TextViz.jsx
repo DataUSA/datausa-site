@@ -28,7 +28,7 @@ class TextViz extends Component {
   render() {
     const {formatters, router, variables} = this.context;
     const {stripP} = formatters;
-    const {contents, sources} = this.props;
+    const {contents, sources, className = ""} = this.props;
     const {loading} = this.state;
     const {descriptions, slug, stats, subtitles, title, titleCompare, visualizations} = contents;
 
@@ -37,7 +37,7 @@ class TextViz extends Component {
     const selectors = contents.selectors.filter(selector => selector.options.length > 1);
 
     if (router.location.query.viz === "true") {
-      return <div className={ `topic ${slug || ""} Column ${loading ? "topic-loading" : ""}` }>
+      return <div className={ `${className} topic ${slug || ""} Column ${loading ? "topic-loading" : ""}` }>
         <div className="topic-content">
           { title &&
             <h4 id={ slug } className="topic-title">
@@ -60,7 +60,7 @@ class TextViz extends Component {
 
     const statGroups = nest().key(d => d.title).entries(stats);
 
-    return <div className={ `topic ${slug || ""} TextViz ${loading ? "topic-loading" : ""}` }>
+    return <div className={ `${className} topic ${slug || ""} TextViz ${loading ? "topic-loading" : ""}` }>
       <div className="topic-content">
         { title &&
           <h4 id={ slug } className="topic-title">

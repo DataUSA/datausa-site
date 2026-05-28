@@ -1,0 +1,68 @@
+.prism-section {
+  display: block;
+  width: 100%;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: rgba(92, 133, 150, 0.35) 0px 4px 20px 0px;
+
+  @media (max-width: 30rem) {
+    margin: 0 -1rem 50px;
+    padding: 1rem;
+    width: auto;
+  }
+}
+
+.prism-notice {
+  display: flex;
+  flex-flow: column;
+  gap: 1rem;
+  padding: 0.8rem;
+  border: 2px solid #e3e48d;
+  border-radius: 5px;
+
+  @media (min-width: 30rem) {
+    margin: 0 1rem 1rem;
+    align-items: center;
+    flex-flow: row nowrap;
+  }
+}
+
+.prism-notice-logo {
+  display: inline-block;
+  flex: 0 1 auto;
+  width: 106px;
+  height: 20px;
+  margin: auto;
+
+  @media (max-width: 30rem) {
+  }
+}
+
+.prism-notice-call {
+  flex: 1 1 auto;
+  margin: 0;
+  font-size: 0.8rem;
+
+  @media (min-width: 30rem) {
+    font-size: 0.65rem;
+  }
+}
+
+.prism-notice-infobtn {
+  display: inline-block;
+  padding: 0.25rem 1rem;
+  color: #f0f0f0;
+  background-color: #357aac;
+  border: 0 none;
+  white-space: pre;
+  font-family: "Pathway Gothic One", sans-serif;
+
+  @media (max-width: 30rem) {
+    margin: auto;
+    font-size: 1.2rem;
+  }
+
+  &:hover {
+    color: #fff;
+  }
+}
