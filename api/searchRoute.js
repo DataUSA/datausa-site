@@ -10,11 +10,8 @@ module.exports = function(app) {
   });
 
   app.get("/api/searchLegacy", (req, res) => {
-
-    let {limit = "10"} = req.query;
-    limit = parseInt(limit, 10);
-
-    const {id, q, dimension, hierarchy} = req.query;
+    const { id, q, dimension, hierarchy } = req.query;
+    const limit = Number(req.query.limit) || 10;
 
     let results = [];
 
