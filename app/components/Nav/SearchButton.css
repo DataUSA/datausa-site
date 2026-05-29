@@ -7,6 +7,7 @@
   overflow: visible;
   transition: width 0.25s ease-in-out;
   width: 36px;
+  position: relative;
   &.active {
     background-color: var(--darkgray);
     width: var(--nav-search-width);
