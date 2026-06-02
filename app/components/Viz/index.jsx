@@ -4,6 +4,7 @@ import * as d3plus from "d3plus-react";
 import "./index.css";
 import Options from "./Options";
 import propify from "helpers/d3plusPropify";
+import * as CustomVizzes from "CustomVizzes";
 
 class Viz extends Component {
 
@@ -63,7 +64,7 @@ class Viz extends Component {
     const {type} = vizProps.config;
     delete vizProps.config.type;
     if (!type) return null;
-    const Visualization = d3plus[type];
+    const Visualization = d3plus[type] || CustomVizzes[type];
 
     const title = this.props.title || config.title;
 
