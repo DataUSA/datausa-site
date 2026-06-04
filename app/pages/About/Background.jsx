@@ -33,7 +33,16 @@ export default class Background extends Component {
     return (
       <div id="Background">
         <div className="video-container">
-          { videos.map((url, i) => <iframe key={i} className={ `video ${ video === i ? "active" : video > i ? "prev" : "next" }` } src={ url } frameBorder="0" allowFullScreen></iframe>) }
+          { videos.map((url, i) =>
+            <iframe
+              key={i}
+              className={ `video ${ video === i ? "active" : video > i ? "prev" : "next" }` }
+              src={ url }
+              frameBorder="0"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />) }
           { videos.length > 1 && <span className="video-prev bp3-icon-large bp3-icon-chevron-left" onClick={this.onPrev.bind(this)}></span> }
           { videos.length > 1 && <span className="video-next bp3-icon-large bp3-icon-chevron-right" onClick={this.onNext.bind(this)}></span> }
         </div>
