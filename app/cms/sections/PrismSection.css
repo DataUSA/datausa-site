@@ -32,6 +32,10 @@
     padding: 1rem;
     width: auto;
   }
+
+  & .topic {
+    position: relative;
+  }
 }
 
 .prism-notice {
@@ -86,5 +90,52 @@
 
   &:hover {
     color: #fff;
+  }
+}
+
+.prism-viz-blocker {
+  position: absolute;
+  z-index: 100;
+  inset: 0;
+}
+.prism-viz-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-left: 50%;
+  backdrop-filter: blur(4px);
+}
+.prism-viz-dialog {
+  padding: 1.5rem 2rem;
+  width: 260px;
+  background-color: #29425c;
+  color: #fff;
+  border-radius: 0.5rem;
+  text-align: center;
+
+  & h3 {
+    margin: 0 0 1rem;
+    color: #e3e48d;
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+
+  & ul {
+    position: relative;
+    padding: 0 28px;
+  }
+
+  & ul .bp3-icon {
+    position: absolute;
+    left: 0;
+    margin: 4px;
+    color: #e3e48d;
+  }
+
+  & li {
+    display: block;
+    padding-bottom: 0.4rem;
+    text-align: left;
   }
 }

@@ -28,7 +28,7 @@ class TextViz extends Component {
   render() {
     const {formatters, router, variables} = this.context;
     const {stripP} = formatters;
-    const {contents, sources, className = ""} = this.props;
+    const {contents, sources, className = "", children} = this.props;
     const {loading} = this.state;
     const {descriptions, slug, stats, subtitles, title, titleCompare, visualizations} = contents;
 
@@ -55,6 +55,7 @@ class TextViz extends Component {
         </div>
         { mainviz.map((visualization, ii) => <Viz topic={contents} config={visualization} key={ii} className="topic-visualization" title={ title } slug={ `${slug}_${ii}` } />) }
         <SourceGroup sources={sources} />
+        {children}
       </div>;
     }
 
@@ -85,6 +86,7 @@ class TextViz extends Component {
         <SourceGroup sources={sources} />
       </div>
       { mainviz.map((visualization, ii) => <Viz topic={contents} config={visualization} key={ii} className="topic-visualization" title={ title } slug={ `${slug}_${ii}` } />) }
+      {children}
     </div>;
   }
 
