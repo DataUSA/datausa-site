@@ -10,7 +10,7 @@ import {
   TextArea,
 } from "@blueprintjs/core";
 import React, {useState} from "react";
-import "./PrismSection.css";
+import "../cms/sections/PrismSection.css";
 
 const formGridStyles = {
   display: "grid",
@@ -60,6 +60,7 @@ export function PrismFormDialog(props) {
    */
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("Form Data:", formData);
     if (isFormValid) props.onSubmit(formData);
   };
 
@@ -72,7 +73,7 @@ export function PrismFormDialog(props) {
       style={{ width: "650px", padding: "20px" }}
       backdropProps={{style: {backgroundColor: "rgba(51,51,51,0.4)!important"}}}
     >
-      <div className={Classes.DIALOG_BODY}>
+      <div className={Classes.DIALOG_BODY} style={{overflow: "hidden", paddingInline: "0.25rem" }}>
         <form onSubmit={handleSubmit}>
           <div style={formGridStyles}>
             <FormGroup label="First name" labelInfo="*">
@@ -146,6 +147,9 @@ export function PrismFormDialog(props) {
                 disabled={!formData.country}
               >
                 <option value="">Select</option>
+                <option value="NY">New York</option>
+                <option value="CA">California</option>
+                <option value="TX">Texas</option>
                 {/* TODO: add states for the defined countries */}
               </HTMLSelect>
             </FormGroup>
@@ -212,6 +216,7 @@ export function PrismFormDialog(props) {
           <Button
             type="submit"
             intent={Intent.PRIMARY}
+            // onClick={handleSubmit}
             disabled={!isFormValid}
             style={{
               width: "200px",

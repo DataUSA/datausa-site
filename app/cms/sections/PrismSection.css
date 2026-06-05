@@ -1,5 +1,6 @@
 .prism-section-container {
   position: relative;
+  margin-block: 30px;
 }
 
 .prism-section-container::after {
@@ -103,7 +104,7 @@
   justify-content: center;
   align-items: center;
   height: 100%;
-  margin-left: 50%;
+  margin-left: 450px;
   backdrop-filter: blur(4px);
 }
 .prism-viz-dialog {
@@ -113,7 +114,6 @@
   color: #fff;
   border-radius: 0.5rem;
   text-align: center;
-
   & h3 {
     margin: 0 0 1rem;
     color: #e3e48d;
