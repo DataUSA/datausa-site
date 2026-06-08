@@ -151,14 +151,16 @@
         box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
         display: flex;
         & .bp3-icon {
-          background: url("/icons/search-red.png");
-          background-repeat: no-repeat;
-          background-size: contain;
           color: var(--red);
           display: block;
           height: 20px;
           margin: calc((var(--home-search-height) - 20px) / 2);
           width: 20px;
+        }
+        & .bp3-icon-search {
+          background: url("/icons/search-red.png");
+          background-repeat: no-repeat;
+          background-size: contain;
           &:before {
             content: none;
           }

@@ -1,4 +1,7 @@
-.loading {
+/* Scope to Blueprint NonIdealState only — react-inlinesvg also uses class "loading"
+   on its wrapper while fetching; a global .loading rule would turn that span into a
+   full-viewport overlay (same dark bg as the page), hiding search results until SVGs load. */
+.bp3-non-ideal-state.loading {
   background-color: var(--dark);
   color: var(--white);
   height: 100vh !important;

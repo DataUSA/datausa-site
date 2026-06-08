@@ -16,6 +16,7 @@ env:
   GCP_VM_USER: ${{ vars.GCP_VM_USER }}
 
   CANON_API: ${{ vars.CANON_API }}
+  CANON_DB_PORT: ${{ vars.CANON_DB_PORT }}
   CANON_CMS_CUBES: ${{ vars.CANON_CMS_CUBES }}
   CANON_CMS_ENABLE: ${{ vars.CANON_CMS_ENABLE }}
   CANON_CMS_FORCE_HTTPS: ${{ vars.CANON_CMS_FORCE_HTTPS }}
@@ -110,6 +111,7 @@ jobs:
             echo "CANON_DB_PW=${{ secrets.CANON_DB_PW}}"
             echo "CANON_HOTJAR=${{ secrets.CANON_HOTJAR}}"
             echo "CANON_API=${{ env.CANON_API }}"
+            echo "CANON_DB_PORT=${{ env.CANON_DB_PORT }}"
             echo "CANON_CMS_CUBES=${{ env.CANON_CMS_CUBES }}"
             echo "CANON_CMS_ENABLE=${{ env.CANON_CMS_ENABLE }}"
             echo "CANON_CMS_FORCE_HTTPS=${{ env.CANON_CMS_FORCE_HTTPS }}"

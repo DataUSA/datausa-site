@@ -48,12 +48,19 @@ module.exports = {
       name: process.env.CANON_DB_NAME,
       user: process.env.CANON_DB_USER,
       pass: process.env.CANON_DB_PW,
+      port: Number(process.env.CANON_DB_PORT) || 5432,
       tables: [
         require("@datawheel/canon-cms/models"),
         require("@datawheel/canon-core/models")
       ]
     }
   ],
+  express: {
+    set: {
+      // Canon-core defaults to "loopback"; behind a TLS-terminating LB, req.protocol stays http otherwise.
+      "trust proxy": 1
+    }
+  },
   // logiclayer: {
   //   aliases: {
   //     "CIP": "cip",

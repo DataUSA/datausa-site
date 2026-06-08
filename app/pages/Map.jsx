@@ -142,7 +142,7 @@ class Map extends Component {
             topojson: "/topojson/Msa.json",
             topojsonFilter: d => d.id.indexOf("040") < 0
           },
-          "PUMA": {topojson: "/topojson/Puma.json"},
+          "PUMA": {topojson: "/topojson/PUMA.json"},
           "State": {topojson: "/topojson/State.json"},
           "Origin State": {topojson: "/topojson/State.json"},
           "Destination State": {topojson: "/topojson/State.json"}
