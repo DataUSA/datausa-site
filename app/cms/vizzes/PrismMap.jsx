@@ -25,7 +25,8 @@ class PrismMap extends Component {
   state = {
     isClient: false,
     facilities: [],
-    countiesGeoJSON: null
+    countiesGeoJSON: null,
+    loading: false
   };
 
   componentDidMount() {
@@ -45,10 +46,25 @@ class PrismMap extends Component {
       })
       .catch(err => console.error("Failed to load counties", err));
 
+    this.setState({loading: true});
     fetch(config.data)
       .then(r => r.json())
-      .then(json => this.setState({facilities: json.data || []}))
-      .catch(err => console.error("Failed to load facilities", err));
+      .then(json => this.setState({facilities: json.data || [], loading: false}))
+      .catch(err => { console.error("Failed to load facilities", err); this.setState({loading: false}); });
+  }
+
+  componentDidUpdate(prevProps) {
+    const {config = {}} = this.props;
+    if (prevProps.config.county !== config.county) {
+      this.fitSelectedCounty(this.map);
+    }
+    if (prevProps.config.data !== config.data && config.data) {
+      this.setState({loading: true});
+      fetch(config.data)
+        .then(r => r.json())
+        .then(json => this.setState({facilities: json.data || [], loading: false}))
+        .catch(err => { console.error("Failed to load facilities", err); this.setState({loading: false}); });
+    }
   }
 
   fitSelectedCounty(map) {
@@ -67,7 +83,7 @@ class PrismMap extends Component {
     if (!this.state.isClient) return null;
 
     const {Map, TileLayer, Marker, Popup, GeoJSON} = require("react-leaflet");
-    const {facilities, countiesGeoJSON} = this.state;
+    const {facilities, countiesGeoJSON, loading} = this.state;
     const {config = {}} = this.props;
     const L = this.L;
 
@@ -90,6 +106,11 @@ class PrismMap extends Component {
 
     return (
       <div className="prism-map">
+        {loading && (
+          <div className="prism-map-loader">
+            <div className="prism-map-spinner" />
+          </div>
+        )}
         <Map
           center={[38.9, -95.7]}
           zoom={4}

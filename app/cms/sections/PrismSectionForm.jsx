@@ -46,7 +46,10 @@ export default function PrismSectionForm(props) {
   );
 
   return (
-    <PrismSectionLayout textVizProps={props} dialog={dialog}>
+    <PrismSectionLayout
+      textVizProps={{...props, locked: true}}
+      dialog={dialog}
+    >
       {blocker}
     </PrismSectionLayout>
   );
