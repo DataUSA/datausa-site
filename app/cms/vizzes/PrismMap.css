@@ -30,6 +30,61 @@
   to { transform: rotate(360deg); }
 }
 
+.prism-map-blocker {
+  position: absolute;
+  inset: 0;
+  z-index: 1001;
+}
+
+.prism-map-blocker-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  backdrop-filter: blur(4px);
+}
+
+.prism-map-blocker-dialog {
+  padding: 1.5rem 2rem;
+  width: 300px;
+  background-color: #29425c;
+  color: #fff;
+  border-radius: 0.5rem;
+  text-align: center;
+
+  & h3 {
+    margin: 0 0 1rem;
+    color: #e3e48d;
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+
+  & p {
+    margin: 0 0 1rem;
+    font-size: 0.9rem;
+  }
+
+  & ul {
+    position: relative;
+    list-style: none;
+    padding: 0 28px;
+    margin: 0 0 1.5rem;
+  }
+
+  & ul .bp3-icon {
+    position: absolute;
+    left: 0;
+    margin: 4px;
+    color: #e3e48d;
+  }
+
+  & li {
+    display: block;
+    padding-bottom: 0.4rem;
+    text-align: left;
+  }
+}
+
 .prism-map .leaflet-container {
   flex: 1;
   z-index: 0;

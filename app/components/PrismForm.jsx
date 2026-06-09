@@ -216,7 +216,7 @@ export function PrismFormDialog(props) {
           <Button
             type="submit"
             intent={Intent.PRIMARY}
-            // onClick={handleSubmit}
+            onClick={handleSubmit}
             disabled={!isFormValid}
             style={{
               width: "200px",
