@@ -3,27 +3,36 @@ import {useState} from "react";
 import {PrismFormDialog} from "../../components/PrismForm";
 import {PrismSectionLayout} from "./PrismSection";
 import {PrismContext} from "../vizzes/PrismContext";
+import {useEffect} from "react";
 
 /** @param {object} props */
 export default function PrismSectionForm(props) {
   const [showForm, setShowForm] = useState(false);
-  const [formSent, setFormSent] = useState(false);
+  const [isVerified, setVerified] = useState(false);
+
+  useEffect(() => {
+    window.fetch("/api/prism/status").then((res) => setVerified(res.ok));
+  }, []);
 
   const dialog = (
     <PrismFormDialog
       isOpen={showForm}
-      onClose={() => { setShowForm(false); setFormSent(false); }}
-      onSubmit={(/** @type {object} */ data) => {
-        window.fetch("/api/prism/submit", {method: "POST", body: JSON.stringify(data)})
-          .then(() => { setShowForm(false); setFormSent(true); })
-          .catch(() => { setShowForm(false); setFormSent(true); });
+      onClose={() => { setShowForm(false); }}
+      onSubmit={(data) => {
+        window.fetch("/api/prism/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        })
+          .then((res) => setVerified(res.ok))
+          .finally(() => setShowForm(false));
       }}
     />
   );
 
   return (
-    <PrismContext.Provider value={{openForm: () => setShowForm(true), unlocked: formSent}}>
-      <PrismSectionLayout textVizProps={{...props, locked: !formSent}} dialog={dialog} />
+    <PrismContext.Provider value={{openForm: () => setShowForm(true), unlocked: isVerified}}>
+      <PrismSectionLayout textVizProps={{...props, locked: !isVerified}} dialog={dialog} />
     </PrismContext.Provider>
   );
 }

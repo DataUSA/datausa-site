@@ -63,7 +63,8 @@
     "react-refresh": "^0.18.0",
     "react-slick": "^0.23.2",
     "react-sparklines": "^1.7.0",
-    "sharp": "^0.28.3"
+    "sharp": "^0.28.3",
+    "valibot": "^1.4.1"
   },
   "devDependencies": {
     "shapefile": "^0.6.6",
