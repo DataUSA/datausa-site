@@ -39,6 +39,7 @@ const CA_PROVINCES = [
   {value: "NU", label: "Nunavut"}, {value: "YT", label: "Yukon"},
 ];
 
+/** @type {Record<string, {label: string, value: string}[] | undefined>} */
 const STATES_BY_COUNTRY = {
   US: US_STATES,
   CA: CA_PROVINCES,
@@ -54,7 +55,7 @@ const formGridStyles = {
 /**
  * @param {object} props
  * @param {boolean} props.isOpen
- * @param {(form: object) => void} props.onSubmit
+ * @param {(form: object) => Promise<{ok: boolean; error?: string; issues?: Record<string, string[]>}>} props.onSubmit
  * @param {() => void} props.onClose
  * @returns
  */
@@ -73,6 +74,9 @@ export function PrismFormDialog(props) {
     tellUsMore: "",
   });
 
+  const [submitting, setSubmitting] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState(/** @type {Record<string, string>} */({}));
+
   const isFormValid =
     formData.firstName.trim() &&
     formData.lastName.trim() &&
@@ -85,15 +89,33 @@ export function PrismFormDialog(props) {
    */
   const handleChange = (field) => (e) => {
     setFormData({ ...formData, [field]: e.target.value });
+    if (fieldErrors[field]) setFieldErrors({ ...fieldErrors, [field]: "" });
   };
 
   /**
    * @param {React.FormEvent} e
    */
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Data:", formData);
-    if (isFormValid) props.onSubmit(formData);
+    if (!isFormValid || submitting) return;
+
+    setSubmitting(true);
+    setFieldErrors({});
+
+    try {
+      const result = await props.onSubmit(formData);
+      if (result && result.issues) {
+        /** @type {Record<string, string>} */
+        const mapped = {};
+        for (const [key, msgs] of Object.entries(result.issues)) {
+          if (Array.isArray(msgs) && msgs.length) mapped[key] = msgs[0];
+        }
+        setFieldErrors(mapped);
+      }
+    }
+    finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -108,39 +130,43 @@ export function PrismFormDialog(props) {
       <div className={Classes.DIALOG_BODY} style={{overflow: "hidden", paddingInline: "0.25rem" }}>
         <form onSubmit={handleSubmit}>
           <div style={formGridStyles}>
-            <FormGroup label="First name" labelInfo="*">
+            <FormGroup label="First name" labelInfo="*" intent={fieldErrors.firstName ? Intent.DANGER : Intent.NONE} helperText={fieldErrors.firstName}>
               <InputGroup
                 placeholder="Type here"
                 value={formData.firstName}
                 onChange={handleChange("firstName")}
                 required
+                intent={fieldErrors.firstName ? Intent.DANGER : Intent.NONE}
               />
             </FormGroup>
-            <FormGroup label="Last Name" labelInfo="*">
+            <FormGroup label="Last Name" labelInfo="*" intent={fieldErrors.lastName ? Intent.DANGER : Intent.NONE} helperText={fieldErrors.lastName}>
               <InputGroup
                 placeholder="Type here"
                 value={formData.lastName}
                 onChange={handleChange("lastName")}
                 required
+                intent={fieldErrors.lastName ? Intent.DANGER : Intent.NONE}
               />
             </FormGroup>
           </div>
 
           <div style={formGridStyles}>
-            <FormGroup label="Email" labelInfo="*">
+            <FormGroup label="Email" labelInfo="*" intent={fieldErrors.email ? Intent.DANGER : Intent.NONE} helperText={fieldErrors.email}>
               <InputGroup
                 type="email"
                 placeholder="Type here"
                 value={formData.email}
                 onChange={handleChange("email")}
                 required
+                intent={fieldErrors.email ? Intent.DANGER : Intent.NONE}
               />
             </FormGroup>
-            <FormGroup label="Job Title">
+            <FormGroup label="Job Title" intent={fieldErrors.jobTitle ? Intent.DANGER : Intent.NONE} helperText={fieldErrors.jobTitle}>
               <InputGroup
                 placeholder="Type here"
                 value={formData.jobTitle}
                 onChange={handleChange("jobTitle")}
+                intent={fieldErrors.jobTitle ? Intent.DANGER : Intent.NONE}
               />
             </FormGroup>
           </div>
@@ -149,17 +175,20 @@ export function PrismFormDialog(props) {
             label="Company / Organization"
             labelInfo="*"
             style={{ marginBottom: "15px" }}
+            intent={fieldErrors.company ? Intent.DANGER : Intent.NONE}
+            helperText={fieldErrors.company}
           >
             <InputGroup
               placeholder="Type here"
               value={formData.company}
               onChange={handleChange("company")}
               required
+              intent={fieldErrors.company ? Intent.DANGER : Intent.NONE}
             />
           </FormGroup>
 
           <div style={formGridStyles}>
-            <FormGroup label="Country">
+            <FormGroup label="Country" intent={fieldErrors.country ? Intent.DANGER : Intent.NONE} helperText={fieldErrors.country}>
               <HTMLSelect
                 fill
                 value={formData.country}
@@ -171,7 +200,7 @@ export function PrismFormDialog(props) {
                 {/* TODO: what other countries are of main interest? */}
               </HTMLSelect>
             </FormGroup>
-            <FormGroup label="State / Province" disabled={!formData.country}>
+            <FormGroup label="State / Province" disabled={!formData.country} intent={fieldErrors.state ? Intent.DANGER : Intent.NONE} helperText={fieldErrors.state}>
               <HTMLSelect
                 fill
                 value={formData.state}
@@ -187,7 +216,7 @@ export function PrismFormDialog(props) {
           </div>
 
           <div style={formGridStyles}>
-            <FormGroup label="Primary reason for your visit">
+            <FormGroup label="Primary reason for your visit" intent={fieldErrors.reason ? Intent.DANGER : Intent.NONE} helperText={fieldErrors.reason}>
               <HTMLSelect
                 fill
                 value={formData.reason}
@@ -201,12 +230,13 @@ export function PrismFormDialog(props) {
                 <option value="other">Other (please specify)</option>
               </HTMLSelect>
             </FormGroup>
-            <FormGroup label="Other" disabled={formData.reason !== "other"}>
+            <FormGroup label="Other" disabled={formData.reason !== "other"} intent={fieldErrors.otherReason ? Intent.DANGER : Intent.NONE} helperText={fieldErrors.otherReason}>
               <InputGroup
                 placeholder="Type here"
                 value={formData.otherReason}
                 onChange={handleChange("otherReason")}
                 disabled={formData.reason !== "other"}
+                intent={fieldErrors.otherReason ? Intent.DANGER : Intent.NONE}
               />
             </FormGroup>
           </div>
@@ -215,6 +245,8 @@ export function PrismFormDialog(props) {
             label="Tell us more"
             labelInfo="(use case, project context, additional details, etc.)"
             style={{ marginBottom: "25px" }}
+            intent={fieldErrors.tellUsMore ? Intent.DANGER : Intent.NONE}
+            helperText={fieldErrors.tellUsMore}
           >
             <TextArea
               growVertically={false}
@@ -222,6 +254,7 @@ export function PrismFormDialog(props) {
               placeholder="Type here"
               value={formData.tellUsMore}
               onChange={handleChange("tellUsMore")}
+              intent={fieldErrors.tellUsMore ? Intent.DANGER : Intent.NONE}
             />
           </FormGroup>
         </form>
@@ -234,6 +267,7 @@ export function PrismFormDialog(props) {
         >
           <Button
             onClick={props.onClose}
+            disabled={submitting}
             style={{
               width: "150px",
               height: "40px",
@@ -248,14 +282,14 @@ export function PrismFormDialog(props) {
             type="submit"
             intent={Intent.PRIMARY}
             onClick={handleSubmit}
-            disabled={!isFormValid}
+            disabled={!isFormValid || submitting}
             style={{
               width: "200px",
               height: "40px",
               backgroundColor: "#3372A6",
             }}
           >
-            UNBLUR THE DATA
+            {submitting ? "SUBMITTING..." : "UNBLUR THE DATA"}
           </Button>
         </div>
       </div>

@@ -72,7 +72,11 @@ module.exports = function(app) {
     const result = v.safeParse(RegisterSchema, req.body);
 
     if (!result.success) {
-      return res.status(400).json({ error: "validation failed", issues: v.flatten(result.issues).nested });
+      return res.status(400).json({
+        ok: false,
+        error: "validation failed",
+        issues: v.flatten(result.issues).nested,
+      });
     }
 
     const {
@@ -88,7 +92,7 @@ module.exports = function(app) {
     }
     catch (err) {
       console.error("[prism] db error", err);
-      return res.status(500).json({ error: "registration failed" });
+      return res.status(500).json({ ok: false, error: "registration failed" });
     }
 
     const token = jwt.sign({ email }, SECRET, { expiresIn: JWT_TTL });

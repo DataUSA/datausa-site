@@ -18,15 +18,18 @@ export default function PrismSectionForm(props) {
     <PrismFormDialog
       isOpen={showForm}
       onClose={() => { setShowForm(false); }}
-      onSubmit={(data) => {
-        window.fetch("/api/prism/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
-        })
-          .then((res) => setVerified(res.ok))
-          .finally(() => setShowForm(false));
-      }}
+      onSubmit={(data) => window.fetch("/api/prism/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      }).then(async (res) => {
+        const body = await res.json();
+        if (res.ok) {
+          setVerified(true);
+          setShowForm(false);
+        }
+        return body;
+      })}
     />
   );
 
