@@ -40,6 +40,7 @@
     "@google-analytics/data": "^4.4.0",
     "buble": "^0.19.3",
     "countries-list": "^2.5.4",
+    "country-state-city": "^3.2.1",
     "csvtojson": "^2.0.10",
     "d3plus-axis": "~1.1.6",
     "eslint": "^7.28.0",

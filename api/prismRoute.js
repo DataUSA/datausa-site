@@ -1,6 +1,7 @@
 const v = require("valibot");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
+const {Country, State} = require("country-state-city");
 
 const EnvSchema = v.object({
   PRISM_JWT_SECRET: v.pipe(v.string(), v.nonEmpty("PRISM_JWT_SECRET is required")),
@@ -49,6 +50,22 @@ const isPrismVerified = (req, res, next) => {
 module.exports = function(app) {
 
   app.use("/api/prism", cookieParser());
+
+  app.get("/api/prism/countries", (_req, res) => {
+    const countries = Country.getAllCountries().map(c => ({
+      value: c.isoCode,
+      label: c.name,
+    }));
+    res.json(countries);
+  });
+
+  app.get("/api/prism/states/:countryCode", (req, res) => {
+    const states = State.getStatesOfCountry(req.params.countryCode).map(s => ({
+      value: s.isoCode,
+      label: s.name,
+    }));
+    res.json(states);
+  });
 
   // TODO: remove this before sending to deployment
   if (process.env.NODE_ENV !== "production") {

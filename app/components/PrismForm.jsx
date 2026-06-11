@@ -9,41 +9,7 @@ import {
   Intent,
   TextArea,
 } from "@blueprintjs/core";
-import React, {useState} from "react";
-
-const US_STATES = [
-  {value: "AL", label: "Alabama"}, {value: "AK", label: "Alaska"}, {value: "AZ", label: "Arizona"},
-  {value: "AR", label: "Arkansas"}, {value: "CA", label: "California"}, {value: "CO", label: "Colorado"},
-  {value: "CT", label: "Connecticut"}, {value: "DE", label: "Delaware"}, {value: "DC", label: "District of Columbia"},
-  {value: "FL", label: "Florida"}, {value: "GA", label: "Georgia"}, {value: "HI", label: "Hawaii"},
-  {value: "ID", label: "Idaho"}, {value: "IL", label: "Illinois"}, {value: "IN", label: "Indiana"},
-  {value: "IA", label: "Iowa"}, {value: "KS", label: "Kansas"}, {value: "KY", label: "Kentucky"},
-  {value: "LA", label: "Louisiana"}, {value: "ME", label: "Maine"}, {value: "MD", label: "Maryland"},
-  {value: "MA", label: "Massachusetts"}, {value: "MI", label: "Michigan"}, {value: "MN", label: "Minnesota"},
-  {value: "MS", label: "Mississippi"}, {value: "MO", label: "Missouri"}, {value: "MT", label: "Montana"},
-  {value: "NE", label: "Nebraska"}, {value: "NV", label: "Nevada"}, {value: "NH", label: "New Hampshire"},
-  {value: "NJ", label: "New Jersey"}, {value: "NM", label: "New Mexico"}, {value: "NY", label: "New York"},
-  {value: "NC", label: "North Carolina"}, {value: "ND", label: "North Dakota"}, {value: "OH", label: "Ohio"},
-  {value: "OK", label: "Oklahoma"}, {value: "OR", label: "Oregon"}, {value: "PA", label: "Pennsylvania"},
-  {value: "RI", label: "Rhode Island"}, {value: "SC", label: "South Carolina"}, {value: "SD", label: "South Dakota"},
-  {value: "TN", label: "Tennessee"}, {value: "TX", label: "Texas"}, {value: "UT", label: "Utah"},
-  {value: "VT", label: "Vermont"}, {value: "VA", label: "Virginia"}, {value: "WA", label: "Washington"},
-  {value: "WV", label: "West Virginia"}, {value: "WI", label: "Wisconsin"}, {value: "WY", label: "Wyoming"},
-];
-
-const CA_PROVINCES = [
-  {value: "AB", label: "Alberta"}, {value: "BC", label: "British Columbia"}, {value: "MB", label: "Manitoba"},
-  {value: "NB", label: "New Brunswick"}, {value: "NL", label: "Newfoundland and Labrador"},
-  {value: "NS", label: "Nova Scotia"}, {value: "ON", label: "Ontario"}, {value: "PE", label: "Prince Edward Island"},
-  {value: "QC", label: "Quebec"}, {value: "SK", label: "Saskatchewan"}, {value: "NT", label: "Northwest Territories"},
-  {value: "NU", label: "Nunavut"}, {value: "YT", label: "Yukon"},
-];
-
-/** @type {Record<string, {label: string, value: string}[] | undefined>} */
-const STATES_BY_COUNTRY = {
-  US: US_STATES,
-  CA: CA_PROVINCES,
-};
+import React, {useEffect, useState} from "react";
 
 const formGridStyles = {
   display: "grid",
@@ -60,6 +26,10 @@ const formGridStyles = {
  * @returns
  */
 export function PrismFormDialog(props) {
+  const [countries, setCountries] = useState(/** @type {{value: string, label: string}[]} */([]));
+  const [states, setStates] = useState(/** @type {{value: string, label: string}[]} */([]));
+  const [countryCode, setCountryCode] = useState("");
+
   // Form State
   const [formData, setFormData] = useState({
     firstName: "",
@@ -77,6 +47,21 @@ export function PrismFormDialog(props) {
   const [submitting, setSubmitting] = useState(false);
   const [fieldErrors, setFieldErrors] = useState(/** @type {Record<string, string>} */({}));
 
+  useEffect(() => {
+    fetch("/api/prism/countries")
+      .then(r => r.json())
+      .then(setCountries)
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    if (!countryCode) { setStates([]); return; }
+    fetch(`/api/prism/states/${countryCode}`)
+      .then(r => r.json())
+      .then(setStates)
+      .catch(() => setStates([]));
+  }, [countryCode]);
+
   const isFormValid =
     formData.firstName.trim() &&
     formData.lastName.trim() &&
@@ -88,7 +73,13 @@ export function PrismFormDialog(props) {
    * @returns {(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void}
    */
   const handleChange = (field) => (e) => {
-    setFormData({ ...formData, [field]: e.target.value });
+    if (field === "country") {
+      const selected = countries.find(c => c.value === e.target.value);
+      setCountryCode(e.target.value);
+      setFormData({ ...formData, country: selected ? selected.label : "", state: "" });
+    } else {
+      setFormData({ ...formData, [field]: e.target.value });
+    }
     if (fieldErrors[field]) setFieldErrors({ ...fieldErrors, [field]: "" });
   };
 
@@ -191,25 +182,25 @@ export function PrismFormDialog(props) {
             <FormGroup label="Country" intent={fieldErrors.country ? Intent.DANGER : Intent.NONE} helperText={fieldErrors.country}>
               <HTMLSelect
                 fill
-                value={formData.country}
+                value={countryCode}
                 onChange={handleChange("country")}
               >
                 <option value="">Select</option>
-                <option value="US">United States</option>
-                <option value="CA">Canada</option>
-                {/* TODO: what other countries are of main interest? */}
+                {countries.map(c => (
+                  <option key={c.value} value={c.value}>{c.label}</option>
+                ))}
               </HTMLSelect>
             </FormGroup>
-            <FormGroup label="State / Province" disabled={!formData.country} intent={fieldErrors.state ? Intent.DANGER : Intent.NONE} helperText={fieldErrors.state}>
+            <FormGroup label="State / Province" disabled={!countryCode || states.length === 0} intent={fieldErrors.state ? Intent.DANGER : Intent.NONE} helperText={fieldErrors.state}>
               <HTMLSelect
                 fill
                 value={formData.state}
                 onChange={handleChange("state")}
-                disabled={!formData.country}
+                disabled={!countryCode || states.length === 0}
               >
                 <option value="">Select</option>
-                {(STATES_BY_COUNTRY[formData.country] || []).map(s => (
-                  <option key={s.value} value={s.value}>{s.label}</option>
+                {states.map(s => (
+                  <option key={s.value} value={s.label}>{s.label}</option>
                 ))}
               </HTMLSelect>
             </FormGroup>
@@ -257,7 +248,10 @@ export function PrismFormDialog(props) {
               intent={fieldErrors.tellUsMore ? Intent.DANGER : Intent.NONE}
             />
           </FormGroup>
-          <p style={{fontSize: 12, fontStyle: "italic", color: "rgba(0, 0, 0, 0.65)"}}>By submitting this form, you agree Deloitte may use your responses internally to understand user interest, improve Data USA, and contact you using the information you provide because your submission indicates interest in PeoplePrism/HealthPrism or related content. We do not sell your responses. You can opt out of future outreach at any time.</p>
+          <p style={{fontSize: 12, fontStyle: "italic", color: "rgba(0, 0, 0, 0.65)"}}>By submitting this form, you agree Deloitte may use your responses internally to understand user interest,
+improve Data USA and Prism (including PeoplePrism/HealthPrism), and contact you using the information you
+provide because your submission indicates interest in related content. We do not sell your responses. You can
+opt out of future outreach at any time.</p>
         </form>
       </div>
 
