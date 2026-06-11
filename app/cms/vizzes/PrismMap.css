@@ -5,6 +5,14 @@
   width: 100%;
   min-height: 400px;
   position: relative;
+
+  :global(.leaflet-control-zoom-in),
+  :global(.leaflet-control-zoom-out) {
+    height: 15px !important;
+    width: 15px !important;
+    line-height: 15px !important;
+    font-size: 10px !important;
+  }
 }
 
 .prism-map-loader {
@@ -161,3 +169,5 @@
   text-align: right;
   line-height: 1.4;
 }
+
+

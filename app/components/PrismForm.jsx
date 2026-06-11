@@ -250,17 +250,19 @@ export function PrismFormDialog(props) {
           >
             <TextArea
               growVertically={false}
-              style={{ height: "80px", resize: "none" }}
+              style={{ height: "80px", resize: "none", width: "100%" }}
               placeholder="Type here"
               value={formData.tellUsMore}
               onChange={handleChange("tellUsMore")}
               intent={fieldErrors.tellUsMore ? Intent.DANGER : Intent.NONE}
             />
           </FormGroup>
+          <p style={{fontSize: 12, fontStyle: "italic", color: "rgba(0, 0, 0, 0.65)"}}>By submitting this form, you agree Deloitte may use your responses internally to understand user interest, improve Data USA, and contact you using the information you provide because your submission indicates interest in PeoplePrism/HealthPrism or related content. We do not sell your responses. You can opt out of future outreach at any time.</p>
         </form>
       </div>
 
       <div className={Classes.DIALOG_FOOTER}>
+
         <div
           className={Classes.DIALOG_FOOTER_ACTIONS}
           style={{ display: "flex", justifyContent: "space-between", width: "100%"}}

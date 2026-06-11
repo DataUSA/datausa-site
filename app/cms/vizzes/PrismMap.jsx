@@ -25,7 +25,7 @@ function makeIcon(L, rank) {
 
 const resolve = (accessor, d) => typeof accessor === "function" ? accessor(d) : d[accessor];
 
-export default function PrismMap({config = {}}) {
+export default function PrismMap({config = {}, dataFormat}) {
   const [isClient, setIsClient] = useState(false);
   const [facilities, setFacilities] = useState([]);
   const [countiesGeoJSON, setCountiesGeoJSON] = useState(null);
@@ -70,7 +70,11 @@ export default function PrismMap({config = {}}) {
     setLoading(true);
     fetch(config.data)
       .then(r => r.json())
-      .then(json => { setFacilities(json.data || []); setLoading(false); })
+      .then(json => {
+        dataFormat(json);
+        setFacilities(json.data || []);
+        setLoading(false);
+      })
       .catch(err => { console.error("Failed to load facilities", err); setLoading(false); });
   }, [config.data, isUnlocked]);
 
