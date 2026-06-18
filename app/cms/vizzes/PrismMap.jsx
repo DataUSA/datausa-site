@@ -3,16 +3,23 @@ import {Button, Icon, IconSize} from "@blueprintjs/core";
 import {PrismContext} from "./PrismContext";
 import "./PrismMap.css";
 
-const LOCK_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="white">
-  <path d="M18 8h-1V6A5 5 0 0 0 7 6v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2zm-6 9a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm3.1-9H8.9V6a3.1 3.1 0 0 1 6.2 0v2z"/>
+const LOCK_SVG_MARKER = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#353535" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:block;">
+  <rect x="4" y="11" width="16" height="10" rx="2" ry="2"/>
+  <path d="M8 11V6a4 4 0 0 1 8 0v5"/>
+</svg>`;
+
+const LOCK_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="-1.5 -1.5 27 27" fill="none" stroke="#ef6145" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;">
+  <path d="M 12 1.75 C 19.79 1.75 22.25 4.21 22.25 12 C 22.25 19.79 19.79 22.25 12 22.25 C 4.21 22.25 1.75 19.79 1.75 12 C 1.75 4.21 4.21 1.75 12 1.75 Z"/>
+  <rect x="8" y="12" width="8" height="5" rx="1.5" ry="1.5"/>
+  <path d="M10 12V9a2 2 0 0 1 4 0v3"/>
 </svg>`;
 
 function makeIcon(L, rank) {
-  const isTop = rank !== null;
+  const isTop = rank !== null && rank <= 5;
   const size = 24;
   const html = isTop
     ? `<div style="width:${size}px;height:${size}px;border-radius:50%;background:#83C0B4;border:2px solid #353535;display:flex;align-items:center;justify-content:center;color:#353535;font-weight:700;font-size:14px;font-family:sans-serif;">${rank}</div>`
-    : `<div style="width:${size}px;height:${size}px;border-radius:50%;background:#64748b;border:2px solid #353535;display:flex;align-items:center;justify-content:center;">${LOCK_SVG}</div>`;
+    : `<div style="width:${size}px;height:${size}px;border-radius:50%;background:#C5C5C5;border:2px solid #353535;display:flex;align-items:center;justify-content:center;">${LOCK_SVG_MARKER}</div>`;
 
   return L.divIcon({
     html,
@@ -30,6 +37,7 @@ export default function PrismMap({config = {}, dataFormat}) {
   const [facilities, setFacilities] = useState([]);
   const [countiesGeoJSON, setCountiesGeoJSON] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [pinnedId, setPinnedId] = useState(null);
   const LRef = useRef(null);
   const mapRef = useRef(null);
   const prismCtx = useContext(PrismContext);
@@ -173,7 +181,9 @@ export default function PrismMap({config = {}, dataFormat}) {
           const subtitle = tooltipConfig.subtitle
             ? (typeof tooltipConfig.subtitle === "function" ? tooltipConfig.subtitle(f) : tooltipConfig.subtitle)
             : null;
-          const rows = tooltipConfig.tbody || [
+          const rows = (typeof tooltipConfig.tbody === "function"
+            ? tooltipConfig.tbody(f)
+            : tooltipConfig.tbody) || [
             ["Drive time", d => `${resolve(sortBy, d).toFixed(1)} min`],
             ["County", d => d["County Facility"]]
           ];
@@ -183,7 +193,12 @@ export default function PrismMap({config = {}, dataFormat}) {
               position={[parseFloat(resolve(getLat, f)), parseFloat(resolve(getLng, f))]}
               icon={makeIcon(L, rank)}
               onMouseOver={e => e.target.openPopup()}
-              onMouseOut={e => e.target.closePopup()}
+              onMouseOut={e => { if (pinnedId !== resolve(getId, f)) e.target.closePopup(); }}
+              onClick={e => {
+                const id = resolve(getId, f);
+                if (pinnedId === id) { setPinnedId(null); e.target.closePopup(); }
+                else { setPinnedId(id); e.target.openPopup(); }
+              }}
             >
               <Popup className="prism-popup" closeButton={false}>
                 <div className="prism-popup-inner">
@@ -193,9 +208,9 @@ export default function PrismMap({config = {}, dataFormat}) {
                   </div>
                   <div className="prism-popup-body">
                     {rows.map(([label, val]) => (
-                      <div key={label} className="prism-popup-row">
-                        <span className="prism-popup-label">{label}</span>
-                        <span className="prism-popup-value">{typeof val === "function" ? val(f) : val}</span>
+                      <div key={label} className="prism-popup-row" data-locked={label.includes("[lock_icon]") || undefined}>
+                        <span className="prism-popup-label" dangerouslySetInnerHTML={{__html: label.replace("[lock_icon]", LOCK_SVG)}} />
+                        <span className="prism-popup-value" dangerouslySetInnerHTML={{__html: typeof val === "function" ? val(f) : val}} />
                       </div>
                     ))}
                   </div>

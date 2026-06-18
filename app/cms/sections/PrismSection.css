@@ -26,28 +26,32 @@
   box-shadow: rgba(92, 133, 150, 0.35) 0px 4px 20px 0px;
   position: relative;
   z-index: 2;
-  padding-bottom: 1rem;
+  padding: 1rem 1.5rem;
+}
 
-  @media (max-width: 30rem) {
+.prism-section .topic {
+  position: relative;
+}
+
+@media (max-width: 30rem) {
+  .prism-section {
     margin: 0 -1rem 50px;
     padding: 1rem;
     width: auto;
-  }
-
-  & .topic {
-    position: relative;
   }
 }
 
 .prism-notice {
   display: flex;
-  flex-flow: column;
+  flex-flow: row wrap;
   gap: 1rem;
   padding: 0.8rem;
   border: 2px solid #e3e48d;
   border-radius: 5px;
+}
 
-  @media (min-width: 30rem) {
+@media (min-width: 768px) {
+  .prism-notice {
     margin: 0 1rem;
     align-items: center;
     flex-flow: row nowrap;
@@ -60,8 +64,13 @@
   width: 106px;
   height: 20px;
   margin: auto;
+}
 
-  @media (max-width: 30rem) {
+@media (max-width: 768px) {
+  .prism-notice-logo {
+    order: 2;
+    margin-right: auto;
+    margin-left: 0;
   }
 }
 
@@ -69,9 +78,13 @@
   flex: 1 1 auto;
   margin: 0;
   font-size: 0.8rem;
+}
 
-  @media (min-width: 30rem) {
+@media (max-width: 768px) {
+  .prism-notice-call {
     font-size: 0.65rem;
+    order: 1;
+    flex: 1 0 100%;
   }
 }
 
@@ -83,13 +96,17 @@
   border: 0 none;
   white-space: pre;
   font-family: "Pathway Gothic One", sans-serif;
+}
 
-  @media (max-width: 30rem) {
-    margin: auto;
+.prism-notice-infobtn:hover {
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .prism-notice-infobtn {
+    margin-inline-start: auto;
+    margin-inline-end: none;
     font-size: 1.2rem;
-  }
-
-  &:hover {
-    color: #fff;
+    order: 3;
   }
 }

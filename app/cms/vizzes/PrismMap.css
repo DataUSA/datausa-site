@@ -170,4 +170,21 @@
   line-height: 1.4;
 }
 
+.prism-popup-row[data-locked] {
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.prism-popup-row[data-locked] .prism-popup-label {
+  flex: 0 0 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.prism-popup-row[data-locked] .prism-popup-label,
+.prism-popup-row[data-locked] .prism-popup-value {
+  text-align: left;
+}
+
 

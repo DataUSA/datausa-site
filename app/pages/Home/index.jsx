@@ -14,6 +14,41 @@ import Search from "toCanon/Search";
 
 import Column from "./Column";
 
+const PRISM_TOPICS = [
+  {
+    title: "Healthcare Access",
+    color: "#00adac",
+    links: [
+      {
+        label: "California Health Coverage",
+        href: "/profile/geo/california#coverage"
+      },
+      {
+        label: "New York Health Coverage",
+        href: "/profile/geo/new-york#coverage"
+      },
+      {
+        label: "California Health Coverage",
+        href: "/profile/geo/texas#coverage"
+      }
+    ]
+  },
+  {
+    title: "Food Pantry Access",
+    color: "#E78F45",
+    links: []
+  },
+  {
+    title: "Food Insecurity",
+    color: "#C73333",
+    links: []
+  },
+  {
+    title: "Skills & Job Market",
+    color: "#057CB0",
+    links: []
+  },
+];
 class Home extends Component {
 
   render() {
@@ -189,7 +224,42 @@ class Home extends Component {
             />
           </div>
         </section>
-
+        <section className="prism-promo light">
+            <div className="home-flex">
+              <div className="prism-container">
+              <p>
+                <strong>New data is now available through Deloitte’s PeoplePrism™</strong>. This product brings together population insights that can support research, planning,  and analysis across agencies and organizations. Drawing on predictive and geospatial analysis, it helps examine the environmental and social factors associated with health and quality of life in communities. Explore the new data below, available across all 50 states.
+              </p>
+              <div className="prism-topics">
+                {
+                  PRISM_TOPICS.map(topic =>
+                    <div className="prism-topic">
+                      <p className="prism-topic-title" style={{color: topic.color}}>{topic.title}</p>
+                        {
+                          topic.links && topic.links.length > 0
+                        ? (
+                          <div className="prism-topic-links">
+                            {topic.links.map(link => <a className="prism-topic-link" href={link.href}>{link.label}</a>)}
+                          </div>
+                        ) : <div className="prism-coming-soon">
+                          <p className="prism-coming-soon-text">Coming Soon!</p>
+                        </div>
+                      }
+                    </div>
+                  )
+                }
+              </div>
+              <div className="prism-footer-promo">
+                <img
+                  className="prism-notice-logo"
+                  src="/images/footer/deloitte_dark.png"
+                  alt="Deloitte."
+                />
+                <p>Look for the Deloitte logo to spot new additions from PeoplePrism.</p>
+              </div>
+            </div>
+            </div>
+          </section>
         <section className="report-grid">
           <h2>
             Recent popular reports
