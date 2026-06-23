@@ -28,7 +28,7 @@ class TextViz extends Component {
   render() {
     const {formatters, router, variables} = this.context;
     const {stripP} = formatters;
-    const {contents, sources} = this.props;
+    const {contents, sources, className = "", children, locked} = this.props;
     const {loading} = this.state;
     const {descriptions, slug, stats, subtitles, title, titleCompare, visualizations} = contents;
 
@@ -37,7 +37,7 @@ class TextViz extends Component {
     const selectors = contents.selectors.filter(selector => selector.options.length > 1);
 
     if (router.location.query.viz === "true") {
-      return <div className={ `topic ${slug || ""} Column ${loading ? "topic-loading" : ""}` }>
+      return <div className={ `${className} topic ${slug || ""} Column ${loading ? "topic-loading" : ""}` } data-section-locked={locked ? "true" : "false"}>
         <div className="topic-content">
           { title &&
             <h4 id={ slug } className="topic-title">
@@ -55,12 +55,13 @@ class TextViz extends Component {
         </div>
         { mainviz.map((visualization, ii) => <Viz topic={contents} config={visualization} key={ii} className="topic-visualization" title={ title } slug={ `${slug}_${ii}` } />) }
         <SourceGroup sources={sources} />
+        {children}
       </div>;
     }
 
     const statGroups = nest().key(d => d.title).entries(stats);
 
-    return <div className={ `topic ${slug || ""} TextViz ${loading ? "topic-loading" : ""}` }>
+    return <div className={ `${className} topic ${slug || ""} TextViz ${loading ? "topic-loading" : ""}` } data-section-locked={locked ? "true" : "false"}>
       <div className="topic-content">
         { title &&
           <h4 id={ slug } className="topic-title">
@@ -75,7 +76,13 @@ class TextViz extends Component {
           </select>
         </div>) }
         <div className="topic-stats">
-          { statGroups.map(({key, values}) => <StatGroup key={key} title={key} stats={values} />) }
+          { statGroups.map(({key, values}) => locked
+            ? <StatGroup key={key} title={key} stats={values.map((v, i) => ({
+              value: `<p>Health Practice Name</p>`,
+              subtitle: `<p class="stat-subtitle">12345 Community Center Dr., Hayward, CA 94540 Census Tract # 400${i+1}</p>`
+            }))} />
+            : <StatGroup key={key} title={key} stats={values} />
+          )}
         </div>
         <div className="topic-descriptions">
           { descriptions.map((content, i) => <div key={i} className="topic-description" dangerouslySetInnerHTML={{__html: content.description}} />) }
@@ -85,6 +92,7 @@ class TextViz extends Component {
         <SourceGroup sources={sources} />
       </div>
       { mainviz.map((visualization, ii) => <Viz topic={contents} config={visualization} key={ii} className="topic-visualization" title={ title } slug={ `${slug}_${ii}` } />) }
+      {children}
     </div>;
   }
 

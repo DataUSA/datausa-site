@@ -24,7 +24,7 @@ class SourceGroup extends Component {
           source_name: org
         } = source;
 
-        const orgName = org && `the ${org.replace(/^(T|t)he\s/g, "")}`;
+        const orgName = org && `${org.replace(/^(T|t)he\s/g, "")}`;
         const datasetName = dataset && `${dataset}`;
 
         return <span key={i} className="source">
