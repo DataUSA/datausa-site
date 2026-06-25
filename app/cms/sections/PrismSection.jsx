@@ -22,10 +22,10 @@ export function PrismSectionLayout({ textVizProps, dialog, children }) {
             {"Deloitte's PeoplePrism™ harnesses "}
             <strong>predictive and geospatial analytics and one of the largest population insights datasets</strong>
             {" to provide actionable information on the environmental and social factors that influence health and quality of life for people and communities. "}
-            <a href="mailto:">Contact Deloitte</a>
+            <a href="PeoplePrism@deloitte.com">Contact Deloitte</a>
             {" for additional PeoplePrism data features, including distance to primary and specialized care."}
           </p>
-          <a href="https://peopleprism.ai/" className="prism-notice-infobtn">More Info</a>
+          <a href="https://peopleprism.ai/" className="prism-notice-infobtn" target="_blank" rel="noopener noreferrer">More Info</a>
         </aside>
       </div>
     </div>

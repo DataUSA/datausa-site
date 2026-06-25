@@ -28,7 +28,7 @@ const PRISM_TOPICS = [
         href: "/profile/geo/new-york#coverage"
       },
       {
-        label: "California Health Coverage",
+        label: "Texas Health Coverage",
         href: "/profile/geo/texas#coverage"
       }
     ]
