@@ -8,7 +8,7 @@ import {sum} from "d3-array";
 import {format} from "d3-format";
 const commas = format(",");
 
-import "./style.css";
+import "./SearchPage.css";
 
 const rawUrl = "/api/searchLegacy/?limit=100";
 
