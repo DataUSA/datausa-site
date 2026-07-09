@@ -33,6 +33,19 @@
   position: relative;
 }
 
+.prism-section .stat-title em {
+  font-size: 0.625rem !important;
+  margin-top: 0.25rem !important;
+  display: block !important;
+  font-weight: 400 !important;
+  text-transform: none !important;
+}
+
+.prism-section .stat-value {
+  font-size: 0.85rem !important;
+  text-transform: uppercase !important;
+}
+
 @media (max-width: 30rem) {
   .prism-section {
     margin: 0 -1rem 50px;

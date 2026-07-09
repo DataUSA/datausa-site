@@ -249,7 +249,7 @@ export function PrismFormDialog(props) {
             />
           </FormGroup>
           <p style={{fontSize: 12, fontStyle: "italic", color: "rgba(0, 0, 0, 0.65)"}}>By submitting this form, you agree Deloitte may use your responses internally to understand user interest,
-improve Data USA and Prism (including PeoplePrism/HealthPrism), and contact you using the information you
+improve Data USA and Pris products (including PeoplePrism/HealthPrism), and contact you using the information you
 provide because your submission indicates interest in related content. We do not sell your responses. You can
 opt out of future outreach at any time.</p>
         </form>
