@@ -34,11 +34,13 @@
 }
 
 .prism-section .stat-title em {
-  font-size: 0.625rem !important;
   margin-top: 0.25rem !important;
   display: block !important;
   font-weight: 400 !important;
   text-transform: none !important;
+  font-size: 1.125em;
+  font-style: normal !important;
+  margin-inline-end: 1.5rem;
 }
 
 .prism-section .stat-value {
