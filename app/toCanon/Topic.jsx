@@ -4,8 +4,9 @@ import PropTypes from "prop-types";
 import TextViz from "toCanon/topics/TextViz";
 import Column from "toCanon/topics/Column";
 import SubGrouping from "toCanon/topics/SubGrouping";
+import CustomSections from "CustomSections";
 
-const topicTypes = {Column, SubGrouping, TextViz};
+const topicTypes = {Column, SubGrouping, TextViz, ...CustomSections};
 
 class Topic extends Component {
 

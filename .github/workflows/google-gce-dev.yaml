@@ -37,6 +37,7 @@ env:
   CANON_LOGICLAYER_SLUGS: ${{ vars.CANON_LOGICLAYER_SLUGS }}
   CANON_LOGINS: ${{ vars.CANON_LOGINS }}
   GA_KEYFILE: ${{ vars.GA_KEYFILE }}
+  PRISM_COOKIE_DAYS: ${{ vars.PRISM_COOKIE_DAYS }}
 
 
 jobs:
@@ -113,6 +114,9 @@ jobs:
             echo "CANON_DB_HOST=${{ secrets.CANON_DB_HOST}}"
             echo "CANON_DB_PW=${{ secrets.CANON_DB_PW}}"
             echo "CANON_HOTJAR=${{ secrets.CANON_HOTJAR}}"
+            echo "PRISM_DB_NAME=${{ secrets.PRISM_DB_NAME}}"
+            echo "PRISM_JWT_SECRET=${{ secrets.PRISM_JWT_SECRET}}"
+            echo "PRISM_COOKIE_DAYS=${{ env.PRISM_COOKIE_DAYS}}"
             echo "CANON_API=${{ env.CANON_API }}"
             echo "CANON_DB_PORT=${{ env.CANON_DB_PORT }}"
             echo "CANON_CMS_CUBES=${{ env.CANON_CMS_CUBES }}"

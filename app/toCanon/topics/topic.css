@@ -5,6 +5,25 @@
   flex-wrap: nowrap;
   padding: 25px 25px;
   width: 100%;
+  &[data-section-locked="true"] {
+    & .StatGroup li {
+      position: relative;
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        bottom: -10px;
+        display: flex;
+        align-items: center;
+        backdrop-filter: blur(3px);
+      }
+      & .stat-value {
+        content: "value" !important;
+      }
+    }
+  }
 
   & .topic-content {
     align-self: flex-start;

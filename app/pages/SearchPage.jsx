@@ -1,7 +1,7 @@
-import React, {Component} from "react";
+import React from "react";
 import {Link} from "react-router";
 import {connect} from "react-redux";
-import Search from "toCanon/Search";
+import {SearchControl} from "toCanon/SearchControl";
 import {fetchData} from "@datawheel/canon-core";
 import SVG from "react-inlinesvg";
 import {sum} from "d3-array";
@@ -12,24 +12,66 @@ import "./SearchPage.css";
 
 const rawUrl = "/api/searchLegacy/?limit=100";
 
-const formatSubLabel = key => key
-  .replace(/^Industry\s/g, "")
-  .replace(/^CIP([0-9])/g, "$1 Digit Course")
-  .replace(/\sOccupation\s/g, " ")
-  .replace(/^NAPCS\s/g, "");
+const formatSubLabel = (key) =>
+  key
+    .replace(/^Industry\s/g, "")
+    .replace(/^CIP([0-9])/g, "$1 Digit Course")
+    .replace(/\sOccupation\s/g, " ")
+    .replace(/^NAPCS\s/g, "");
 
-const SubList = ({active, onClick, totals}) => <ul>
-  { Object.keys(totals)
-    .sort((a, b) => totals[a] - totals[b])
-    .filter(key => totals[key] > 1)
-    .map(key => <li className={active === key ? "active" : ""} key={key} onClick={() => onClick(key)}>
-      {formatSubLabel(key)}
-      <span className="num">{commas(totals[key])}</span>
-    </li>) }
-</ul>;
+const DIMENSIONS = [
+  {key: "Geography", label: "Locations", icon: "Geography", cls: "geo"},
+  {key: "PUMS Industry", label: "Industries", icon: "PUMS Industry", cls: "naics"},
+  {key: "PUMS Occupation", label: "Occupations", icon: "PUMS Occupation", cls: "soc"},
+  {key: "CIP", label: "Degrees", icon: "CIP", cls: "cip"},
+  {key: "University", label: "Universities", icon: "University", cls: "university"},
+  {key: "NAPCS", label: "Products & Services", icon: "NAPCS", cls: "napcs"},
+];
 
-class SearchPage extends Component {
+const SubList = ({active, onClick, totals}) => (
+  <ul>
+    {Object.keys(totals)
+      .sort((a, b) => totals[a] - totals[b])
+      .filter((key) => totals[key] > 1)
+      .map((key) => (
+        <li className={active === key ? "active" : ""} key={key} onClick={() => onClick(key)}>
+          {formatSubLabel(key)}
+          <span className="num">{commas(totals[key])}</span>
+        </li>
+      ))}
+  </ul>
+);
 
+/**
+ * Main search page with a search bar, dimension filter sidebar, and result totals.
+ *
+ * Reads initial state from URL query params (`q`, `dimension`, `hierarchy`)
+ * and syncs filter changes back to the URL via `router.replace`.
+ *
+ * Props are injected via Redux connect (see bottom of file). Fetches totals
+ * server-side through the `need` array for SSR.
+ *
+ * @typedef {Object} SearchPageState
+ * @property {string|undefined} dimension - Active dimension filter (e.g. "Geography").
+ * @property {string|undefined} hierarchy - Active hierarchy within the dimension.
+ * @property {string}           defaultQuery - Initial query from URL `?q=` param.
+ * @property {string}           query - Current search input value.
+ * @property {string}           url - API URL built from current filters.
+ *
+ * @typedef {Object} SearchPageProps
+ * @property {Object}  totals - Dimension → hierarchy → count mapping from `/api/search/totals`.
+ * @property {Object}  router - React Router injected via `canon-core` context.
+ * @property {Object}  router.location - Current location object.
+ * @property {string}  router.location.basename - Base path of the app.
+ * @property {string}  router.location.pathname - Current route path.
+ * @property {Object}  router.location.query - Parsed query string params.
+ * @property {function} router.replace - Navigate without history entry.
+ */
+
+/**
+ * @extends {React.Component<SearchPageProps, SearchPageState>}
+ */
+class SearchPage extends React.Component {
   constructor(props) {
     super(props);
     const {dimension, hierarchy, q} = this.props.router.location.query;
@@ -41,8 +83,11 @@ class SearchPage extends Component {
       defaultQuery: q,
       hierarchy,
       query: "",
-      url
+      url,
     };
+    this.setQuery = this.setQuery.bind(this);
+    this.setHierarchy = this.setHierarchy.bind(this);
+    this.clearFilters = this.clearFilters.bind(this);
   }
 
   setQuery(query) {
@@ -70,89 +115,81 @@ class SearchPage extends Component {
   componentDidUpdate(prevProps, prevState) {
     const {dimension, hierarchy, query} = this.state;
     const {router} = this.props;
-    if (dimension !== prevState.dimension || hierarchy !== prevState.hierarchy || query !== prevState.query) {
+    if (
+      dimension !== prevState.dimension ||
+      hierarchy !== prevState.hierarchy ||
+      query !== prevState.query
+    ) {
       const {basename, pathname} = router.location;
-      let url = `${basename}${pathname}`;
-      url += `?q=${query}`;
-      if (dimension) url += `&dimension=${dimension}`;
-      if (hierarchy) url += `&hierarchy=${hierarchy}`;
-      router.replace(url);
+      const params = new URLSearchParams();
+      if (query) params.set("q", query);
+      if (dimension) params.set("dimension", dimension);
+      if (hierarchy) params.set("hierarchy", hierarchy);
+      const qs = params.toString();
+      router.replace(`${basename}${pathname}${qs ? `?${qs}` : ""}`);
     }
   }
 
   render() {
-
     const {totals} = this.props;
     const {defaultQuery, dimension, hierarchy, url} = this.state;
 
     return (
       <div id="SearchPage">
-        <Search
-          limit={100}
-          onChange={this.setQuery.bind(this)}
+        <SearchControl
+          apiUrl={url}
           defaultQuery={defaultQuery}
-          placeholder={ "Find a report..." }
-          primary={ true }
-          resultRender={d => <Link to={`/profile/${d.profile}/${d.slug || d.id}`}>
-            <SVG width={26} className={`dim-icon ${d.profile}`} src={ `/icons/dimensions/${d.dimension}.svg` } />
-            <div className="result-text">
-              <div className="title">{ d.name }</div>
-              <div className="sumlevel">{ d.hierarchy }</div>
-            </div>
-          </Link>}
-          searchEmpty={ true }
-          url={ url } />
+          enableGlobalShortcut={true}
+          onQueryChange={this.setQuery}
+          placeholder={"Find a report..."}
+          resultRender={(d) => (
+            <Link to={`/profile/${d.profile}/${d.slug || d.id}`}>
+              <SVG
+                width={26}
+                className={`dim-icon ${d.profile}`}
+                src={`/icons/dimensions/${d.dimension}.svg`}
+              />
+              <div className="result-text">
+                <div className="title">{d.name}</div>
+                <div className="sumlevel">{d.hierarchy}</div>
+              </div>
+            </Link>
+          )}
+          router={this.props.router}
+          searchEmpty={true}
+        />
         <div className="controls">
-          { dimension && <div className="clear" onClick={this.clearFilters.bind(this)}><span className="x">×</span> Clear Filter</div> }
+          {dimension && (
+            <div className="clear" onClick={this.clearFilters}>
+              <span className="x">×</span> Clear Filter
+            </div>
+          )}
           <ul>
-            <li>Report Type <span className="num">Results</span></li>
-            <li className="geo" onClick={this.setDimension.bind(this, "Geography")}>
-              <SVG className="dim-icon" src="/icons/dimensions/Geography.svg" />
-              Locations
-              <span className="num">{commas(sum(Object.values(totals.Geography)))}</span>
+            <li>
+              Report Type<span hidden>:</span> <span className="num">Results</span>
             </li>
-            { dimension === "Geography" && <SubList active={hierarchy} totals={totals.Geography} onClick={this.setHierarchy.bind(this)} /> }
-            <li className="naics" onClick={this.setDimension.bind(this, "PUMS Industry")}>
-              <SVG className="dim-icon" src="/icons/dimensions/PUMS Industry.svg" />
-              Industries
-              <span className="num">{commas(sum(Object.values(totals["PUMS Industry"])))}</span>
-            </li>
-            { dimension === "PUMS Industry" && <SubList active={hierarchy} totals={totals["PUMS Industry"]} onClick={this.setHierarchy.bind(this)} /> }
-            <li className="soc" onClick={this.setDimension.bind(this, "PUMS Occupation")}>
-              <SVG className="dim-icon" src="/icons/dimensions/PUMS Occupation.svg" />
-              Occupations
-              <span className="num">{commas(sum(Object.values(totals["PUMS Occupation"])))}</span>
-            </li>
-            { dimension === "PUMS Occupation" && <SubList active={hierarchy} totals={totals["PUMS Occupation"]} onClick={this.setHierarchy.bind(this)} /> }
-            <li className="cip" onClick={this.setDimension.bind(this, "CIP")}>
-              <SVG className="dim-icon" src="/icons/dimensions/CIP.svg" />
-              Degrees
-              <span className="num">{commas(sum(Object.values(totals.CIP)))}</span>
-            </li>
-            { dimension === "CIP" && <SubList active={hierarchy} totals={totals.CIP} onClick={this.setHierarchy.bind(this)} /> }
-            <li className="university" onClick={this.setDimension.bind(this, "University")}>
-              <SVG className="dim-icon" src="/icons/dimensions/University.svg" />
-              Universities
-              <span className="num">{commas(sum(Object.values(totals.University)))}</span>
-            </li>
-            { dimension === "University" && <SubList active={hierarchy} totals={totals.University} onClick={this.setHierarchy.bind(this)} /> }
-            <li className="napcs" onClick={this.setDimension.bind(this, "NAPCS")}>
-              <SVG className="dim-icon" src="/icons/dimensions/NAPCS.svg" />
-              Products &amp; Services
-              <span className="num">{commas(sum(Object.values(totals.NAPCS)))}</span>
-            </li>
-            { dimension === "NAPCS" && <SubList active={hierarchy} totals={totals.NAPCS} onClick={this.setHierarchy.bind(this)} /> }
+            {DIMENSIONS.map(({key, label, icon, cls}) => {
+              const totalsForDim = totals?.[key] ?? {};
+              return (
+                <React.Fragment key={key}>
+                  <li className={cls} onClick={() => this.setDimension(key)}>
+                    <SVG className="dim-icon" src={`/icons/dimensions/${icon}.svg`} />
+                    {label}
+                    <span className="num">{commas(sum(Object.values(totalsForDim)))}</span>
+                  </li>
+                  {dimension === key && (
+                    <SubList active={hierarchy} totals={totalsForDim} onClick={this.setHierarchy} />
+                  )}
+                </React.Fragment>
+              );
+            })}
           </ul>
         </div>
       </div>
     );
-
   }
-
 }
 
-SearchPage.need = [
-  fetchData("searchTotals", "/api/search/totals")
-];
+SearchPage.need = [fetchData("searchTotals", "/api/search/totals")];
 
-export default connect(state => ({totals: state.data.searchTotals}))(SearchPage);
+export default connect((state) => ({totals: state.data.searchTotals}))(SearchPage);

@@ -53,6 +53,16 @@ module.exports = {
         require("@datawheel/canon-cms/models"),
         require("@datawheel/canon-core/models")
       ]
+    },
+    {
+      host: process.env.PRISM_DB_HOST || process.env.CANON_DB_HOST,
+      name: process.env.PRISM_DB_NAME,
+      user: process.env.PRISM_DB_USER || process.env.CANON_DB_USER,
+      pass: process.env.PRISM_DB_PW || process.env.CANON_DB_PW,
+      port: Number(process.env.PRISM_DB_PORT || process.env.CANON_DB_PORT) || 5432,
+      tables: [
+        require("./models/prismSubmission")
+      ]
     }
   ],
   express: {

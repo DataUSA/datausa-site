@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef, useId } from "react";
+import React, {useState, useEffect, useRef, useId} from "react";
 import PropTypes from "prop-types";
-import { useSearchFetch } from "./hooks/useSearchFetch";
+import {useSearchFetch} from "./hooks/useSearchFetch";
 import clsx from "classnames";
 
 /**
@@ -76,8 +76,6 @@ export function SearchControl({
 
   const containerRef = useRef(null);
   const inputRef = useRef(null);
-  const uniqueComponentIdRef = useRef(`search-${Math.random().toString(36).slice(2, 9)}`);
-  const uniqueComponentId = uniqueComponentIdRef.current;
 
   // Consume the new custom hook
   const {
@@ -99,8 +97,15 @@ export function SearchControl({
         return;
       }
 
-      if (event.type === "keydown" && enableGlobalShortcut && !isDropdownOpen && event.key.toLowerCase() === "s") {
-        const isTyping = ["input", "textarea"].includes(event.target.tagName.toLowerCase()) || event.target.className.includes("DraftEditor");
+      if (
+        event.type === "keydown" &&
+        enableGlobalShortcut &&
+        !isDropdownOpen &&
+        event.key.toLowerCase() === "s"
+      ) {
+        const isTyping =
+          ["input", "textarea"].includes(event.target.tagName.toLowerCase()) ||
+          event.target.className.includes("DraftEditor");
         if (!isTyping) {
           event.preventDefault();
           inputRef.current?.focus();
@@ -119,7 +124,7 @@ export function SearchControl({
 
   const adjustScroll = (index) => {
     const element = containerRef.current?.querySelectorAll("li.result")[index];
-    element?.scrollIntoView({ block: "nearest" });
+    element?.scrollIntoView({block: "nearest"});
   };
 
   const handleKeyboardNavigation = (event) => {
@@ -181,17 +186,22 @@ export function SearchControl({
   };
 
   return (
-    <div ref={containerRef} className={`${className} ${isDropdownOpen ? "active" : ""}`} id={uniqueComponentId}>
+    <div
+      ref={containerRef}
+      className={`${className} ${isDropdownOpen ? "active" : ""}`}
+      id="search-control"
+    >
       <div className="bp3-control-group">
         {InactiveComponent && (
           <InactiveComponent
             active={isDropdownOpen}
-            onClick={() => isDropdownOpen ? inputRef.current?.blur() : inputRef.current?.focus()}
+            onClick={() => (isDropdownOpen ? inputRef.current?.blur() : inputRef.current?.focus())}
           />
         )}
         <div className={`bp3-input-group bp3-fill ${isDropdownOpen ? "active" : ""}`}>
-          {icon && <span className={`bp3-icon bp3-icon-${icon}`}></span>}
+          {icon ? <span key="search-icon" className={`bp3-icon bp3-icon-${icon}`}></span> : null}
           <input
+            key="search-input"
             ref={inputRef}
             type="text"
             className="bp3-input"
@@ -201,37 +211,41 @@ export function SearchControl({
             placeholder={placeholder}
             value={currentQuery}
           />
-          {isDropdownOpen && currentQuery.length > 0 && (
+          {isDropdownOpen && currentQuery.length > 0 ? (
             <span
               className="bp3-icon bp3-icon-trash"
               role="button"
               tabIndex={0}
               aria-label="Clear search"
-              style={{ cursor: "pointer" }}
+              style={{cursor: "pointer"}}
               onClick={handleClear}
               onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && handleClear()}
             />
-          )}
-          {buttonLink && (
-            <a href={`${buttonLink}?q={currentQuery}`} className="bp3-button">{buttonText}</a>
-          )}
+          ) : null}
+          {buttonLink ? (
+            <a href={`${buttonLink}?q={currentQuery}`} className="bp3-button">
+              {buttonText}
+            </a>
+          ) : null}
         </div>
       </div>
 
       <ul className={clsx("results", {active: isDropdownOpen})}>
         {isLoading && <li className="no-results">Loading…</li>}
-        {!isLoading && !searchResults.length && isDropdownOpen && currentQuery.trim().length > 0 && (
-          <li className="no-results">No Results Found</li>
-        )}
-        {!isLoading && searchResults.map((result, index) => (
-          <li
-            key={result.key || `${result.dimension}-${result.id}`}
-            className={`result ${index === highlightedIndex ? "highlighted" : ""}`}
-            onClick={() => setIsDropdownOpen(false)}
-          >
-            {resultRender(result, { buttonLink, buttonText, className, placeholder })}
-          </li>
-        ))}
+        {!isLoading &&
+          !searchResults.length &&
+          isDropdownOpen &&
+          currentQuery.trim().length > 0 && <li className="no-results">No Results Found</li>}
+        {!isLoading &&
+          searchResults.map((result, index) => (
+            <li
+              key={`${result.key || `${result.dimension}-${result.id}`}-${index}`}
+              className={`result ${index === highlightedIndex ? "highlighted" : ""}`}
+              onClick={() => setIsDropdownOpen(false)}
+            >
+              {resultRender(result, {buttonLink, buttonText, className, placeholder})}
+            </li>
+          ))}
         {searchResults.length > 0 && buttonLink && (
           <a className="all-results bp3-button bp3-fill" href={`${buttonLink}?q=${currentQuery}`}>
             Show All Results
@@ -240,4 +254,4 @@ export function SearchControl({
       </ul>
     </div>
   );
-};
+}
