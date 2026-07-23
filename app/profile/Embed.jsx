@@ -39,9 +39,15 @@ class Embed extends Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.profile !== prevProps.profile) {
+      this.setState({ profile: this.props.profile });
+    }
+  }
+
   getChildContext() {
     const {formatters} = this.context;
-    const {variables} = this.props.profile;
+    const variables = this.props.profile ? this.props.profile.variables : undefined;
     return {
       formatters,
       onSelector: this.onSelector.bind(this),
@@ -52,6 +58,7 @@ class Embed extends Component {
   onSelector(name, value, isComparison, callback) {
 
     const {comparisons, profile, selectors} = this.state;
+    if (!profile) return;
     const {formatters} = this.context;
     const {locale, router} = this.props;
 
@@ -101,13 +108,19 @@ class Embed extends Component {
     const {stripHTML} = formatters;
     const {profile} = this.state;
     const {origin, router} = this.props;
+
+    if (!profile || !profile.sections) return null;
+
+    const targetSection = profile.sections.find(d => d.slug === router.params.tslug);
+    if (!targetSection) return null;
+
     const {title, variables} = profile;
     const name = variables.nameLower || variables.name;
     const {slug, id} = router.params;
 
-    const joiner = profile.variables.Dimension === "Geography" ? "in" : "for";
+    const joiner = variables.Dimension === "Geography" ? "in" : "for";
     const metaTitle = `${stripHTML(title)} ${joiner} ${name}`;
-    const metaDesc = profile.sections[0].descriptions.length ? stripHTML(profile.sections[0].descriptions[0].description) : false;
+    const metaDesc = targetSection.descriptions && targetSection.descriptions.length ? stripHTML(targetSection.descriptions[0].description) : false;
 
     return <div id="Embed">
       <Helmet>
@@ -117,7 +130,7 @@ class Embed extends Component {
         <meta property="og:image" content={ `${origin}/api/profile/${slug}/${id}/splash` } />
         { metaDesc ? <meta property="og:description" content={ metaDesc } /> : null }
       </Helmet>
-      <Topic contents={profile.sections[0]} />
+      <Topic contents={targetSection} />
     </div>;
 
   }
@@ -135,7 +148,7 @@ Embed.contextTypes = {
 };
 
 Embed.need = [
-  fetchData("profile", "/api/profile?slug=<slug>&id=<id>&section=<tslug>")
+  fetchData("profile", "/api/profile?slug=<slug>&id=<id>")
 ];
 
 export default connect(state => ({
