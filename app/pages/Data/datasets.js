@@ -28,6 +28,9 @@ export const usage = {
   "dartmouth-atlas-of-healthcare": [
     "The Dartmouth data is used on the Geography reports in the health and safety section."
   ],
+  "deloittes-peopleprism": [
+    "The Deloitte PeoplePrism™ data is used on the geography reports at the county and state levels in the health section."
+  ],
   "department-of-education": [
     "Default rates are displayed in University reports for each institution, as well as on the national map page aggregated for each location."
   ],

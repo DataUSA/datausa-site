@@ -11,6 +11,10 @@ module.exports = async function() {
     .then(data => {
       const annotations = data.cubes
         .map(d => d.annotations)
+        .filter(a => {
+          const hideInUi = a && a.hide_in_ui;
+          return a && (!hideInUi || hideInUi.toString().toLowerCase() !== "true");
+        })
         .filter(Boolean)
 
         return nest()
