@@ -86,6 +86,15 @@ module.exports = function(app) {
         return acc;
       },[]);
 
+      if(
+        !stateElection.length && (
+          id === "05000US11001"
+          || id.startsWith("79500US11001")
+          )
+        ) {
+        stateElection.push("04000US11");
+      }
+
       retObj.stateId = state && ["Congressional District"].includes(hierarchy) ? state.id : id;
       retObj.stateDataID = state && !["Nation", "State"].includes(hierarchy) ? state.id : id;
       retObj.hierarchyElectionSub = ["Nation", "County"].includes(hierarchy) ? hierarchy : "State";
