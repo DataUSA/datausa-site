@@ -39,7 +39,7 @@ const isPrismVerified = (req, res, next) => {
   const token = req.cookies && req.cookies[COOKIE_NAME];
   if (!token) return res.status(401).json({ gated: true });
   try {
-    jwt.verify(token, SECRET);
+    req.prismUser = jwt.verify(token, SECRET);
     return next();
   }
   catch {
@@ -81,8 +81,8 @@ module.exports = function(app) {
     });
   }
 
-  app.get("/api/prism/status", isPrismVerified, (_req, res) => {
-    res.json({ verified: true });
+  app.get("/api/prism/status", isPrismVerified, (req, res) => {
+    res.json({ verified: true, user_id: req.prismUser.user_id });
   });
 
   app.post("/api/prism/register", async(req, res) => {
@@ -101,8 +101,9 @@ module.exports = function(app) {
       country, state, reason, otherReason, tellUsMore
     } = result.output;
 
+    let submission;
     try {
-      await app.settings.db.prism_submission.create({
+      submission = await app.settings.db.prism_submission.create({
         firstName, lastName, email, jobTitle, company,
         country, state, reason, otherReason, tellUsMore
       });
@@ -112,9 +113,9 @@ module.exports = function(app) {
       return res.status(500).json({ ok: false, error: "registration failed" });
     }
 
-    const token = jwt.sign({ email }, SECRET, { expiresIn: JWT_TTL });
+    const token = jwt.sign({ email, user_id: submission.id }, SECRET, { expiresIn: JWT_TTL });
     res.cookie(COOKIE_NAME, token, cookieOpts);
-    return res.json({ ok: true });
+    return res.json({ ok: true, user_id: submission.id });
   });
 
 };

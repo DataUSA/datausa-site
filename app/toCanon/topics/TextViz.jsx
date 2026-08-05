@@ -54,7 +54,7 @@ class TextViz extends Component {
           { miniviz && <Viz topic={contents} config={miniviz} className="topic-miniviz" title={ title } slug={ `${slug}_miniviz` } /> }
         </div>
         { mainviz.map((visualization, ii) => <Viz topic={contents} config={visualization} key={ii} className="topic-visualization" title={ title } slug={ `${slug}_${ii}` } />) }
-        <SourceGroup sources={sources} />
+        <SourceGroup sources={sources} slug={slug} />
         {children}
       </div>;
     }
@@ -89,7 +89,7 @@ class TextViz extends Component {
           { loading && <NonIdealState icon={<Spinner />} /> }
         </div>
         { miniviz && <Viz topic={contents} config={miniviz} className="topic-miniviz" title={ title } slug={ `${slug}_miniviz` } /> }
-        <SourceGroup sources={sources} />
+        <SourceGroup sources={sources} slug={slug} />
       </div>
       { mainviz.map((visualization, ii) => <Viz topic={contents} config={visualization} key={ii} className="topic-visualization" title={ title } slug={ `${slug}_${ii}` } />) }
       {children}

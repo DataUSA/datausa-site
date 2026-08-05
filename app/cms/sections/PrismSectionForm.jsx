@@ -1,18 +1,15 @@
 //@ts-check
-import React,{useState} from "react";
+import React,{useState, useContext} from "react";
 import {PrismFormDialog} from "../../components/PrismForm";
 import {PrismSectionLayout} from "./PrismSection";
 import {PrismContext} from "../vizzes/PrismContext";
-import {useEffect} from "react";
+import {PrismUserContext} from "../../contexts/PrismUserContext";
 
 /** @param {object} props */
 export default function PrismSectionForm(props) {
   const [showForm, setShowForm] = useState(false);
-  const [isVerified, setVerified] = useState(false);
-
-  useEffect(() => {
-    window.fetch("/api/prism/status").then((res) => setVerified(res.ok));
-  }, []);
+  const {userId, refreshPrismUser} = useContext(PrismUserContext);
+  const isVerified = userId != null;
 
   const dialog = (
     <PrismFormDialog
@@ -25,7 +22,7 @@ export default function PrismSectionForm(props) {
       }).then(async (res) => {
         const body = await res.json();
         if (res.ok) {
-          setVerified(true);
+          refreshPrismUser();
           setShowForm(false);
         }
         return body;
@@ -34,7 +31,7 @@ export default function PrismSectionForm(props) {
   );
 
   return (
-    <PrismContext.Provider value={{openForm: () => setShowForm(true), unlocked: isVerified}}>
+    <PrismContext.Provider value={{openForm: () => setShowForm(true), unlocked: isVerified, userId}}>
       <PrismSectionLayout textVizProps={{...props, locked: !isVerified}} dialog={dialog} />
     </PrismContext.Provider>
   );

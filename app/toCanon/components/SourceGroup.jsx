@@ -1,11 +1,13 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {Tooltip} from "@blueprintjs/core";
+import {PrismUserContext} from "../../contexts/PrismUserContext";
+import {withPrismReferral} from "../../utils/prismReferral";
 import "./SourceGroup.css";
 
 class SourceGroup extends Component {
 
-  render() {
+  renderSources(userId) {
     const sources = (this.props.sources || []).filter(Boolean);
     const {pathname} = this.context.router.location;
     const embed = pathname.includes("profile") && pathname.split("/").filter(Boolean).length === 5;
@@ -26,22 +28,30 @@ class SourceGroup extends Component {
 
         const orgName = org && `${org.replace(/^(T|t)he\s/g, "")}`;
         const datasetName = dataset && `${dataset}`;
+        const orgUrl = orgLink && withPrismReferral(orgLink, {pathname, sectionSlug: this.props.slug, userId});
+        const datasetUrl = datasetLink && withPrismReferral(datasetLink, {pathname, sectionSlug: this.props.slug, userId});
 
         return <span key={i} className="source">
           { i && i === sources.length - 1 ? <span> and</span> : null }
           { org && <span>&nbsp;</span> }
           { org && <Tooltip content={orgDesc} className={orgDesc ? "active" : ""} disabled={!orgDesc}>
-            { orgLink ? <a href={orgLink} target="_blank" rel="noopener noreferrer" dangerouslySetInnerHTML={{__html: orgName}} /> : <span dangerouslySetInnerHTML={{__html: orgName}} /> }
+            { orgUrl ? <a href={orgUrl} target="_blank" rel="noopener noreferrer" dangerouslySetInnerHTML={{__html: orgName}} /> : <span dangerouslySetInnerHTML={{__html: orgName}} /> }
           </Tooltip> }
           { dataset && <span>&nbsp;</span> }
           { dataset && <Tooltip content={datasetDesc} className={datasetDesc ? "active" : ""} disabled={!datasetDesc}>
-            { datasetLink ? <a href={datasetLink} target="_blank" rel="noopener noreferrer" dangerouslySetInnerHTML={{__html: datasetName}} /> : <span dangerouslySetInnerHTML={{__html: datasetName}} /> }
+            { datasetUrl ? <a href={datasetUrl} target="_blank" rel="noopener noreferrer" dangerouslySetInnerHTML={{__html: datasetName}} /> : <span dangerouslySetInnerHTML={{__html: datasetName}} /> }
           </Tooltip> }
           { i < sources.length - 1 && <span>,</span> }
         </span>;
       })}
       <span>.</span>
     </div> : <div className="SourceGroup"></div>;
+  }
+
+  render() {
+    return <PrismUserContext.Consumer>
+      { ({userId}) => this.renderSources(userId) }
+    </PrismUserContext.Consumer>;
   }
 
 }
