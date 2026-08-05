@@ -3,7 +3,7 @@
 export $(cat .env.gcp | xargs)
 
 echo "Docker Login"
-cat ./serviceAccountKey.json | docker login -u _json_key --password-stdin https://${GCP_ARTIFACT_REGISTRY_LOCATION}-docker.pkg.dev
+cat ./serviceAccountKey.json | base64 -d -w 0 | docker login -u _json_key --password-stdin https://${GCP_ARTIFACT_REGISTRY_LOCATION}-docker.pkg.dev
 
 echo "Pulling the latest version and creating the containers if they don't exist"
 docker compose --env-file .env.gcp pull
