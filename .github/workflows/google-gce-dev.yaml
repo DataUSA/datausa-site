@@ -106,6 +106,13 @@ jobs:
           echo "Going to working directory"
           cd "/home/${{ env.GCP_VM_USER }}/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}"
 
+          # Create service account key file for Docker authentication
+          echo "Creating service account key file for Artifact Registry authentication"
+          cat << EOF > ./serviceAccountKey.json
+          ${{ secrets.GCP_SA_KEY }}
+          EOF
+          chmod 600 ./serviceAccountKey.json
+
           # Create .env.gcp file
           echo "Creating .env.gcp file"
           {
