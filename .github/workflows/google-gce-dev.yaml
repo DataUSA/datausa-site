@@ -92,7 +92,11 @@ jobs:
           echo "Creating remote path"
           ssh -p ${{ vars.SSH_PORT }} -i $SSH_DIR/id_rsa ${{ env.GCP_VM_USER }}@${{ env.GCP_VM_IP }} "mkdir -p $REMOTE_PATH"
           echo "Sending files"
-          scp -P ${{ vars.SSH_PORT }} -i $SSH_DIR/id_rsa compose.yaml deploy_to_vm.sh ${{ env.GCP_VM_USER }}@${{ env.GCP_VM_IP }}:"$REMOTE_PATH/"
+          scp -P ${{ vars.SSH_PORT }} -i $SSH_DIR/id_rsa compose.dev.yaml deploy_to_vm.sh ${{ env.GCP_VM_USER }}@${{ env.GCP_VM_IP }}:"$REMOTE_PATH/"
+
+          # Rename compose.dev.yaml to compose.yaml on the remote VM
+          echo "Renaming compose.dev.yaml to compose.yaml"
+          ssh -p ${{ vars.SSH_PORT }} -i $SSH_DIR/id_rsa ${{ env.GCP_VM_USER }}@${{ env.GCP_VM_IP }} "cd $REMOTE_PATH && mv compose.dev.yaml compose.yaml"
 
           echo "Deploy"
           # SSH into VM and execute deployment
