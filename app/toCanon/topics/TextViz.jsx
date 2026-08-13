@@ -51,9 +51,9 @@ class TextViz extends Component {
               { selector.options.map(({label, option}) => <option value={option} key={option}>{variables[label || option] !== undefined ? variables[label || option] : label || option}</option>) }
             </select>
           </div>) }
-          { miniviz && <Viz topic={contents} config={miniviz} className="topic-miniviz" title={ title } slug={ `${slug}_miniviz` } /> }
+          { miniviz && <Viz topic={contents} config={miniviz} className="topic-miniviz" title={ title } slug={ `${slug}_miniviz` } locked={locked} /> }
         </div>
-        { mainviz.map((visualization, ii) => <Viz topic={contents} config={visualization} key={ii} className="topic-visualization" title={ title } slug={ `${slug}_${ii}` } />) }
+        { mainviz.map((visualization, ii) => <Viz topic={contents} config={visualization} key={ii} className="topic-visualization" title={ title } slug={ `${slug}_${ii}` } locked={locked} />) }
         <SourceGroup sources={sources} slug={slug} />
         {children}
       </div>;
@@ -88,10 +88,10 @@ class TextViz extends Component {
           { descriptions.map((content, i) => <div key={i} className="topic-description" dangerouslySetInnerHTML={{__html: content.description}} />) }
           { loading && <NonIdealState icon={<Spinner />} /> }
         </div>
-        { miniviz && <Viz topic={contents} config={miniviz} className="topic-miniviz" title={ title } slug={ `${slug}_miniviz` } /> }
+        { miniviz && <Viz topic={contents} config={miniviz} className="topic-miniviz" title={ title } slug={ `${slug}_miniviz` } locked={locked} /> }
         <SourceGroup sources={sources} slug={slug} />
       </div>
-      { mainviz.map((visualization, ii) => <Viz topic={contents} config={visualization} key={ii} className="topic-visualization" title={ title } slug={ `${slug}_${ii}` } />) }
+      { mainviz.map((visualization, ii) => <Viz topic={contents} config={visualization} key={ii} className="topic-visualization" title={ title } slug={ `${slug}_${ii}` } locked={locked} />) }
       {children}
     </div>;
   }

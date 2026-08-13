@@ -110,7 +110,7 @@
     right: auto;
     top: auto;
     transition: opacity 0.25s;
-    width: 250px;
+    width: auto;
     z-index: 1;
     & .bp3-input {
       padding-left: 10px;
@@ -121,7 +121,11 @@
     }
   }
   & .profile-compare {
+    align-items: center;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    left: 0;
     margin-top: 5px;
     position: absolute;
     text-align: center;
@@ -131,10 +135,8 @@
       display: none;
     }
     & .compare-img {
-      margin-top: 4px;
       margin-right: 10px;
       width: 19px;
-      vertical-align: top;
     }
     & .compare-text {
       color: white;
@@ -144,6 +146,7 @@
       letter-spacing: 0.02em;
       text-shadow: 0 2px 12px black;
       text-transform: uppercase;
+      text-wrap: nowrap;
     }
   }
   & .profile-stats {
