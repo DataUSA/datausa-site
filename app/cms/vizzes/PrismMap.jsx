@@ -128,7 +128,7 @@ export default function PrismMap({config = {}, dataFormat}) {
           <div className="prism-map-blocker-overlay">
             <div className="prism-map-blocker-dialog">
               <h3>Unlock this data</h3>
-              <p>Enter your email to unblur results and get the full view.</p>
+              <p>Enter your contact information to unblur results and get the full view.</p>
               <ul>
                 <li>
                   <Icon icon="tick-circle" size={IconSize.STANDARD} />{" "}

@@ -21,6 +21,8 @@ module.exports = function(sequelize, db) {
     reason: { type: Sequelize.STRING, allowNull: true },
     otherReason: { type: Sequelize.STRING, allowNull: true },
     tellUsMore: { type: Sequelize.TEXT, allowNull: true },
+    consent: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
+    expiresAt: { type: Sequelize.DATE, allowNull: true },
     createdAt: {
       type: Sequelize.DATE,
       defaultValue: Sequelize.NOW

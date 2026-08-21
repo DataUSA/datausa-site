@@ -16,11 +16,12 @@ const RegisterSchema = v.object({
   email: v.pipe(v.string(), v.nonEmpty(), v.email()),
   jobTitle: v.optional(v.string()),
   company: v.pipe(v.string(), v.nonEmpty()),
-  country: v.optional(v.string()),
+  country: v.pipe(v.string(), v.nonEmpty()),
   state: v.optional(v.string()),
   reason: v.optional(v.string()),
   otherReason: v.optional(v.string()),
   tellUsMore: v.optional(v.string()),
+  consent: v.pipe(v.boolean(), v.literal(true, "consent is required")),
 });
 
 const COOKIE_NAME = "prism_token";
@@ -67,20 +68,6 @@ module.exports = function(app) {
     res.json(states);
   });
 
-  // TODO: remove this before sending to deployment
-  if (process.env.NODE_ENV !== "production") {
-    app.get("/api/prism/registrations", async(_req, res) => {
-      try {
-        const rows = await app.settings.db.prism_submission.findAll({ raw: true });
-        return res.json(rows);
-      }
-      catch (err) {
-        console.error("[prism] list error", err);
-        return res.status(500).json({ error: "failed to fetch registrations" });
-      }
-    });
-  }
-
   app.get("/api/prism/status", isPrismVerified, (req, res) => {
     res.json({ verified: true, user_id: req.prismUser.user_id });
   });
@@ -98,14 +85,17 @@ module.exports = function(app) {
 
     const {
       firstName, lastName, email, jobTitle, company,
-      country, state, reason, otherReason, tellUsMore
+      country, state, reason, otherReason, tellUsMore, consent
     } = result.output;
+
+    const expiresAt = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
 
     let submission;
     try {
       submission = await app.settings.db.prism_submission.create({
         firstName, lastName, email, jobTitle, company,
-        country, state, reason, otherReason, tellUsMore
+        country, state, reason, otherReason, tellUsMore,
+        consent, expiresAt
       });
     }
     catch (err) {
