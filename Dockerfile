@@ -11,6 +11,7 @@ WORKDIR /app
 # install app dependencies from the files package.json and package-lock.json
 # installing before transfering the app files allows us to take advantage of cached Docker layers
 COPY package*.json ./
+COPY patches ./patches
 
 RUN npm ci
 

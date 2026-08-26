@@ -1,0 +1,13 @@
+diff --git a/node_modules/@datawheel/canon-core/src/CanonProvider.jsx b/node_modules/@datawheel/canon-core/src/CanonProvider.jsx
+index 286508c..4ddaa4d 100644
+--- a/node_modules/@datawheel/canon-core/src/CanonProvider.jsx
++++ b/node_modules/@datawheel/canon-core/src/CanonProvider.jsx
+@@ -233,7 +233,7 @@ class CanonProvider extends Component {
+       </Portal>
+       {gdpr ? <div id="cookies-eu-banner" style={{display: "none"}}>
+         <span id="cookies-eu-desc">{t("GDPR.desc", {services})}</span>
+-        {privacy ? <a href={privacy} id="cookies-eu-more">{t("GDPR.more")}</a> : null}
++        <a href="https://cookienotice.deloitte.com/" id="cookies-eu-more" target="_blank" rel="noopener noreferrer">{t("GDPR.more")}</a>
+         <button id="cookies-eu-reject" className="bp3-button">{t("GDPR.reject")}</button>
+         <button id="cookies-eu-accept" className="bp3-button">{t("GDPR.accept")}</button>
+       </div> : null}
