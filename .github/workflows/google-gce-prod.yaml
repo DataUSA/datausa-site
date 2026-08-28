@@ -30,6 +30,7 @@ env:
   CANON_DB_NAME: ${{ vars.CANON_DB_NAME }}
   CANON_DB_USER: ${{ vars.CANON_DB_USER }}
   CANON_GDPR: ${{ vars.CANON_GDPR }}
+  CANON_GDPR_WAIT: ${{ vars.CANON_GDPR_WAIT }}
   CANON_GEOSERVICE_API: ${{ vars.CANON_GEOSERVICE_API }}
   CANON_GOOGLE_ANALYTICS: ${{ vars.CANON_GOOGLE_ANALYTICS }}
   CANON_LANGUAGES: ${{ vars.CANON_LANGUAGES }}
@@ -143,6 +144,7 @@ jobs:
             echo "CANON_DB_NAME=${{ env.CANON_DB_NAME }}"
             echo "CANON_DB_USER=${{ env.CANON_DB_USER }}"
             echo "CANON_GDPR=${{ env.CANON_GDPR }}"
+            echo "CANON_GDPR_WAIT=${{ env.CANON_GDPR_WAIT }}"
             echo "CANON_GEOSERVICE_API=${{ env.CANON_GEOSERVICE_API }}"
             echo "CANON_GOOGLE_ANALYTICS=${{ env.CANON_GOOGLE_ANALYTICS }}"
             echo "CANON_LANGUAGES=${{ env.CANON_LANGUAGES }}"
