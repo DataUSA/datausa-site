@@ -376,6 +376,7 @@ export default {
       strokeWidth: 0
     }
   },
+  tileUrl: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png?key=cb1_2h0m_1_893ce8e35ef09eaf402c1fa2",
   totalConfig: {
     fontColor: () => "#211f1a",
     fontFamily: "Palanquin",

@@ -11,3 +11,16 @@ index 286508c..4ddaa4d 100644
          <button id="cookies-eu-reject" className="bp3-button">{t("GDPR.reject")}</button>
          <button id="cookies-eu-accept" className="bp3-button">{t("GDPR.accept")}</button>
        </div> : null}
+diff --git a/node_modules/@datawheel/canon-core/src/server.jsx b/node_modules/@datawheel/canon-core/src/server.jsx
+index 9561102..0601a88 100644
+--- a/node_modules/@datawheel/canon-core/src/server.jsx
++++ b/node_modules/@datawheel/canon-core/src/server.jsx
+@@ -26,7 +26,7 @@ const appDir = process.cwd();
+ const statsFile = path.join(appDir, process.env.CANON_STATIC_FOLDER || "static", "assets/loadable-stats.json");
+ const production = process.env.NODE_ENV === "production";
+ 
+-const GDPR = yn(process.env.CANON_GDPR) && servicesScript.length;
++const GDPR = yn(process.env.CANON_GDPR);
+ const BASE_URL = process.env.CANON_BASE_URL || "/";
+ const basename = BASE_URL.replace(/^[A-z]{4,5}\:\/{2}[A-z0-9\.\-]{1,}\:{0,}[0-9]{0,4}/g, "");
+ const baseTag = process.env.CANON_BASE_URL === undefined ? ""

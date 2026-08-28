@@ -159,7 +159,7 @@ export default function PrismMap({config = {}, dataFormat}) {
         }}
       >
         <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png?key=cb1_2h0m_1_893ce8e35ef09eaf402c1fa2"
           subdomains="abcd"
           maxZoom={19}
         />
