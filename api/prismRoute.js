@@ -69,6 +69,11 @@ module.exports = function(app) {
   });
 
   app.get("/api/prism/status", isPrismVerified, (req, res) => {
+    // This response is per-visitor (keyed off the prism_token cookie), but the
+    // ingress-level proxy_cache keys purely on host+URI and ignores Vary, so
+    // without an explicit no-store the first visitor's "verified" result gets
+    // cached for a year and served to every subsequent visitor, bypassing the form.
+    res.set("Cache-Control", "no-store, private");
     res.json({ verified: true, user_id: req.prismUser.user_id });
   });
 
