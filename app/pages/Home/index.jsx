@@ -229,7 +229,7 @@ class Home extends Component {
             />
           </div>
         </section>
-        <section className="prism-promo light">
+        <section id="prism" className="prism-promo light">
             <div className="home-flex">
               <div className="prism-container">
               <p>
