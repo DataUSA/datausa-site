@@ -14,6 +14,7 @@ import "./d3plus.css";
 import libs from "../utils/libs";
 import Nav from "components/Nav/index";
 import Footer from "components/Footer/index";
+import {PrismUserContext} from "./contexts/PrismUserContext";
 
 import albersUsaPr from "helpers/albersUsaPr";
 if (typeof window !== "undefined") window.albersUsaPr = albersUsaPr;
@@ -38,13 +39,17 @@ class App extends Component {
         const fName = d.name.replace(/^\w/g, chr => chr.toLowerCase());
         acc[fName] = n => f(n, libs, acc);
         return acc;
-      }, {})
+      }, {}),
+      prismUserId: null
     };
+
+    this.refreshPrismUser = this.refreshPrismUser.bind(this);
 
   }
 
   componentDidMount() {
     this.props.fetchCart();
+    this.refreshPrismUser();
     // localforage.getItem(bannerKey)
     //   .then(b => {
     //     const banner = bannerPersist ? false : b;
@@ -53,6 +58,13 @@ class App extends Component {
     //     if (`${basename}${pathname}` === bannerLink) localforage.setItem(bannerKey, true);
     //     else if (!banner && !embed) this.setState({banner: true});
     //   })
+  }
+
+  refreshPrismUser() {
+    window.fetch("/api/prism/status")
+      .then(res => res.ok ? res.json() : null)
+      .then(data => this.setState({prismUserId: data ? data.user_id : null}))
+      .catch(() => this.setState({prismUserId: null}));
   }
 
   getChildContext() {
@@ -75,7 +87,7 @@ class App extends Component {
   render() {
 
     const {location, origin} = this.props;
-    const {banner} = this.state;
+    const {banner, prismUserId} = this.state;
     const {pathname} = location;
 
     const fullscreen = pathname.indexOf("cart") === 0 ||
@@ -89,18 +101,20 @@ class App extends Component {
     const showBanner = banner && pathname.indexOf("cms") < 0;
 
     return (
-      <div id="App" className={`${bare ? "bare" : ""} ${showBanner ? "visible-banner" : ""}`}>
-        <Helmet>
-          <meta property="og:image" content={ `${origin}/themes/canyon/share.jpg` } />
-        </Helmet>
-        { bare ? null : <Nav location={location} /> }
-        <Fragment>{ this.props.children }</Fragment>
-        { fullscreen || bare ? null : <Footer location={location} /> }
-        <div className={showBanner ? "visible" : ""} onClick={this.clickBanner.bind(this)} id="Banner">
-          <span className="banner-text">{ bannerText }</span>
-          <Button className="close bp3-minimal" icon="cross" onClick={this.toggleBanner.bind(this)} />
+      <PrismUserContext.Provider value={{userId: prismUserId, refreshPrismUser: this.refreshPrismUser}}>
+        <div id="App" className={`${bare ? "bare" : ""} ${showBanner ? "visible-banner" : ""}`}>
+          <Helmet>
+            <meta property="og:image" content={ `${origin}/themes/canyon/share.jpg` } />
+          </Helmet>
+          { bare ? null : <Nav location={location} /> }
+          <Fragment>{ this.props.children }</Fragment>
+          { fullscreen || bare ? null : <Footer location={location} /> }
+          <div className={showBanner ? "visible" : ""} onClick={this.clickBanner.bind(this)} id="Banner">
+            <span className="banner-text">{ bannerText }</span>
+            <Button className="close bp3-minimal" icon="cross" onClick={this.toggleBanner.bind(this)} />
+          </div>
         </div>
-      </div>
+      </PrismUserContext.Provider>
     );
 
   }

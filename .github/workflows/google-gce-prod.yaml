@@ -29,6 +29,8 @@ env:
   CANON_CONST_TESSERACT: ${{ vars.CANON_CONST_TESSERACT }}
   CANON_DB_NAME: ${{ vars.CANON_DB_NAME }}
   CANON_DB_USER: ${{ vars.CANON_DB_USER }}
+  CANON_GDPR: ${{ vars.CANON_GDPR }}
+  CANON_GDPR_WAIT: ${{ vars.CANON_GDPR_WAIT }}
   CANON_GEOSERVICE_API: ${{ vars.CANON_GEOSERVICE_API }}
   CANON_GOOGLE_ANALYTICS: ${{ vars.CANON_GOOGLE_ANALYTICS }}
   CANON_LANGUAGES: ${{ vars.CANON_LANGUAGES }}
@@ -91,13 +93,26 @@ jobs:
           echo "Creating remote path"
           ssh -i $SSH_DIR/id_rsa ${{ env.GCP_VM_USER }}@${{ env.GCP_VM_IP }} "mkdir -p $REMOTE_PATH"
           echo "Sending files"
-          scp -i $SSH_DIR/id_rsa compose.yaml deploy_to_vm.sh ${{ env.GCP_VM_USER }}@${{ env.GCP_VM_IP }}:$REMOTE_PATH
+          scp -P ${{ vars.SSH_PORT }} -i $SSH_DIR/id_rsa compose.prod.yaml deploy_to_vm.sh ${{ env.GCP_VM_USER }}@${{ env.GCP_VM_IP }}:"$REMOTE_PATH/"
 
-          ssh -i $SSH_DIR/id_rsa ${{ env.GCP_VM_USER }}@${{ env.GCP_VM_IP }} 'bash -s' << 'ENDSSH'
+          # Rename compose.prod.yaml to compose.yaml on the remote VM
+          echo "Renaming compose.prod.yaml to compose.yaml"
+          ssh -p ${{ vars.SSH_PORT }} -i $SSH_DIR/id_rsa ${{ env.GCP_VM_USER }}@${{ env.GCP_VM_IP }} "cd $REMOTE_PATH && mv compose.prod.yaml compose.yaml"
+
+          echo "Deploy"
+          # SSH into VM and execute deployment
+          ssh -p ${{ vars.SSH_PORT }} -i $SSH_DIR/id_rsa ${{ env.GCP_VM_USER }}@${{ env.GCP_VM_IP }} 'bash -s' << 'ENDSSH'
 
           # Go to working directory
           echo "Going to working directory"
-          cd "/home/${{ env.GCP_VM_USER }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}"
+          cd "/home/${{ env.GCP_VM_USER }}/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_ARTIFACT_REGISTRY_NAME }}"
+
+          # Create service account key file for Docker authentication
+          echo "Creating service account key file for Artifact Registry authentication"
+          cat << EOF > ./serviceAccountKey.json
+          ${{ secrets.GCP_SA_KEY }}
+          EOF
+          chmod 600 ./serviceAccountKey.json
 
           # Create .env.gcp file
           echo "Creating .env.gcp file"
@@ -128,6 +143,8 @@ jobs:
             echo "CANON_CONST_TESSERACT=${{ env.CANON_CONST_TESSERACT }}"
             echo "CANON_DB_NAME=${{ env.CANON_DB_NAME }}"
             echo "CANON_DB_USER=${{ env.CANON_DB_USER }}"
+            echo "CANON_GDPR=${{ env.CANON_GDPR }}"
+            echo "CANON_GDPR_WAIT=${{ env.CANON_GDPR_WAIT }}"
             echo "CANON_GEOSERVICE_API=${{ env.CANON_GEOSERVICE_API }}"
             echo "CANON_GOOGLE_ANALYTICS=${{ env.CANON_GOOGLE_ANALYTICS }}"
             echo "CANON_LANGUAGES=${{ env.CANON_LANGUAGES }}"

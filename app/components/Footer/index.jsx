@@ -20,17 +20,10 @@ export default class Footer extends Component {
           </div>
         </div>
         <div className="footer-contact">
-            <form action="//datawheel.us12.list-manage.com/subscribe/post?u=458059cf58ada1fd2b7de3e39&amp;id=9a3f9a9f32" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" className="validate" target="_blank" noValidate="">
-              <div id="mc_embed_signup_scroll">
-                <div className="input-container">
-                  <input type="email" defaultValue="" name="EMAIL" className="email" id="mce-EMAIL" placeholder="RECEIVE UPDATES ON NEWS, DATASETS, AND FEATURES?" required="" />
-                  <input type="submit" defaultValue="Sign Up" name="subscribe" id="mc-embedded-subscribe" className="email-btn" />
-                </div>
-                <div style={{position: "absolute", left: "-5000px"}} aria-hidden="true">
-                  <input type="text" name="b_458059cf58ada1fd2b7de3e39_9a3f9a9f32" tabIndex="-1" defaultValue="" />
-                </div>
-              </div>
-            </form>
+            <p className="contact-label">Have Questions or Feedback?</p>
+            <p className="contact-email">
+              Contact us at <a href="mailto:hello@datausa.io?subject=Data%20USA%20Feedback">hello@datausa.io</a>
+            </p>
           </div>
       </div>
       <div className="footer-logos">

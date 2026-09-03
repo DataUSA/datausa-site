@@ -20,7 +20,7 @@ class About extends Component {
         <SubNav>
           <NavLink to="/about/background">Background</NavLink>
           <NavLink to="/about/press">In the Press</NavLink>
-          <NavLink to="/about/team">Team</NavLink>
+          {/* <NavLink to="/about/team">Team</NavLink> */}
           <NavLink to="/about/glossary">Glossary</NavLink>
           <NavLink to="/about/usage">Terms of Use</NavLink>
         </SubNav>

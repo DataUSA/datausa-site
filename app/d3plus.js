@@ -274,8 +274,10 @@ export default {
       return findTooltipTitle(d, this)
     }
   },
-  loadingHTML: `<div style="left: 50%; top: 50%; position: absolute; transform: translate(-50%, -50%); font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 400;">
+  loadingHTML: `<div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(229, 232, 242, 0.8); font-family: 'Palanquin', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 400; color: #114B8A;">
+    <div style="width: 32px; height: 32px; border: 3px solid #dae0e4; border-top-color: #ef6145; border-radius: 50%; animation: d3plus-loading-spin 0.8s linear infinite; margin-bottom: 12px;"></div>
     Loading Visualization
+    <style>@keyframes d3plus-loading-spin { to { transform: rotate(360deg); } }</style>
   </div>`,
   messageMask: true,
   messageStyle: {
@@ -374,6 +376,7 @@ export default {
       strokeWidth: 0
     }
   },
+  tileUrl: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png?key=cb1_2h0m_1_893ce8e35ef09eaf402c1fa2",
   totalConfig: {
     fontColor: () => "#211f1a",
     fontFamily: "Palanquin",

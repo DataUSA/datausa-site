@@ -60,6 +60,16 @@
         background-image: url("/images/viz/share-red.svg");
       }
     }
+    &[data-locked] {
+      cursor: not-allowed;
+      opacity: 0.5;
+      &:hover {
+        color: #949494;
+      }
+      &:hover:before {
+        background-image: inherit;
+      }
+    }
     @media (max-width: 500px) {
       & .option-label {
         display: none;

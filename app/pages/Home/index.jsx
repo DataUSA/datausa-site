@@ -30,6 +30,11 @@ const PRISM_TOPICS = [
       {
         label: "Texas Health Coverage",
         href: "/profile/geo/texas#coverage"
+      },
+      {
+        label: "and many more",
+        href: "/search/?dimension=Geography&hierarchy=State",
+        more: true
       }
     ]
   },
@@ -224,7 +229,7 @@ class Home extends Component {
             />
           </div>
         </section>
-        <section className="prism-promo light">
+        <section id="prism" className="prism-promo light">
             <div className="home-flex">
               <div className="prism-container">
               <p>
@@ -239,7 +244,7 @@ class Home extends Component {
                           topic.links && topic.links.length > 0
                         ? (
                           <div className="prism-topic-links">
-                            {topic.links.map(link => <a className="prism-topic-link" href={link.href}>{link.label}</a>)}
+                            {topic.links.map(link => <Link className={`arrow-link prism-topic-link ${link.more ? "prism-topic-link-more" : ""}`} to={link.href}>{link.label}</Link>)}
                           </div>
                         ) : <div className="prism-coming-soon">
                           <p className="prism-coming-soon-text">Coming Soon!</p>

@@ -25,7 +25,7 @@ class Viz extends Component {
   render() {
 
     const {formatters, router, variables} = this.context;
-    const {config, configOverride, className, options, slug, topic} = this.props;
+    const {config, configOverride, className, locked, options, slug, topic} = this.props;
 
     // clone config object to allow manipulation
     const vizProps = propify(config.logic, formatters, this.props.variables || variables, config.id);
@@ -62,6 +62,20 @@ class Viz extends Component {
 
     // strip out the "type" from config
     const {type} = vizProps.config;
+
+    if(
+    type === "LinePlot" ||
+    typeof vizProps.config.shape === 'function'
+  ) {
+    vizProps.config = {
+      ...vizProps.config,
+      shapeConfig: {
+        ...(vizProps.config.shapeConfig || {}),
+        duration: 0,
+      }
+    }
+  }
+
     delete vizProps.config.type;
     if (!type) return null;
     const Visualization = d3plus[type] || CustomVizzes[type];
@@ -75,6 +89,7 @@ class Viz extends Component {
         config={ vizProps.config }
         data={ vizProps.config.cart || vizProps.config.data }
         dataFormat={ vizProps.config.cart ? d => d.data : vizProps.dataFormat }
+        locked={ locked }
         slug={ slug }
         title={ formatters.stripHTML(title || "Data USA Visualization") }
         topic={ topic }
@@ -101,6 +116,7 @@ Viz.defaultProps = {
   className: "",
   config: {},
   configOverride: {},
+  locked: false,
   options: true,
   title: undefined
 };

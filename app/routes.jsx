@@ -17,7 +17,7 @@ import Cart from "./pages/Cart";
 import About from "./pages/About/index";
 import Background from "./pages/About/Background";
 import Press from "./pages/About/Press";
-import Team from "./pages/About/Team";
+// import Team from "./pages/About/Team";
 import Glossary from "./pages/About/Glossary";
 import Usage from "./pages/About/Usage";
 
@@ -80,7 +80,7 @@ export default function RouteCreate() {
       <Route path="/about(/background|press|team|glossary|usage)" component={About}>
         <Route path="/about/background" component={Background} />
         <Route path="/about/press" component={Press} />
-        <Route path="/about/team" component={Team} />
+        {/* <Route path="/about/team" component={Team} /> */}
         <Route path="/about/glossary" component={Glossary} />
         <Route path="/about/usage" component={Usage} />
       </Route>

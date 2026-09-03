@@ -36,6 +36,7 @@ module.exports = async function(app) {
     }, {});
 
   const results = rows
+    .filter(d => !d.content.some(c => c.attr && c.attr.show === false))
     .map((d, i) => {
 
       const content = d.content[0];

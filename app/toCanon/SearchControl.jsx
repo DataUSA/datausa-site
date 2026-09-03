@@ -101,7 +101,7 @@ export function SearchControl({
         event.type === "keydown" &&
         enableGlobalShortcut &&
         !isDropdownOpen &&
-        event.key.toLowerCase() === "s"
+        event.key?.toLowerCase() === "s"
       ) {
         const isTyping =
           ["input", "textarea"].includes(event.target.tagName.toLowerCase()) ||

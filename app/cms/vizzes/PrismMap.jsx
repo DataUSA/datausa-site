@@ -128,7 +128,7 @@ export default function PrismMap({config = {}, dataFormat}) {
           <div className="prism-map-blocker-overlay">
             <div className="prism-map-blocker-dialog">
               <h3>Unlock this data</h3>
-              <p>Enter your email to unblur results and get the full view.</p>
+              <p>Enter your contact information to unblur results and get the full view.</p>
               <ul>
                 <li>
                   <Icon icon="tick-circle" size={IconSize.STANDARD} />{" "}
@@ -159,7 +159,7 @@ export default function PrismMap({config = {}, dataFormat}) {
         }}
       >
         <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png?key=cb1_2h0m_1_893ce8e35ef09eaf402c1fa2"
           subdomains="abcd"
           maxZoom={19}
         />

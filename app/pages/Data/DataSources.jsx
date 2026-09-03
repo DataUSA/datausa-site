@@ -31,13 +31,13 @@ class DataSources extends Component {
           const {datasets, desc, title} = dataset;
 
           const slug = title
-            .replace(/\.|\&|\(|\)|\*/g, "")
+            .replace(/\.|\&|\(|\)|\*|\'/g, "")
             .replace(/\s/g, "-")
             .toLowerCase()
             .replace(/^the\-/g, "")
             .replace(/^us\-/g, "")
             .replace(/\-\-/g, "-");
-
+          console.log(slug, title);
           const use = usage[slug] || [];
           const caveat = caveats[slug] || [];
 

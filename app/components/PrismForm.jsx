@@ -1,6 +1,7 @@
 //@ts-check
 import {
   Button,
+  Checkbox,
   Classes,
   Dialog,
   FormGroup,
@@ -17,6 +18,8 @@ const formGridStyles = {
   gap: "15px",
   marginBottom: "15px",
 };
+
+const PRISM_PRIVACY_NOTICE_URL = "https://www.deloitte.com/us/en/legal/privacy.html";
 
 /**
  * @param {object} props
@@ -42,6 +45,7 @@ export function PrismFormDialog(props) {
     reason: "",
     otherReason: "",
     tellUsMore: "",
+    consent: false,
   });
 
   const [submitting, setSubmitting] = useState(false);
@@ -66,7 +70,9 @@ export function PrismFormDialog(props) {
     formData.firstName.trim() &&
     formData.lastName.trim() &&
     formData.email.trim() &&
-    formData.company.trim();
+    formData.company.trim() &&
+    formData.country.trim() &&
+    formData.consent;
 
   /**
    * @param {string} field
@@ -81,6 +87,13 @@ export function PrismFormDialog(props) {
       setFormData({ ...formData, [field]: e.target.value });
     }
     if (fieldErrors[field]) setFieldErrors({ ...fieldErrors, [field]: "" });
+  };
+
+  /**
+   * @param {React.ChangeEvent<HTMLInputElement>} e
+   */
+  const handleConsentChange = (e) => {
+    setFormData({ ...formData, consent: e.target.checked });
   };
 
   /**
@@ -179,7 +192,7 @@ export function PrismFormDialog(props) {
           </FormGroup>
 
           <div style={formGridStyles}>
-            <FormGroup label="Country" intent={fieldErrors.country ? Intent.DANGER : Intent.NONE} helperText={fieldErrors.country}>
+            <FormGroup label="Country" labelInfo="*" intent={fieldErrors.country ? Intent.DANGER : Intent.NONE} helperText={fieldErrors.country}>
               <HTMLSelect
                 fill
                 value={countryCode}
@@ -248,10 +261,23 @@ export function PrismFormDialog(props) {
               intent={fieldErrors.tellUsMore ? Intent.DANGER : Intent.NONE}
             />
           </FormGroup>
-          <p style={{fontSize: 12, fontStyle: "italic", color: "rgba(0, 0, 0, 0.65)"}}>By submitting this form, you agree Deloitte may use your responses internally to understand user interest,
-improve Data USA and Pris products (including PeoplePrism/HealthPrism), and contact you using the information you
-provide because your submission indicates interest in related content. We do not sell your responses. You can
-opt out of future outreach at any time.</p>
+          <Checkbox
+            checked={formData.consent}
+            onChange={handleConsentChange}
+            style={{fontSize: 12, color: "rgba(0, 0, 0, 0.65)"}}
+            labelElement={
+              <span>
+                By submitting this form, I agree Deloitte may use and share my personal information and responses
+                with Datawheel to understand user interest and behavior, improve Data USA and Deloitte's products
+                (including, for example, PeoplePrism/HealthPrism), and contact you using the information you
+                provide, in accordance with{" "}
+                <a href={PRISM_PRIVACY_NOTICE_URL} target="_blank" rel="noopener noreferrer">
+                  Deloitte's Privacy Notice
+                </a>
+                . You can opt out of future outreach at any time.
+              </span>
+            }
+          />
         </form>
       </div>
 

@@ -77,6 +77,12 @@
   },
   "Contributor": "Contributor",
   "Divide data by": "Divide data by",
+  "GDPR": {
+    "accept": "Accept",
+    "desc": "DataUSA uses cookies to analyze site traffic and improve your browsing experience. By continuing to use this site, you consent to our use of cookies.",
+    "more": "Cookie Policy",
+    "reject": "Decline"
+  },
   "Login": {
     "E-mail": "E-mail",
     "Facebook": "Facebook",

@@ -16,6 +16,7 @@
     "start": "node index.js",
     "test": "eslint --color api/*.js api/**/*.js app/*.js app/**/*.js db/*.js db/**/*.js",
     "locales": "canon-locales",
+    "postinstall": "patch-package",
     "release": "canon-release",
     "topomerge": "node scripts/topomerge.js",
     "wikiCandidates": "node scripts/wikiCandidates.js",
@@ -68,6 +69,7 @@
     "valibot": "^1.4.1"
   },
   "devDependencies": {
+    "patch-package": "^8.0.1",
     "shapefile": "^0.6.6",
     "topojson": "^3.0.2"
   }
