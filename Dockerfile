@@ -22,6 +22,8 @@ RUN npm ci
 COPY ./ ./
 
 # build the app
+ARG CANON_CONST_GA4_MEASUREMENT_ID
+ENV CANON_CONST_GA4_MEASUREMENT_ID=${CANON_CONST_GA4_MEASUREMENT_ID}
 RUN npm run build
 
 # expose the required port

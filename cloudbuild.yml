@@ -8,6 +8,7 @@ steps:
   - name: "gcr.io/cloud-builders/docker"
     args: [
       "build",
+      "--build-arg", "CANON_CONST_GA4_MEASUREMENT_ID=${_CANON_CONST_GA4_MEASUREMENT_ID}",
       "-t", "${_GCP_ARTIFACT_REGISTRY_LOCATION}-docker.pkg.dev/${_GCP_PROJECT_ID}/${_GCP_ARTIFACT_REGISTRY_NAME}/${_GCP_IMAGE_NAME}:${_GCP_IMAGE_TAG}",
       "-t", "${_GCP_ARTIFACT_REGISTRY_LOCATION}-docker.pkg.dev/${_GCP_PROJECT_ID}/${_GCP_ARTIFACT_REGISTRY_NAME}/${_GCP_IMAGE_NAME}:${_GCP_IMAGE_ENVIRONMENT}",
       "--cache-from", "${_GCP_ARTIFACT_REGISTRY_LOCATION}-docker.pkg.dev/${_GCP_PROJECT_ID}/${_GCP_ARTIFACT_REGISTRY_NAME}/${_GCP_IMAGE_NAME}:${_GCP_IMAGE_ENVIRONMENT}",
