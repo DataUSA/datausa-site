@@ -1,3 +1,4 @@
+/* global __GA4_MEASUREMENT_ID__ */
 import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
@@ -24,6 +25,7 @@ const bannerKey = "datausa-banner-v2";
 const bannerLink = "/coronavirus";
 const bannerText = "COVID-19 in Numbers";
 const bannerPersist = true;
+const GA4_MEASUREMENT_ID = typeof __GA4_MEASUREMENT_ID__ !== "undefined" ? __GA4_MEASUREMENT_ID__ : "";
 
 class App extends Component {
 
@@ -50,6 +52,49 @@ class App extends Component {
   componentDidMount() {
     this.props.fetchCart();
     this.refreshPrismUser();
+
+    if (GA4_MEASUREMENT_ID && !window.gtag) {
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function() {
+        window.dataLayer.push(arguments);
+      };
+      const consentCookie = /(?:^|; )hasConsent=([^;]*)/.exec(document.cookie);
+      const consentGranted = consentCookie && decodeURIComponent(consentCookie[1]) === "true";
+      window.gtag("consent", "default", {
+        ad_storage: consentGranted ? "granted" : "denied",
+        ad_user_data: consentGranted ? "granted" : "denied",
+        ad_personalization: consentGranted ? "granted" : "denied",
+        analytics_storage: consentGranted ? "granted" : "denied",
+        wait_for_update: 500
+      });
+
+      const gaScript = document.createElement("script");
+      gaScript.async = true;
+      gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}`;
+      document.body.appendChild(gaScript);
+
+      window.gtag("js", new Date());
+      window.gtag("config", GA4_MEASUREMENT_ID, {send_page_view: false});
+      window.gtag("event", "page_view", {
+        page_location: window.location.href,
+        page_path: this.props.location.pathname
+      });
+    }
+
+    const gaAccept = document.getElementById("cookies-eu-accept");
+    const gaReject = document.getElementById("cookies-eu-reject");
+    if (gaAccept) gaAccept.addEventListener("click", () => window.gtag && window.gtag("consent", "update", {
+      ad_storage: "granted",
+      ad_user_data: "granted",
+      ad_personalization: "granted",
+      analytics_storage: "granted"
+    }));
+    if (gaReject) gaReject.addEventListener("click", () => window.gtag && window.gtag("consent", "update", {
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied",
+      analytics_storage: "denied"
+    }));
     // localforage.getItem(bannerKey)
     //   .then(b => {
     //     const banner = bannerPersist ? false : b;
@@ -58,6 +103,15 @@ class App extends Component {
     //     if (`${basename}${pathname}` === bannerLink) localforage.setItem(bannerKey, true);
     //     else if (!banner && !embed) this.setState({banner: true});
     //   })
+  }
+
+  componentDidUpdate(prevProps) {
+    if (GA4_MEASUREMENT_ID && window.gtag && prevProps.location.pathname !== this.props.location.pathname) {
+      window.gtag("event", "page_view", {
+        page_location: window.location.href,
+        page_path: this.props.location.pathname
+      });
+    }
   }
 
   refreshPrismUser() {

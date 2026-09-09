@@ -26,13 +26,13 @@ env:
   CANON_CMS_REQUESTS_PER_SECOND: ${{ vars.CANON_CMS_REQUESTS_PER_SECOND }}
   CANON_CONST_CART: ${{ vars.CANON_CONST_CART }}
   CANON_CONST_CUBE: ${{ vars.CANON_CONST_CUBE }}
+  CANON_CONST_GA4_MEASUREMENT_ID: ${{ vars.CANON_CONST_GA4_MEASUREMENT_ID }}
   CANON_CONST_TESSERACT: ${{ vars.CANON_CONST_TESSERACT }}
   CANON_DB_NAME: ${{ vars.CANON_DB_NAME }}
   CANON_DB_USER: ${{ vars.CANON_DB_USER }}
   CANON_GDPR: ${{ vars.CANON_GDPR }}
   CANON_GDPR_WAIT: ${{ vars.CANON_GDPR_WAIT }}
   CANON_GEOSERVICE_API: ${{ vars.CANON_GEOSERVICE_API }}
-  CANON_GOOGLE_ANALYTICS: ${{ vars.CANON_GOOGLE_ANALYTICS }}
   CANON_LANGUAGES: ${{ vars.CANON_LANGUAGES }}
   CANON_LANGUAGE_DEFAULT: ${{ vars.CANON_LANGUAGE_DEFAULT }}
   CANON_LOGICLAYER_CUBE: ${{ vars.CANON_LOGICLAYER_CUBE }}
@@ -126,7 +126,6 @@ jobs:
             echo "GCP_VM_USER=${{ env.GCP_VM_USER }}"
             echo "CANON_DB_HOST=${{ secrets.CANON_DB_HOST}}"
             echo "CANON_DB_PW=${{ secrets.CANON_DB_PW}}"
-            echo "CANON_HOTJAR=${{ secrets.CANON_HOTJAR}}"
             echo "PRISM_DB_NAME=${{ secrets.PRISM_DB_NAME}}"
             echo "PRISM_JWT_SECRET=${{ secrets.PRISM_JWT_SECRET}}"
             echo "PRISM_COOKIE_DAYS=${{ env.PRISM_COOKIE_DAYS}}"
@@ -147,7 +146,7 @@ jobs:
             echo "CANON_GDPR=${{ env.CANON_GDPR }}"
             echo "CANON_GDPR_WAIT=${{ env.CANON_GDPR_WAIT }}"
             echo "CANON_GEOSERVICE_API=${{ env.CANON_GEOSERVICE_API }}"
-            echo "CANON_GOOGLE_ANALYTICS=${{ env.CANON_GOOGLE_ANALYTICS }}"
+            echo "CANON_CONST_GA4_MEASUREMENT_ID=${{ env.CANON_CONST_GA4_MEASUREMENT_ID }}"
             echo "CANON_LANGUAGES=${{ env.CANON_LANGUAGES }}"
             echo "CANON_LANGUAGE_DEFAULT=${{ env.CANON_LANGUAGE_DEFAULT }}"
             echo "CANON_LOGICLAYER_CUBE=${{ env.CANON_LOGICLAYER_CUBE }}"
