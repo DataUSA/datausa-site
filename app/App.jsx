@@ -1,4 +1,3 @@
-/* global __GA4_MEASUREMENT_ID__ */
 import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
@@ -25,7 +24,7 @@ const bannerKey = "datausa-banner-v2";
 const bannerLink = "/coronavirus";
 const bannerText = "COVID-19 in Numbers";
 const bannerPersist = true;
-const GA4_MEASUREMENT_ID = typeof __GA4_MEASUREMENT_ID__ !== "undefined" ? __GA4_MEASUREMENT_ID__ : "";
+const GA4_MEASUREMENT_ID = "G-9X03EHGTVS";
 
 class App extends Component {
 
