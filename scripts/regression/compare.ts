@@ -79,11 +79,13 @@ async function capture(base: string, site: string, path: string, viewport: typeo
   // per-section screenshots taken with each section scrolled into view are the reliable visual diff.
   const sectionDir = join(OUT, safe);
   mkdirSync(sectionDir, {recursive: true});
-  const sections = page.locator("section[id], .cp-section[id]");
+  // Rewrite: <section id="<grouping slug>">; legacy: <section class="cp-section Section <grouping slug>">.
+  const sections = page.locator("section[id], .cp-section");
   const count = await sections.count();
   for (let i = 0; i < count; i++) {
     const section = sections.nth(i);
-    const id = (await section.getAttribute("id")) || `section-${i}`;
+    const classes = ((await section.getAttribute("class")) || "").split(/\s+/).filter(c => c && !["cp-section", "Section"].includes(c));
+    const id = (await section.getAttribute("id")) || classes[0] || `section-${i}`;
     try {
       await section.scrollIntoViewIfNeeded({timeout: 5000});
       await page.waitForTimeout(1200);

@@ -11,7 +11,7 @@ const viz: VizDefinition = (variables, {libs, formatters}) => {
   const oldPop: string = "Hispanic Population";
   const newPop: string = "Population";
 
-  const cleanRace = (d: any) => d
+  const cleanRace = (d: any) => String(Array.isArray(d) ? d[0] : d)
     .replace(" Alone", "")
     .replace("Some Other Race", "Other")
     .replace("Two or More Races", "Multiracial");

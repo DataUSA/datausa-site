@@ -46,8 +46,11 @@ export const patches: Record<string, RecordPatch> = {
     replace: [["data: [dataURL, ...dataNation, ...dataSimilarURLs]", "data: [dataURL, dataNation, ...dataSimilarURLs]"]]
   },
   "visualization:365": {
-    note: "`legedTooltip` is a typo of `legendTooltip`, so the legend tooltip configuration never applied (d3plus warns about the unknown key).",
-    replace: [["legedTooltip:", "legendTooltip:"]]
+    note: "`legedTooltip` is a typo of `legendTooltip`, so the legend tooltip configuration never applied (d3plus warns about the unknown key). The legend label helper also assumed a string; d3plus 4 hands merged legend groups an array of races, which threw and left the chart blank, so it labels such groups by their first race.",
+    replace: [
+      ["legedTooltip:", "legendTooltip:"],
+      ["const cleanRace = d => d\n  .replace(\" Alone\", \"\")", "const cleanRace = d => String(Array.isArray(d) ? d[0] : d)\n  .replace(\" Alone\", \"\")"]
+    ]
   },
   "visualization:100": {
     note: "The config set `time` twice (\"Year\", then \"ID Year\"); JavaScript keeps the last one, so the first is dropped.",

@@ -163,6 +163,11 @@ export const theme: AnyRecord = {
   tableView: false,
   search: false,
   minimap: false,
+  // Fills come from `shapeConfig.fill` (findColor) as on the legacy site. d3plus 4 keys legend
+  // entries on the `color` accessor when one exists (its default is the first groupBy level), which
+  // merged this site's per-category legends into their parent groups; `false` keys them on the
+  // resolved fill again.
+  color: false,
   // 4.6/4.7 defaults that the legacy (d3plus 2) design never had: legends stay in the margin, no
   // size legend, per-shape tooltips, and charts keep their DOM when scrolled out of view.
   legendInset: false,
