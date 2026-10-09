@@ -12,7 +12,7 @@ const viz: VizDefinition = (variables, {libs, formatters, swap}) => {
 
   const optionSelected = swap("[[sexAgeRacePoverty]]") //raceOption, raceGenderOption,ageSexOption
 
-  let dataURL: string = ""
+  let dataURL: any = ""
   if(optionSelected === "raceOption"){
     dataURL = `${tesseract}tesseract/data?cube=acs_ygpsar_poverty_by_gender_age_race_5&include=${hierarchy}:${id};Poverty+Status:0&drilldowns=Year,Race&measures=Poverty+Population,Poverty+Population+Moe`
   }

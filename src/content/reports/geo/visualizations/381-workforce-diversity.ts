@@ -17,7 +17,7 @@ const viz: VizDefinition = (variables, {libs, formatters, swap}) => {
   const valueMeasure = measure === "workforce" ? "Total Population" : "Average Wage"
   const measureURL = measure === "workforce" ? "Total+Population" : "Average+Wage"
 
-  let dataURL: string = `${tesseract}tesseract/data?cube=pums_5&drilldowns=Year,Gender,Age&measures=${measureURL}&include=${hierarchy}:${id}${race}&Workforce+Status=true`
+  let dataURL: any = `${tesseract}tesseract/data?cube=pums_5&drilldowns=Year,Gender,Age&measures=${measureURL}&include=${hierarchy}:${id}${race}&Workforce+Status=true`
 
   const ageBuckets = 5;
 

@@ -11,7 +11,7 @@ const viz: VizDefinition = (variables, {libs, formatters, swap}) => {
   const raceId = swap("[[pums5RacesPyramid]]").replace("pums5Race", "")
   const race = raceId*1 === 0 ? "" : `;Race:${raceId}`
 
-  let dataURL: string = `${tesseract}tesseract/data?cube=pums_5&drilldowns=Year,Gender,Age&measures=Total+Population&include=${hierarchy}:${id}${race}`
+  let dataURL: any = `${tesseract}tesseract/data?cube=pums_5&drilldowns=Year,Gender,Age&measures=Total+Population&include=${hierarchy}:${id}${race}`
 
   const ageBuckets = 5;
 

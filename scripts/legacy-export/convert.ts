@@ -187,8 +187,10 @@ export function loosenDeclarations(source: string): string {
     (_m, kw: string, name: string) => `${kw} ${name}: Record<string, any> = {`);
   code = replaceOutsideStrings(code, /\b(const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*\[/g,
     (_m, kw: string, name: string) => `${kw} ${name}: any = [`);
+  // string-literal initialisers: constants are strings; mutable bindings are later reassigned to
+  // other types in some CMS bodies (`let measure = ""; … measure = false`), so they stay `any`.
   code = replaceOutsideStrings(code, /\b(const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*(\u0001\d+\u0001)(?=\s*(?:;|\n|\/\/|$))/g,
-    (_m, kw: string, name: string, lit: string) => `${kw} ${name}: string = ${lit}`);
+    (_m, kw: string, name: string, lit: string) => `${kw} ${name}: ${kw === "const" ? "string" : "any"} = ${lit}`);
   // `const x = cond ? value : false` sentinels take part in arithmetic later; type them `any`
   code = replaceOutsideStrings(code, /\b(const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*(?=[^;\n]*\?[^;\n]*:\s*(?:false|null|undefined)\s*(?:;|\n|$))/g,
     (_m, kw: string, name: string) => `${kw} ${name}: any = `);
@@ -319,6 +321,8 @@ export function declareImplicitGlobals(source: string): {code: string; declared:
 /** Small, behaviour-preserving rewrites of legacy idioms that TypeScript rejects. */
 export function fixLegacyIdioms(source: string): string {
   let code = replaceOutsideStrings(source, /\bparseFloat\(([^(),]+),\s*10\)/g, (_m, arg: string) => `parseFloat(${arg})`);
+  // `[].concat(a, b)` is typed never[] in TypeScript; the CMS used it to flatten arrays.
+  code = replaceOutsideStrings(code, /\[\]\.concat\(/g, () => "([] as any[]).concat(");
   code = replaceOutsideStrings(code, /\.fill\(\)/g, () => ".fill(undefined)");
   code = replaceOutsideStrings(code, /\bwindow\.location\s*=\s*(?!=)/g, () => "window.location.href = ");
   return code;

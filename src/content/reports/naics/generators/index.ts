@@ -1,0 +1,35 @@
+// Generators of the naics profile in legacy id order (Canon ran them in this order and merged the results).
+import type {GeneratorDefinition} from "@/lib/reports/types";
+import g0 from "./183-members-count-industry-group";
+import g1 from "./184-members-count-industry-sub-sector";
+import g2 from "./185-members-count-industry-sector";
+import g3 from "./195-business-use-of-output-by-other-industries-stats";
+import g4 from "./296-employment-bls-monthly-employment";
+import g5 from "./402-business-intermediate-values";
+import g6 from "./407-business-industry-flow-commodity-industry-duplicate";
+import g7 from "./413-business-industry-flow-industry-commodity-duplicate";
+import g8 from "./427-projections-blg-growth-industry";
+import g9 from "./429-projections-blg-growth-nation";
+import g10 from "./431-general-bls-name";
+import g11 from "./547-employment-top-pumas-workforce";
+import g12 from "./548-employment-top-pumas-wages";
+import g13 from "./549-employment-top-states-workforce";
+import g14 from "./550-employment-top-states-wage";
+import g15 from "./551-employment-top-states-specialization";
+import g16 from "./552-employment-top-pumas-specialization-rca";
+import g17 from "./553-employment-avg-salary-age";
+import g18 from "./555-employment-wage-nation";
+import g19 from "./556-employment-gini";
+import g20 from "./557-employment-gini-nation";
+import g21 from "./558-occupation-top-workforce";
+import g22 from "./559-occupation-top-salaries";
+import g23 from "./560-diversity-workforce-wages-by-gender";
+import g24 from "./561-business-top-states-by-establishments";
+import g25 from "./562-business-top-states-by-median-earnings";
+import g26 from "./563-diversity-races-and-gender";
+import g27 from "./564-diversity-education-by-workforce-and-wage";
+import g28 from "./669-employment-avg-salary-hours-by-time-status";
+import g29 from "./670-main-attributes";
+import g30 from "./671-main-config";
+
+export const generators: GeneratorDefinition[] = [g0, g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, g11, g12, g13, g14, g15, g16, g17, g18, g19, g20, g21, g22, g23, g24, g25, g26, g27, g28, g29, g30];

@@ -87,8 +87,8 @@ const viz: VizDefinition = (variables, {libs, formatters, locale, swap, albersUs
       let data = resp.data;
     
       if (selector === "internet" || selector === "kitchen" || selector === "plumbing") {
-        let drilldownKey: string = "";
-        let mainVariable: string = "";
+        let drilldownKey: any = "";
+        let mainVariable: any = "";
     
         if (selector === "internet") {
           drilldownKey = "Access Group";

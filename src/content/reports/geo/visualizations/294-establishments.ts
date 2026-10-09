@@ -14,7 +14,7 @@ const viz: VizDefinition = (variables, {libs, formatters, locale, swap}) => {
   const selectorMetric = swap("[[establishmentSizeMetric]]") // value, share
 
   const industrySelector = swap("[[establishmentSizeIndustries]]") // valueMeasure, percentage
-  let industryID: string = ""
+  let industryID: any = ""
 
   if (industrySelector == "industry_0") {
     industryID = "11,21,22,23,31-33,42,44-45,48-49,51,52,53,54,55,56,61,62,71,72,81"

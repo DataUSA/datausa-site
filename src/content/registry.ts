@@ -5,9 +5,14 @@
  */
 import type {ReportTemplate} from "@/lib/reports/types";
 import {template as geo} from "@/content/reports/geo";
+import {template as cip} from "@/content/reports/cip";
+import {template as naics} from "@/content/reports/naics";
+import {template as soc} from "@/content/reports/soc";
+import {template as university} from "@/content/reports/university";
+import {template as napcs} from "@/content/reports/napcs";
 
 export const templates: Record<string, ReportTemplate> = {
-  geo
+  geo, cip, naics, soc, university, napcs
 };
 
 export function getTemplate(slug: string): ReportTemplate | undefined {

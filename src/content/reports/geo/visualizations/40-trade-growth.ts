@@ -14,7 +14,7 @@ const viz: VizDefinition = (variables, {libs, formatters, swap}) => {
 
   const Geography = freightIDs.map((d: any) => `${d},${d}:neighbors`).join(",");
 
-  let dataURL: string = `${tesseract}tesseract/data.jsonrecords?${dir}=${id},${stateNeighbors}&cube=dot_faf&drilldowns=Year,${dir}&measures=Millions%20Of%20Dollars,Thousands%20Of%20Tons`
+  let dataURL: any = `${tesseract}tesseract/data.jsonrecords?${dir}=${id},${stateNeighbors}&cube=dot_faf&drilldowns=Year,${dir}&measures=Millions%20Of%20Dollars,Thousands%20Of%20Tons`
 
   //<tesseract>tesseract/data.jsonrecords?Origin+State=<id>&Year=<freightYear>&cube=dot_faf&drilldowns=Destination+State,Origin State&measures=Millions+Of+Dollars&sort=Millions Of Dollars.desc
 

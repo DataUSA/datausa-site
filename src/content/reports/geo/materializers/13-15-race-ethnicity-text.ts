@@ -14,7 +14,7 @@ const materializer: MaterializerDefinition = {
     const {abbreviate, list} = formatters;
 
     if(raceNumRaw > 0){
-      let raceTopSentence: string = `The ${raceNumRaw > raceCutoff ? `${raceCutoff} largest ethnic groups in ${nameLower} are` : `population of ${nameLower} is`}  `;
+      let raceTopSentence: any = `The ${raceNumRaw > raceCutoff ? `${raceCutoff} largest ethnic groups in ${nameLower} are` : `population of ${nameLower} is`}  `;
       raceTopSentence += raceNumRaw > raceCutoff
         ? list(raceData.slice(0, raceCutoff).map((d: any) => `${d.name} (${abbreviate(d.share * 100)}%)`))
         : list(raceData.map((d: any) => `${abbreviate(d.share * 100)}% ${d.name}`));

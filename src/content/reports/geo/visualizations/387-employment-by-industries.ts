@@ -41,9 +41,9 @@ const viz: VizDefinition = (variables, {libs, formatters, locale, swap}) => {
       ["Average Wage Growth", (d: any) => `${abbreviate(d["Average Wage Growth"])}%`],
     ];
 
-  let pumsData: string = ""
-  let workforceData: string = ""
-  let wageData: string = ""
+  let pumsData: any = ""
+  let workforceData: any = ""
+  let wageData: any = ""
   if (useAcs) {
     workforceData = `${tesseract}tesseract/data?cube=acs_ygsi_gender_by_industry_c_5&include=${hierarchy}:${id}&measures=Workforce by Industry and Gender,Workforce by Industry and Gender Moe&drilldowns=Industry,Year&parents=true&debug=true${sex_}`;
     wageData = `${tesseract}tesseract/data?cube=acs_ygsi_gender_by_industry_for_median_earnings_5&include=${hierarchy}:${id}&measures=Median Earnings by Industry and Gender: Industry,Median Earnings by Industry and Gender Moe: Industry&drilldowns=Industry,Year&parents=true&debug=true${sex_}`;

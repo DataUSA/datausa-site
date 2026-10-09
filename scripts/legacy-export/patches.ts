@@ -49,6 +49,38 @@ export const patches: Record<string, RecordPatch> = {
     note: "`legedTooltip` is a typo of `legendTooltip`, so the legend tooltip configuration never applied (d3plus warns about the unknown key).",
     replace: [["legedTooltip:", "legendTooltip:"]]
   },
+  "visualization:100": {
+    note: "The config set `time` twice (\"Year\", then \"ID Year\"); JavaScript keeps the last one, so the first is dropped.",
+    replace: [["  time: \"Year\",\n  tooltipConfig: {", "  tooltipConfig: {"]]
+  },
+  "visualization:134": {
+    note: "Same duplicate `time` key as visualization 100 (the occupation copy of the skills chart).",
+    replace: [["  time: \"Year\",\n  tooltipConfig: {", "  tooltipConfig: {"]]
+  },
+  "visualization:340": {
+    note: "Each branch set `shapeConfig` twice; the later `fill` object won and the empty bar labels never applied, so the first is dropped.",
+    replace: [["    shapeConfig: {\n      Bar: {\n        label: \"\"\n      }\n    },\n    groupBy:", "    groupBy:"]]
+  },
+  "visualization:285": {
+    note: "Multiplied a formatted string by 100 (JavaScript coerced it); made the coercion explicit.",
+    replace: [["`${abbreviate(d) * 100}%`", "`${Number(abbreviate(d)) * 100}%`"]]
+  },
+  "visualization:92": {
+    note: "`String.prototype.replace` was called with four arguments; only the first replacement ever ran (same as visualization 403).",
+    replace: [["measure.replace(/\\s/g, \"%20\", /\\,/g, \"%2C\")", "measure.replace(/\\s/g, \"%20\")"]]
+  },
+  "visualization:359": {
+    note: "`dataRaces` was commented out but still referenced in the else branch (a ReferenceError on the legacy site whenever that branch ran); the intended variable is `dataRace`.",
+    replace: [["data: dataRaces,", "data: dataRace,"]]
+  },
+  "visualization:310": {
+    note: "`dataC`, `dataCP` and `dataU` are assigned inside branches without a declaration (sloppy-mode globals).",
+    declare: ["dataC", "dataCP", "dataU"]
+  },
+  "visualization:326": {
+    note: "`dataC`, `dataCP` and `dataU` are assigned inside branches without a declaration (sloppy-mode globals).",
+    declare: ["dataC", "dataCP", "dataU"]
+  },
   "visualization:392": {
     note: "Multiplying a template string by 1 to coerce it to a number; made the coercion explicit.",
     replace: [["d[\"Group ID\"] = `${degrees[d[\"Group\"]]}`*1;", "d[\"Group ID\"] = Number(`${degrees[d[\"Group\"]]}`);"]]

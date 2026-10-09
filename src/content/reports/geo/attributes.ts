@@ -3,22 +3,14 @@
  * computed before running generators (ids for PUMS and election queries, breadcrumbs, colour maps,
  * API hosts). Ported by hand; every key name is preserved because generator URLs and bodies read them.
  */
-import colors from "@/content/shared/data/colors.json";
+import {colorMapping} from "@/content/shared/color-mapping";
 import {civicOfficials} from "@/content/reports/geo/civic";
 import {intersects, neighbors} from "@/lib/api/geoservice";
 import {getMember} from "@/lib/dimensions/db";
 import {geoParents} from "@/lib/dimensions/parents";
 import type {AttributeContext, MemberAttributes, Variables} from "@/lib/reports/types";
 
-/**
- * `colors.json` keys become `color<Name>` variables (`Gender` -> `colorGender`, `ACS Race` ->
- * `colorRaceACS`, i.e. words reversed and joined), exactly as the legacy mapping did.
- */
-export const colorMapping: Variables = Object.keys(colors).reduce((obj, k) => {
-  const newKey = k.split(" ").reverse().join("");
-  obj[newKey.startsWith("color") ? newKey : `color${newKey.charAt(0).toUpperCase()}${newKey.slice(1)}`] = (colors as Record<string, unknown>)[k];
-  return obj;
-}, {} as Variables);
+export {colorMapping};
 
 export async function attributes(member: MemberAttributes, ctx: AttributeContext): Promise<Variables> {
   const {id, hierarchy} = member;

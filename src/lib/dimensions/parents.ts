@@ -5,6 +5,7 @@
  */
 import {intersects} from "@/lib/api/geoservice";
 import {getMembers, type MemberRow} from "@/lib/dimensions/db";
+import {parentLookup} from "@/lib/content/lookups";
 import {BIG_POPULATION, getPopulations} from "@/lib/dimensions/population";
 
 const GEO_ORDER = ["Nation", "State", "County", "MSA", "Place", "PUMA"];
@@ -41,4 +42,17 @@ export async function geoParents(member: MemberRow, loose = false): Promise<Brea
       const levelDiff = GEO_ORDER.indexOf(a.hierarchy) - GEO_ORDER.indexOf(b.hierarchy);
       return levelDiff !== 0 ? levelDiff : (b.overlap_size ?? 0) - (a.overlap_size ?? 0);
     });
+}
+
+/**
+ * Parents of a non-geography member (industries, occupations, degrees, universities, products):
+ * the ancestor ids Tesseract reports for the member, in hierarchy order (legacy `/api/parents`).
+ */
+export async function memberParents(profileSlug: string, member: MemberRow, levels: string[]): Promise<Breadcrumb[]> {
+  const lookup = await parentLookup(profileSlug);
+  const ids = lookup[member.id] ?? [];
+  if (!ids.length) return [];
+  return getMembers(member.dimension, ids)
+    .map(m => ({id: m.id, slug: m.slug, name: m.name, hierarchy: m.hierarchy, dimension: m.dimension}))
+    .sort((a, b) => levels.indexOf(a.hierarchy) - levels.indexOf(b.hierarchy));
 }
