@@ -1,0 +1,6169 @@
+{
+  "generatedAt": "2026-10-09T22:21:02.838Z",
+  "out": "/Users/zephyr/Projects/datausa/datausa-site-2026/src/content/reports",
+  "profiles": [
+    {
+      "slug": "geo",
+      "profileId": 1,
+      "counts": {
+        "selectors": 56,
+        "sections": 86,
+        "generators": 172,
+        "materializers": 32,
+        "visualizations": 79
+      },
+      "records": [
+        {
+          "table": "canon_cms_profile",
+          "id": 1,
+          "name": "<p>{{name}}</p>",
+          "file": "geo/profile.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_profile_meta",
+          "id": 1,
+          "name": "geo",
+          "file": "geo/profile.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_profile_content",
+          "id": 1,
+          "name": "<p>{{name}}</p>",
+          "file": "geo/profile.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 2,
+          "name": "race-income-income_geo",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 3,
+          "name": "trade-flow-domestic_trade",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 4,
+          "name": "trade-flow-trade_growth",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 5,
+          "name": "trade-flow-interstate_trade",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 6,
+          "name": "provider-clinician_patient_ratio",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 8,
+          "name": "social-social_needs",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 11,
+          "name": "degree-majors",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 25,
+          "name": "monthly-employment",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 29,
+          "name": "pums5RacesPyramid",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 30,
+          "name": "pums5RacesResident",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 31,
+          "name": "genderResidents",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 32,
+          "name": "pums5WorkforcePyramid",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 33,
+          "name": "measureWorkforcePyramid",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 34,
+          "name": "pums5RacesWorkforce",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 35,
+          "name": "measureWorkforceGeomap",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 36,
+          "name": "yearlyChangeWorkforceGeomap",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 37,
+          "name": "genderOccupations",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 38,
+          "name": "measureOccupations",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 39,
+          "name": "growthOccupations",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 40,
+          "name": "measureTreemapIndustries",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 41,
+          "name": "genderTreemapIndustries",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 42,
+          "name": "yearlyChangeTreemapIndustries",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 43,
+          "name": "establishmentSize",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 44,
+          "name": "carnegieParents1",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 45,
+          "name": "enrolledOptions",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 46,
+          "name": "enrollmentsDiversity",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 48,
+          "name": "carnegieParents2",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 50,
+          "name": "genderUniversities",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 51,
+          "name": "racesUniversities",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 52,
+          "name": "completionsUniversities",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 53,
+          "name": "genderRaceOptions",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 54,
+          "name": "statusEducation",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 55,
+          "name": "degreesOrSector",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 57,
+          "name": "carnegieUniversities",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 58,
+          "name": "propertyTaxesValue",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 59,
+          "name": "rentMortgage",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 60,
+          "name": "sexAgeRacePoverty",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 61,
+          "name": "socialNeedsSelector",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 62,
+          "name": "healthDiversity",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 65,
+          "name": "healthOutcomesOptions",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 66,
+          "name": "lengthOfLife",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 67,
+          "name": "qualityOfLife",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 69,
+          "name": "healthBehaviorsOptions",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 72,
+          "name": "dietAndExerciseOptions",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 74,
+          "name": "alcoholDrugsTobaccoOptions",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 75,
+          "name": "clinicalCareOptions",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 76,
+          "name": "accessCareOptions",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 77,
+          "name": "qualityCareOptions",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 78,
+          "name": "popEducation",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 79,
+          "name": "raceEducation",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 80,
+          "name": "educationAges",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 112,
+          "name": "establishmentSizeIndustries",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 113,
+          "name": "establishmentSizeMetric",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 114,
+          "name": "healthServiceSelector",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 115,
+          "name": "healthServiceSelector2",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_selector",
+          "id": 116,
+          "name": "healthServiceSelector3",
+          "file": "geo/selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_subtitle",
+          "id": 52,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 6,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 7,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 8,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 9,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 10,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 355,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 4,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 1,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 5,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 2,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 3,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 1,
+          "name": "hero",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 1,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 357,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 6,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 7,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 8,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 382,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 375,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 4,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 3,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 463,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 2,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 5,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 2,
+          "name": "about",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 101,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 569,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 103,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 102,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 42,
+          "name": "demographics",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 200,
+          "name": "population_and_diversity",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 384,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 383,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 386,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 387,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 385,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 374,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 375,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 376,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 379,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 380,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 381,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 35,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 33,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 185,
+          "name": "population_by_location",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 398,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 400,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 399,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 377,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 378,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 32,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 186,
+          "name": "residents",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 111,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 353,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 109,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 110,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 100,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 101,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 46,
+          "name": "citizenship",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 201,
+          "name": "diversity",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 113,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 360,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 112,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 103,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 102,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 104,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 356,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 47,
+          "name": "race_and_ethnicity",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_subtitle",
+          "id": 20,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 108,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 98,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 99,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 97,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 45,
+          "name": "global_diversity",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 107,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 352,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 106,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 105,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 95,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 96,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 44,
+          "name": "foreign_born_population",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 114,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 372,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 106,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 105,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 107,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 48,
+          "name": "languages",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 202,
+          "name": "military",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 115,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 561,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 108,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 109,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 110,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 49,
+          "name": "veteran",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 80,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 79,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 559,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 83,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 84,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 560,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 466,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 34,
+          "name": "health",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 218,
+          "name": "coverage",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_subtitle",
+          "id": 14,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 87,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 88,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 70,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 6,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 35,
+          "name": "clinician_patient_ratio",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 568,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 132,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 258,
+          "name": "distance-to-health-services-by-state",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 565,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 402,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 403,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 404,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 129,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 255,
+          "name": "distance-to-health-services-by-counties",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 566,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 405,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 406,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 407,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 408,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 409,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 130,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 256,
+          "name": "location-of-health-services-facilities",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 434,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 435,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 436,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 67,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 223,
+          "name": "health_care_diversity",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 97,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 98,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 84,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 85,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 86,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 87,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 88,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 89,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 40,
+          "name": "uninsured_people",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 219,
+          "name": "health_indicators",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 444,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 445,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 438,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 439,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 442,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 443,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 440,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 68,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 69,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 70,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 224,
+          "name": "health_outcomes",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 446,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 447,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 448,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 449,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 450,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 451,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 452,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 73,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 74,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 75,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 225,
+          "name": "health_behaviors",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 453,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 454,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 455,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 456,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 457,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 458,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 459,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 76,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 77,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 79,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 226,
+          "name": "clinical-care",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 462,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 42,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 361,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 344,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 15,
+          "name": "economy",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 203,
+          "name": "employment",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 396,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 395,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 397,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 372,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 373,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 37,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 36,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 187,
+          "name": "workforce_diversity",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 393,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 401,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 392,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 402,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 394,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 39,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 40,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 38,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 189,
+          "name": "workforce-and-wage-by-location",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 63,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 349,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 64,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 57,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 58,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 56,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 41,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 42,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 43,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 23,
+          "name": "occupations",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_subtitle",
+          "id": 2,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 13,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 16,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 14,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 5,
+          "name": "covid-unemployment",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 204,
+          "name": "industries",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 68,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 350,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 69,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 60,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 61,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 59,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 44,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 45,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 47,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 27,
+          "name": "employment_by_industries",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 390,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 391,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 370,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 371,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 190,
+          "name": "median_earnings",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_subtitle",
+          "id": 61,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 371,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 554,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 370,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 360,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 26,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 182,
+          "name": "covid-employment",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 389,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 556,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 558,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 367,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 368,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 369,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 122,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 124,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 125,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 191,
+          "name": "establishments",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 388,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 364,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 365,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 366,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 192,
+          "name": "payroll",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 205,
+          "name": "domestic_trade",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_subtitle",
+          "id": 11,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 74,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 73,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 62,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 63,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 64,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 3,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 31,
+          "name": "domestic_production_consumption",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_subtitle",
+          "id": 12,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 76,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 345,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 346,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 75,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 65,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 66,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 353,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 354,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 4,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 32,
+          "name": "trade_growth",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_subtitle",
+          "id": 13,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 77,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 78,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 67,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 68,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 69,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 5,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 33,
+          "name": "interstate_trade",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 20,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 22,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 473,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 19,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 23,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 365,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 7,
+          "name": "civics",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 206,
+          "name": "presidential_elections",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_subtitle",
+          "id": 4,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_subtitle",
+          "id": 59,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 28,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 27,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 15,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 14,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 13,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 9,
+          "name": "popular_vote",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_subtitle",
+          "id": 5,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_subtitle",
+          "id": 60,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 29,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 30,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 327,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 17,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 16,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 18,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 10,
+          "name": "president-map",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_subtitle",
+          "id": 58,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 26,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 25,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 11,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 12,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 8,
+          "name": "president-electoral",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 207,
+          "name": "senators_elections",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_subtitle",
+          "id": 6,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 31,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 33,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 32,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 21,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 22,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 23,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 24,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 19,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 20,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 11,
+          "name": "us_senator",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 35,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 363,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 34,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 25,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 357,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 12,
+          "name": "senate-party",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 208,
+          "name": "us_representatives",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 40,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 364,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 39,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 36,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 14,
+          "name": "house-representatives",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_subtitle",
+          "id": 51,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 36,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 358,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 37,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 38,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 26,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 27,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 28,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 29,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 30,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 13,
+          "name": "house",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 116,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 117,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 118,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 119,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 120,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 378,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 379,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 50,
+          "name": "education",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 209,
+          "name": "admission_and_enrollment",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 403,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 404,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 405,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 406,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 49,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 50,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 193,
+          "name": "admissions_applicants_enrolled",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 407,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 408,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 52,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 51,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 194,
+          "name": "enrollments_diversity",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 210,
+          "name": "completions",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_subtitle",
+          "id": 53,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 122,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 121,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 113,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 111,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 112,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 11,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 51,
+          "name": "majors",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_subtitle",
+          "id": 54,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 123,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 117,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 118,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 116,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 53,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 56,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 52,
+          "name": "universities",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 409,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 126,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 57,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 58,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 59,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 54,
+          "name": "student-diversity",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 410,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 60,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 220,
+          "name": "degrees-over-time",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 211,
+          "name": "tuition",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 411,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 413,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 474,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 412,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 382,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 383,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 62,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 196,
+          "name": "district_tuition",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 227,
+          "name": "population-education",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_subtitle",
+          "id": 68,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_subtitle",
+          "id": 70,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 470,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 471,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 469,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 80,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 82,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 228,
+          "name": "educational-pyramid",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_subtitle",
+          "id": 69,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_subtitle",
+          "id": 71,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 467,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 472,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 468,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 81,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 229,
+          "name": "degrees",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 127,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 359,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 460,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 465,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 55,
+          "name": "housing",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 212,
+          "name": "housing",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 129,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 414,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 130,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 384,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 385,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 63,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 56,
+          "name": "property",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 136,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 356,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 137,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 129,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 130,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 64,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 59,
+          "name": "rent_own",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 213,
+          "name": "equity",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_subtitle",
+          "id": 10,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 57,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 55,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 47,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 48,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 46,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 28,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 20,
+          "name": "income-by-location",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_subtitle",
+          "id": 21,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 133,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 355,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 131,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 132,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 126,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 127,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 57,
+          "name": "household_income",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_subtitle",
+          "id": 9,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 54,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 53,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 337,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 52,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 51,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 44,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 45,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 343,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 344,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 345,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 346,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 19,
+          "name": "income_distro",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 214,
+          "name": "transportation",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 140,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 141,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 133,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 132,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 134,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 61,
+          "name": "mode_transport",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 138,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 139,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 131,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 60,
+          "name": "commute_time",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 143,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 142,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 135,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 62,
+          "name": "car-ownership",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 215,
+          "name": "poverty",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 416,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 417,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 420,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 419,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 421,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 197,
+          "name": "severe_housing_problems",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 60,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 58,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 415,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 59,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 65,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 21,
+          "name": "poverty_and_diversity",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 422,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 423,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 424,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 425,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 426,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 198,
+          "name": "children_in_poverty",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_subtitle",
+          "id": 16,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 92,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 562,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 91,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 76,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_stat",
+          "id": 74,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 8,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 37,
+          "name": "social_needs",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 216,
+          "name": "security",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 431,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 428,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 429,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 430,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 432,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_description",
+          "id": 433,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_selector",
+          "id": 66,
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section",
+          "id": 221,
+          "name": "crimes_and_accidents",
+          "file": "geo/sections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 8,
+          "name": "Household Income (Race)",
+          "file": "geo/generators/8-household-income-race.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 16,
+          "name": "GINI (Nation)",
+          "file": "geo/generators/16-gini-nation.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 23,
+          "name": "Geo-Service (States)",
+          "file": "geo/generators/23-geo-service-states.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 25,
+          "name": "Degrees (Nation)",
+          "file": "geo/generators/25-degrees-nation.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 29,
+          "name": "Geo-Service (Neighbors)",
+          "file": "geo/generators/29-geo-service-neighbors.ts",
+          "warnings": [
+            {
+              "code": "legacy-internal-endpoint",
+              "message": "URL targets a legacy Express endpoint: /api/neighbors/"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 42,
+          "name": "Freight Exports (Tonnage)",
+          "file": "geo/generators/42-freight-exports-tonnage.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 43,
+          "name": "Freight Import Products (Tonnage)",
+          "file": "geo/generators/43-freight-import-products-tonnage.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 46,
+          "name": "Freight Export Products (Tonnage)",
+          "file": "geo/generators/46-freight-export-products-tonnage.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 47,
+          "name": "Freight Import Products (Dollars)",
+          "file": "geo/generators/47-freight-import-products-dollars.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 49,
+          "name": "Freight Export Products (Dollars)",
+          "file": "geo/generators/49-freight-export-products-dollars.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 51,
+          "name": "Freight Imports (Dollars)",
+          "file": "geo/generators/51-freight-imports-dollars.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 52,
+          "name": "Freight Exports (Dollars)",
+          "file": "geo/generators/52-freight-exports-dollars.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 54,
+          "name": "Freight Imports (Tonnage)",
+          "file": "geo/generators/54-freight-imports-tonnage.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 55,
+          "name": "Freight Export Partners (Tonnage)",
+          "file": "geo/generators/55-freight-export-partners-tonnage.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 56,
+          "name": "Freight Import Partners (Dollars)",
+          "file": "geo/generators/56-freight-import-partners-dollars.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 57,
+          "name": "Freight Import Partners (Tonnage)",
+          "file": "geo/generators/57-freight-import-partners-tonnage.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 59,
+          "name": "Geo-Service (Tracts)",
+          "file": "geo/generators/59-geo-service-tracts.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 69,
+          "name": "Poverty (Race)",
+          "file": "geo/generators/69-poverty-race.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 70,
+          "name": "Election - Votes (Total)",
+          "file": "geo/generators/70-election-votes-total.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 77,
+          "name": "Election - Senate (Total)",
+          "file": "geo/generators/77-election-senate-total.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 82,
+          "name": "Election - House (Current)",
+          "file": "geo/generators/82-election-house-current.ts",
+          "warnings": [
+            {
+              "code": "legacy-internal-endpoint",
+              "message": "URL targets a legacy Express endpoint: /api/civic/representative/<id>"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 85,
+          "name": "Election - Senators (Current)",
+          "file": "geo/generators/85-election-senators-current.ts",
+          "warnings": [
+            {
+              "code": "legacy-internal-endpoint",
+              "message": "URL targets a legacy Express endpoint: /api/civic/senator/<id>"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 89,
+          "name": "[Attributes]",
+          "file": "geo/generators/89-attributes.ts",
+          "warnings": [
+            {
+              "code": "legacy-internal-endpoint",
+              "message": "URL targets a legacy Express endpoint: /api/search"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 93,
+          "name": "Providers IN PROGRESS",
+          "file": "geo/generators/93-providers-in-progress.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 115,
+          "name": "Freight Export Partners (Dollars)",
+          "file": "geo/generators/115-freight-export-partners-dollars.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 125,
+          "name": "Election - Senate Elections",
+          "file": "geo/generators/125-election-senate-elections.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 126,
+          "name": "Election - Votes (Nation)",
+          "file": "geo/generators/126-election-votes-nation.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 127,
+          "name": "Election - Electoral Votes",
+          "file": "geo/generators/127-election-electoral-votes.ts",
+          "warnings": [
+            {
+              "code": "legacy-internal-endpoint",
+              "message": "URL targets a legacy Express endpoint: /api/data"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 128,
+          "name": "Election - Electoral College (Nation)",
+          "file": "geo/generators/128-election-electoral-college-nation.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 129,
+          "name": "Election - Votes",
+          "file": "geo/generators/129-election-votes.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 130,
+          "name": "Election - Child Votes",
+          "file": "geo/generators/130-election-child-votes.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 297,
+          "name": "BLS Monthly Employment",
+          "file": "geo/generators/297-bls-monthly-employment.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 346,
+          "name": "[General] State parents",
+          "file": "geo/generators/346-general-state-parents.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 469,
+          "name": "[Establishments] By Size",
+          "file": "geo/generators/469-establishments-by-size.ts",
+          "warnings": [
+            {
+              "code": "dead-logiclayer-url",
+              "message": "uses /api/data (logic layer removed in production)"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 470,
+          "name": "[Payroll] By Industry",
+          "file": "geo/generators/470-payroll-by-industry.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 471,
+          "name": "[Establishments by Size] CBP Industries",
+          "file": "geo/generators/471-establishments-by-size-cbp-industries.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 508,
+          "name": "[Education] Applicants & Admissions",
+          "file": "geo/generators/508-education-applicants-admissions.ts",
+          "warnings": [
+            {
+              "code": "dead-logiclayer-url",
+              "message": "uses /api/data (logic layer removed in production)"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 509,
+          "name": "[Education] Enrollments",
+          "file": "geo/generators/509-education-enrollments.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 516,
+          "name": "[Education] Enrollments by Race",
+          "file": "geo/generators/516-education-enrollments-by-race.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 517,
+          "name": "[Education] Graduates (Majors by Degree)",
+          "file": "geo/generators/517-education-graduates-majors-by-degree.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 518,
+          "name": "[Education] Degrees",
+          "file": "geo/generators/518-education-degrees.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 519,
+          "name": "[Education] Graduates (Universities)",
+          "file": "geo/generators/519-education-graduates-universities.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 520,
+          "name": "[Education] Completions",
+          "file": "geo/generators/520-education-completions.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 521,
+          "name": "[Education] Graduates (Race)",
+          "file": "geo/generators/521-education-graduates-race.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 522,
+          "name": "[Education] Tuition",
+          "file": "geo/generators/522-education-tuition.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 523,
+          "name": "[Education] Carnegie Parents",
+          "file": "geo/generators/523-education-carnegie-parents.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 524,
+          "name": "[Education] Races Available",
+          "file": "geo/generators/524-education-races-available.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 525,
+          "name": "[Education] Graduates",
+          "file": "geo/generators/525-education-graduates.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 526,
+          "name": "[Education] Enrollment (Gender)",
+          "file": "geo/generators/526-education-enrollment-gender.ts",
+          "warnings": [
+            {
+              "code": "dead-logiclayer-url",
+              "message": "uses /api/data (logic layer removed in production)"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 527,
+          "name": "[Education] Graduates (Majors)",
+          "file": "geo/generators/527-education-graduates-majors.ts",
+          "warnings": [
+            {
+              "code": "dead-logiclayer-url",
+              "message": "uses /api/data (logic layer removed in production)"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 528,
+          "name": "[Education] Tuition (Sector)",
+          "file": "geo/generators/528-education-tuition-sector.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 576,
+          "name": "Race/Ethnicity",
+          "file": "geo/generators/576-race-ethnicity.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 578,
+          "name": "Birthplace (Common PUMS)",
+          "file": "geo/generators/578-birthplace-common-pums.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 579,
+          "name": "Birthplace (Common PUMS)- MOE Values",
+          "file": "geo/generators/579-birthplace-common-pums-moe-values.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 580,
+          "name": "Birthplace (Common PUMS) - data last year",
+          "file": "geo/generators/580-birthplace-common-pums-data-last-year.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 584,
+          "name": "Languages (Nation)",
+          "file": "geo/generators/584-languages-nation.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 585,
+          "name": "Languages",
+          "file": "geo/generators/585-languages.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 588,
+          "name": "Veterans",
+          "file": "geo/generators/588-veterans.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 597,
+          "name": "[Population] Top states",
+          "file": "geo/generators/597-population-top-states.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 598,
+          "name": "[Population] Population by Sex",
+          "file": "geo/generators/598-population-population-by-sex.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 599,
+          "name": "[Population] Races Available",
+          "file": "geo/generators/599-population-races-available.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 600,
+          "name": "[Population] Population by PUMA",
+          "file": "geo/generators/600-population-population-by-puma.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 601,
+          "name": "[Population] Top PUMA",
+          "file": "geo/generators/601-population-top-puma.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 604,
+          "name": "[Workforce] Workforce by Sex",
+          "file": "geo/generators/604-workforce-workforce-by-sex.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 606,
+          "name": "[Workforce] Top PUMA",
+          "file": "geo/generators/606-workforce-top-puma.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 607,
+          "name": "[Workforce] Top states",
+          "file": "geo/generators/607-workforce-top-states.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 611,
+          "name": "Employees (ACS)",
+          "file": "geo/generators/611-employees-acs.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 612,
+          "name": "Employees (PUMS) ",
+          "file": "geo/generators/612-employees-pums.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 613,
+          "name": "Employees (PUMS) - MOE",
+          "file": "geo/generators/613-employees-pums-moe.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 616,
+          "name": "Industries (Common PUMS)",
+          "file": "geo/generators/616-industries-common-pums.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 617,
+          "name": "Industries (Common PUMS Sectors)",
+          "file": "geo/generators/617-industries-common-pums-sectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 618,
+          "name": "Industries (Common ACS) ⚠️ Needs Link",
+          "file": "geo/generators/618-industries-common-acs-needs-link.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 620,
+          "name": "Industries (Paying ACS) ⚠️ Needs Link",
+          "file": "geo/generators/620-industries-paying-acs-needs-link.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 621,
+          "name": "Industries (Paying PUMS)",
+          "file": "geo/generators/621-industries-paying-pums.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 622,
+          "name": "Occupations (Common ACS) ⚠️ Needs Link",
+          "file": "geo/generators/622-occupations-common-acs-needs-link.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 623,
+          "name": "Occupations (Common PUMS)",
+          "file": "geo/generators/623-occupations-common-pums.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 624,
+          "name": "[Industries] Median Earnings by Sex",
+          "file": "geo/generators/624-industries-median-earnings-by-sex.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 625,
+          "name": "[Industries] Median Earnings by Industry and Sex",
+          "file": "geo/generators/625-industries-median-earnings-by-industry-and-sex.ts",
+          "warnings": [
+            {
+              "code": "patched",
+              "message": "Bitwise `&` between two booleans inside a filter predicate; `&&` yields the same truthiness."
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 626,
+          "name": "[Education] No Schooling",
+          "file": "geo/generators/626-education-no-schooling.ts",
+          "warnings": [
+            {
+              "code": "implicit-globals-declared",
+              "message": "declared sloppy-mode globals: dataMales, dataFemales"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 627,
+          "name": "[Education] Degrees by population",
+          "file": "geo/generators/627-education-degrees-by-population.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 628,
+          "name": "[Education] Degrees by population",
+          "file": "geo/generators/628-education-degrees-by-population.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 634,
+          "name": "[Education] No Schooling",
+          "file": "geo/generators/634-education-no-schooling.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 635,
+          "name": "[Population] Population in State",
+          "file": "geo/generators/635-population-population-in-state.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 640,
+          "name": "[Health] Coverage by Age",
+          "file": "geo/generators/640-health-coverage-by-age.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 641,
+          "name": "[Health] Coverage by gender",
+          "file": "geo/generators/641-health-coverage-by-gender.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 642,
+          "name": "Insurance Coverage",
+          "file": "geo/generators/642-insurance-coverage.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 643,
+          "name": "Poverty",
+          "file": "geo/generators/643-poverty.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 644,
+          "name": "Poverty (Nation)",
+          "file": "geo/generators/644-poverty-nation.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 645,
+          "name": "Poverty (Age & Gender)",
+          "file": "geo/generators/645-poverty-age-gender.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 650,
+          "name": "Household Income",
+          "file": "geo/generators/650-household-income.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 651,
+          "name": "Households",
+          "file": "geo/generators/651-households.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 652,
+          "name": "Households (Buckets)",
+          "file": "geo/generators/652-households-buckets.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 656,
+          "name": "Commute (Means)",
+          "file": "geo/generators/656-commute-means.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 657,
+          "name": "Commute (Time)",
+          "file": "geo/generators/657-commute-time.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 658,
+          "name": "Commute (Time)",
+          "file": "geo/generators/658-commute-time.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 659,
+          "name": "Commute (Vehicles)",
+          "file": "geo/generators/659-commute-vehicles.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 660,
+          "name": "Property Value",
+          "file": "geo/generators/660-property-value.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 661,
+          "name": "Property Taxes",
+          "file": "geo/generators/661-property-taxes.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 662,
+          "name": "Property Tax (Bucket)",
+          "file": "geo/generators/662-property-tax-bucket.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 663,
+          "name": "GINI",
+          "file": "geo/generators/663-gini.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 664,
+          "name": "Household Income (Children)",
+          "file": "geo/generators/664-household-income-children.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 665,
+          "name": "Household Income (Nation)",
+          "file": "geo/generators/665-household-income-nation.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 667,
+          "name": "Household Income by Race",
+          "file": "geo/generators/667-household-income-by-race.ts",
+          "warnings": [
+            {
+              "code": "patched",
+              "message": "Dead branch: `if (resp.data > 0)` is never true for an array; inside it `data` was never declared (would throw ReferenceError, which Canon caught). Declared so the module compiles; behaviour unchanged."
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 672,
+          "name": "Population",
+          "file": "geo/generators/672-population.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 673,
+          "name": "Median Age",
+          "file": "geo/generators/673-median-age.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 674,
+          "name": "Homeowners (Tenure)",
+          "file": "geo/generators/674-homeowners-tenure.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 675,
+          "name": "Population (Least populated states)",
+          "file": "geo/generators/675-population-least-populated-states.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 676,
+          "name": "Population (Most populated States)",
+          "file": "geo/generators/676-population-most-populated-states.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 677,
+          "name": "Population (Most populated counties)",
+          "file": "geo/generators/677-population-most-populated-counties.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 678,
+          "name": "Population (Most populated Places)",
+          "file": "geo/generators/678-population-most-populated-places.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 683,
+          "name": "Citizenship",
+          "file": "geo/generators/683-citizenship.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 684,
+          "name": "Workforce by Gender",
+          "file": "geo/generators/684-workforce-by-gender.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 685,
+          "name": "Citizenship (Nation)",
+          "file": "geo/generators/685-citizenship-nation.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 686,
+          "name": "Homeowners (Nation)",
+          "file": "geo/generators/686-homeowners-nation.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 687,
+          "name": "Property Value (Nation)",
+          "file": "geo/generators/687-property-value-nation.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 688,
+          "name": "Commute (Vehicles Nation)",
+          "file": "geo/generators/688-commute-vehicles-nation.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 689,
+          "name": "Homeowners",
+          "file": "geo/generators/689-homeowners.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 690,
+          "name": "Homeless Individuals",
+          "file": "geo/generators/690-homeless-individuals.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 697,
+          "name": "[Poverty] Severe Housing Problems",
+          "file": "geo/generators/697-poverty-severe-housing-problems.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 698,
+          "name": "[Poverty] Severe Housing Problems",
+          "file": "geo/generators/698-poverty-severe-housing-problems.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 699,
+          "name": "[Poverty] Children in Poverty",
+          "file": "geo/generators/699-poverty-children-in-poverty.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 700,
+          "name": "[Poverty] Children In Poverty",
+          "file": "geo/generators/700-poverty-children-in-poverty.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 701,
+          "name": "[Crimes] Indicator",
+          "file": "geo/generators/701-crimes-indicator.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 702,
+          "name": "[Crimes] Indicators",
+          "file": "geo/generators/702-crimes-indicators.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 704,
+          "name": "[Health] Health Outcomes",
+          "file": "geo/generators/704-health-health-outcomes.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 705,
+          "name": "[Health] Health Outcomes",
+          "file": "geo/generators/705-health-health-outcomes.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 706,
+          "name": "[Health] Health Behavior",
+          "file": "geo/generators/706-health-health-behavior.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 707,
+          "name": "[Health] Health Behaviors",
+          "file": "geo/generators/707-health-health-behaviors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 708,
+          "name": "[Health] Health Care",
+          "file": "geo/generators/708-health-health-care.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 709,
+          "name": "[Health] Health Care",
+          "file": "geo/generators/709-health-health-care.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 714,
+          "name": "PUMA in the state",
+          "file": "geo/generators/714-puma-in-the-state.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 716,
+          "name": "Exercise",
+          "file": "geo/generators/716-exercise.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 717,
+          "name": "Exercise",
+          "file": "geo/generators/717-exercise.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 718,
+          "name": "Food Insecurity",
+          "file": "geo/generators/718-food-insecurity.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 719,
+          "name": "Food Insecurity",
+          "file": "geo/generators/719-food-insecurity.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 720,
+          "name": "[General] Tracts in the county",
+          "file": "geo/generators/720-general-tracts-in-the-county.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 721,
+          "name": "Plumbing",
+          "file": "geo/generators/721-plumbing.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 722,
+          "name": "Plumbing",
+          "file": "geo/generators/722-plumbing.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 723,
+          "name": "Kitchens",
+          "file": "geo/generators/723-kitchens.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 724,
+          "name": "Kitchens",
+          "file": "geo/generators/724-kitchens.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 725,
+          "name": "Internet Access",
+          "file": "geo/generators/725-internet-access.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 726,
+          "name": "Internet Access",
+          "file": "geo/generators/726-internet-access.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 728,
+          "name": "Household Income by Race",
+          "file": "geo/generators/728-household-income-by-race.ts",
+          "warnings": [
+            {
+              "code": "patched",
+              "message": "Same dead `if (resp.data > 0)` branch as generator 667."
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 730,
+          "name": "Health Providers",
+          "file": "geo/generators/730-health-providers.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 731,
+          "name": "Health Providers",
+          "file": "geo/generators/731-health-providers.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 732,
+          "name": "Health Section (Nation)",
+          "file": "geo/generators/732-health-section-nation.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 733,
+          "name": "Obesity and Diabetes",
+          "file": "geo/generators/733-obesity-and-diabetes.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 734,
+          "name": "State Name for all levels",
+          "file": "geo/generators/734-state-name-for-all-levels.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 735,
+          "name": "Foreign-Born",
+          "file": "geo/generators/735-foreign-born.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 736,
+          "name": "CitizenShip",
+          "file": "geo/generators/736-citizenship.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 737,
+          "name": "Foreign-Born (Nation)",
+          "file": "geo/generators/737-foreign-born-nation.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 738,
+          "name": "Citizen (Nation)",
+          "file": "geo/generators/738-citizen-nation.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 739,
+          "name": "Homeowners with Mortgage",
+          "file": "geo/generators/739-homeowners-with-mortgage.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 740,
+          "name": "[General] Counties in States",
+          "file": "geo/generators/740-general-counties-in-states.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 741,
+          "name": "[General] Pumas in States",
+          "file": "geo/generators/741-general-pumas-in-states.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 750,
+          "name": "[Helper] Neighbors\t\t",
+          "file": "geo/generators/750-helper-neighbors.ts",
+          "warnings": [
+            {
+              "code": "legacy-internal-endpoint",
+              "message": "URL targets a legacy Express endpoint: api/neighbors"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 752,
+          "name": "[Helper] Similar",
+          "file": "geo/generators/752-helper-similar.ts",
+          "warnings": [
+            {
+              "code": "legacy-internal-endpoint",
+              "message": "URL targets a legacy Express endpoint: api/geo/similar/<id>"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 753,
+          "name": "Commute (Buckets)",
+          "file": "geo/generators/753-commute-buckets.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 754,
+          "name": "Counties in the state",
+          "file": "geo/generators/754-counties-in-the-state.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 757,
+          "name": "[Educations] ",
+          "file": "geo/generators/757-educations.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 758,
+          "name": "Property Value (Bucket)",
+          "file": "geo/generators/758-property-value-bucket.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 761,
+          "name": "[Health] Health Service Type",
+          "file": "geo/generators/761-health-health-service-type.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 763,
+          "name": "Election - Visible President Election",
+          "file": "geo/generators/763-election-visible-president-election.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 764,
+          "name": "[Payroll] By Industry (Growth)",
+          "file": "geo/generators/764-payroll-by-industry-growth.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 771,
+          "name": "[Prism-Health] Top counties Maternal Health Services",
+          "file": "geo/generators/771-prism-health-top-counties-maternal-health-services.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 772,
+          "name": "[Prism-Health] Top counties Mental Health Services",
+          "file": "geo/generators/772-prism-health-top-counties-mental-health-services.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 773,
+          "name": "[Prism-Health] Top counties Emergency Care Services",
+          "file": "geo/generators/773-prism-health-top-counties-emergency-care-services.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 774,
+          "name": "[Prism-Health] Top counties Child Healthcare Services",
+          "file": "geo/generators/774-prism-health-top-counties-child-healthcare-services.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 775,
+          "name": "[Prism-Health] Top Facilities",
+          "file": "geo/generators/775-prism-health-top-facilities.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 776,
+          "name": "[Prism-Health] Top Facilities",
+          "file": "geo/generators/776-prism-health-top-facilities.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 777,
+          "name": "[Prism-Health] Top Facilities",
+          "file": "geo/generators/777-prism-health-top-facilities.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_generator",
+          "id": 778,
+          "name": "[Prism-Health] Top Facilities",
+          "file": "geo/generators/778-prism-health-top-facilities.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 9,
+          "name": "Colors",
+          "file": "geo/materializers/00-9-colors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 2,
+          "name": "Employees",
+          "file": "geo/materializers/01-2-employees.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 7,
+          "name": "Nation Comparisons",
+          "file": "geo/materializers/02-7-nation-comparisons.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 6,
+          "name": "Icons",
+          "file": "geo/materializers/03-6-icons.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 8,
+          "name": "Subtitles",
+          "file": "geo/materializers/04-8-subtitles.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 3,
+          "name": "Graduates",
+          "file": "geo/materializers/05-3-graduates.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 1,
+          "name": "Degrees",
+          "file": "geo/materializers/06-1-degrees.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 4,
+          "name": "Freight Selectors",
+          "file": "geo/materializers/07-4-freight-selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 11,
+          "name": "Selector Grammar",
+          "file": "geo/materializers/08-11-selector-grammar.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 5,
+          "name": "Constants",
+          "file": "geo/materializers/09-5-constants.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 12,
+          "name": "Industries",
+          "file": "geo/materializers/10-12-industries.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 13,
+          "name": "Occupations",
+          "file": "geo/materializers/11-13-occupations.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 10,
+          "name": "Election Data",
+          "file": "geo/materializers/12-10-election-data.ts",
+          "warnings": [
+            {
+              "code": "legacy-internal-endpoint",
+              "message": "data URL targets a legacy /api/ endpoint"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 15,
+          "name": "Race/Ethnicity Text",
+          "file": "geo/materializers/13-15-race-ethnicity-text.ts",
+          "warnings": [
+            {
+              "code": "patched",
+              "message": "`raceTopSentence` is read but never defined in this materializer (legacy bug: the variable always resolved to undefined, hiding the sentence). Declared so the module compiles; behaviour unchanged."
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 55,
+          "name": "Visibility & Text",
+          "file": "geo/materializers/14-55-visibility-text.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 56,
+          "name": "Buttons",
+          "file": "geo/materializers/15-56-buttons.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 57,
+          "name": "Visibility Selectors",
+          "file": "geo/materializers/16-57-visibility-selectors.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 58,
+          "name": "Sections visibility",
+          "file": "geo/materializers/17-58-sections-visibility.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 60,
+          "name": "[Education] No Schooling",
+          "file": "geo/materializers/18-60-education-no-schooling.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 61,
+          "name": "[Education] No Schooling",
+          "file": "geo/materializers/19-61-education-no-schooling.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 62,
+          "name": "[Education] Degrees ",
+          "file": "geo/materializers/20-62-education-degrees.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 100,
+          "name": "Birthplace MOE Values",
+          "file": "geo/materializers/21-100-birthplace-moe-values.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 105,
+          "name": "Commute Time",
+          "file": "geo/materializers/22-105-commute-time.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 110,
+          "name": "Exercise",
+          "file": "geo/materializers/23-110-exercise.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 111,
+          "name": "Food Insecurity",
+          "file": "geo/materializers/24-111-food-insecurity.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 112,
+          "name": "Plumbing",
+          "file": "geo/materializers/25-112-plumbing.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 113,
+          "name": "Kitchen",
+          "file": "geo/materializers/26-113-kitchen.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 114,
+          "name": "Internet Access",
+          "file": "geo/materializers/27-114-internet-access.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 115,
+          "name": "CitizenShip",
+          "file": "geo/materializers/28-115-citizenship.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 116,
+          "name": "Providers",
+          "file": "geo/materializers/29-116-providers.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 117,
+          "name": "Buttons for health section",
+          "file": "geo/materializers/30-117-buttons-for-health-section.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "6 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_materializer",
+          "id": 118,
+          "name": "New visibility variables",
+          "file": "geo/materializers/31-118-new-visibility-variables.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 1,
+          "name": "about",
+          "file": "geo/visualizations/1-about.ts",
+          "warnings": [
+            {
+              "code": "uses-window",
+              "message": "references window (client-only)"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 3,
+          "name": "covid-unemployment",
+          "file": "geo/visualizations/3-covid-unemployment.ts",
+          "warnings": [
+            {
+              "code": "legacy-internal-endpoint",
+              "message": "data URL targets a legacy /api/ endpoint"
+            },
+            {
+              "code": "patched",
+              "message": "`[x] || [y]` is always the left array and `suffixes[false]` relies on JS coercion; made explicit."
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 5,
+          "name": "president-electoral",
+          "file": "geo/visualizations/5-president-electoral.ts",
+          "warnings": [
+            {
+              "code": "uses-window",
+              "message": "references window (client-only)"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 6,
+          "name": "popular_vote",
+          "file": "geo/visualizations/6-popular-vote.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 7,
+          "name": "president-map",
+          "file": "geo/visualizations/7-president-map.ts",
+          "warnings": [
+            {
+              "code": "uses-window",
+              "message": "references window (client-only)"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 8,
+          "name": "us_senator",
+          "file": "geo/visualizations/8-us-senator.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 9,
+          "name": "senate-party",
+          "file": "geo/visualizations/9-senate-party.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 10,
+          "name": "house",
+          "file": "geo/visualizations/10-house.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 11,
+          "name": "house-representatives",
+          "file": "geo/visualizations/11-house-representatives.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 40,
+          "name": "trade_growth",
+          "file": "geo/visualizations/40-trade-growth.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "1 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 42,
+          "name": "clinician_patient_ratio",
+          "file": "geo/visualizations/42-clinician-patient-ratio.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "1 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 63,
+          "name": "property",
+          "file": "geo/visualizations/63-property.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "2 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 184,
+          "name": "house",
+          "file": "geo/visualizations/184-house.ts",
+          "warnings": [
+            {
+              "code": "uses-window",
+              "message": "references window (client-only)"
+            },
+            {
+              "code": "legacy-internal-endpoint",
+              "message": "data URL targets a legacy /api/ endpoint"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 185,
+          "name": "covid-employment",
+          "file": "geo/visualizations/185-covid-employment.ts",
+          "warnings": [
+            {
+              "code": "template-token-outside-string",
+              "message": "[[ or {{ appears outside a string literal"
+            },
+            {
+              "code": "template-strings-wrapped",
+              "message": "1 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 202,
+          "name": "enrollments_diversity",
+          "file": "geo/visualizations/202-enrollments-diversity.ts",
+          "warnings": [
+            {
+              "code": "legacy-internal-endpoint",
+              "message": "data URL targets a legacy /api/ endpoint"
+            },
+            {
+              "code": "dead-logiclayer-url",
+              "message": "uses /api/data (logic layer removed in production)"
+            },
+            {
+              "code": "template-strings-wrapped",
+              "message": "2 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 213,
+          "name": "health_outcomes",
+          "file": "geo/visualizations/213-health-outcomes.ts",
+          "warnings": [
+            {
+              "code": "uses-window",
+              "message": "references window (client-only)"
+            },
+            {
+              "code": "legacy-internal-endpoint",
+              "message": "data URL targets a legacy /api/ endpoint"
+            },
+            {
+              "code": "dead-logiclayer-url",
+              "message": "uses /api/data (logic layer removed in production)"
+            },
+            {
+              "code": "template-strings-wrapped",
+              "message": "3 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 214,
+          "name": "health_outcomes",
+          "file": "geo/visualizations/214-health-outcomes.ts",
+          "warnings": [
+            {
+              "code": "legacy-internal-endpoint",
+              "message": "data URL targets a legacy /api/ endpoint"
+            },
+            {
+              "code": "dead-logiclayer-url",
+              "message": "uses /api/data (logic layer removed in production)"
+            },
+            {
+              "code": "template-strings-wrapped",
+              "message": "3 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 215,
+          "name": "health_behaviors",
+          "file": "geo/visualizations/215-health-behaviors.ts",
+          "warnings": [
+            {
+              "code": "legacy-internal-endpoint",
+              "message": "data URL targets a legacy /api/ endpoint"
+            },
+            {
+              "code": "dead-logiclayer-url",
+              "message": "uses /api/data (logic layer removed in production)"
+            },
+            {
+              "code": "template-strings-wrapped",
+              "message": "3 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 216,
+          "name": "health_behaviors",
+          "file": "geo/visualizations/216-health-behaviors.ts",
+          "warnings": [
+            {
+              "code": "uses-window",
+              "message": "references window (client-only)"
+            },
+            {
+              "code": "legacy-internal-endpoint",
+              "message": "data URL targets a legacy /api/ endpoint"
+            },
+            {
+              "code": "dead-logiclayer-url",
+              "message": "uses /api/data (logic layer removed in production)"
+            },
+            {
+              "code": "template-strings-wrapped",
+              "message": "3 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 277,
+          "name": "domestic_production_consumption",
+          "file": "geo/visualizations/277-domestic-production-consumption.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "1 string literal(s) wrapped in swap()"
+            },
+            {
+              "code": "implicit-globals-declared",
+              "message": "declared sloppy-mode globals: yearValue"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 279,
+          "name": "interstate_trade",
+          "file": "geo/visualizations/279-interstate-trade.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "1 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 293,
+          "name": "payroll",
+          "file": "geo/visualizations/293-payroll.ts",
+          "warnings": [
+            {
+              "code": "implicit-globals-declared",
+              "message": "declared sloppy-mode globals: dataCopy"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 294,
+          "name": "establishments",
+          "file": "geo/visualizations/294-establishments.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "3 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 328,
+          "name": "admissions_applicants_enrolled",
+          "file": "geo/visualizations/328-admissions-applicants-enrolled.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "2 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 329,
+          "name": "admissions_applicants_enrolled",
+          "file": "geo/visualizations/329-admissions-applicants-enrolled.ts",
+          "warnings": [
+            {
+              "code": "uses-window",
+              "message": "references window (client-only)"
+            },
+            {
+              "code": "legacy-internal-endpoint",
+              "message": "data URL targets a legacy /api/ endpoint"
+            },
+            {
+              "code": "dead-logiclayer-url",
+              "message": "uses /api/data (logic layer removed in production)"
+            },
+            {
+              "code": "template-strings-wrapped",
+              "message": "2 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 333,
+          "name": "enrollments_diversity",
+          "file": "geo/visualizations/333-enrollments-diversity.ts",
+          "warnings": [
+            {
+              "code": "legacy-internal-endpoint",
+              "message": "data URL targets a legacy /api/ endpoint"
+            },
+            {
+              "code": "dead-logiclayer-url",
+              "message": "uses /api/data (logic layer removed in production)"
+            },
+            {
+              "code": "template-strings-wrapped",
+              "message": "2 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 334,
+          "name": "majors",
+          "file": "geo/visualizations/334-majors.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "1 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 335,
+          "name": "universities",
+          "file": "geo/visualizations/335-universities.ts",
+          "warnings": [
+            {
+              "code": "legacy-internal-endpoint",
+              "message": "data URL targets a legacy /api/ endpoint"
+            },
+            {
+              "code": "dead-logiclayer-url",
+              "message": "uses /api/data (logic layer removed in production)"
+            },
+            {
+              "code": "template-strings-wrapped",
+              "message": "2 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 336,
+          "name": "student-diversity",
+          "file": "geo/visualizations/336-student-diversity.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "3 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 337,
+          "name": "degrees-over-time",
+          "file": "geo/visualizations/337-degrees-over-time.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "1 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 338,
+          "name": "degrees-over-time",
+          "file": "geo/visualizations/338-degrees-over-time.ts",
+          "warnings": [
+            {
+              "code": "legacy-internal-endpoint",
+              "message": "data URL targets a legacy /api/ endpoint"
+            },
+            {
+              "code": "dead-logiclayer-url",
+              "message": "uses /api/data (logic layer removed in production)"
+            },
+            {
+              "code": "template-strings-wrapped",
+              "message": "1 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 339,
+          "name": "district_tuition",
+          "file": "geo/visualizations/339-district-tuition.ts",
+          "warnings": [
+            {
+              "code": "legacy-internal-endpoint",
+              "message": "data URL targets a legacy /api/ endpoint"
+            },
+            {
+              "code": "dead-logiclayer-url",
+              "message": "uses /api/data (logic layer removed in production)"
+            },
+            {
+              "code": "template-strings-wrapped",
+              "message": "1 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 365,
+          "name": "race_and_ethnicity",
+          "file": "geo/visualizations/365-race-and-ethnicity.ts",
+          "warnings": [
+            {
+              "code": "patched",
+              "message": "`legedTooltip` is a typo of `legendTooltip`, so the legend tooltip configuration never applied (d3plus warns about the unknown key)."
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 366,
+          "name": "global_diversity",
+          "file": "geo/visualizations/366-global-diversity.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 367,
+          "name": "languages",
+          "file": "geo/visualizations/367-languages.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 370,
+          "name": "veteran",
+          "file": "geo/visualizations/370-veteran.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 375,
+          "name": "residents",
+          "file": "geo/visualizations/375-residents.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "1 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 377,
+          "name": "population_by_location",
+          "file": "geo/visualizations/377-population-by-location.ts",
+          "warnings": [
+            {
+              "code": "uses-window",
+              "message": "references window (client-only)"
+            },
+            {
+              "code": "template-strings-wrapped",
+              "message": "2 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 381,
+          "name": "workforce_diversity",
+          "file": "geo/visualizations/381-workforce-diversity.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "3 string literal(s) wrapped in swap()"
+            },
+            {
+              "code": "implicit-globals-declared",
+              "message": "declared sloppy-mode globals: dataMales, dataFemales"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 383,
+          "name": "workforce-and-wage-by-location",
+          "file": "geo/visualizations/383-workforce-and-wage-by-location.ts",
+          "warnings": [
+            {
+              "code": "uses-window",
+              "message": "references window (client-only)"
+            },
+            {
+              "code": "template-strings-wrapped",
+              "message": "3 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 386,
+          "name": "occupations",
+          "file": "geo/visualizations/386-occupations.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "3 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 387,
+          "name": "employment_by_industries",
+          "file": "geo/visualizations/387-employment-by-industries.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "3 string literal(s) wrapped in swap()"
+            },
+            {
+              "code": "implicit-globals-declared",
+              "message": "declared sloppy-mode globals: moeData"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 390,
+          "name": "degrees",
+          "file": "geo/visualizations/390-degrees.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "1 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 392,
+          "name": "educational-pyramid",
+          "file": "geo/visualizations/392-educational-pyramid.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "2 string literal(s) wrapped in swap()"
+            },
+            {
+              "code": "patched",
+              "message": "Multiplying a template string by 1 to coerce it to a number; made the coercion explicit."
+            },
+            {
+              "code": "implicit-globals-declared",
+              "message": "declared sloppy-mode globals: dataMales, dataFemales"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 395,
+          "name": "health_care_diversity",
+          "file": "geo/visualizations/395-health-care-diversity.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "1 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 401,
+          "name": "uninsured_people",
+          "file": "geo/visualizations/401-uninsured-people.ts",
+          "warnings": [
+            {
+              "code": "no-chart-type",
+              "message": "no literal type: \"X\" found in config"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 403,
+          "name": "poverty_and_diversity",
+          "file": "geo/visualizations/403-poverty-and-diversity.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "1 string literal(s) wrapped in swap()"
+            },
+            {
+              "code": "patched",
+              "message": "`String.prototype.replace` was called with four arguments; JavaScript ignores the extra two, so only the first replacement ever ran."
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 409,
+          "name": "household_income",
+          "file": "geo/visualizations/409-household-income.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 410,
+          "name": "mode_transport",
+          "file": "geo/visualizations/410-mode-transport.ts",
+          "warnings": [
+            {
+              "code": "no-chart-type",
+              "message": "no literal type: \"X\" found in config"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 411,
+          "name": "commute_time",
+          "file": "geo/visualizations/411-commute-time.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 412,
+          "name": "car-ownership",
+          "file": "geo/visualizations/412-car-ownership.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 413,
+          "name": "property",
+          "file": "geo/visualizations/413-property.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "1 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 414,
+          "name": "income_distro",
+          "file": "geo/visualizations/414-income-distro.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 416,
+          "name": "income-by-location",
+          "file": "geo/visualizations/416-income-by-location.ts",
+          "warnings": [
+            {
+              "code": "uses-window",
+              "message": "references window (client-only)"
+            },
+            {
+              "code": "template-strings-wrapped",
+              "message": "1 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 417,
+          "name": "social_needs",
+          "file": "geo/visualizations/417-social-needs.ts",
+          "warnings": [
+            {
+              "code": "uses-window",
+              "message": "references window (client-only)"
+            },
+            {
+              "code": "template-strings-wrapped",
+              "message": "4 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 418,
+          "name": "severe_housing_problems",
+          "file": "geo/visualizations/418-severe-housing-problems.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 419,
+          "name": "severe_housing_problems",
+          "file": "geo/visualizations/419-severe-housing-problems.ts",
+          "warnings": [
+            {
+              "code": "uses-window",
+              "message": "references window (client-only)"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 420,
+          "name": "children_in_poverty",
+          "file": "geo/visualizations/420-children-in-poverty.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 421,
+          "name": "children_in_poverty",
+          "file": "geo/visualizations/421-children-in-poverty.ts",
+          "warnings": [
+            {
+              "code": "uses-window",
+              "message": "references window (client-only)"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 422,
+          "name": "crimes_and_accidents",
+          "file": "geo/visualizations/422-crimes-and-accidents.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "1 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 423,
+          "name": "crimes_and_accidents",
+          "file": "geo/visualizations/423-crimes-and-accidents.ts",
+          "warnings": [
+            {
+              "code": "uses-window",
+              "message": "references window (client-only)"
+            },
+            {
+              "code": "template-strings-wrapped",
+              "message": "1 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 424,
+          "name": "health_outcomes",
+          "file": "geo/visualizations/424-health-outcomes.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "3 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 425,
+          "name": "health_outcomes",
+          "file": "geo/visualizations/425-health-outcomes.ts",
+          "warnings": [
+            {
+              "code": "uses-window",
+              "message": "references window (client-only)"
+            },
+            {
+              "code": "template-strings-wrapped",
+              "message": "3 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 426,
+          "name": "health_behaviors",
+          "file": "geo/visualizations/426-health-behaviors.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "3 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 427,
+          "name": "health_behaviors",
+          "file": "geo/visualizations/427-health-behaviors.ts",
+          "warnings": [
+            {
+              "code": "uses-window",
+              "message": "references window (client-only)"
+            },
+            {
+              "code": "template-strings-wrapped",
+              "message": "3 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 428,
+          "name": "clinical-care",
+          "file": "geo/visualizations/428-clinical-care.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "3 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 429,
+          "name": "clinical-care",
+          "file": "geo/visualizations/429-clinical-care.ts",
+          "warnings": [
+            {
+              "code": "uses-window",
+              "message": "references window (client-only)"
+            },
+            {
+              "code": "template-strings-wrapped",
+              "message": "3 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 430,
+          "name": "citizenship",
+          "file": "geo/visualizations/430-citizenship.ts",
+          "warnings": [
+            {
+              "code": "patched",
+              "message": "`data: [dataURL, ...dataNation, ...]` spread the second URL string into its characters, so the chart requested ~190 one-letter URLs and never loaded (visible as 'No Data Available' on county pages in production). The intent is clearly a single URL."
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 431,
+          "name": "citizenship",
+          "file": "geo/visualizations/431-citizenship.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 432,
+          "name": "foreign_born_population",
+          "file": "geo/visualizations/432-foreign-born-population.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 433,
+          "name": "foreign_born_population",
+          "file": "geo/visualizations/433-foreign-born-population.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 435,
+          "name": "rent_own",
+          "file": "geo/visualizations/435-rent-own.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "1 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 436,
+          "name": "rent_own",
+          "file": "geo/visualizations/436-rent-own.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "1 string literal(s) wrapped in swap()"
+            },
+            {
+              "code": "patched",
+              "message": "Same spread bug as visualization 430: `...dataNation` turned the national URL into ~190 one-letter requests, so the homeownership chart only ever had the local data."
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 437,
+          "name": "commute_time",
+          "file": "geo/visualizations/437-commute-time.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 438,
+          "name": "commute_time",
+          "file": "geo/visualizations/438-commute-time.ts",
+          "warnings": []
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 439,
+          "name": "median_earnings",
+          "file": "geo/visualizations/439-median-earnings.ts",
+          "warnings": [
+            {
+              "code": "legacy-internal-endpoint",
+              "message": "data URL targets a legacy /api/ endpoint"
+            },
+            {
+              "code": "dead-logiclayer-url",
+              "message": "uses /api/data (logic layer removed in production)"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 441,
+          "name": "distance-to-health-services-by-counties",
+          "file": "geo/visualizations/441-distance-to-health-services-by-counties.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "1 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 442,
+          "name": "location-of-health-services-facilities",
+          "file": "geo/visualizations/442-location-of-health-services-facilities.ts",
+          "warnings": [
+            {
+              "code": "template-token-outside-string",
+              "message": "[[ or {{ appears outside a string literal"
+            },
+            {
+              "code": "template-strings-wrapped",
+              "message": "1 string literal(s) wrapped in swap()"
+            }
+          ]
+        },
+        {
+          "table": "canon_cms_section_visualization",
+          "id": 446,
+          "name": "distance-to-health-services-by-state",
+          "file": "geo/visualizations/446-distance-to-health-services-by-state.ts",
+          "warnings": [
+            {
+              "code": "template-strings-wrapped",
+              "message": "1 string literal(s) wrapped in swap()"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

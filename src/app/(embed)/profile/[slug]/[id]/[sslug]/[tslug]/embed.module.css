@@ -1,0 +1,5 @@
+.embed {
+  background: var(--white);
+  min-height: 100vh;
+}
+.embed > div { min-height: 100vh; }

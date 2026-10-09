@@ -1,0 +1,74 @@
+.footer {
+  background-color: var(--dark);
+  padding: 90px 0 0;
+  text-align: center;
+  width: 100%;
+}
+.content {
+  color: white;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+.links p {
+  color: var(--lightgray);
+  font-size: 16px;
+  font-family: "Palanquin", sans-serif;
+  padding-bottom: 54px;
+  padding-top: 7px;
+}
+.logo { height: 28px; width: 113.42px; }
+.column {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin: 0 auto;
+  width: 373px;
+}
+.linkColumn {
+  color: white;
+  font-family: "Pathway Gothic One", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  padding-bottom: 54px;
+  text-transform: uppercase;
+}
+.linkColumn a { color: white; display: inline-block; }
+.linkColumn a:hover { color: var(--red); text-decoration: none; }
+.contact {
+  margin: 0 auto;
+  max-width: 480px;
+  padding: 0 25px 40px;
+  width: 100%;
+}
+.contactLabel {
+  color: var(--lightgray);
+  font-size: 16px;
+  margin: 0 0 12px;
+}
+.contactEmail {
+  color: white;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+}
+.contactEmail a { color: var(--red); }
+.logos {
+  background-color: rgba(64, 74, 89, 0.3);
+  margin: 40px 0 0;
+  padding-top: 5px;
+}
+.logos a { display: inline-block; margin: 20px; }
+.deloitte { height: 20px; }
+.datawheel { height: 24px; }
+
+@media (max-width: 768px) {
+  .footer { padding: 75px 0 0; }
+  .links { margin-bottom: 50px; }
+  .links p { padding: 32px 25% 54px; }
+  .column { display: block; padding-bottom: 30px; width: auto; }
+  .linkColumn { padding-bottom: 35px; }
+  .contact { padding-bottom: 85px; }
+  .logos { padding: 5px 0; }
+  .logos a { display: block; }
+}

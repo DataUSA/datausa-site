@@ -1,0 +1,158 @@
+.topic {
+  color: white;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  padding: 25px 25px;
+  width: 100%;
+}
+.content {
+  align-self: flex-start;
+  flex: 1;
+}
+.content:first-child {
+  flex: none;
+  margin: 3px 0 12px;
+  max-width: 415px;
+  width: 50%;
+}
+.content:only-child {
+  margin: 3px auto 12px;
+  max-width: 600px;
+  width: 100%;
+}
+.title {
+  color: var(--darkgray);
+  font-family: "Palanquin", sans-serif;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.1;
+  margin: 0 auto 10px;
+  z-index: 2;
+}
+.title a {
+  color: #333;
+  display: inline-block;
+  outline: 0;
+  position: relative;
+}
+.subtitle {
+  color: var(--red);
+  font-family: "Palanquin", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  margin: 0 auto 10px;
+  width: 100%;
+}
+.subtitle a { color: var(--red); }
+.select {
+  composes: select-wrap from global;
+}
+.selectLabel {
+  color: var(--black);
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 18px;
+  text-transform: uppercase;
+}
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.descriptions { position: relative; }
+.description {
+  color: var(--darkgray);
+  font-family: "Palanquin", sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+}
+.description a {
+  color: #32415A;
+  text-decoration: underline;
+}
+.description p {
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+.visualization {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-left: 50px;
+  min-height: 400px;
+  min-width: 0;
+  overflow: hidden;
+  position: relative;
+}
+.miniviz {
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+  margin-bottom: 10px;
+}
+
+/* Column and SubGrouping topics stack vertically and share the row */
+.Column, .SubGrouping {
+  flex: 1;
+  flex-direction: column;
+  width: auto;
+}
+.Column .content, .SubGrouping .content {
+  flex: 1;
+  max-width: none;
+  width: 100%;
+}
+.Column .visualization, .SubGrouping .visualization {
+  flex: none;
+  margin: 0;
+  min-height: 200px;
+}
+.SubGrouping .title {
+  font-size: 28px;
+  font-weight: 500;
+  margin-bottom: 0;
+  padding: 45px 0 0;
+  position: relative;
+  text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+  .topic {
+    flex: none;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0 0 50px;
+    width: 100%;
+  }
+  .content, .content:first-child {
+    max-width: none !important;
+    width: 100%;
+  }
+  .visualization {
+    margin-left: 0;
+    max-height: 400px;
+  }
+}
+
+/* comparison layout: stacked text + chart in each half */
+:global(.topic-pair) .topic, .topic.compare {
+  flex: none;
+  flex-direction: column;
+  justify-content: space-between;
+}
+:global(.topic-pair) .content, :global(.topic-pair) .content:first-child {
+  max-width: none !important;
+  width: 100%;
+}
+:global(.topic-pair) .visualization {
+  margin-left: 0;
+  max-height: 400px;
+}
+.selectPending { opacity: 0.6; }
+
+/* Prism (sponsored) topics */
+.prismContainer { width: 100%; }
+.prismSection { width: 100%; }

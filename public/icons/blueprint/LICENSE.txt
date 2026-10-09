@@ -1,0 +1,4 @@
+These icons are path data from Blueprint Icons (@blueprintjs/icons 3.33.0), Copyright 2016 Palantir
+Technologies, Inc., licensed under the Apache License, Version 2.0
+(https://www.apache.org/licenses/LICENSE-2.0). They are the icons the CMS content refers to by name
+(e.g. "pulse", "briefcase") in report section headers and the report sub-navigation.

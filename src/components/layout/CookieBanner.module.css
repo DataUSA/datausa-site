@@ -1,0 +1,50 @@
+.banner {
+  align-items: center;
+  background-color: #142E58;
+  bottom: 0;
+  box-shadow: 0 -1px 0.375rem rgba(var(--black-RGB), 0.25);
+  color: var(--white);
+  display: flex;
+  flex-wrap: wrap;
+  font-family: var(--base-font-stack);
+  gap: var(--gutter-xs);
+  justify-content: space-between;
+  left: 0;
+  padding: var(--gutter-sm) var(--gutter-md);
+  position: fixed;
+  right: 0;
+  z-index: 1000;
+}
+.desc {
+  flex: 1 1 20rem;
+  font-size: var(--font-xs);
+  line-height: 1.5;
+}
+.more {
+  color: var(--accent);
+  font-size: var(--font-xs);
+  text-decoration: underline;
+  white-space: nowrap;
+}
+.more:hover { color: var(--accent-light); }
+.reject, .accept {
+  border-radius: var(--button-border-radius);
+  cursor: pointer;
+  font-family: var(--base-font-stack);
+  font-size: var(--font-xs);
+  font-weight: var(--bold-weight);
+  padding: var(--gutter-xs) var(--gutter-md);
+  white-space: nowrap;
+}
+.reject {
+  background: transparent;
+  border: 1px solid var(--dark-1);
+  color: var(--white);
+}
+.reject:hover { background: rgba(var(--white-RGB), 0.1); }
+.accept {
+  background: var(--accent);
+  border: none;
+  color: white;
+}
+.accept:hover { background: var(--accent-light); }

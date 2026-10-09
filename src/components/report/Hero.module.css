@@ -1,0 +1,158 @@
+.hero {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 80vh;
+  min-height: 600px;
+  padding-bottom: 0;
+  position: relative;
+  width: 100%;
+}
+@media (max-width: 800px) {
+  .hero { min-height: 500px; }
+}
+.hero p { margin: 0; }
+
+.imageContainer {
+  align-items: stretch;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 0;
+}
+.imageContainer::after {
+  content: "";
+  background-image: linear-gradient(rgba(20, 27, 46, 0.5), rgba(20, 27, 46, 0.3) 10%, rgba(20, 27, 46, 0.5) 50%, var(--darkbluegray) 100%);
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+.image {
+  background-position: 50% 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  flex: 1;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  position: relative;
+  width: 100%;
+  z-index: 1;
+}
+
+.title, .subtitle {
+  color: white;
+  flex: 1;
+  font-family: "Palanquin", sans-serif;
+  letter-spacing: 0.03em;
+  padding: 0 10px;
+  text-align: center;
+  text-shadow: 0 2px 6px black;
+  text-transform: uppercase;
+}
+.title {
+  font-size: 48px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  margin-bottom: 0;
+}
+@media (max-width: 800px) {
+  .title { font-size: 40px; }
+}
+.subtitle {
+  display: flex;
+  justify-content: center;
+  flex: none;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.1;
+  margin: var(--gutter-xs) auto 20px;
+}
+.subtitle a { color: white; }
+
+/* geography pill with the dimension icon */
+:global(.splash-geo) .subtitle,
+:global(.splash-naics) .subtitle,
+:global(.splash-soc) .subtitle {
+  align-items: center;
+  border-radius: 3px;
+  color: var(--dark);
+  padding: 5px 10px 6px 7px;
+  text-shadow: none;
+}
+:global(.splash-geo) .subtitle::before,
+:global(.splash-naics) .subtitle::before,
+:global(.splash-soc) .subtitle::before {
+  background-repeat: no-repeat;
+  background-size: contain;
+  content: "";
+  display: inline-block;
+  height: 17px;
+  margin-right: 5px;
+  width: 17px;
+}
+:global(.splash-geo) .subtitle { background-color: var(--geo); }
+:global(.splash-geo) .subtitle::before { background-image: url("/icons/dimensions/Geography-Splash.png"); }
+:global(.splash-naics) .subtitle { background-color: var(--naics); }
+:global(.splash-naics) .subtitle::before { background-image: url("/icons/dimensions/PUMS Industry-Splash.png"); }
+:global(.splash-soc) .subtitle { background-color: var(--soc); }
+:global(.splash-soc) .subtitle::before { background-image: url("/icons/dimensions/PUMS Occupation-Splash.png"); }
+
+.search {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+  max-width: 420px;
+  min-height: 36px;
+  position: relative;
+  width: 100%;
+  z-index: 2;
+}
+.compare {
+  align-items: center;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+}
+.compareIcon {
+  margin-right: 10px;
+  width: 19px;
+}
+.compareText {
+  color: white;
+  font-family: "Palanquin", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 12px black;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+@media (max-width: 800px) {
+  .search { display: none; }
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 25px auto;
+  max-width: 1000px;
+  width: 100%;
+}

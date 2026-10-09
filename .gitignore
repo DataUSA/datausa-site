@@ -1,0 +1,29 @@
+# dependencies
+node_modules
+
+# next.js
+.next
+out
+next-env.d.ts
+
+# production / pm2 runtime
+logs
+*.pid
+
+# environment files (never commit secrets)
+.env
+.env.*
+!.env.example
+
+# migration-only artifacts
+scripts/legacy-export/raw/
+
+# os / editor
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+*.tsbuildinfo
+
+# built from data/*.jsonl by npm run build:dimensions
+data/dimensions.sqlite*
+scripts/regression/out/

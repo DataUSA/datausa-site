@@ -1,0 +1,36 @@
+// Materializers of the geo profile sorted by legacy ordering (later ones read the output of earlier ones).
+import type {MaterializerDefinition} from "@/lib/reports/types";
+import m0 from "./00-9-colors";
+import m1 from "./01-2-employees";
+import m2 from "./02-7-nation-comparisons";
+import m3 from "./03-6-icons";
+import m4 from "./04-8-subtitles";
+import m5 from "./05-3-graduates";
+import m6 from "./06-1-degrees";
+import m7 from "./07-4-freight-selectors";
+import m8 from "./08-11-selector-grammar";
+import m9 from "./09-5-constants";
+import m10 from "./10-12-industries";
+import m11 from "./11-13-occupations";
+import m12 from "./12-10-election-data";
+import m13 from "./13-15-race-ethnicity-text";
+import m14 from "./14-55-visibility-text";
+import m15 from "./15-56-buttons";
+import m16 from "./16-57-visibility-selectors";
+import m17 from "./17-58-sections-visibility";
+import m18 from "./18-60-education-no-schooling";
+import m19 from "./19-61-education-no-schooling";
+import m20 from "./20-62-education-degrees";
+import m21 from "./21-100-birthplace-moe-values";
+import m22 from "./22-105-commute-time";
+import m23 from "./23-110-exercise";
+import m24 from "./24-111-food-insecurity";
+import m25 from "./25-112-plumbing";
+import m26 from "./26-113-kitchen";
+import m27 from "./27-114-internet-access";
+import m28 from "./28-115-citizenship";
+import m29 from "./29-116-providers";
+import m30 from "./30-117-buttons-for-health-section";
+import m31 from "./31-118-new-visibility-variables";
+
+export const materializers: MaterializerDefinition[] = [m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27, m28, m29, m30, m31];

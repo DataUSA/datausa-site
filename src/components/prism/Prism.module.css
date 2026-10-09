@@ -1,0 +1,219 @@
+/* Sponsor notice (legacy PrismSection.css) */
+.notice {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1rem;
+  padding: 0.8rem;
+  border: 2px solid #e3e48d;
+  border-radius: 5px;
+}
+@media (min-width: 768px) {
+  .notice { margin: 0 1rem; align-items: center; flex-flow: row nowrap; }
+}
+.noticeLogo {
+  display: inline-block;
+  flex: 0 1 auto;
+  width: 106px;
+  height: 20px;
+  margin: auto;
+}
+.noticeCall {
+  flex: 1 1 auto;
+  margin: 0;
+  font-size: 0.8rem;
+}
+.noticeButton {
+  display: inline-block;
+  padding: 0.25rem 1rem;
+  color: #f0f0f0;
+  background-color: #357aac;
+  border: 0 none;
+  white-space: pre;
+  font-family: "Pathway Gothic One", sans-serif;
+}
+.noticeButton:hover { color: #fff; text-decoration: none; }
+@media (max-width: 768px) {
+  .noticeLogo { order: 2; margin-right: auto; margin-left: 0; }
+  .noticeCall { font-size: 0.65rem; order: 1; flex: 1 0 100%; }
+  .noticeButton { margin-inline-start: auto; font-size: 1.2rem; order: 3; }
+}
+
+/* Gate state: placeholder stats are blurred until registered */
+.locked :global(ol) li { position: relative; }
+.locked :global(ol) li::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 -10px 0;
+  backdrop-filter: blur(3px);
+}
+.unlocked { }
+
+/* Registration dialog (legacy PrismFormDialog) */
+.dialog {
+  background: #f6f6f6;
+  border: 0;
+  border-radius: 6px;
+  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.1), 0 4px 8px rgba(16, 22, 26, 0.2), 0 18px 46px 6px rgba(16, 22, 26, 0.2);
+  color: var(--dark-2);
+  max-width: calc(100% - 40px);
+  padding: 20px;
+  width: 650px;
+}
+.dialog::backdrop { background-color: rgba(51, 51, 51, 0.4); }
+.dialogHeader {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+.dialogHeader h3 {
+  color: #434958;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  opacity: 0.6;
+  text-transform: uppercase;
+}
+.dialogClose {
+  background: none;
+  border: 0;
+  color: #5c7080;
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 1;
+}
+.form { display: block; }
+.grid {
+  display: grid;
+  gap: 15px;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 15px;
+}
+@media (max-width: 500px) { .grid { grid-template-columns: 1fr; } }
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 15px;
+}
+.grid .field { margin-bottom: 0; }
+.fieldLabel {
+  font-size: 13px;
+  font-weight: 600;
+}
+.fieldLabel em { color: #5c7080; font-style: normal; margin-left: 4px; }
+.fieldLabel small { font-weight: 400; opacity: 0.7; }
+.field input, .field select, .field textarea {
+  background: white;
+  border: 1px solid #BEC7DE;
+  border-radius: 2px;
+  color: var(--dark-2);
+  font-family: var(--base-font-stack);
+  font-size: 13px;
+  padding: 8px 10px;
+  width: 100%;
+}
+.field input:disabled, .field select:disabled { opacity: 0.5; }
+.fieldError input, .fieldError select { border-color: #c23030; }
+.fieldHelp { color: #c23030; font-size: 12px; }
+.consent {
+  align-items: flex-start;
+  display: flex;
+  font-size: 12px;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.consent em { color: #5c7080; font-style: normal; margin-left: 4px; }
+.actions { display: flex; gap: 10px; justify-content: flex-end; }
+.primaryButton {
+  background: #137cbd;
+  border: 0;
+  border-radius: 3px;
+  color: white;
+  cursor: pointer;
+  font-family: var(--base-font-stack);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+}
+.primaryButton:disabled { opacity: 0.5; cursor: not-allowed; }
+.secondaryButton {
+  background: #f5f8fa;
+  border: 1px solid rgba(16, 22, 26, 0.2);
+  border-radius: 3px;
+  color: var(--dark-2);
+  cursor: pointer;
+  font-family: var(--base-font-stack);
+  font-size: 14px;
+  padding: 8px 16px;
+}
+
+/* Map (legacy PrismMap.css) */
+.map {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 400px;
+  position: relative;
+  width: 100%;
+}
+.leaflet { flex: 1; min-height: 400px; z-index: 0; }
+.map :global(.leaflet-control-zoom-in), .map :global(.leaflet-control-zoom-out) {
+  height: 15px !important;
+  width: 15px !important;
+  line-height: 15px !important;
+  font-size: 10px !important;
+}
+.mapLoader {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.75);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  position: absolute;
+  z-index: 1000;
+}
+.mapSpinner {
+  animation: prism-spin 0.7s linear infinite;
+  border: 3px solid rgba(131, 192, 180, 0.3);
+  border-radius: 50%;
+  border-top-color: #83C0B4;
+  height: 30px;
+  width: 30px;
+}
+@keyframes prism-spin { to { transform: rotate(360deg); } }
+.blocker { inset: 0; position: absolute; z-index: 1001; }
+.blockerOverlay {
+  align-items: center;
+  backdrop-filter: blur(4px);
+  display: flex;
+  height: 100%;
+  justify-content: center;
+}
+.blockerDialog {
+  background-color: #29425c;
+  border-radius: 0.5rem;
+  color: #fff;
+  padding: 1.5rem 2rem;
+  text-align: center;
+  width: 300px;
+}
+.blockerDialog h3 { color: #e3e48d; font-size: 1.4rem; font-weight: 700; margin: 0 0 1rem; }
+.blockerDialog p { font-size: 0.9rem; margin: 0 0 1rem; }
+.blockerDialog ul { list-style: none; margin: 0 0 1.5rem; padding: 0; text-align: left; }
+.blockerDialog li { padding-bottom: 0.4rem; }
+
+/* Popups: class names are applied to Leaflet DOM via the module's hashed names */
+.popup :global(.leaflet-popup-content-wrapper) { border-radius: 0; overflow: hidden; padding: 0; }
+.popup :global(.leaflet-popup-content) { margin: 0; width: auto !important; }
+.popupInner { font-family: var(--base-font-stack); width: 280px; }
+.popupHeader { background: #edf0f5; padding: 16px 20px; text-align: center; }
+.popupTitle { color: #1a2133; font-size: 15px; font-weight: 700; line-height: 1.3; }
+.popupSubtitle { color: #5a6a8a; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; margin-top: 5px; text-transform: uppercase; }
+.popupBody { padding: 12px 20px 4px; }
+.popupRow { align-items: flex-start; display: flex; gap: 20px; justify-content: space-between; margin-bottom: 10px; }
+.popupLabel { color: #334155; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; padding-top: 1px; text-transform: uppercase; white-space: nowrap; }
+.popupValue { color: #1e293b; font-size: 13px; line-height: 1.4; text-align: right; }
+.popupRow[data-locked] { align-items: center; justify-content: flex-start; }
+.popupRow[data-locked] .popupLabel { align-items: center; display: flex; flex: 0 0 36px; justify-content: center; }
+.popupRow[data-locked] .popupLabel, .popupRow[data-locked] .popupValue { text-align: left; }

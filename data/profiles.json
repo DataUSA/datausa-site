@@ -1,0 +1,103 @@
+[
+  {
+    "id": 1,
+    "profileId": 1,
+    "slug": "geo",
+    "dimension": "Geography",
+    "levels": [
+      "Nation",
+      "State",
+      "County",
+      "Place",
+      "MSA",
+      "PUMA",
+      "Congressional District"
+    ],
+    "measure": "Population",
+    "cubeName": "acs_yg_total_population_5",
+    "ordering": 0,
+    "visible": true,
+    "profileOrdering": 0
+  },
+  {
+    "id": 2,
+    "profileId": 2,
+    "slug": "cip",
+    "dimension": "CIP",
+    "levels": [
+      "CIP2",
+      "CIP4",
+      "CIP6"
+    ],
+    "measure": "Completions",
+    "cubeName": "ipeds_completions",
+    "ordering": 0,
+    "visible": true,
+    "profileOrdering": 1
+  },
+  {
+    "id": 3,
+    "profileId": 3,
+    "slug": "naics",
+    "dimension": "PUMS Industry",
+    "levels": [
+      "Industry Sector",
+      "Industry Sub-Sector",
+      "Industry Group"
+    ],
+    "measure": "Total Population",
+    "cubeName": "pums_5",
+    "ordering": 0,
+    "visible": true,
+    "profileOrdering": 2
+  },
+  {
+    "id": 4,
+    "profileId": 4,
+    "slug": "soc",
+    "dimension": "PUMS Occupation",
+    "levels": [
+      "Broad Occupation",
+      "Detailed Occupation",
+      "Major Occupation Group",
+      "Minor Occupation Group"
+    ],
+    "measure": "Total Population",
+    "cubeName": "pums_5",
+    "ordering": 0,
+    "visible": true,
+    "profileOrdering": 3
+  },
+  {
+    "id": 5,
+    "profileId": 5,
+    "slug": "university",
+    "dimension": "University",
+    "levels": [
+      "Carnegie",
+      "Carnegie Parent",
+      "University"
+    ],
+    "measure": "Completions",
+    "cubeName": "ipeds_completions",
+    "ordering": 0,
+    "visible": true,
+    "profileOrdering": 4
+  },
+  {
+    "id": 6,
+    "profileId": 6,
+    "slug": "napcs",
+    "dimension": "NAPCS",
+    "levels": [
+      "NAPCS Group",
+      "NAPCS Section",
+      "NAPCS Class"
+    ],
+    "measure": "Obligation Amount",
+    "cubeName": "usa_spending",
+    "ordering": 0,
+    "visible": true,
+    "profileOrdering": 5
+  }
+]

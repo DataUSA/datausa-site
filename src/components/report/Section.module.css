@@ -1,0 +1,186 @@
+.section {
+  background-color: #E4E8F3;
+  padding: 60px 25px 25px;
+  text-align: center;
+  width: 100%;
+}
+.section:nth-child(even) { background-color: #EFF3FD; }
+
+.sectionTitle {
+  font-family: "Palanquin", sans-serif;
+  font-size: 42px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  margin: 0 auto 15px;
+  max-width: 1250px;
+  padding: 0 25px;
+  text-align: left;
+  width: 100%;
+  z-index: 2;
+}
+.sectionTitle a {
+  color: #333;
+  display: inline-block;
+  outline: 0;
+  position: relative;
+}
+.sectionIcon {
+  height: 32px;
+  margin-bottom: 5px;
+  margin-right: 10px;
+  vertical-align: middle;
+  width: 32px;
+  display: inline-block;
+}
+.sectionIcon svg {
+  display: block;
+  fill: currentColor;
+  height: 100%;
+  width: 100%;
+}
+
+.body {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  padding: 0 25px;
+  text-align: left;
+  margin: 0 auto;
+  max-width: 1250px;
+}
+.sectionContent {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+.description {
+  color: var(--darkgray);
+  columns: 320px auto;
+  column-gap: 20px;
+  flex: 2 1 auto;
+  font-family: "Palanquin", sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  margin: 3px auto 12px;
+  max-width: 1200px;
+  opacity: 0.9;
+  width: 100%;
+}
+.description a {
+  color: #32415A;
+  text-decoration: underline;
+}
+.description p { font-size: 17px; }
+.imageMeta {
+  color: white;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.7;
+  padding: 0 0 30px;
+}
+.imageMeta span { font-style: italic; }
+
+.visualizations {
+  flex: 1;
+  margin-left: 50px;
+  min-width: 300px;
+  overflow: hidden;
+  position: relative;
+}
+.photoAttribution {
+  color: white;
+  font-family: "Palanquin", sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  transition: text-shadow 0.35s;
+}
+.photoAttribution:hover {
+  text-decoration: none;
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
+}
+.breadcrumbs {
+  align-items: flex-start;
+  display: flex;
+  font-family: "Palanquin", sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  line-height: 2;
+  margin-top: 10px;
+  text-transform: uppercase;
+}
+.breadcrumbs img {
+  margin-left: 1px;
+  margin-right: 4px;
+  margin-top: 1px;
+}
+.bread {
+  color: white;
+  display: inline;
+  transition: text-shadow 0.35s;
+  white-space: normal;
+  word-break: break-word;
+  vertical-align: text-top;
+}
+.bread:hover {
+  text-decoration: none;
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
+}
+.bread:not(:first-child) { margin-left: 4px; }
+.bread:not(:first-child)::before {
+  color: rgba(240, 244, 246, 0.75);
+  content: "\\ ";
+  font-weight: 400;
+  padding: 0 2px 0;
+}
+.sectionVisualization { height: 200px; }
+
+.topics {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: left;
+  margin: 0 auto;
+  max-width: 1250px;
+}
+
+/* About */
+.section.about {
+  background-color: var(--darkbluegray);
+  margin-top: calc(var(--subnav-height) * -1);
+}
+.section.about .sectionTitle a { color: white !important; }
+.section.about .description { color: white !important; }
+.section.about .description a { color: #cfedff !important; }
+
+@media (max-width: 768px) {
+  .sectionTitle { padding: 0; }
+  .body { flex-wrap: wrap; padding: 0; }
+  .description {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .visualizations { margin-left: 0; text-align: center; }
+  /* About: the mini map and breadcrumbs sit above the text, full width, on phones */
+  .section.about .sectionContent { flex-direction: column-reverse; }
+  .section.about .visualizations { margin: 0 auto 25px; max-width: 320px; min-width: 0; width: 100%; }
+}
+
+/* comparison mode: two members side by side */
+.compareSection .body { flex-wrap: wrap; }
+.compareSection .sectionContent:not(:first-child) .description { margin-left: 50px; }
+.topicPair {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.topicPair > * {
+  flex: 1 1 50%;
+  min-width: 0;
+}
+@media (max-width: 768px) {
+  .topicPair > * { flex-basis: 100%; }
+  .compareSection .sectionContent:not(:first-child) .description { margin-left: 0; }
+}

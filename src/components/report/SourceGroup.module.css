@@ -1,0 +1,14 @@
+.sourceGroup {
+  color: var(--gray) !important;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.2;
+  min-height: 1.2em;
+}
+.sourceGroup a {
+  color: var(--darkgray);
+  text-decoration: underline;
+  transition: color 0.1s;
+}
+.sourceGroup a:hover { color: var(--black); }
+.source { display: inline; }

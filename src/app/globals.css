@@ -1,0 +1,228 @@
+/*
+ * Global theme tokens and base styles. Values come from the legacy `app/style.yml` and
+ * `canon-cms/src/css/base.css` so the rewrite keeps the same typography, colours and spacing.
+ */
+@import "../styles/fonts.css";
+
+:root {
+  color-scheme: light;
+
+  /* brand */
+  --red: #ef6145;
+  --dark: #00112C;
+  --darkbluegray: #141b2e;
+  --textblue: #2A425C;
+  --blue: #114B8A;
+  --light: #727682;
+  --purple: #b29dc7;
+  --darkgray: #303f50;
+  --lightgray: #a5abb6;
+
+  /* profile family colours */
+  --geo: #879bf5;
+  --naics: #e2cfe6;
+  --soc: #5cb3aa;
+  --cip: #ef7760;
+  --university: #e2db93;
+  --napcs: #EEA86C;
+
+  /* grayscale */
+  --white: #f6f6f6;
+  --light-1: #F8F9FA;
+  --light-2: #edeeef;
+  --light-3: #dae0e4;
+  --gray: #727682;
+  --dark-1: #8A97AE;
+  --dark-2: #2A2F3B;
+  --dark-3: #20242E;
+  --black: #1B191D;
+
+  /* accents */
+  --accent: #ef6145;
+  --accent-light: #ef7760;
+  --accent-dark: #114B8A;
+  --accent-black: #00112C;
+
+  --white-RGB: 255, 255, 255;
+  --black-RGB: 24, 26, 33;
+  --accent-light-RGB: 255, 214, 91;
+
+  --tooltip-subtitle: #869DAD;
+
+  /* measurements */
+  --banner-height: 36px;
+  --nav-height: 40px;
+  --subnav-height: 45px;
+  --container-width: 80rem;
+  --gutter-xs: 0.5rem;
+  --gutter-sm: 0.75rem;
+  --gutter-md: 1.5rem;
+  --gutter-lg: 2.25rem;
+  --gutter-xl: 3rem;
+
+  /* typography */
+  --font-xxxs: 0.5rem;
+  --font-xxs: 0.625rem;
+  --font-xs: 0.75rem;
+  --font-sm: 0.875rem;
+  --font-md: 1rem;
+  --font-lg: 1.25rem;
+  --font-xl: 1.5rem;
+  --font-xxl: 2rem;
+  --base-font-stack: "Palanquin", sans-serif;
+  --base-font-weight: 400;
+  --bold-weight: 800;
+  --button-border-radius: 2px;
+
+  --section-text-color: var(--dark-2);
+}
+
+html {
+  min-height: 100vh;
+  position: relative;
+  width: 100%;
+  font-size: 100%;
+}
+@media (min-width: 992px) { html { font-size: 112.5%; } }
+@media (min-width: 1400px) { html { font-size: 125%; } }
+
+body {
+  margin: 0;
+  background-color: var(--darkbluegray);
+  color: var(--black);
+  font-family: var(--base-font-stack);
+  font-weight: var(--base-font-weight);
+  font-variant-ligatures: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+svg, img { max-width: 100%; }
+
+a {
+  color: var(--accent-dark);
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--base-font-stack);
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.125;
+  margin: 0;
+}
+h1 { font-size: var(--font-xl); }
+h2 { font-size: var(--font-lg); }
+h3 { font-size: var(--font-md); }
+h4, p, li, label, input { font-size: var(--font-sm); }
+
+p { margin: 0 0 1em; }
+
+::selection { background: #ddd; }
+
+input[type="text"]:focus { outline: 0; }
+
+#App {
+  background-color: var(--darkbluegray);
+  position: relative;
+}
+
+/* native selects used by report dropdowns (legacy Blueprint select look) */
+.select-wrap {
+  position: relative;
+  margin-bottom: 5px;
+}
+.select-wrap select {
+  appearance: none;
+  background: white url("/images/icons/chevron-down.svg") no-repeat right 10px center;
+  background-size: 11px;
+  border: 1px solid #BEC7DE;
+  border-radius: 0;
+  color: var(--darkgray);
+  font-family: var(--base-font-stack);
+  font-size: 13px;
+  font-weight: 600;
+  height: 35px;
+  line-height: 13px;
+  padding: 0 23px 0 9px;
+  transition: background 0.2s;
+  width: 100%;
+}
+.select-wrap select:hover { background-color: rgb(241, 241, 241); }
+
+/* hero statistics inject candidate portraits (senators, representatives, president) */
+.candidate-party-icon {
+  border: 1px solid white;
+  border-radius: 50%;
+  display: inline-block;
+  height: 10px;
+  width: 10px;
+}
+.candidate-image {
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 2px;
+  float: left;
+  height: 50px;
+  margin-right: 5px;
+  min-width: 50px;
+  overflow: hidden;
+  position: relative;
+  width: 50px;
+  vertical-align: middle;
+}
+@media (max-width: 800px) {
+  .candidate-image { height: 35px; min-width: 35px; width: 35px; }
+}
+.candidate-image > * {
+  background-position: 50% 30%;
+  background-size: cover;
+  bottom: 0;
+  display: block;
+  left: 0;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.plus-minus {
+  color: var(--red);
+  vertical-align: baseline;
+}
+
+/* d3plus overrides (tooltips are appended to <body>, so these must be global) */
+.d3plus-Axis-title text {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.d3plus-tooltip {
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 3px;
+  z-index: 30;
+}
+.d3plus-tooltip .d3plus-tooltip-title { min-width: 224px; }
+.d3plus-tooltip .d3plus-tooltip-title .icon {
+  position: fixed;
+  top: -21px;
+  right: 91px;
+  left: 91px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  padding-top: 5px;
+}
+.d3plus-tooltip .d3plus-tooltip-title .icon img { height: 30px; }
+.d3plus-tooltip .d3plus-tooltip-title .title { padding-top: 15px; }
+.d3plus-tooltip .d3plus-tooltip-title .title-without-icon { padding-top: 0; }
+.d3plus-tooltip .d3plus-tooltip-title .subtitle {
+  padding-top: 4px;
+  color: var(--tooltip-subtitle);
+  font-size: 8px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+.d3plus-tooltip .d3plus-tooltip-table .d3plus-tooltip-tbody tr td:last-child { text-align: right !important; }

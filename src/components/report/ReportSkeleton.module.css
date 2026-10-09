@@ -1,0 +1,14 @@
+.skeleton {
+  min-height: 100vh;
+}
+.hero {
+  height: 24rem;
+  background: var(--dark-3, #20242e);
+}
+.block {
+  height: 20rem;
+  margin: 2rem auto;
+  max-width: var(--container-width, 80rem);
+  background: var(--light-2, #edeeef);
+  border-radius: 4px;
+}

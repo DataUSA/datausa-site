@@ -1,0 +1,57 @@
+{
+  "name": "datausa-site",
+  "version": "4.0.0-alpha.0",
+  "private": true,
+  "description": "Data USA — the most comprehensive visualization of U.S. public data (Next.js rewrite)",
+  "license": "AGPL-3.0",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "dev": "next dev -p 3301",
+    "build": "next build",
+    "start": "next start -p 3301",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "extract:legacy": "tsx --env-file=.env.migration.local scripts/legacy-export/extract.ts",
+    "build:dimensions": "tsx scripts/legacy-export/build-dimensions.ts",
+    "export:dimensions": "tsx --env-file=.env.migration.local scripts/legacy-export/export-dimensions.ts",
+    "prebuild": "npm run build:dimensions"
+  },
+  "dependencies": {
+    "@d3plus/export": "4.7.0",
+    "@d3plus/react": "4.7.0",
+    "country-state-city": "^3.2.1",
+    "d3-array": "3.2.4",
+    "d3-collection": "1.0.7",
+    "d3-format": "3.1.2",
+    "d3-geo": "3.1.1",
+    "d3-time-format": "4.1.0",
+    "leaflet": "^1.9.4",
+    "next": "16.4.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "topojson-client": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/d3-array": "3.2.2",
+    "@types/d3-collection": "1.0.13",
+    "@types/d3-format": "3.0.4",
+    "@types/d3-geo": "3.1.1",
+    "@types/d3-time-format": "4.0.3",
+    "@types/geojson": "^7946.0.16",
+    "@types/leaflet": "^1.9.21",
+    "@types/node": "24.19.1",
+    "@types/pg": "8.23.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@types/topojson-client": "^3.1.5",
+    "@types/topojson-specification": "^1.0.5",
+    "eslint": "9.39.1",
+    "eslint-config-next": "16.4.0",
+    "pg": "^8.23.1",
+    "playwright": "^1.58.2",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3"
+  }
+}

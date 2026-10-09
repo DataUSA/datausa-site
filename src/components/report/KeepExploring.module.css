@@ -1,0 +1,77 @@
+.keepExploring {
+  padding-bottom: 40px;
+}
+.heading {
+  color: rgba(255, 255, 255, 0.9);
+  font-family: "Pathway Gothic One", sans-serif;
+  font-size: 38px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  margin: 30px 0 15px;
+  text-align: center;
+  text-transform: uppercase;
+}
+.tiles {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 35px;
+  width: 100%;
+}
+.tile {
+  align-items: center;
+  background-color: var(--dark);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: 1px solid var(--white);
+  border-radius: 6px;
+  color: var(--white);
+  cursor: pointer;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  height: 124px;
+  justify-content: center;
+  margin: 15px;
+  min-width: 300px;
+  overflow: hidden;
+  padding: var(--gutter-sm);
+  position: relative;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 1);
+}
+.tile::before {
+  content: "";
+  background: rgba(24, 32, 38, 0.7);
+  inset: 0;
+  position: absolute;
+  transition: opacity 0.6s;
+}
+.tile:hover { color: var(--white); text-decoration: none; }
+.tile:hover::before { opacity: 0.5; }
+.tiles:global(.geo) .tile { border-color: var(--geo); }
+.tiles:global(.naics) .tile { border-color: var(--naics); }
+.tiles:global(.soc) .tile { border-color: var(--soc); }
+.tiles:global(.cip) .tile { border-color: var(--cip); }
+.tiles:global(.university) .tile { border-color: var(--university); }
+.tiles:global(.napcs) .tile { border-color: var(--napcs); }
+.tileTitle {
+  font-family: "Palanquin", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+  z-index: 1;
+}
+.tileSubtitle {
+  font-family: "Palanquin", sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  line-height: 17px;
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+  z-index: 1;
+}
