@@ -27,3 +27,4 @@ scripts/legacy-export/raw/
 # built from data/*.jsonl by npm run build:dimensions
 data/dimensions.sqlite*
 scripts/regression/out/
+public/_harness/

@@ -4,6 +4,7 @@
  */
 import {cache} from "react";
 import {cacheLife, cacheTag} from "next/cache";
+import {connection} from "next/server";
 import {getTemplate} from "@/content/registry";
 import {GEOSERVICE_URL, TESSERACT_URL} from "@/lib/api/tesseract";
 import type {MemberRow} from "@/lib/dimensions/db";
@@ -44,6 +45,10 @@ export const loadMemberReport = cache(async (profileSlug: string, member: Member
   runMemberReport(profileSlug, member, JSON.stringify(options)));
 
 const runMemberReport = cache(async (profileSlug: string, member: MemberRow, serializedOptions: string): Promise<LoadedReport> => {
+  // Report variables are computed per request (the data cache sits below, in the API layer, and a
+  // few generators read the clock), so tell Next explicitly instead of letting the prerender pass
+  // trip over `new Date()`.
+  await connection();
   const {query = {}, print = false} = JSON.parse(serializedOptions) as LoadOptions;
   const template = getTemplate(profileSlug);
   if (!template) throw new Error(`Unknown profile ${profileSlug}`);

@@ -22,13 +22,13 @@ export function Nav() {
 
   // On report pages the bar shows the report title once the hero has scrolled away.
   useEffect(() => {
-    if (!pathname.startsWith("/profile/")) { setTitle(""); return; }
+    if (!pathname.startsWith("/profile/")) return;
     const read = () => setTitle(document.title.replace(/\s*\|\s*Data USA\s*$/, ""));
-    read();
+    // Next streams the metadata in and may replace the <title> element, so watch the whole head.
     const observer = new MutationObserver(read);
-    const el = document.querySelector("title");
-    if (el) observer.observe(el, {childList: true, characterData: true, subtree: true});
-    return () => observer.disconnect();
+    observer.observe(document.head, {childList: true, characterData: true, subtree: true});
+    const initial = setTimeout(read, 0);
+    return () => { clearTimeout(initial); observer.disconnect(); };
   }, [pathname]);
 
   const home = pathname === "/";
@@ -48,7 +48,7 @@ export function Nav() {
             <img src="/images/logo_sm.png" alt="Data USA" />
           </Link>
         )}
-        {title && background && <span className={styles.subtitle}>{title}</span>}
+        {title && background && pathname.startsWith("/profile/") && <span className={styles.subtitle}>{title}</span>}
       </div>
       <div className={styles.right}>
         <ul className={styles.links}>

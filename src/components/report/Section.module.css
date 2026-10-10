@@ -5,6 +5,8 @@
   width: 100%;
 }
 .section:nth-child(even) { background-color: #EFF3FD; }
+/* Anchor targets (#demographics, #age...) land below the fixed nav + subnav instead of under them. */
+.section { scroll-margin-top: calc(var(--nav-height) + var(--subnav-height)); }
 
 .sectionTitle {
   font-family: "Palanquin", sans-serif;
@@ -143,7 +145,7 @@
   flex-wrap: wrap;
   text-align: left;
   margin: 0 auto;
-  max-width: 1250px;
+  width: 100%; /* legacy: topics span the section (text column 415px, chart takes the rest) */
 }
 
 /* About */
@@ -156,6 +158,7 @@
 .section.about .description a { color: #cfedff !important; }
 
 @media (max-width: 768px) {
+  .section { scroll-margin-top: var(--nav-height); } /* the subnav is not fixed on phones */
   .sectionTitle { padding: 0; }
   .body { flex-wrap: wrap; padding: 0; }
   .description {

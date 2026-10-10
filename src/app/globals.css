@@ -195,11 +195,9 @@ input[type="text"]:focus { outline: 0; }
   vertical-align: baseline;
 }
 
-/* d3plus overrides (tooltips are appended to <body>, so these must be global) */
-.d3plus-Axis-title text {
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
+/* d3plus overrides (tooltips are appended to <body>, so these must be global). Axis titles are
+   upper-cased in the chart island config: d3plus 4 gives their text nodes no `d3plus-Axis-title`
+   class to style. */
 .d3plus-tooltip {
   box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 3px;
   z-index: 30;

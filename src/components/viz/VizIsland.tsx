@@ -1,19 +1,19 @@
 "use client";
 
-import {useEffect, useMemo, useRef, useState, type ComponentType} from "react";
-import * as d3plus from "@d3plus/react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import {configWarnings} from "@d3plus/core";
 import {formatters} from "@/content/formatters";
 import {getVizLoader} from "@/content/viz-registry";
 import {libs} from "@/lib/content/libs";
 import {swapTemplate} from "@/lib/template";
 import {albersUsaPr} from "@/lib/viz/albers-usa-pr";
-import {theme} from "@/lib/viz/theme";
+import {chartFonts, theme} from "@/lib/viz/theme";
 import type {VizConfig, VizDefinition} from "@/lib/reports/types";
 import {useReport, useReportState} from "@/components/report/ReportProvider";
 import {addSources, extractSources} from "./sources";
 import {Options} from "./Options";
 import {PrismMap} from "@/components/prism/PrismMap";
+import {ChartRenderer, hasChart} from "./ChartRenderer";
 import styles from "./VizIsland.module.css";
 
 type AnyRecord = Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -31,10 +31,6 @@ interface VizIslandProps {
   configOverride?: AnyRecord;
 }
 
-const charts: Record<string, ComponentType<{config: AnyRecord; className?: string}>> = {
-  ...(d3plus as unknown as Record<string, ComponentType<{config: AnyRecord; className?: string}>>),
-  PrismMap
-};
 
 // The shared theme deliberately carries options for every chart type (axis styling, map tiles,
 // bar padding...). d3plus 4 would warn once per chart class for each key it does not use, so the
@@ -49,7 +45,10 @@ function useNearViewport<T extends HTMLElement>(margin = "600px"): [React.RefObj
   useEffect(() => {
     const el = ref.current;
     if (!el || visible) return;
-    if (!("IntersectionObserver" in window)) { setVisible(true); return; }
+    if (!("IntersectionObserver" in window)) {
+      const t = setTimeout(() => setVisible(true), 0);
+      return () => clearTimeout(t);
+    }
     const observer = new IntersectionObserver(entries => {
       if (entries.some(e => e.isIntersecting)) {
         setVisible(true);
@@ -63,9 +62,63 @@ function useNearViewport<T extends HTMLElement>(margin = "600px"): [React.RefObj
 }
 
 /**
+ * Resolves once the chart fonts are loaded (or after a short timeout). d3plus 4 redraws a chart
+ * when a font it measured text with finishes loading; on a fresh page that redraw overlaps the
+ * chart's data load and the two renders apply the axis margins twice, so the chart waits.
+ */
+let fontsPromise: Promise<void> | undefined;
+function chartFontsReady(): Promise<void> {
+  if (typeof document === "undefined" || !("fonts" in document)) return Promise.resolve();
+  fontsPromise ??= Promise.race([
+    Promise.all(chartFonts.map(family => document.fonts.load(`13px "${family}"`))).then(() => undefined),
+    new Promise<void>(resolve => setTimeout(resolve, 3000))
+  ]).catch(() => undefined);
+  return fontsPromise;
+}
+function useChartFonts(): boolean {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    let cancelled = false;
+    chartFontsReady().then(() => { if (!cancelled) setReady(true); });
+    return () => { cancelled = true; };
+  }, []);
+  return ready;
+}
+
+/**
+ * Measures the figure the chart draws into. d3plus 4 is given this size explicitly instead of
+ * measuring the container itself: its own first measurement happens before the `height: 100%`
+ * chain has resolved, its ResizeObserver then corrects it while the chart's data is still loading,
+ * and the two overlapping renders apply the axis margins twice (half-height plots, missing bar
+ * labels). With `width`/`height` in the config d3plus neither measures nor observes.
+ */
+function useFigureSize<T extends HTMLElement>(active: boolean): [React.RefObject<T | null>, {width: number; height: number} | null] {
+  const ref = useRef<T>(null);
+  const [size, setSize] = useState<{width: number; height: number} | null>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !active) return;
+    const measure = () => {
+      const rect = el.getBoundingClientRect();
+      const next = {width: Math.round(rect.width), height: Math.round(rect.height)};
+      if (next.width > 0 && next.height > 0) setSize(prev => prev && prev.width === next.width && prev.height === next.height ? prev : next);
+    };
+    const frame = requestAnimationFrame(measure);
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(() => {
+      clearTimeout(timer);
+      timer = setTimeout(measure, 150);
+    });
+    observer?.observe(el);
+    return () => { cancelAnimationFrame(frame); clearTimeout(timer); observer?.disconnect(); };
+  }, [active]);
+  return [ref, size];
+}
+
+/**
  * A chart island. Renders a sized placeholder on the server; in the browser, once the section nears
  * the viewport, it downloads the chart's config module, evaluates it against the report variables
- * and renders the matching `@d3plus/react` component.
+ * and mounts the matching `@d3plus/core` chart (see `ChartRenderer`).
  */
 export function VizIsland({vizId, sectionSlug, profileSlug, which = "primary", title, className = "", options = true, configOverride}: VizIslandProps) {
   const {profileSlug: contextSlug, comparison} = useReport();
@@ -100,6 +153,12 @@ export function VizIsland({vizId, sectionSlug, profileSlug, which = "primary", t
       if (type !== "Geomap" && merged.zoom === undefined) merged.zoom = false;
       // Legacy data-cart hook (feature removed); d3plus 4 would warn about the unknown key.
       delete merged.cart;
+      // The legacy stylesheet upper-cased axis titles (`.d3plus-Axis-title text`); d3plus 4 renders
+      // titles as generic text nodes with no such class, so apply the transform to the config.
+      for (const key of ["xConfig", "yConfig", "x2Config", "y2Config"]) {
+        const axis = merged[key];
+        if (axis && typeof axis === "object" && typeof axis.title === "string") merged[key] = {...axis, title: axis.title.toUpperCase()};
+      }
       // Comparison mode: race legends get crowded, so hide their labels (legacy behaviour)
       if (comparison) {
         const groupBy = (Array.isArray(merged.groupBy) ? merged.groupBy : [merged.groupBy]).filter((d: unknown) => typeof d === "string") as string[];
@@ -142,22 +201,28 @@ export function VizIsland({vizId, sectionSlug, profileSlug, which = "primary", t
 
   const ok = built && built.kind === "ok" ? built : null;
   const failure = error ?? (built && built.kind === "error" ? built.error : null);
-  const Chart = ok ? charts[ok.type] : undefined;
+  const supported = ok ? ok.type === "PrismMap" || hasChart(ok.type) : false;
   const explicitHeight = ok && typeof ok.config.height === "number" ? ok.config.height : undefined;
+  const [figureRef, figureSize] = useFigureSize<HTMLDivElement>(Boolean(ok && supported));
+  const fontsReady = useChartFonts();
+  const sizedConfig = useMemo(() => {
+    if (!ok || !figureSize || !fontsReady) return null;
+    return {...ok.config, width: figureSize.width, height: explicitHeight ?? figureSize.height};
+  }, [ok, figureSize, explicitHeight, fontsReady]);
 
   return (
     <div ref={ref} className={`${styles.container} ${className}`} data-viz-id={vizId} style={explicitHeight ? {minHeight: explicitHeight} : undefined}>
-      {ok && options && Chart && (
+      {ok && options && supported && (
         <Options config={ok.config} title={ok.title ?? title ?? "Data USA Visualization"} sectionSlug={sectionSlug} containerRef={ref} />
       )}
-      <div className={styles.figure} style={explicitHeight ? {height: explicitHeight} : undefined}>
+      <div ref={figureRef} className={styles.figure} style={explicitHeight ? {height: explicitHeight} : undefined}>
         {failure ? (
           <div className={styles.message}>{failure}</div>
-        ) : ok && Chart ? (
-          <d3plus.D3plusContext.Provider value={theme}>
-            <Chart className="d3plus" config={ok.config} />
-          </d3plus.D3plusContext.Provider>
-        ) : ok && !Chart ? (
+        ) : ok && supported ? (
+          sizedConfig && (ok.type === "PrismMap"
+            ? <PrismMap config={sizedConfig} />
+            : <ChartRenderer type={ok.type} config={sizedConfig} />)
+        ) : ok && !supported ? (
           <div className={styles.message}>{ok.type} is not a supported visualization type</div>
         ) : (
           <div className={styles.placeholder} aria-hidden="true" />

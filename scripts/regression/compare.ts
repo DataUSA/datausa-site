@@ -87,9 +87,18 @@ async function capture(base: string, site: string, path: string, viewport: typeo
     const classes = ((await section.getAttribute("class")) || "").split(/\s+/).filter(c => c && !["cp-section", "Section"].includes(c));
     const id = (await section.getAttribute("id")) || classes[0] || `section-${i}`;
     try {
-      await section.scrollIntoViewIfNeeded({timeout: 5000});
-      await page.waitForTimeout(1200);
-      await section.screenshot({path: join(sectionDir, `${id.replace(/[^a-z0-9_-]+/gi, "_")}.png`), timeout: 20000, animations: "disabled"});
+      // Element screenshots of tall sections resize the viewport, which makes both sites' charts
+      // re-render mid-capture; a viewport screenshot with the section's top aligned is stable.
+      // Both sites keep a fixed nav + subnav (~85px) at the top: leave 100px so the title is visible.
+      await section.evaluate(el => window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 100));
+      await page.waitForTimeout(2500);
+      // No named inner functions here: tsx compiles those with a `__name` helper that does not
+      // exist inside the page and the evaluation then throws (and trips both sites' dev overlays).
+      await page.waitForFunction(() => Array.from(document.querySelectorAll("[data-viz-id], .cp-viz-container"))
+        .filter(el => { const r = el.getBoundingClientRect(); return r.bottom > 0 && r.top < window.innerHeight; })
+        .every(el => el.querySelector("svg, [class*='message'], .cp-viz-error")), undefined, {timeout: 30000}).catch(() => {});
+      await page.waitForTimeout(1500);
+      await page.screenshot({path: join(sectionDir, `${id.replace(/[^a-z0-9_-]+/gi, "_")}.png`), timeout: 20000, animations: "disabled"});
     }
     catch {
       // a section that cannot be captured (e.g. zero height) is skipped

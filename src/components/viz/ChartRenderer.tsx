@@ -1,0 +1,53 @@
+"use client";
+
+import {useEffect, useRef} from "react";
+import * as core from "@d3plus/core";
+import {applyConfig, hash} from "@d3plus/dom";
+import {theme} from "@/lib/viz/theme";
+
+type AnyRecord = Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+
+const charts = core as unknown as Record<string, (new () => AnyRecord) | undefined>;
+
+/** Whether `@d3plus/core` exports a chart class of this name (the CMS `type`). */
+export function hasChart(type: string): boolean {
+  return typeof charts[type] === "function";
+}
+
+/**
+ * Mounts one d3plus chart into an `<svg>`. Replaces `@d3plus/react`'s Renderer, whose render effect
+ * is not StrictMode-safe: React's simulated unmount/remount in development re-ran `render()` on the
+ * same instance while its data was still loading, and two overlapping d3plus renders apply the axis
+ * margins twice (half-height plots, bar labels gone). Here the render is deferred by one frame so the
+ * simulated unmount cancels the first run, and the instance is destroyed on a real unmount.
+ */
+export function ChartRenderer({type, config, className = "d3plus"}: {type: string; config: AnyRecord; className?: string}) {
+  const svgRef = useRef<SVGSVGElement>(null);
+  const vizRef = useRef<AnyRecord | null>(null);
+  const configHash = hash(config);
+  const latest = useRef(config);
+  useEffect(() => { latest.current = config; });
+
+  useEffect(() => {
+    const el = svgRef.current;
+    const Chart = charts[type];
+    if (!el || !Chart) return;
+    const frame = requestAnimationFrame(() => {
+      const viz = (vizRef.current ??= new Chart());
+      applyConfig(viz as Parameters<typeof applyConfig>[0], el, theme, latest.current);
+      viz.render();
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [type, configHash]);
+
+  useEffect(() => () => {
+    vizRef.current?.destroy?.();
+    vizRef.current = null;
+  }, []);
+
+  return (
+    <div className={className} style={{height: "100%"}}>
+      <svg ref={svgRef} width="100%" height="100%" />
+    </div>
+  );
+}

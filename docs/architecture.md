@@ -7,12 +7,12 @@ Status: proposed 2026-10-09 after Phase 1 discovery (`docs/discovery.md`); updat
 - Content and configuration live in Git as TypeScript; data comes from Tesseract and the geoservice at request time.
 - Any valid report URL renders on first request after a deploy: no build-time enumeration, no warm-up crawl.
 - SEO-critical content (title, hero stats, about narrative, metadata, links) is in the server HTML.
-- Charts are client islands using `@d3plus/react` 4.7, loaded lazily per section.
+- Charts are client islands mounting `@d3plus/core` 4.7 charts through our own small renderer (`src/components/viz/ChartRenderer.tsx`), loaded lazily per section.
 - Deploy = `next build` + PM2 cluster behind the existing Nginx/Cloudflare; no CMS database at runtime.
 
 ## Stack (pinned, see `package.json`)
 
-Next.js 16.4.0 (App Router, Cache Components, standalone output), React 19.3, TypeScript 5.9 strict, `@d3plus/react` + `@d3plus/export` 4.7.0, d3-array / d3-collection / d3-format / d3-time-format / d3-geo (the helper surface the legacy content code already uses), CSS Modules + global CSS, Node 24 LTS built-in `node:sqlite` (FTS5) for dimensions. Dev-only: `pg` + `tsx` for the one-time extraction scripts.
+Next.js 16.4.0 (App Router, Cache Components, standalone output), React 19.3, TypeScript 5.9 strict, `@d3plus/core` / `@d3plus/dom` / `@d3plus/text` / `@d3plus/color` / `@d3plus/export` 4.7.0, d3-array / d3-collection / d3-format / d3-time-format / d3-geo (the helper surface the legacy content code already uses), CSS Modules + global CSS, Node 24 LTS built-in `node:sqlite` (FTS5) for dimensions. Dev-only: `pg` + `tsx` for the one-time extraction scripts.
 
 ## Source layout
 

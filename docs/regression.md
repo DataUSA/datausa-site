@@ -7,22 +7,26 @@ remote API, so cold numbers include the same upstream latency on both sides.
 
 ## Content parity (`scripts/regression/compare.ts`)
 
-Massachusetts, Suffolk County MA and Boston MA at 1440×900 and 390×844:
+Massachusetts, Suffolk County MA, Boston MA, Harvard University and Restaurants & Food Services at 1440×900 and 390×844 (last full run 2026-10-09 night, both sites in development mode):
 
 | Check | Result |
 |---|---|
-| Hero text (title, KPIs, senators, growth lines) | Identical on all three geographies and both viewports (same SHA-1 of the rendered text). |
+| Hero text (title, KPIs, senators, growth lines) | Identical on all five reports and both viewports (same SHA-1 of the rendered text). |
 | Sections | All legacy section ids present; the rewrite adds a `keep-exploring` id for the footer block the legacy site rendered without an id. |
-| Charts rendered | Rewrite ≥ legacy on every page (legacy 34–67 SVGs, rewrite 38–78; the extra SVGs are inline icons). |
-| Console errors | Legacy: React key warnings, a NaN path on Massachusetts. Rewrite: d3plus 4 "negative height" messages from maps' first draw pass (A12 in `migration-gaps.md`), nothing else. |
-| Failed requests | Only `/api/prism/status` 401 (expected when not registered) on both; Leaflet basemap tiles aborted while scrolling on the rewrite. |
-| Phone width | No horizontal overflow on the three reports, home, search or about pages (`probe-overflow.mjs`). |
+| Charts rendered | Rewrite ≥ legacy on every page (legacy 16–67 SVGs, rewrite 19–88; the extra SVGs are inline icons). |
+| Console errors | Legacy: React key warnings and NaN path/transform values on Massachusetts and Suffolk County. Rewrite: the same NaN paths on the same two reports (d3plus 4 logs one message per path), and transient sub-pixel negative bar heights while Harvard's graduation-rate mini chart animates (none once it settles). The earlier map "negative height" errors were a real sizing defect, now fixed (A12 in `migration-gaps.md`). |
+| Failed requests | Only `/api/prism/status` 401 (expected when not registered) on both; Chromium `ERR_CACHE_WRITE_FAILURE` appeared on two captures because the development machine's disk was nearly full, not because of the site. |
+| Phone width | No horizontal overflow on the five reports, home, search or about pages (`probe-overflow.mjs`). |
 
 Variables: 310 of 311 text variables identical to the legacy payload for Massachusetts (the last one
 is a neighbour ordering, now sorted the same way); 170/172 generators succeed, the two failures fail
 on the legacy site too (A1, A2).
 
-Per-section screenshots for both sites are written to `scripts/regression/out/<site>-<viewport>-<path>/<section>.png`.
+Per-section screenshots for both sites are written to `scripts/regression/out/<site>-<viewport>-<path>/<section>.png`
+(each section scrolled 100px below the fixed header, charts in view awaited, viewport-sized). Reviewing them on
+2026-10-09 caught what the counts had not: the choropleth maps were not drawing at all (A12), the chart column
+was 140px narrower than legacy, the phone subnav was white on white, and the nav lacked the report title; all
+fixed and re-captured.
 
 ## Other report families (`scripts/regression/compare-variables.mjs`)
 
@@ -34,8 +38,8 @@ Per-section screenshots for both sites are written to `scripts/regression/out/<s
 | University: Harvard University | 431 / 431 | 32 / 32 |
 | Product: Research and development services | 30 / 33, plus 694 freight variables the legacy payload lacks (A20 in `migration-gaps.md`) | 5 / 5 |
 
-Each of these pages renders at desktop and phone widths with no console errors (other than the d3plus
-map notice, A12) and no horizontal overflow (`probe-page.mjs`).
+Each of these pages renders at desktop and phone widths with no console errors and no horizontal
+overflow (`probe-page.mjs`).
 
 ## Performance
 
@@ -80,4 +84,9 @@ npx tsx scripts/regression/compare.ts /profile/geo/massachusetts /profile/geo/su
 node scripts/regression/probe-page.mjs http://localhost:3301/ home            # errors, overflow, screenshots
 node scripts/regression/probe-overflow.mjs http://localhost:3301/profile/geo/boston-ma 390
 node scripts/regression/probe-d3plus-warnings.mjs http://localhost:3301/profile/geo/massachusetts
+node scripts/regression/probe-section.mjs http://localhost:3301 /profile/geo/massachusetts demographics desktop out.png   # one section: chart boxes + viewport screenshot
+SCROLL_TO="#demographics" node scripts/regression/probe-dom.mjs http://localhost:3301 /profile/geo/massachusetts "#population_by_location svg > g"   # element boxes
+node scripts/regression/probe-geomap.mjs http://localhost:3301 /profile/geo/massachusetts "#population_by_location"   # one chart island's d3plus state (groups, fills, negative heights)
+npx esbuild scripts/regression/harness/geomap.ts --bundle --format=iife --alias:@=./src --define:TESSERACT='"https://api-ohio.datausa.io/"' --outfile=public/_harness/geomap.js
+node scripts/regression/harness/probe.mjs "" "omit=shapeConfig" "cfgomit=time"   # d3plus outside React (served at /_harness/): bisect theme and config keys
 ```

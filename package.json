@@ -19,8 +19,11 @@
     "prebuild": "npm run build:dimensions"
   },
   "dependencies": {
+    "@d3plus/color": "4.7.0",
+    "@d3plus/core": "4.7.0",
+    "@d3plus/dom": "4.7.0",
     "@d3plus/export": "4.7.0",
-    "@d3plus/react": "4.7.0",
+    "@d3plus/text": "4.7.0",
     "country-state-city": "^3.2.1",
     "d3-array": "3.2.4",
     "d3-collection": "1.0.7",

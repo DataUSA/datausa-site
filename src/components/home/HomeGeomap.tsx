@@ -3,17 +3,15 @@
 import {useMemo} from "react";
 import dynamic from "next/dynamic";
 import {useRouter} from "next/navigation";
-import {D3plusContext} from "@d3plus/react";
 import {configWarnings} from "@d3plus/core";
 import {format} from "d3-format";
 import {albersUsaPr} from "@/lib/viz/albers-usa-pr";
-import {theme} from "@/lib/viz/theme";
 import type {HomeGeomapRow} from "@/lib/home/geomap";
 
 type AnyRecord = Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 
 // Loaded on the client only, after the rest of the page: the home page itself ships no d3plus.
-const Geomap = dynamic(() => import("@d3plus/react").then(m => m.Geomap as unknown as React.ComponentType<{config: AnyRecord}>), {ssr: false, loading: () => <div className="viz" />});
+const Geomap = dynamic(() => import("@/components/viz/ChartRenderer").then(m => m.ChartRenderer), {ssr: false, loading: () => <div className="viz" />});
 
 configWarnings(false);
 const abbreviate = format(".3s");
@@ -42,9 +40,7 @@ export function HomeGeomap({data}: {data: HomeGeomapRow[]}) {
   if (!data.length) return <div className="viz" />;
   return (
     <div className="viz">
-      <D3plusContext.Provider value={theme}>
-        <Geomap config={config} />
-      </D3plusContext.Provider>
+      <Geomap type="Geomap" config={config} />
     </div>
   );
 }

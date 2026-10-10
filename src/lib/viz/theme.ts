@@ -39,6 +39,9 @@ const pathway = ["Pathway Gothic One", "Arial Narrow", "sans-serif"];
 const sourceSans = ["Source Sans Pro", "sans-serif"];
 const palanquin = ["Palanquin", "sans-serif"];
 
+/** Web fonts the charts measure text with; the chart island waits for them before drawing. */
+export const chartFonts = ["Pathway Gothic One", "Palanquin", "Source Sans Pro"];
+
 /** Finds a colour for a datum from the colour lookup (`"<Dimension> ID"` or `"ID <Dimension>"` keys). */
 export function findColor(this: AnyRecord | void, d: AnyRecord): string {
   let detectedColors: string[] = [];
@@ -61,6 +64,43 @@ export function findColor(this: AnyRecord | void, d: AnyRecord): string {
     return colorLookup.colorGrey;
   }
   return Object.keys(d).some(v => badMeasures.includes(v)) ? bad : good;
+}
+
+
+/**
+ * d3plus 4 hyphenates words that do not fit their line ("Ar-chi-tec-ture"); d3plus 2 split labels
+ * only at spaces and after punctuation and dropped a word that could not fit, which is what the
+ * legacy charts show (narrow bars carry no label). Same splitting rules as the old `textSplit`.
+ */
+export function legacySplit(text: unknown): string[] {
+  // Like d3plus 4's own split, each word keeps its trailing whitespace: the wrapper concatenates
+  // words into lines and measures the spaces separately.
+  const words = String(text ?? "").match(/\S+\s*/g) ?? [];
+  return words.flatMap(word => word.split(/(?<=[-/;:&])(?=\S)/));
+}
+/**
+ * d3plus 2 drew map paths with the Geomap's own Path fill (the colour scale, else `topojsonFill`)
+ * and ignored the theme's generic `fill`; d3plus 4 lets the generic theme fill win, which painted
+ * every choropleth shape in one colour. This restores the old precedence for Path shapes using the
+ * same lookups as the library default (`charts/Geomap/index.js` in `@d3plus/core`).
+ */
+function pathFill(this: AnyRecord | void, d: AnyRecord, i: number): string {
+  const viz = this as AnyRecord | undefined;
+  if (viz?.schema?.topojson === undefined && viz?.schema?.colorScale === undefined) return findColor.call(this, d);
+  const colorScale = viz?.schema?.colorScale;
+  if (colorScale && viz?._colorScaleClass) {
+    let datum = d;
+    while (datum?.__d3plus__ && datum.data) datum = datum.data;
+    const value = colorScale(datum, i);
+    if (value !== undefined && value !== null) {
+      const scale = viz._colorScaleClass._colorScale;
+      if (scale && scale.domain().length) return scale(value);
+      const colors = viz._colorScaleClass.color();
+      return Array.isArray(colors) ? colors[colors.length - 1] : colors;
+    }
+  }
+  const topojsonFill = viz?.schema?.topojsonFill;
+  return typeof topojsonFill === "function" ? topojsonFill(d, i) : topojsonFill ?? "#f5f5f3";
 }
 
 function findColorTooltip(this: AnyRecord | void, key: string, d: AnyRecord): string {
@@ -135,6 +175,9 @@ export function findTooltipTitle(this: AnyRecord | void, d: AnyRecord, d3plusCon
 const labelPadding = 5;
 
 const axisStyles = {
+  // d3plus 4 forces the domain's min and max into the ticks (e.g. a "146,100" label at the top of
+  // a bar chart); the legacy axes only showed the scale's round ticks.
+  domainTicks: false,
   barConfig: {stroke: "#ccc"},
   gridConfig: {stroke: "#ccc"},
   shapeConfig: {
@@ -186,7 +229,7 @@ export const theme: AnyRecord = {
     axisConfig: {
       labelOffset: true,
       labelRotation: false,
-      shapeConfig: {labelConfig: {fontColor: () => "#211f1a", fontFamily: () => sourceSans, fontSize: () => 12, fontWeight: () => 400}},
+      shapeConfig: {labelConfig: {split: legacySplit, fontColor: () => "#211f1a", fontFamily: () => sourceSans, fontSize: () => 12, fontWeight: () => 400}},
       titleConfig: {fontColor: () => "#211f1a", fontFamily: () => palanquin, fontSize: () => 12, fontWeight: () => 400}
     },
     color: colorLookup.colorScaleGood,
@@ -195,7 +238,7 @@ export const theme: AnyRecord = {
     colorMax: colorLookup.colorScaleGood[4],
     legendConfig: {
       shapeConfig: {
-        labelConfig: {fontFamily: () => sourceSans, fontSize: () => 12},
+        labelConfig: {split: legacySplit, fontFamily: () => sourceSans, fontSize: () => 12},
         height: () => 15,
         stroke: "transparent",
         width: () => 15
@@ -208,7 +251,7 @@ export const theme: AnyRecord = {
   hiddenColor: "#ddd",
   legendConfig: {
     shapeConfig: {
-      labelConfig: {fontFamily: () => palanquin, fontSize: () => 13},
+      labelConfig: {split: legacySplit, fontFamily: () => palanquin, fontSize: () => 13},
       height: () => 20,
       width: () => 20
     }
@@ -245,7 +288,11 @@ export const theme: AnyRecord = {
       }
     },
     Bar: {
-      labelConfig: {fontFamily: () => pathway, fontResize: false, fontSize: () => 13, padding: "0 5px"},
+      // d3plus 4's legend, timeline and axes leave bars a few pixels thinner than d3plus 2 did, and a
+      // label only draws when its line height fits inside the bar minus padding; the default 1.2 line
+      // height dropped the labels off ~18px bars that the legacy charts labelled (population pyramids).
+      // Bar labels are single lines, so a line height equal to the font size costs nothing visually.
+      labelConfig: {split: legacySplit, fontFamily: () => pathway, fontResize: false, fontSize: () => 13, lineHeight: () => 13, padding: "0 5px"},
       strokeWidth: (d: AnyRecord) => {
         const c = findColor(d);
         return c === good || c === bad ? 1 : 0;
@@ -254,15 +301,15 @@ export const theme: AnyRecord = {
     // d3plus 4 sweeps motion trails behind moving points by default; the legacy charts had none.
     Circle: {trail: false},
     fill: findColor,
-    labelConfig: {fontFamily: () => pathway, fontSize: () => 13, padding: labelPadding},
+    labelConfig: {split: legacySplit, fontFamily: () => pathway, fontSize: () => 13, padding: labelPadding},
     Line: {
       curve: "monotoneX",
-      labelConfig: {fontFamily: () => pathway, fontSize: () => 12},
+      labelConfig: {split: legacySplit, fontFamily: () => pathway, fontSize: () => 12},
       stroke: findColor,
       strokeWidth: 3,
       strokeLinecap: "round"
     },
-    Path: {fillOpacity: 0.75, strokeOpacity: 0.25},
+    Path: {fill: pathFill, fillOpacity: 0.75, strokeOpacity: 0.25},
     Rect: {
       trail: false,
       labelBounds: (d: AnyRecord, i: number, s: {width: number; height: number}) => {
@@ -273,7 +320,7 @@ export const theme: AnyRecord = {
           {width: s.width - labelPadding * 2, height: sh, x: -s.width / 2 + labelPadding, y: h / 2 - sh}
         ];
       },
-      labelConfig: {fontFamily: () => pathway, fontSize: () => 13, fontResize: true, padding: 0}
+      labelConfig: {split: legacySplit, fontFamily: () => pathway, fontSize: () => 13, fontResize: true, padding: 0}
     }
   },
   timelineConfig: {
@@ -286,7 +333,7 @@ export const theme: AnyRecord = {
     selectionConfig: {"fill": "#BEC7DE", "fill-opacity": 0.5, "rx": "3px", "ry": "3px", "transform": "translate(0, 2)"},
     shapeConfig: {
       fill: "transparent",
-      labelConfig: {fontColor: () => "#515B67", fontFamily: () => "Palanquin", fontSize: () => 12, fontWeight: () => 700, lineHeight: () => 16, padding: 0},
+      labelConfig: {split: legacySplit, fontColor: () => "#515B67", fontFamily: () => "Palanquin", fontSize: () => 12, fontWeight: () => 700, lineHeight: () => 16, padding: 0},
       stroke: "transparent",
       strokeWidth: 0
     }

@@ -14,11 +14,9 @@
   height: 100%;
   min-height: 400px;
 }
-.figure :global(.d3plus) > div,
-.figure :global(.d3plus) svg {
-  height: 100%;
-  min-height: 400px;
-}
+/* No sizing rules for the container's children: d3plus sets the <svg> size itself and measures the
+   other elements it appends (the map attribution, controls) when it lays out the margins, so a
+   forced height on them collapses the chart (negative inner height). */
 .placeholder {
   background: rgba(229, 232, 242, 0.5);
   border-radius: 4px;

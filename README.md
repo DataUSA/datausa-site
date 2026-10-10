@@ -36,6 +36,7 @@ Useful scripts:
 | `npx tsx scripts/regression/compare.ts /profile/geo/massachusetts …` | Legacy (`:3300`) vs new (`:3301`) comparison: console errors, failed requests, chart counts, hero text, full-page and per-section screenshots in `scripts/regression/out/`. |
 | `node scripts/regression/probe-page.mjs <url> <name>` | Headless check of one page at desktop and phone widths (errors, overflow, screenshots). |
 | `node scripts/regression/probe-d3plus-warnings.mjs <url>` | Audit of CMS chart configs against the installed d3plus version. |
+| `scripts/regression/probe-{section,dom,geomap}.mjs`, `scripts/regression/harness/` | Section, element and chart-island probes, and a stand-alone d3plus page (built with esbuild into `public/_harness/`) for bisecting theme/config interactions; see `docs/regression.md`. |
 
 ## Layout
 

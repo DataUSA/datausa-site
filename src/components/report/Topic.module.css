@@ -1,3 +1,5 @@
+/* Anchor targets (#age, #wages...) land below the fixed nav + subnav instead of under them. */
+.topic { scroll-margin-top: calc(var(--nav-height) + var(--subnav-height)); }
 .topic {
   color: white;
   display: flex;
@@ -156,3 +158,7 @@
 /* Prism (sponsored) topics */
 .prismContainer { width: 100%; }
 .prismSection { width: 100%; }
+
+@media (max-width: 768px) {
+  .topic { scroll-margin-top: var(--nav-height); }
+}
