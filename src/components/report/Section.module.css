@@ -138,7 +138,11 @@
   font-weight: 400;
   padding: 0 2px 0;
 }
-.sectionVisualization { height: 200px; }
+/* The About map is a 300x200 thumbnail (legacy `.section-visualization`), not a 400px chart. */
+.sectionVisualization {
+  --viz-min-height: 0px;
+  height: 200px;
+}
 
 .topics {
   display: flex;
@@ -168,7 +172,9 @@
   .visualizations { margin-left: 0; text-align: center; }
   /* About: the mini map and breadcrumbs sit above the text, full width, on phones */
   .section.about .sectionContent { flex-direction: column-reverse; }
-  .section.about .visualizations { margin: 0 auto 25px; max-width: 320px; min-width: 0; width: 100%; }
+  /* `flex: none`: as a flexible item of the stacked column it was shrunk to a sliver, clipping the
+     breadcrumbs and hiding the map. */
+  .section.about .visualizations { flex: none; margin: 0 auto 25px; max-width: 320px; min-width: 0; width: 100%; }
 }
 
 /* comparison mode: two members side by side */

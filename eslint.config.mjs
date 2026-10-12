@@ -5,6 +5,6 @@ export default [
   ...nextConfig,
   ...nextTs,
   {
-    ignores: [".next/**", "node_modules/**", "scripts/legacy-export/raw/**", "next-env.d.ts"]
+    ignores: [".next/**", "node_modules/**", "scripts/legacy-export/raw/**", "public/_harness/**", "next-env.d.ts"]
   }
 ];

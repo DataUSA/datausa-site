@@ -23,7 +23,7 @@ src/
     profile/[slug]/[id]/page.tsx                 report (dynamic)
     profile/[slug]/[id]/[sslug]/[tslug]/page.tsx embed
     search/page.tsx, about/…
-    api/search, api/prism/*, api/revalidate     route handlers (only where needed)
+    api/search, api/geo/names, api/prism/*, api/revalidate     route handlers (only where needed)
   content/
     formatters/            35 formatters as TS functions (hand-converted)
     shared/                colors.json, icons.json, crosswalks, civic rosters
@@ -48,7 +48,8 @@ src/
   components/
     layout/ (Nav, Footer, GA), report/ (Hero, Subnav, Section, Topic, Stat, SourceGroup, …), viz/ (VizIsland, Options)
 scripts/legacy-export/     extract.ts (CMS → candidate TS files + manifest), build-dimensions.ts (JSONL → SQLite)
-data/                      members.jsonl, images.jsonl (versioned export) → dimensions.sqlite (built, gitignored)
+scripts/topojson/          build.sh (Census boundary files → public/topojson/PUMA.json, Districts.json)
+data/                      members.jsonl, images.jsonl (versioned export), members-additions.jsonl (hand-added members) → dimensions.sqlite (built, gitignored)
 public/                    icons, images, topojson (only files referenced by content), fonts
 ```
 

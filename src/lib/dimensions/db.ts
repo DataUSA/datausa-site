@@ -142,6 +142,25 @@ export function getMembers(dimension: string, ids: string[], hierarchy?: string)
   return out;
 }
 
+/**
+ * Id and name of geographies, by exact id and/or id prefix ("05000US25" is every county in
+ * Massachusetts). Used to label map shapes, whose topojson carries ids only.
+ */
+export function getGeographyNames(ids: string[], prefixes: string[] = []): {id: string; name: string}[] {
+  const names = new Map<string, string>();
+  const byId = prepare("SELECT id, name FROM members WHERE dimension = 'Geography' AND id = ? LIMIT 1");
+  for (const id of ids) {
+    const row = byId.get(id) as Raw | undefined;
+    if (row) names.set(String(row.id), String(row.name));
+  }
+  // A range on the primary key's leading column instead of LIKE, so the lookup uses the index.
+  const byPrefix = prepare("SELECT id, name FROM members WHERE dimension = 'Geography' AND id >= ? AND id < ?");
+  for (const prefix of prefixes) {
+    for (const row of byPrefix.all(prefix, `${prefix}\uffff`) as Raw[]) names.set(String(row.id), String(row.name));
+  }
+  return Array.from(names, ([id, name]) => ({id, name}));
+}
+
 /** Members of a dimension/hierarchy ordered by popularity (zvalue), e.g. all states. */
 export function listMembers(dimension: string, hierarchy: string, limit = 100, includeHidden = false): MemberRow[] {
   const rows = prepare(`SELECT ${MEMBER_COLUMNS} FROM members WHERE dimension = ? AND hierarchy = ? ${includeHidden ? "" : "AND hidden = 0"} ORDER BY zvalue DESC LIMIT ?`).all(dimension, hierarchy, limit) as Raw[];

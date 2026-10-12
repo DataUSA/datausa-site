@@ -34,10 +34,26 @@ const viz: VizDefinition = (variables, {albersUsaPr}) => {
     : hierarchy === "Place" 
       ? `Place_${state}` 
       : hierarchy === "Congressional District" 
-        ? "Districts" : hierarchy;
+        ? "Districts" 
+        // the file is Msa.json; "MSA.json" only resolves on a case-insensitive file system
+        : hierarchy === "MSA" ? "Msa" : hierarchy;
+
+  // The topojson files carry ids only; the names for the tooltip come from the dimensions database
+  // and are joined to the shapes by id. Shapes left without a name have no tooltip: the state
+  // outlines behind places and metro areas are context, not something to hover.
+  const names = hierarchy === "MSA" ? `ids=${[id].concat(neighborIds).filter(Boolean).join(",")}`
+    : hierarchy === "County" ? `prefix=05000US${state}`
+    : hierarchy === "PUMA" ? `prefix=79500US${state}`
+    : hierarchy === "Congressional District" ? `prefix=50000US${state}`
+    : hierarchy === "Place" ? `prefix=16000US${state}`
+    : "prefix=04000US";
 
   return {
-    groupBy: (d: any) => d.Geography, 
+    data: `/api/geo/names?${names}`,
+    dataFormat: (resp: any) => resp.data.map((d: any) => ({id: d.id, "ID Geography": d.id, Geography: d.name})),
+    groupBy: "ID Geography",
+    label: (d: any) => d.Geography,
+    legend: false,
     ocean: colorBackground,
     projection: ["Nation", "State"].includes(hierarchy) || non48.includes(state)
       ? typeof window !== "undefined" ? albersUsaPr() : "geoAlbersUsa" 
@@ -53,6 +69,8 @@ const viz: VizDefinition = (variables, {albersUsaPr}) => {
     topojson: `/topojson/${topojson}.json`,
     topojsonFilter: geoFilter,
     tiles: false,
+    // name only: no table under the title
+    tooltipConfig: {tableStyle: {display: "none"}},
     type: "Geomap",
     zoom: false
   };

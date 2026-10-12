@@ -203,8 +203,11 @@ input[type="text"]:focus { outline: 0; }
   z-index: 30;
 }
 .d3plus-tooltip .d3plus-tooltip-title { min-width: 224px; }
+/* The badge straddles the tooltip's top edge. Legacy used `position: fixed`, which only worked
+   because d3plus 2 moved the tooltip with a transform; d3plus 4 tooltips are `position: fixed`
+   themselves, so the badge is positioned against the tooltip with `absolute`. */
 .d3plus-tooltip .d3plus-tooltip-title .icon {
-  position: fixed;
+  position: absolute;
   top: -21px;
   right: 91px;
   left: 91px;

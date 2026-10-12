@@ -47,7 +47,7 @@ const viz: VizDefinition = (variables, {formatters, locale, swap}) => {
         ["People in Workforce (RCA)", (d: any) => `${abbreviate(d["Total Population RCA"])}`]
       ]
     },
-    topojson: `/topojson/Birthplace.json`,
+    topojson: `/topojson/birthplace.json`,
     topojsonFilter: (d: any) => !["ATA"].includes(d.id),
     type: "Geomap"
   };

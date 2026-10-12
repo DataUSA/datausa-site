@@ -31,7 +31,12 @@ const viz: VizDefinition = (variables) => {
   const topojson = hierarchy === "Nation" ? "State" : hierarchy === "Place" ? `Place_${state}` : hierarchy;
 
   return {
-    groupBy: (d: any) => d.Geography, 
+    // County names for the tooltip, joined to the shapes by id (the topojson carries ids only).
+    data: `/api/geo/names?prefix=05000US${state}`,
+    dataFormat: (resp: any) => resp.data.map((d: any) => ({id: d.id, "ID Geography": d.id, Geography: d.name})),
+    groupBy: "ID Geography",
+    label: (d: any) => d.Geography,
+    legend: false,
     ocean: colorBackground,
     projection: ["Nation", "State"].includes(hierarchy) || state === "02" ? "geoAlbersUsa" : "geoMercator",
     shapeConfig: {
@@ -45,6 +50,8 @@ const viz: VizDefinition = (variables) => {
     topojson: `/topojson/${topojson}.json`,
     topojsonFilter: geoFilter,
     tiles: false,
+    // name only: no table under the title
+    tooltipConfig: {tableStyle: {display: "none"}},
     type: "Geomap",
     zoom: false
   };

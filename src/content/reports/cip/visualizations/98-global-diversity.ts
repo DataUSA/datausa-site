@@ -30,7 +30,7 @@ const viz: VizDefinition = (variables, {formatters, swap}) => {
         ["People in Workforce (RCA)", (d: any) => `${abbreviate(d["ycbpop RCA"])}`]
       ]
     },
-    topojson: `/topojson/Birthplace.json`,
+    topojson: `/topojson/birthplace.json`,
     topojsonFilter: (d: any) => !["ATA"].includes(d.id),
     type: "Geomap"
   };

@@ -7,7 +7,7 @@ import {getVizLoader} from "@/content/viz-registry";
 import {libs} from "@/lib/content/libs";
 import {swapTemplate} from "@/lib/template";
 import {albersUsaPr} from "@/lib/viz/albers-usa-pr";
-import {chartFonts, theme} from "@/lib/viz/theme";
+import {chartFonts, geomapShapeConfig} from "@/lib/viz/theme";
 import type {VizConfig, VizDefinition} from "@/lib/reports/types";
 import {useReport, useReportState} from "@/components/report/ReportProvider";
 import {addSources, extractSources} from "./sources";
@@ -153,6 +153,8 @@ export function VizIsland({vizId, sectionSlug, profileSlug, which = "primary", t
       if (type !== "Geomap" && merged.zoom === undefined) merged.zoom = false;
       // Legacy data-cart hook (feature removed); d3plus 4 would warn about the unknown key.
       delete merged.cart;
+      // d3plus 4 ignores fillOpacity/strokeOpacity on map paths; fold them into the colours.
+      if (type === "Geomap") merged.shapeConfig = geomapShapeConfig(merged.shapeConfig);
       // The legacy stylesheet upper-cased axis titles (`.d3plus-Axis-title text`); d3plus 4 renders
       // titles as generic text nodes with no such class, so apply the transform to the config.
       for (const key of ["xConfig", "yConfig", "x2Config", "y2Config"]) {

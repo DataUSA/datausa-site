@@ -18,7 +18,11 @@ function readJsonl<T>(path: string): T[] {
 }
 
 export function buildDimensionsDb(dataDir = resolve("data"), target = process.env.DIMENSIONS_DB_PATH ? resolve(process.env.DIMENSIONS_DB_PATH) : resolve(dataDir, "dimensions.sqlite")) {
-  const members = readJsonl<MemberLine>(resolve(dataDir, "members.jsonl"));
+  // `members-additions.jsonl` holds members Tesseract has but the legacy search table never listed
+  // (kept apart so a re-export does not drop them). It is read first: an exported row with the same
+  // key replaces it.
+  const additions = resolve(dataDir, "members-additions.jsonl");
+  const members = (existsSync(additions) ? readJsonl<MemberLine>(additions) : []).concat(readJsonl<MemberLine>(resolve(dataDir, "members.jsonl")));
   const images = readJsonl<{id: number; url: string; author: string; license: number; meta?: string}>(resolve(dataDir, "images.jsonl"));
   const profiles = JSON.parse(readFileSync(resolve(dataDir, "profiles.json"), "utf8")) as {
     id: number; profileId: number; slug: string; dimension: string; levels: string[]; measure: string; cubeName: string; ordering: number; visible: boolean;

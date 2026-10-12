@@ -3,6 +3,7 @@
  * Ported from the legacy `app/d3plus.js`; colour and icon lookups come from `shared/data`.
  */
 import {colorDefaults} from "@d3plus/color";
+import {color as parseColor} from "d3-color";
 import colors from "@/content/shared/data/colors.json";
 import icons from "@/content/shared/data/icons.json";
 
@@ -103,6 +104,48 @@ function pathFill(this: AnyRecord | void, d: AnyRecord, i: number): string {
   return typeof topojsonFill === "function" ? topojsonFill(d, i) : topojsonFill ?? "#f5f5f3";
 }
 
+/** A CSS colour with its alpha multiplied by `opacity`; anything d3-color cannot parse is returned as is. */
+function withOpacity(value: unknown, opacity: unknown): unknown {
+  const alpha = Number(opacity);
+  if (typeof value !== "string" || opacity === undefined || opacity === null || !Number.isFinite(alpha) || alpha === 1) return value;
+  const parsed = parseColor(value);
+  if (!parsed) return value;
+  parsed.opacity *= alpha;
+  return parsed.formatRgb();
+}
+
+/**
+ * d3plus 4 paints a Geomap's topojson paths with `fill`, `stroke`, `strokeWidth` and `opacity` only
+ * (`charts/Geomap/emit.js`): the `fillOpacity` and `strokeOpacity` every legacy map relied on (0.75
+ * and 0.25 in the theme, 0.5 for the neighbours on the About maps) are dropped, so shapes came out
+ * solid with full-strength borders. This folds both opacities into the colours themselves. The
+ * stroke falls back to the library default (a darker fill) when a chart sets none.
+ */
+export function geomapShapeConfig(shapeConfig: AnyRecord = {}): AnyRecord {
+  const path: AnyRecord = {...theme.shapeConfig.Path, ...(shapeConfig.Path ?? {})};
+  const resolve = (viz: unknown, value: unknown, d: AnyRecord, i: number) => typeof value === "function" ? value.call(viz, d, i) : value;
+  return {
+    ...shapeConfig,
+    Path: {
+      ...(shapeConfig.Path ?? {}),
+      fill(this: unknown, d: AnyRecord, i: number) {
+        const fill = withOpacity(resolve(this, path.fill, d, i), resolve(this, path.fillOpacity, d, i));
+        // An invisible fill must not catch the pointer: an outline drawn over other shapes (the
+        // state on a place's About map) would otherwise swallow their hover.
+        return typeof fill === "string" && parseColor(fill)?.opacity === 0 ? "none" : fill;
+      },
+      stroke(this: unknown, d: AnyRecord, i: number) {
+        let stroke = resolve(this, path.stroke, d, i);
+        if (stroke === undefined) {
+          const fill = resolve(this, path.fill, d, i);
+          stroke = typeof fill === "string" ? parseColor(fill)?.darker().formatRgb() ?? fill : fill;
+        }
+        return withOpacity(stroke, resolve(this, path.strokeOpacity, d, i));
+      }
+    }
+  };
+}
+
 function findColorTooltip(this: AnyRecord | void, key: string, d: AnyRecord): string {
   let detectedColors: string[] = [];
   if (this && (this as AnyRecord)._filteredData) {
@@ -169,7 +212,8 @@ export function findTooltipTitle(this: AnyRecord | void, d: AnyRecord, d3plusCon
   const title = Array.isArray(item) ? `Other ${aggregated || "Values"}` : item;
   const bgColor = findColorTooltip.call(this as AnyRecord, parentId, d);
   const imgUrl = findIcon(parentId, d);
-  return tooltipTitle(bgColor, imgUrl, title, parentId);
+  // A function groupBy has no level name to show (it used to print the function's source).
+  return tooltipTitle(bgColor, imgUrl, title, typeof parentId === "string" ? parentId : false);
 }
 
 const labelPadding = 5;
@@ -216,6 +260,9 @@ export const theme: AnyRecord = {
   legendInset: false,
   sizeLegend: false,
   tooltipShared: false,
+  // Map shapes with no data row have nothing to say: d3plus 2 gave them no tooltip, d3plus 4 shows
+  // one for every topojson path (titled "Other Values" here).
+  tooltip: (d: AnyRecord) => !(d && d.__d3plus__ && d.feature && !d.data),
   detectVisibleUnload: false,
   aggs: {
     "ID Group": (arr: AnyRecord[], acc: (d: AnyRecord) => unknown) => {

@@ -50,7 +50,7 @@ const viz: VizDefinition = (variables, {formatters, locale}) => {
         ["MOE", (d: any) => `± ${commas(d["Total Population MOE Appx"])}`]
       ]
     },
-    topojson: "/topojson/Birthplace.json",
+    topojson: "/topojson/birthplace.json",
     topojsonFilter: (d: any) => d.id !== "ATA",
     type: "Geomap"
   }

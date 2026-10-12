@@ -4,15 +4,17 @@
   position: relative;
   width: 100%;
 }
+/* Charts are at least 400px tall unless the slot says otherwise (`--viz-min-height`, e.g. the 200px
+   About map). */
 .figure {
   flex: 1 1 auto;
-  min-height: 400px;
+  min-height: var(--viz-min-height, 400px);
   position: relative;
   width: 100%;
 }
 .figure :global(.d3plus) {
   height: 100%;
-  min-height: 400px;
+  min-height: var(--viz-min-height, 400px);
 }
 /* No sizing rules for the container's children: d3plus sets the <svg> size itself and measures the
    other elements it appends (the map attribution, controls) when it lays out the margins, so a
@@ -21,7 +23,7 @@
   background: rgba(229, 232, 242, 0.5);
   border-radius: 4px;
   height: 100%;
-  min-height: 400px;
+  min-height: var(--viz-min-height, 400px);
   width: 100%;
 }
 .message {

@@ -3,6 +3,7 @@
 import {useEffect, useRef} from "react";
 import * as core from "@d3plus/core";
 import {applyConfig, hash} from "@d3plus/dom";
+import "@/lib/viz/d3plus-compat";
 import {theme} from "@/lib/viz/theme";
 
 type AnyRecord = Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
