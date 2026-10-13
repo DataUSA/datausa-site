@@ -5,7 +5,7 @@
  * lookup and member metadata all come from here, synchronously and without any network or warm-up.
  */
 import {DatabaseSync, type StatementSync} from "node:sqlite";
-import {existsSync} from "node:fs";
+import {existsSync, statSync} from "node:fs";
 import {join, resolve} from "node:path";
 import type {MemberAttributes} from "@/lib/reports/types";
 
@@ -44,13 +44,43 @@ function dbPath(): string {
   return override ? resolve(/* turbopackIgnore: true */ override) : join(process.cwd(), "data", "dimensions.sqlite");
 }
 
+/** Identity of the opened file: a rebuild replaces the file, and with it these. */
+let opened = "";
+let checkedAt = 0;
+const RECHECK_MS = 5000;
+
+const fingerprint = (path: string) => {
+  const stat = statSync(path);
+  return `${stat.ino}:${stat.size}:${stat.mtimeMs}`;
+};
+
+/**
+ * The open database. `npm run build:dimensions` swaps a new file into place, so a process that is
+ * already running looks every few seconds whether the file it opened is still the one on disk and
+ * reopens it if not, instead of serving the replaced file until it is restarted.
+ */
 function connection(): DatabaseSync {
+  const path = dbPath();
+  if (db && Date.now() - checkedAt > RECHECK_MS) {
+    checkedAt = Date.now();
+    try {
+      if (fingerprint(path) !== opened) {
+        statements.clear();
+        db.close();
+        db = null;
+      }
+    }
+    catch {
+      // mid-swap (the file is briefly missing): keep the open database and look again later
+    }
+  }
   if (!db) {
-    const path = dbPath();
     if (!existsSync(path)) {
       throw new Error(`Dimensions database not found at ${path}. Run \`npm run build:dimensions\` (DIMENSIONS_DB_PATH overrides the location).`);
     }
     db = new DatabaseSync(path, {readOnly: true});
+    opened = fingerprint(path);
+    checkedAt = Date.now();
   }
   return db;
 }
@@ -161,10 +191,52 @@ export function getGeographyNames(ids: string[], prefixes: string[] = []): {id: 
   return Array.from(names, ([id, name]) => ({id, name}));
 }
 
-/** Members of a dimension/hierarchy ordered by popularity (zvalue), e.g. all states. */
+/**
+ * Members of a dimension/hierarchy ordered by popularity (zvalue), e.g. all states. Members without
+ * a popularity (a level with no data yet has none) follow in name order.
+ */
 export function listMembers(dimension: string, hierarchy: string, limit = 100, includeHidden = false): MemberRow[] {
-  const rows = prepare(`SELECT ${MEMBER_COLUMNS} FROM members WHERE dimension = ? AND hierarchy = ? ${includeHidden ? "" : "AND hidden = 0"} ORDER BY zvalue DESC LIMIT ?`).all(dimension, hierarchy, limit) as Raw[];
+  const rows = prepare(`SELECT ${MEMBER_COLUMNS} FROM members WHERE dimension = ? AND hierarchy = ? ${includeHidden ? "" : "AND hidden = 0"} ORDER BY zvalue DESC, name LIMIT ?`).all(dimension, hierarchy, limit) as Raw[];
   return rows.map(toMember);
+}
+
+export interface SchoolDistrictRow {
+  id: string;
+  /** Lowest and highest grade served, as the Census files code them ("PK", "KG", "01" to "12"). */
+  lowGrade: string | null;
+  highGrade: string | null;
+  landSqMi: number | null;
+  /** A point inside the district, `[longitude, latitude]`. */
+  lonlat: [number, number] | null;
+}
+
+function toSchoolDistrict(row: Raw): SchoolDistrictRow {
+  const lon = Number(row.lon), lat = Number(row.lat);
+  return {
+    id: String(row.id),
+    lowGrade: (row.low_grade as string) ?? null,
+    highGrade: (row.high_grade as string) ?? null,
+    landSqMi: row.land_sqmi === null || row.land_sqmi === undefined ? null : Number(row.land_sqmi),
+    lonlat: row.lon !== null && row.lat !== null && Number.isFinite(lon) && Number.isFinite(lat) ? [lon, lat] : null
+  };
+}
+
+/** Total land area, in square miles, of the school districts whose id starts with one of `prefixes`. */
+export function schoolDistrictLandArea(prefixes: string[]): number {
+  const stmt = prepare("SELECT SUM(land_sqmi) AS area FROM school_districts WHERE id >= ? AND id < ?");
+  return prefixes.reduce((sum, prefix) => sum + Number((stmt.get(prefix, `${prefix}\uffff`) as Raw).area ?? 0), 0);
+}
+
+/** What the Census boundary file says about a school district (grades, land area, a point inside it). */
+export function getSchoolDistrict(id: string): SchoolDistrictRow | undefined {
+  const row = prepare("SELECT id, low_grade, high_grade, land_sqmi, lon, lat FROM school_districts WHERE id = ?").get(id) as Raw | undefined;
+  return row ? toSchoolDistrict(row) : undefined;
+}
+
+/** A point inside every school district, by id: `[longitude, latitude]` (the search map draws them all). */
+export function schoolDistrictPoints(): Map<string, [number, number]> {
+  const rows = prepare("SELECT id, lon, lat FROM school_districts WHERE lon IS NOT NULL AND lat IS NOT NULL").all() as Raw[];
+  return new Map(rows.map(row => [row.id as string, [Number(row.lon), Number(row.lat)]]));
 }
 
 export function getImage(id: number): ImageRow | undefined {
@@ -196,7 +268,7 @@ const ABBREVIATIONS: [string, string][] = [["ft", "fort"], ["jct", "junction"], 
 export function searchMembers(query: string, {dimension, hierarchy, limit = 10}: SearchOptions = {}): SearchResult[] {
   const q = sanitizeQuery(query);
   if (!q) {
-    const rows = prepare(`SELECT ${MEMBER_COLUMNS} FROM members WHERE hidden = 0 ${dimension ? "AND dimension = ?" : ""} ${hierarchy ? "AND hierarchy = ?" : ""} ORDER BY zvalue DESC LIMIT ?`)
+    const rows = prepare(`SELECT ${MEMBER_COLUMNS} FROM members WHERE hidden = 0 ${dimension ? "AND dimension = ?" : ""} ${hierarchy ? "AND hierarchy = ?" : ""} ORDER BY zvalue DESC, name LIMIT ?`)
       .all(...[dimension, hierarchy].filter((x): x is string => Boolean(x)), limit) as Raw[];
     return rows.map(r => ({...toMember(r), score: 0}));
   }

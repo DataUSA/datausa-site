@@ -27,11 +27,12 @@ function unwrap<T>(data: unknown): T[] {
 }
 
 /**
- * The state a geography lies in, read from its id: counties, places, tracts, PUMAs and congressional
- * districts carry their state's FIPS code after the "US". Other levels (metro areas, zip codes) do not.
+ * The state a geography lies in, read from its id: counties, places, tracts, PUMAs, congressional
+ * districts and school districts carry their state's FIPS code after the "US". Other levels (metro
+ * areas, zip codes) do not.
  */
 export function stateOf(geoid: string): string | undefined {
-  return ["050", "160", "140", "795", "500"].includes(geoid.slice(0, 3)) && /^\d{2}$/.test(geoid.slice(7, 9))
+  return ["050", "160", "140", "795", "500", "950", "960", "970"].includes(geoid.slice(0, 3)) && /^\d{2}$/.test(geoid.slice(7, 9))
     ? `04000US${geoid.slice(7, 9)}`
     : undefined;
 }
@@ -72,6 +73,10 @@ export function geoLevel(id: string): string | undefined {
     "860": "Zip",
     "140": "Tract",
     "795": "PUMA",
-    "500": "Congressional District"
+    "500": "Congressional District",
+    // elementary, secondary and unified districts are one level on the site
+    "950": "School District",
+    "960": "School District",
+    "970": "School District"
   } as Record<string, string>)[prefix];
 }

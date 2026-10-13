@@ -2,6 +2,11 @@
  * Weekly unemployment-insurance claims by state (legacy `GET /api/covid19/employment/:level`),
  * still used by the "Unemployment Insurance Claims" chart. The data is a public Google Sheet
  * published as CSV by the DOL; it is fetched server-side and cached like other data sources.
+ *
+ * `?since=YYYY-MM-DD` (new) keeps the weeks ending on or after that day. The whole sheet is 8.9 MB
+ * of JSON going back to 2007 and the chart draws from 2018 on. A comparison page asks for it twice
+ * at once, and a browser whose cache cannot hold an entry that size (a private window, a headless
+ * browser) fails the second request, leaving one of the two charts without data.
  */
 import {cacheLife, cacheTag} from "next/cache";
 import {NextResponse} from "next/server";
@@ -34,10 +39,12 @@ async function loadClaims(level: "all" | "latest") {
   return csvToJson(await res.text());
 }
 
-export async function GET(_request: Request, {params}: {params: Promise<{level: string}>}) {
+export async function GET(request: Request, {params}: {params: Promise<{level: string}>}) {
   const {level} = await params;
+  const since = new URL(request.url).searchParams.get("since");
   try {
-    const data = await loadClaims(level === "all" ? "all" : "latest");
+    const rows = await loadClaims(level === "all" ? "all" : "latest");
+    const data = since && /^\d{4}-\d{2}-\d{2}$/.test(since) ? rows.filter(row => String(row.week_ended) >= since) : rows;
     return NextResponse.json({
       data,
       source: [{

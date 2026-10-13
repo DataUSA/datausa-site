@@ -32,7 +32,7 @@ export function AboutSection({sections, breadcrumbs, images, profileSlug}: About
               <div className={styles.visualizations}>
                 {image?.url && (
                   <a className={styles.photoAttribution} href={image.url} target="_blank" rel="noopener noreferrer">
-                    <img src="/images/icons/camera.svg" alt="" width={12} height={12} /> Photo by {image.author}
+                    <img src="/images/icons/camera.svg" alt="" width={12} height={12} />Photo by {image.author}
                   </a>
                 )}
                 {crumbs.length > 0 && (

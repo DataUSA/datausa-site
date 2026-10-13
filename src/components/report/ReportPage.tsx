@@ -1,8 +1,9 @@
 import {stripHTML, stripP} from "@/content/formatters";
-import {memberImageUrl, type LoadedReport} from "@/lib/reports/load";
+import {imageMember, memberImageUrl, type LoadedReport} from "@/lib/reports/load";
 import type {PreparedSection} from "@/lib/reports/engine";
 import {similarGeographies} from "@/lib/dimensions/similar";
 import {getImage} from "@/lib/dimensions/db";
+import {isPendingLevel} from "@/lib/geo/levels";
 import {Hero} from "./Hero";
 import {Subnav} from "./Subnav";
 import {AboutSection} from "./AboutSection";
@@ -37,14 +38,16 @@ export interface ReportView {
 
 function view(loaded: LoadedReport): ReportView {
   const {report, member, template} = loaded;
+  // the photo, and so its credit, may be another member's (a school district shows its state's)
+  const pictured = imageMember(member);
   return {
     loaded,
     hero: report.sections.find(s => s.type === "Hero"),
     about: report.sections.find(s => s.type === "About"),
     groups: groupSections(report.sections),
     title: stripHTML(report.title),
-    imageUrl: memberImageUrl(template.meta.slug, member.slug, "splash"),
-    image: member.imageId ? getImage(member.imageId) : undefined
+    imageUrl: memberImageUrl(template.meta.slug, pictured.slug, "splash"),
+    image: pictured.imageId ? getImage(pictured.imageId) : undefined
   };
 }
 
@@ -53,7 +56,8 @@ export async function ReportPage({loaded, comparison}: {loaded: LoadedReport; co
   const profileSlug = template.meta.slug;
   const primary = view(loaded);
   const compare = comparison ? view(comparison) : undefined;
-  const similar = profileSlug === "geo" && !compare ? await similarGeographies(member) : [];
+  // similar places are found through the geoservice and ranked by population: neither knows a level without data
+  const similar = profileSlug === "geo" && !compare && !isPendingLevel(member.hierarchy) ? await similarGeographies(member) : [];
   const joiner = profileSlug === "geo" ? "in" : "for";
   const hasPrism = loaded.report.sections.some(s => s.type.startsWith("Prism"));
   const prismUser = hasPrism ? await getPrismUser() : null;

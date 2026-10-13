@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
 import {useEffect, useRef, useState} from "react";
@@ -7,6 +8,10 @@ import {useEffect, useRef, useState} from "react";
 import {SEARCH_DIMENSIONS, type SearchPageResult} from "@/content/search/dimensions";
 
 const commas = new Intl.NumberFormat("en-US");
+
+/** Geography levels with a map; the list mirrors `hasSearchMap` so the chart code loads only when needed. */
+const MAP_LEVELS = ["State", "County", "MSA", "PUMA", "Congressional District", "Place", "School District"];
+const SearchMap = dynamic(() => import("./SearchMap").then(m => m.SearchMap), {ssr: false});
 
 const formatSubLabel = (key: string) => key
   .replace(/^Industry\s/g, "")
@@ -19,6 +24,7 @@ interface Props {
   initialDimension: string;
   initialHierarchy: string;
   initialResults: SearchPageResult[];
+  initialPopulationYear: number | null;
   totals: Record<string, Record<string, number>>;
   limit: number;
 }
@@ -30,12 +36,15 @@ function Icon({cls}: {cls: string}) {
 
 const CLASS_BY_DIMENSION = Object.fromEntries(SEARCH_DIMENSIONS.map(d => [d.key, d.cls]));
 
-export function SearchPageClient({initialQuery, initialDimension, initialHierarchy, initialResults, totals, limit}: Props) {
+export function SearchPageClient({initialQuery, initialDimension, initialHierarchy, initialResults, initialPopulationYear, totals, limit}: Props) {
   const router = useRouter();
   const [query, setQuery] = useState(initialQuery);
   const [dimension, setDimension] = useState(initialDimension);
   const [hierarchy, setHierarchy] = useState(initialHierarchy);
   const [results, setResults] = useState(initialResults);
+  const [populationYear, setPopulationYear] = useState(initialPopulationYear);
+  // what the listed results were searched with (the inputs change before the results arrive)
+  const [shown, setShown] = useState({query: initialQuery, dimension: initialDimension, hierarchy: initialHierarchy});
   const [loading, setLoading] = useState(false);
   const firstRun = useRef(true);
 
@@ -51,18 +60,28 @@ export function SearchPageClient({initialQuery, initialDimension, initialHierarc
     setLoading(true);
     const timer = setTimeout(() => {
       params.set("limit", String(limit));
+      params.set("population", "1");
       fetch(`/api/search?${params}`, {signal: controller.signal})
         .then(r => r.json())
-        .then(data => { setResults(data.results ?? []); setLoading(false); })
+        .then(data => {
+          setResults(data.results ?? []);
+          setPopulationYear(data.populationYear ?? null);
+          setShown({query, dimension, hierarchy});
+          setLoading(false);
+        })
         .catch(() => {});
     }, 150);
     return () => { clearTimeout(timer); controller.abort(); };
   }, [query, dimension, hierarchy, limit, router]);
 
   const sum = (obj: Record<string, number> = {}) => Object.values(obj).reduce((a, b) => a + b, 0);
+  // One geography level selected: its members can be drawn on a map. Mixed levels and other report
+  // types have no common map.
+  const mapLevel = shown.dimension === "Geography" && MAP_LEVELS.includes(shown.hierarchy) ? shown.hierarchy : "";
+  const hasPopulation = results.some(d => d.population !== undefined);
 
   return (
-    <div id="SearchPage">
+    <div id="SearchPage" className={mapLevel ? "has-map" : ""}>
       <div className="search">
         <label className="search-input-group">
           <span className="search-icon" aria-hidden="true" />
@@ -76,19 +95,34 @@ export function SearchPageClient({initialQuery, initialDimension, initialHierarc
           />
         </label>
         <ul className={`results ${loading ? "loading" : ""}`} aria-live="polite">
+          {hasPopulation && (
+            <li className="results-header" aria-hidden="true">
+              <span>{populationYear ? `${populationYear} ` : ""}Population</span>
+            </li>
+          )}
           {results.map(d => (
             <li className="result" key={`${d.dimension}-${d.id}`}>
               <Link href={`/profile/${d.profile}/${d.slug || d.id}`}>
                 <Icon cls={CLASS_BY_DIMENSION[d.dimension] ?? d.profile} />
                 <span className="result-text">
                   <span className="title">{d.name}</span>
+                  {d.label && <span className="label">{d.label}</span>}
                   <span className="sumlevel">{d.hierarchy}</span>
                 </span>
+                {typeof d.population === "number" && (
+                  <span className="result-population" title={`${populationYear ? `${populationYear} ` : ""}population`}>{commas.format(d.population)}</span>
+                )}
               </Link>
             </li>
           ))}
           {!results.length && <li className="no-results">No results found</li>}
         </ul>
+        {mapLevel && (
+          <div className="search-map">
+            {/* keyed by level: switching levels starts a new map, zoomed out */}
+            <SearchMap key={mapLevel} hierarchy={mapLevel} results={results} filtered={Boolean(shown.query.trim())} year={populationYear} />
+          </div>
+        )}
       </div>
       <div className="controls">
         {dimension && (

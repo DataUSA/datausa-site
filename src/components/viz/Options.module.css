@@ -12,6 +12,7 @@
   font-family: "Palanquin", sans-serif;
   font-size: 12px;
   font-weight: 700;
+  line-height: 1.28581; /* the legacy page default, which a button does not inherit: a 29px row, not 30px */
   margin: 5px 15px 0 0;
   outline: 0;
   padding: 0;
@@ -37,6 +38,10 @@
 @media (max-width: 500px) {
   .label { display: none; }
 }
+/* comparison mode and mini charts: icons only (legacy `.Section.compare, .topic-miniviz`) */
+:global(.topic-pair) .option, :global(.topic-miniviz) .option { margin: 5px 5px 0; }
+:global(.topic-pair) .option::before, :global(.topic-miniviz) .option::before { margin-right: 0; }
+:global(.topic-pair) .label, :global(.topic-miniviz) .label { display: none; }
 
 .dialog {
   background-color: #F6F6F6;

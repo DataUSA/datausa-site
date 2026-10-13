@@ -114,12 +114,26 @@ function withOpacity(value: unknown, opacity: unknown): unknown {
   return parsed.formatRgb();
 }
 
+/** WCAG relative luminance of a colour: 0 for black, 1 for white. */
+function luminance({r, g, b}: {r: number; g: number; b: number}): number {
+  const channel = (v: number) => {
+    const c = v / 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  };
+  return 0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(b);
+}
+
 /**
  * d3plus 4 paints a Geomap's topojson paths with `fill`, `stroke`, `strokeWidth` and `opacity` only
  * (`charts/Geomap/emit.js`): the `fillOpacity` and `strokeOpacity` every legacy map relied on (0.75
  * and 0.25 in the theme, 0.5 for the neighbours on the About maps) are dropped, so shapes came out
- * solid with full-strength borders. This folds both opacities into the colours themselves. The
- * stroke falls back to the library default (a darker fill) when a chart sets none.
+ * solid with full-strength borders. This folds both opacities into the colours themselves.
+ *
+ * Borders: a chart's own `stroke` is kept (at the theme's 0.25 opacity unless the chart sets one, as
+ * in the legacy site). A shape without one gets a border chosen to separate neighbours of the same
+ * colour: white on a coloured fill, a darker tone on a near-white or transparent one (shapes with no
+ * data), at full strength unless the chart sets `strokeOpacity` itself. The legacy default, a darker
+ * fill at 0.25 opacity, was invisible between two dark shapes.
  */
 export function geomapShapeConfig(shapeConfig: AnyRecord = {}): AnyRecord {
   const path: AnyRecord = {...theme.shapeConfig.Path, ...(shapeConfig.Path ?? {})};
@@ -135,13 +149,17 @@ export function geomapShapeConfig(shapeConfig: AnyRecord = {}): AnyRecord {
         return typeof fill === "string" && parseColor(fill)?.opacity === 0 ? "none" : fill;
       },
       stroke(this: unknown, d: AnyRecord, i: number) {
-        let stroke = resolve(this, path.stroke, d, i);
-        if (stroke === undefined) {
-          const fill = resolve(this, path.fill, d, i);
-          stroke = typeof fill === "string" ? parseColor(fill)?.darker().formatRgb() ?? fill : fill;
-        }
-        return withOpacity(stroke, resolve(this, path.strokeOpacity, d, i));
-      }
+        const stroke = resolve(this, path.stroke, d, i);
+        if (stroke !== undefined && stroke !== null && stroke !== false) return withOpacity(stroke, resolve(this, path.strokeOpacity, d, i));
+        const fill = withOpacity(resolve(this, path.fill, d, i), resolve(this, path.fillOpacity, d, i));
+        const parsed = typeof fill === "string" ? parseColor(fill)?.rgb() : undefined;
+        const light = !parsed || parsed.opacity < 0.3 || luminance(parsed) > 0.75;
+        const border = !light ? "#ffffff" : parsed ? parsed.copy({opacity: 1}).darker(0.8).formatRgb() : fill;
+        return withOpacity(border, resolve(this, shapeConfig.Path?.strokeOpacity, d, i));
+      },
+      // d3plus 4's generic shape default (0) wins over the Geomap's own Path default (1), which left
+      // every choropleth without borders unless the chart set a width itself.
+      strokeWidth: shapeConfig.Path?.strokeWidth ?? 1
     }
   };
 }
@@ -367,7 +385,9 @@ export const theme: AnyRecord = {
           {width: s.width - labelPadding * 2, height: sh, x: -s.width / 2 + labelPadding, y: h / 2 - sh}
         ];
       },
-      labelConfig: {split: legacySplit, fontFamily: () => pathway, fontSize: () => 13, fontResize: true, padding: 0}
+      // fontMax: the d3plus 2 Treemap's 40px (d3plus 4 stops at 32); the boxes above are applied to
+      // treemap tiles by d3plus-compat
+      labelConfig: {split: legacySplit, fontFamily: () => pathway, fontMax: 40, fontSize: () => 13, fontResize: true, padding: 0}
     }
   },
   timelineConfig: {
@@ -377,6 +397,8 @@ export const theme: AnyRecord = {
     buttonPadding: 5,
     labelRotation: false,
     padding: 0,
+    // d3plus 4 adds a play button to every timeline; the legacy timelines had none.
+    playButton: false,
     selectionConfig: {"fill": "#BEC7DE", "fill-opacity": 0.5, "rx": "3px", "ry": "3px", "transform": "translate(0, 2)"},
     shapeConfig: {
       fill: "transparent",

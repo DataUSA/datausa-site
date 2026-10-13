@@ -52,11 +52,12 @@ export function albersUsaPr(): GeoProjection {
   const hawaii = geoConicEqualArea().rotate([157, 0]).center([-3, 19.9]).parallels([8, 18]);
   const puertoRico = geoConicEqualArea().rotate([66, 0]).center([0, 18]).parallels([8, 18]);
 
-  type PointFn = (x: number, y: number) => void;
-  let alaskaPoint: PointFn;
-  let hawaiiPoint: PointFn;
-  let lower48Point: PointFn;
-  let puertoRicoPoint: PointFn;
+  // Each region's point stream. The stream's `point` must be called on the stream (it reads
+  // `this.stream`); the legacy helper detached it, which only failed when projecting single points.
+  let alaskaPoint: GeoStream;
+  let hawaiiPoint: GeoStream;
+  let lower48Point: GeoStream;
+  let puertoRicoPoint: GeoStream;
   let point: Point | null = null;
 
   const pointStream = {point: (x: number, y: number) => { point = [x, y]; }} as unknown as GeoStream;
@@ -66,7 +67,7 @@ export function albersUsaPr(): GeoProjection {
     const x = coordinates[0];
     const y = coordinates[1];
     point = null;
-    (lower48Point(x, y), point) || (alaskaPoint(x, y), point) || (hawaiiPoint(x, y), point) || (puertoRicoPoint(x, y), point);
+    (lower48Point.point(x, y), point) || (alaskaPoint.point(x, y), point) || (hawaiiPoint.point(x, y), point) || (puertoRicoPoint.point(x, y), point);
     return point;
   };
 
@@ -113,10 +114,10 @@ export function albersUsaPr(): GeoProjection {
     const k = lower48.scale();
     const x = +t[0];
     const y = +t[1];
-    lower48Point = lower48.translate(t).clipExtent([[x - .455 * k, y - .238 * k], [x + .455 * k, y + .238 * k]]).stream(pointStream).point;
-    alaskaPoint = alaska.translate([x - .307 * k, y + .201 * k]).clipExtent([[x - .425 * k + epsilon, y + .120 * k + epsilon], [x - .214 * k - epsilon, y + .234 * k - epsilon]]).stream(pointStream).point;
-    hawaiiPoint = hawaii.translate([x - .205 * k, y + .212 * k]).clipExtent([[x - .214 * k + epsilon, y + .166 * k + epsilon], [x - .115 * k - epsilon, y + .234 * k - epsilon]]).stream(pointStream).point;
-    puertoRicoPoint = puertoRico.translate([x + .350 * k, y + .224 * k]).clipExtent([[x + .320 * k, y + .204 * k], [x + .380 * k, y + .234 * k]]).stream(pointStream).point;
+    lower48Point = lower48.translate(t).clipExtent([[x - .455 * k, y - .238 * k], [x + .455 * k, y + .238 * k]]).stream(pointStream);
+    alaskaPoint = alaska.translate([x - .307 * k, y + .201 * k]).clipExtent([[x - .425 * k + epsilon, y + .120 * k + epsilon], [x - .214 * k - epsilon, y + .234 * k - epsilon]]).stream(pointStream);
+    hawaiiPoint = hawaii.translate([x - .205 * k, y + .212 * k]).clipExtent([[x - .214 * k + epsilon, y + .166 * k + epsilon], [x - .115 * k - epsilon, y + .234 * k - epsilon]]).stream(pointStream);
+    puertoRicoPoint = puertoRico.translate([x + .350 * k, y + .224 * k]).clipExtent([[x + .320 * k, y + .204 * k], [x + .380 * k, y + .234 * k]]).stream(pointStream);
     return albersUsa;
   };
 

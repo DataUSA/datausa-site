@@ -1,6 +1,8 @@
 import type {Metadata} from "next";
+import {StaticPageJsonLd} from "@/components/seo/StaticPageJsonLd";
+import {staticMetadata} from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {title: "API", alternates: {canonical: "/about/api"}};
+export const metadata: Metadata = staticMetadata("api");
 
 const API = "https://api.datausa.io/tesseract";
 
@@ -345,6 +347,7 @@ export default function ApiPage() {
         Works similarly to the latest/oldest format, but is strictly time-based:
       </p>
       <pre className="api-pre"><Code>{"&time=<dimension>.trailing[.amount]\n&time=<dimension>.leading[.amount]"}</Code></pre>
+      <StaticPageJsonLd page="api" />
     </div>
   );
 }

@@ -42,6 +42,8 @@
   width: 26px;
 }
 .toggle:hover { opacity: 1; }
+/* the glyph sits at the button's top left, where the legacy 16px button was */
+.toggle img { display: block; margin: 5px 0; }
 .collapsible .input {
   background-color: transparent;
   color: white;

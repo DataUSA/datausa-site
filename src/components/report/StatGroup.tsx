@@ -10,19 +10,19 @@ export function StatGroup({title, stats}: {title: string; stats: PreparedStat[]}
   const multi = stats.length > 1;
   return (
     <div className={`${styles.group} ${multi ? styles.multi : styles.single}`}>
-      {title && multi && <div className={styles.title} dangerouslySetInnerHTML={{__html: sanitize(title)}} />}
+      {title && multi && <div className={`${styles.title} stat-title`} dangerouslySetInnerHTML={{__html: sanitize(title)}} />}
       {multi && (
         <ol className={styles.list}>
           {stats.map(stat => (
             <li key={stat.id}>
-              <div className={styles.value} dangerouslySetInnerHTML={{__html: sanitize(stat.value)}} />
+              <div className={`${styles.value} stat-value`} dangerouslySetInnerHTML={{__html: sanitize(stat.value)}} />
               <div className={styles.subtitle} dangerouslySetInnerHTML={{__html: sanitize(stat.subtitle)}} />
             </li>
           ))}
         </ol>
       )}
-      {!multi && <div className={styles.value} dangerouslySetInnerHTML={{__html: sanitize(stats[0].value)}} />}
-      {title && !multi && <div className={styles.title} dangerouslySetInnerHTML={{__html: sanitize(title)}} />}
+      {!multi && <div className={`${styles.value} stat-value`} dangerouslySetInnerHTML={{__html: sanitize(stats[0].value)}} />}
+      {title && !multi && <div className={`${styles.title} stat-title`} dangerouslySetInnerHTML={{__html: sanitize(title)}} />}
       {!multi && <div className={styles.subtitle} dangerouslySetInnerHTML={{__html: sanitize(stats[0].subtitle)}} />}
     </div>
   );

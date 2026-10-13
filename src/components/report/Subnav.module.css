@@ -30,8 +30,8 @@
 .secondary {
   background-color: var(--dark-2);
 }
-.secondary .link { color: var(--light-3); text-shadow: none; }
-.secondary .active .link { color: var(--red); }
+.secondary .link { color: var(--light-3); }
+.secondary .active .link { color: var(--red); text-shadow: none; }
 .secondary .item::after { content: none; }
 
 .item {
@@ -56,7 +56,7 @@
   transition: background-color 0.3s ease-out;
 }
 .item.active::after { background-color: var(--accent); }
-.item.active .link { color: var(--accent); opacity: 1; font-weight: 700; }
+.item.active .link { color: var(--accent); }
 
 .link {
   color: var(--light-2);
@@ -64,43 +64,43 @@
   font-family: "Palanquin", sans-serif;
   font-size: 11px;
   font-weight: 400;
+  line-height: 1.28581; /* legacy page default: two-line labels are 28px tall */
   margin: 0 0.75rem;
-  opacity: 0.75;
   padding: 0 var(--gutter-sm);
-  position: relative;
+  position: static; /* the icon is placed against the item, not the label */
   text-shadow: 0 2px 6px black;
   text-transform: uppercase;
   transition: color 0.2s ease-out, opacity 0.2s ease-out;
 }
 .link:hover, .link:focus {
   color: var(--white);
-  opacity: 1;
   text-decoration: none;
 }
+/* The icon is a 16px glyph in a 14px box (the legacy Blueprint icon), out of flow against the item,
+   so the label alone sets the bar's height. In the hero it is lifted above its label and scaled to
+   28px (legacy `.cp-subnav-link .bp3-icon`). */
 .icon {
   display: block;
-  height: 28px;
-  margin: 0 auto 4px;
-  width: 28px;
+  height: 16px;
+  left: 0.75rem;
+  position: absolute;
+  top: 0.75rem;
+  transform: translateX(44px) translateY(-35px) scale(1.75);
+  transition: transform 0.2s;
+  width: 14px;
 }
 .icon svg {
   display: block;
   fill: currentColor;
-  height: 100%;
-  width: 100%;
-  transform: translateY(-35px) scale(1.75);
-  transition: transform 0.2s;
-}
-.fixed .icon {
-  display: inline-block;
   height: 16px;
-  margin: 0 0.375em 0 0;
-  transform: none;
-  vertical-align: middle;
   width: 16px;
 }
-.fixed .icon svg { transform: none; }
-.fixed .link { text-shadow: none; }
+/* Fixed bar (legacy `.cp-subnav.is-fixed`): no outer margin, so the sections sit closer together,
+   and every label leaves 20px at its left for the icon, the second row's included. The icon sits
+   in the item's left padding: mid-height in a single row, and in the upper of two rows at 14px. */
+.fixed .link { margin: 0; padding-left: calc(0.75rem + 20px); }
+.fixed .icon { transform: none; }
+.fixed .list:not(:only-child) .icon { transform: translateY(-12px) scale(0.9); }
 
 .groupList {
   background-color: var(--dark-2);
@@ -158,9 +158,9 @@
   /* legacy: one section per line, title case, small inline icon */
   .list { flex-direction: column; align-items: stretch; justify-content: flex-start; padding: 0 var(--gutter-md); }
   .item { justify-content: flex-start; text-align: left; width: auto; }
-  .link { margin: 0; padding: 0.25em 0; font-size: var(--font-xs); text-transform: none; }
-  .icon { display: inline-block; height: 16px; margin: 0 0.375em 0 0; transform: none; vertical-align: middle; width: 16px; }
-  .icon svg { transform: none; }
+  .link, .fixed .link { margin: 0; opacity: 0.75; padding: 0.25em 0; font-size: var(--font-xs); text-transform: none; }
+  .link:hover, .link:focus, .item.active .link { opacity: 1; }
+  .icon, .fixed .icon, .fixed .list:not(:only-child) .icon { display: inline-block; margin: 0 0.375em 0 0; position: static; transform: none; vertical-align: middle; width: 16px; }
   .secondary { display: none; }
   .groupList { display: none; }
 }

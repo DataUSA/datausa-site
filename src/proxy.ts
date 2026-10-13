@@ -49,7 +49,7 @@ export function proxy(request: NextRequest) {
     }
     if (resolved.status !== "ok") return NextResponse.rewrite(new URL(NOT_FOUND_ROUTE, request.url));
     if (parts.length === 5) {
-      const template = getTemplate(slug);
+      const template = getTemplate(slug, resolved.member.hierarchy);
       if (!template?.sections.some(s => s.slug === tslug)) return NextResponse.rewrite(new URL(NOT_FOUND_ROUTE, request.url));
     }
     return NextResponse.next();

@@ -44,6 +44,8 @@ const viz: VizDefinition = (variables) => {
         fill,
         fillOpacity: (d: any) => hierarchy === "Nation" ? 1 : d.id === id ? 1 : 0.5,
         stroke: "white",
+        // the theme default (0.25) left the borders between same-coloured neighbours barely visible
+        strokeOpacity: 0.7,
         strokeWidth: 1
       }
     },

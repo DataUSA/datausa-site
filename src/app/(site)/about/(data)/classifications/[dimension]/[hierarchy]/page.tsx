@@ -1,7 +1,11 @@
 import type {Metadata} from "next";
 import Link from "next/link";
 import {notFound} from "next/navigation";
+import {JsonLd} from "@/components/seo/JsonLd";
 import {getProfiles, listMembers, memberTotalsByHierarchy} from "@/lib/dimensions/db";
+import {pageJsonLd} from "@/lib/seo/jsonld";
+import {pageImage, social} from "@/lib/seo/metadata";
+import {familyByDimension, inSentence, levelPlural, SITE_NAME} from "@/lib/seo/site";
 
 const DIMENSIONS = [
   {key: "Geography", label: "Locations", cls: "geo", icon: "Geography - Black", first: "State"},
@@ -13,6 +17,7 @@ const DIMENSIONS = [
 ];
 
 const commas = new Intl.NumberFormat("en-US");
+const classificationPath = (dimension: string, hierarchy: string) => `/about/classifications/${encodeURIComponent(dimension)}/${encodeURIComponent(hierarchy)}`;
 const sum = (obj: Record<string, number> = {}) => Object.values(obj).reduce((a, b) => a + b, 0);
 
 type Params = Promise<{dimension: string; hierarchy: string}>;
@@ -20,7 +25,19 @@ type Params = Promise<{dimension: string; hierarchy: string}>;
 export async function generateMetadata({params}: {params: Params}): Promise<Metadata> {
   const {dimension, hierarchy} = await params;
   const d = decodeURIComponent(dimension), h = decodeURIComponent(hierarchy);
-  return {title: `${h} Classification`, alternates: {canonical: `/about/classifications/${encodeURIComponent(d)}/${encodeURIComponent(h)}`}};
+  const path = classificationPath(d, h);
+  const total = memberTotalsByHierarchy()[d]?.[h];
+  const family = familyByDimension(d);
+  if (!total || !family) return {title: "Classifications", alternates: {canonical: path}};
+  const what = levelPlural(h);
+  const title = `${what}: Classification IDs & Names`;
+  const description = `Identifiers and names of ${total > 1 ? `all ${commas.format(total)} ` : "the "}${inSentence(what)} in the ${inSentence(family.label)} classification used by Data USA and its API, each linked to its report.`;
+  return {
+    title,
+    description,
+    alternates: {canonical: path},
+    ...social({title, description, path, image: pageImage("classifications", {dimension: d, hierarchy: h}), imageAlt: `${title} | ${SITE_NAME}`})
+  };
 }
 
 /** Blocks on the route params so an unknown classification answers a real 404. */
@@ -38,6 +55,13 @@ export default async function ClassificationPage({params}: {params: Params}) {
   const members = listMembers(dimension, hierarchy, 100000).sort((a, b) => a.name.localeCompare(b.name));
   return (
     <div id="Classifications">
+      <JsonLd
+        data={pageJsonLd({
+          path: classificationPath(dimension, hierarchy),
+          name: `${levelPlural(hierarchy)}: Classification IDs & Names`,
+          crumbs: [{name: "Data", path: "/about/datasets"}, {name: "Classifications", path: "/about/classifications/Geography/State"}, {name: levelPlural(hierarchy)}]
+        })}
+      />
       <div id="SideNav">
         <div className="content">
           <ul className="classifications">

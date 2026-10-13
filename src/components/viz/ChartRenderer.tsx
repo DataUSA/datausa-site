@@ -15,6 +15,14 @@ export function hasChart(type: string): boolean {
   return typeof charts[type] === "function";
 }
 
+interface ChartRendererProps {
+  type: string;
+  config: AnyRecord;
+  className?: string;
+  /** Called with the d3plus instance after each render (the search map reads its fitted projection and zoom). */
+  onRender?: (viz: AnyRecord) => void;
+}
+
 /**
  * Mounts one d3plus chart into an `<svg>`. Replaces `@d3plus/react`'s Renderer, whose render effect
  * is not StrictMode-safe: React's simulated unmount/remount in development re-ran `render()` on the
@@ -22,12 +30,13 @@ export function hasChart(type: string): boolean {
  * margins twice (half-height plots, bar labels gone). Here the render is deferred by one frame so the
  * simulated unmount cancels the first run, and the instance is destroyed on a real unmount.
  */
-export function ChartRenderer({type, config, className = "d3plus"}: {type: string; config: AnyRecord; className?: string}) {
+export function ChartRenderer({type, config, className = "d3plus", onRender}: ChartRendererProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const vizRef = useRef<AnyRecord | null>(null);
   const configHash = hash(config);
   const latest = useRef(config);
-  useEffect(() => { latest.current = config; });
+  const rendered = useRef(onRender);
+  useEffect(() => { latest.current = config; rendered.current = onRender; });
 
   useEffect(() => {
     const el = svgRef.current;
@@ -36,7 +45,7 @@ export function ChartRenderer({type, config, className = "d3plus"}: {type: strin
     const frame = requestAnimationFrame(() => {
       const viz = (vizRef.current ??= new Chart());
       applyConfig(viz as Parameters<typeof applyConfig>[0], el, theme, latest.current);
-      viz.render();
+      viz.render(() => { if (vizRef.current === viz) rendered.current?.(viz); });
     });
     return () => cancelAnimationFrame(frame);
   }, [type, configHash]);

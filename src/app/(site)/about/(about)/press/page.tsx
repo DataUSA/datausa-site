@@ -1,7 +1,9 @@
 import type {Metadata} from "next";
+import {StaticPageJsonLd} from "@/components/seo/StaticPageJsonLd";
+import {staticMetadata} from "@/lib/seo/metadata";
 import {press} from "@/content/about/press";
 
-export const metadata: Metadata = {title: "In the Press", alternates: {canonical: "/about/press"}};
+export const metadata: Metadata = staticMetadata("press");
 
 export default function PressPage() {
   return (
@@ -14,6 +16,7 @@ export default function PressPage() {
           <div className="quote">&#34;{source.quote}&#34;</div>
         </div>
       ))}
+      <StaticPageJsonLd page="press" />
     </div>
   );
 }

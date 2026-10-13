@@ -356,8 +356,18 @@ export const sections: SectionDefinition[] = [
     "descriptions": [
       {
         "id": 398,
-        "allowed": "always",
-        "text": "<p>The resident population of United States in {{lastYearPopulation}} was commas{{residentPopulation}} inhabitants, with abbreviate{{menResidentsPct}}% men, and abbreviate{{womenResidentsPct}}% women.</p>"
+        "allowed": "residentsAllRaces_[[pums5RacesPyramid]]",
+        "text": "<p>The resident population of {{name}} in {{lastYearPopulation}} was commas{{residentPopulation_[[pums5RacesPyramid]]}} inhabitants, with abbreviate{{menResidentsPct_[[pums5RacesPyramid]]}}% men, and abbreviate{{womenResidentsPct_[[pums5RacesPyramid]]}}% women.</p>"
+      },
+      {
+        "id": 1398,
+        "allowed": "residentsOneRace_[[pums5RacesPyramid]]",
+        "text": "<p>In {{lastYearPopulation}}, the number of residents of {{name}} who reported their race as {{[[pums5RacesPyramid]]}} was commas{{residentPopulation_[[pums5RacesPyramid]]}}, with abbreviate{{menResidentsPct_[[pums5RacesPyramid]]}}% men, and abbreviate{{womenResidentsPct_[[pums5RacesPyramid]]}}% women.</p>"
+      },
+      {
+        "id": 2398,
+        "allowed": "residentsNoRace_[[pums5RacesPyramid]]",
+        "text": "<p>In {{lastYearPopulation}}, no residents of {{name}} reported their race as {{[[pums5RacesPyramid]]}}.</p>"
       },
       {
         "id": 400,
@@ -375,16 +385,16 @@ export const sections: SectionDefinition[] = [
         "id": 377,
         "allowed": "always",
         "title": "<p>Women</p>",
-        "value": "<p>commas{{womenResidents}}</p>",
-        "subtitle": "<p>abbreviate{{womenResidentsPct}}%</p>",
+        "value": "<p>commas{{womenResidents_[[pums5RacesPyramid]]}}</p>",
+        "subtitle": "<p>abbreviate{{womenResidentsPct_[[pums5RacesPyramid]]}}%</p>",
         "tooltip": ""
       },
       {
         "id": 378,
         "allowed": "always",
         "title": "<p>Men</p>",
-        "value": "<p>commas{{menResidents}}</p>",
-        "subtitle": "<p>abbreviate{{menResidentsPct}}%</p>",
+        "value": "<p>commas{{menResidents_[[pums5RacesPyramid]]}}</p>",
+        "subtitle": "<p>abbreviate{{menResidentsPct_[[pums5RacesPyramid]]}}%</p>",
         "tooltip": ""
       }
     ],

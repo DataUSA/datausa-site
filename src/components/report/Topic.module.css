@@ -52,8 +52,9 @@
   composes: select-wrap from global;
 }
 .selectLabel {
+  /* inline, as in the legacy markup: its line takes the page line height (about 26px), not the
+     label's own 18px */
   color: var(--black);
-  display: block;
   font-size: 12px;
   font-weight: 600;
   line-height: 18px;
@@ -80,6 +81,9 @@
   margin-bottom: 10px;
 }
 .visualization {
+  /* The 400px covers the options row and the chart together, as in the legacy layout (chart about
+     365px); the chart must not add its own 400px minimum on top. */
+  --viz-min-height: 0px;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -89,11 +93,12 @@
   overflow: hidden;
   position: relative;
 }
+/* The small chart under a topic's text: about 200px of chart under an icon-only options row
+   (the legacy mini chart had no CSS height and drew at d3plus's 200px default). */
 .miniviz {
+  --viz-min-height: 205px;
   display: flex;
   flex-direction: column;
-  min-height: 200px;
-  margin-bottom: 10px;
 }
 
 /* Column and SubGrouping topics stack vertically and share the row */
@@ -139,11 +144,13 @@
   }
 }
 
-/* comparison layout: stacked text + chart in each half */
+/* comparison layout (legacy `.Section.compare .topic`): the two members' topics sit side by side,
+   each half stacking its text above its chart */
 :global(.topic-pair) .topic, .topic.compare {
   flex: none;
   flex-direction: column;
   justify-content: space-between;
+  width: 50%;
 }
 :global(.topic-pair) .content, :global(.topic-pair) .content:first-child {
   max-width: none !important;
@@ -155,10 +162,64 @@
 }
 .selectPending { opacity: 0.6; }
 
-/* Prism (sponsored) topics */
-.prismContainer { width: 100%; }
-.prismSection { width: 100%; }
+/* Prism (sponsored) topics: a white card over a faded PeoplePrism logo (legacy PrismSection.css) */
+.prismContainer {
+  margin-block: 30px;
+  position: relative;
+  width: 100%;
+}
+.prismContainer::after {
+  background-image: url("/images/prism-logo.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  content: "";
+  display: block;
+  height: 350px;
+  left: -150px;
+  opacity: 0.3;
+  position: absolute;
+  top: -50px;
+  width: 350px;
+  z-index: 1;
+}
+.prismSection {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: rgba(92, 133, 150, 0.35) 0px 4px 20px 0px;
+  display: block;
+  line-height: 1.28581; /* the legacy page default (Blueprint), which the notice and stat list inherited */
+  padding: 1rem 1.5rem;
+  position: relative;
+  width: 100%;
+  z-index: 2;
+}
+.prismSection .topic { position: relative; }
+.prismSection :global(.stat-title) em {
+  display: block !important;
+  font-size: 1.125em;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  margin-inline-end: 1.5rem;
+  margin-top: 0.25rem !important;
+  text-transform: none !important;
+}
+.prismSection :global(.stat-value) {
+  font-size: 0.85rem !important;
+  text-transform: uppercase !important;
+}
+@media (max-width: 30rem) {
+  .prismSection {
+    margin: 0 -1rem 50px;
+    padding: 1rem;
+    width: auto;
+  }
+}
+
+/* A Prism card is itself the half of the pair, so the topic inside fills it. */
+:global(.topic-pair) .prismSection .topic { width: 100%; }
 
 @media (max-width: 768px) {
   .topic { scroll-margin-top: var(--nav-height); }
+  /* phones: the pair stacks instead of squeezing two charts side by side */
+  :global(.topic-pair) .topic { width: 100%; }
 }

@@ -1,13 +1,15 @@
 /**
  * Loads a report for a resolved member: computes attributes (cached), runs the engine and prepares
- * sections. Used by the report page, embeds, comparisons and the diagnostics route.
+ * sections. Used by the report page, embeds, comparisons, share images and the diagnostics route.
  */
 import {cache} from "react";
 import {cacheLife, cacheTag} from "next/cache";
 import {connection} from "next/server";
 import {getTemplate} from "@/content/registry";
 import {GEOSERVICE_URL, TESSERACT_URL} from "@/lib/api/tesseract";
-import type {MemberRow} from "@/lib/dimensions/db";
+import {stateOf} from "@/lib/api/geoservice";
+import {getMember, type MemberRow} from "@/lib/dimensions/db";
+import {isPendingLevel} from "@/lib/geo/levels";
 import {baseAttributes, buildVariables, prepareReport, variablesForClient, type BuiltVariables, type PreparedReport, type SelectorQuery} from "@/lib/reports/engine";
 import {resolveReportUrl, type ResolvedReport} from "@/lib/reports/resolve";
 import type {MemberAttributes, ReportTemplate, Variables} from "@/lib/reports/types";
@@ -27,7 +29,7 @@ async function cachedAttributes(profileSlug: string, member: MemberAttributes): 
   "use cache";
   cacheTag("dimensions", `member:${profileSlug}:${member.id}`);
   cacheLife("dimensions");
-  const template = getTemplate(profileSlug);
+  const template = getTemplate(profileSlug, member.hierarchy);
   if (!template) return {};
   return template.attributes(member, {tesseract: TESSERACT_URL, geoservice: GEOSERVICE_URL, locale: "en"});
 }
@@ -50,7 +52,7 @@ const runMemberReport = cache(async (profileSlug: string, member: MemberRow, ser
   // trip over `new Date()`.
   await connection();
   const {query = {}, print = false} = JSON.parse(serializedOptions) as LoadOptions;
-  const template = getTemplate(profileSlug);
+  const template = getTemplate(profileSlug, member.hierarchy);
   if (!template) throw new Error(`Unknown profile ${profileSlug}`);
   const memberAttrs: MemberAttributes = {
     id: member.id, dimension: member.dimension, hierarchy: member.hierarchy, slug: member.slug,
@@ -83,6 +85,16 @@ export function splitComparisonQuery(query: SelectorQuery): {primary: SelectorQu
     else primary[key] = value;
   });
   return {primary, comparison};
+}
+
+/**
+ * The member whose photo illustrates a report: the member itself, or its state for a level the image
+ * host has no photos for (it answers an unknown member with a stock picture).
+ */
+export function imageMember(member: MemberRow): MemberRow {
+  if (member.dimension !== "Geography" || !isPendingLevel(member.hierarchy)) return member;
+  const state = stateOf(member.id);
+  return (state ? getMember("Geography", state) : undefined) ?? member;
 }
 
 /** Public URL for a member's splash or thumbnail image (served by the legacy image host for now). */

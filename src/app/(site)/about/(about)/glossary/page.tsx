@@ -1,9 +1,11 @@
 import type {Metadata} from "next";
+import {StaticPageJsonLd} from "@/components/seo/StaticPageJsonLd";
+import {staticMetadata} from "@/lib/seo/metadata";
 import {Anchor} from "@/components/about/Anchor";
 import {Formula} from "@/components/about/Formula";
 import {SideNav} from "@/components/about/SideNav";
 
-export const metadata: Metadata = {title: "Glossary", alternates: {canonical: "/about/glossary"}};
+export const metadata: Metadata = staticMetadata("glossary");
 
 const STANDARD_ERROR = `<mrow><mi>StandardError</mi><mo>(</mo><mi>X</mi><mo>)</mo><mo>=</mo><msqrt><mrow><mfrac><mn>4</mn><mn>80</mn></mfrac><mo>*</mo><munderover><mo>∑</mo><mrow><mi>r</mi><mo>=</mo><mn>1</mn></mrow><mn>80</mn></munderover><msup><mrow><mo>(</mo><msub><mi>X</mi><mi>r</mi></msub><mo>−</mo><mi>X</mi><mo>)</mo></mrow><mn>2</mn></msup></mrow></msqrt></mrow>`;
 const MARGIN_OF_ERROR = `<mrow><mi>MarginOfError</mi><mo>(</mo><mi>X</mi><mo>)</mo><mo>=</mo><mi>Z</mi><mo>*</mo><mi>StandardError</mi><mo>(</mo><mi>X</mi><mo>)</mo></mrow>`;
@@ -134,6 +136,7 @@ export default function GlossaryPage() {
           For more information on Census tracts <a href="https://www.census.gov/geo/reference/gtc/gtc_ct.html" target="_blank" rel="noopener noreferrer">visit the Census Bureau website</a>.
         </p>
       </div>
+      <StaticPageJsonLd page="glossary" />
     </div>
   );
 }

@@ -49,7 +49,8 @@ src/
     layout/ (Nav, Footer, GA), report/ (Hero, Subnav, Section, Topic, Stat, SourceGroup, …), viz/ (VizIsland, Options)
 scripts/legacy-export/     extract.ts (CMS → candidate TS files + manifest), build-dimensions.ts (JSONL → SQLite)
 scripts/topojson/          build.sh (Census boundary files → public/topojson/PUMA.json, Districts.json)
-data/                      members.jsonl, images.jsonl (versioned export), members-additions.jsonl (hand-added members) → dimensions.sqlite (built, gitignored)
+scripts/school-districts/  build.sh (Census boundary files → public/topojson/SchoolDistrict_<state>.json + data/school-districts.jsonl)
+data/                      members.jsonl, images.jsonl (versioned export), members-additions.jsonl (hand-added members), school-districts.jsonl (built from Census files) → dimensions.sqlite (built, gitignored)
 public/                    icons, images, topojson (only files referenced by content), fonts
 ```
 
@@ -98,7 +99,25 @@ PM2 cluster workers each hold their own `use cache` store (Next's default in-mem
 
 ## Dimensions (replaces `canon_cms_search` + lunr)
 
-`scripts/legacy-export/build-dimensions.ts` exports the search and image tables to `data/members.jsonl` / `data/images.jsonl` (versioned, diffable) and `npm run build` compiles them into `data/dimensions.sqlite` (`members`, `members_fts` FTS5, `images`, `profiles`). `lib/dimensions` resolves slugs, powers `/search` and the hero search box, builds breadcrumbs and "Keep Exploring", and maps members to image ids. New members can be added by re-running the builder and restarting; no application build is needed, and a member missing from SQLite but present in Tesseract still resolves by raw id through `tesseract/members`.
+`scripts/legacy-export/build-dimensions.ts` exports the search and image tables to `data/members.jsonl` / `data/images.jsonl` (versioned, diffable) and `npm run build` compiles them into `data/dimensions.sqlite` (`members`, `members_fts` FTS5, `images`, `profiles`). `lib/dimensions` resolves slugs, powers `/search` and the hero search box, builds breadcrumbs and "Keep Exploring", and maps members to image ids. New members can be added by re-running the builder; no application build or restart is needed (a running server notices within seconds that the file was replaced and reopens it), and a member missing from SQLite but present in Tesseract still resolves by raw id through `tesseract/members`.
+
+## Pending geography levels (school districts)
+
+A geography level can exist on the site before Tesseract has data for it. School districts are the first: 13,310 unified, elementary and secondary districts (Census summary levels 970, 950 and 960; ids like `97000US2502790`), treated as one level, "School District".
+
+- **Members and shapes** come from the Census Bureau's cartographic boundary files, not from the legacy export: `scripts/school-districts/build.sh` writes `data/school-districts.jsonl` (name, slug, grade span, land area, an interior point) and `public/topojson/SchoolDistrict_<state FIPS>.json`. `build-dimensions.ts` loads the file into `members`, adds the level to the geo profile and fills a `school_districts` table with the extra columns. Members have no z-value (it is a popularity measure derived from data), so they rank on text relevance alone and a level listing is alphabetical.
+- **`src/lib/geo/levels.ts`** lists the pending levels. For those, `getTemplate` (`src/content/registry.ts`) returns a placeholder template (`src/content/reports/geo/school-district.ts`: hero, About text, breadcrumbs and the About locator map) instead of the full location report, whose 170 data requests would all fail. Nothing on a placeholder page calls Tesseract or the geoservice.
+- **Search**: members are found by the site search and the search page like any other. The search page draws every district as a point (as it does places), clustered until the map is zoomed in; there is no population column, ranking or sizing.
+- **SEO**: placeholder reports and the level's search listing are `noindex, follow` and absent from the sitemap, so 13,000 near-empty pages are not submitted to search engines.
+- **Photos**: a district shows its state's photo (and credit); the image host has none for districts.
+
+When the data is loaded into Tesseract:
+
+1. Remove the level from `PENDING_LEVELS`. Its members then get the full location report, are indexed, and enter the sitemap.
+2. Use the level name Tesseract gives it (if it is not "School District", or if the three kinds become three levels, rename `hierarchy` in `scripts/school-districts/build-members.ts` and rebuild).
+3. Review the location report for the level, as was done for congressional districts: `src/content/reports/geo/attributes.ts` (the cuts and drilldowns chosen per `hierarchy`), `geoParents` and `similarGeographies` (the geoservice may not know the ids; the state is derived from the id as a fallback), and the sections whose `allowed` rules list levels.
+4. Add the level to `POPULATION_LEVELS` (`src/lib/dimensions/population.ts`) for the population column and ranking on the search page; z-values can then be exported for search ranking.
+5. Keep the About map's ring marker by carrying `mapMarker` over from the placeholder template (a small district is invisible on a state-sized map).
 
 ## Rendering responsibilities
 

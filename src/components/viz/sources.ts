@@ -66,8 +66,14 @@ export function extractSources(resp: unknown): DataSource[] {
     if (!r || typeof r !== "object") return;
     const obj = r as Record<string, unknown>;
     if (obj.source) {
-      if (Array.isArray(obj.source)) obj.source.forEach(s => s && out.push(s as DataSource));
-      else out.push(obj.source as DataSource);
+      // An entry is either the annotations themselves or wraps them (`{annotations: {...}}`, as the
+      // unemployment claims endpoint returns).
+      const entries = Array.isArray(obj.source) ? obj.source : [obj.source];
+      entries.forEach(s => {
+        if (!s || typeof s !== "object") return;
+        const wrapped = (s as Record<string, unknown>).annotations;
+        out.push((wrapped && typeof wrapped === "object" ? wrapped : s) as DataSource);
+      });
     }
     if (obj.annotations && typeof obj.annotations === "object") out.push(obj.annotations as DataSource);
   };

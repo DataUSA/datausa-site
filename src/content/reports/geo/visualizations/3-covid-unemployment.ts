@@ -25,11 +25,19 @@ const viz: VizDefinition = (variables, {libs, formatters}) => {
 
   const cutoffDate = new Date("2018/01/01").getTime();
 
+  const quarterFormat = timeFormat("%b");
+  const yearFormat = timeFormat("%Y");
+  // a tick every three months, up to the sheet's last week (the DOL stopped updating it in August 2021)
+  const lastWeek = new Date(2021, 7, 28).getTime();
+  const quarters: number[] = [];
+  for (let date = new Date(2018, 3, 1); date.getTime() < lastWeek; date.setMonth(date.getMonth() + 3)) quarters.push(date.getTime());
+
   const highlightIDs: any = [stateNeighbors];
   const highlightNames = covidGeoName || "Nation";
 
   return {
-    data: "/api/covid19/employment/latest/",
+    // only the weeks the chart draws (see `cutoffDate`); the whole sheet is 8.9 MB
+    data: "/api/covid19/employment/latest?since=2018-01-01",
     dataFormat: (resp: any) => {
 
       let data = resp.data
@@ -101,6 +109,18 @@ const viz: VizDefinition = (variables, {libs, formatters}) => {
     },
     type: "LinePlot",
     x: "Timestamp",
+    // d3plus 2 drew a tick every three months, named by month or by year ("Apr", "Jul", "Oct",
+    // "2019"), and no vertical grid. Left to itself d3plus 4 picks uneven ticks, draws a grid line
+    // on each and labels one of them with a full date ("Jan 1, 2021").
+    xConfig: {
+      gridConfig: {stroke: "transparent"},
+      tickFormat: (d: any) => {
+        const date = new Date(+d);
+        return date.getMonth() ? quarterFormat(date) : yearFormat(date);
+      },
+      labels: quarters,
+      ticks: quarters
+    },
     y: "initial_claims",
     yConfig: {
       scale,

@@ -1,14 +1,146 @@
 .skeleton {
+  background: var(--darkbluegray);
   min-height: 100vh;
 }
-.hero {
-  height: 24rem;
-  background: var(--dark-3, #20242e);
+/* Announced to screen readers; the visible page already shows the name. */
+.status {
+  clip-path: inset(50%);
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }
+
+/* A placeholder block: a soft grey shape with a highlight sweeping across it. The gradient is sized
+   to the viewport and fixed to it, so the sweep crosses the page as one band instead of flickering
+   block by block. */
 .block {
-  height: 20rem;
-  margin: 2rem auto;
-  max-width: var(--container-width, 80rem);
-  background: var(--light-2, #edeeef);
+  animation: skeleton-sweep 1.6s linear infinite;
+  background-attachment: fixed;
+  background-color: rgba(42, 47, 59, 0.11);
+  background-image: linear-gradient(100deg, rgba(255, 255, 255, 0) 35%, rgba(255, 255, 255, 0.55) 50%, rgba(255, 255, 255, 0) 65%);
+  background-repeat: no-repeat;
+  background-size: 200vw 100%;
   border-radius: 4px;
+  display: block;
+}
+.onDark {
+  background-color: rgba(255, 255, 255, 0.14);
+  background-image: linear-gradient(100deg, rgba(255, 255, 255, 0) 35%, rgba(255, 255, 255, 0.16) 50%, rgba(255, 255, 255, 0) 65%);
+}
+@keyframes skeleton-sweep {
+  from { background-position: -150vw 0; }
+  to { background-position: 50vw 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .block { animation: none; background-image: none; }
+}
+
+.lines { margin-bottom: 18px; }
+.line {
+  height: 11px;
+  margin-bottom: 11px;
+}
+
+/* Hero: the boxes match the real statistic's title (18px), value (51px + 5px) and subtitle (18px). */
+.pill {
+  border-radius: 3px;
+  height: 28px;
+  margin: var(--gutter-xs) auto 20px;
+  width: 92px;
+}
+.statTitle {
+  align-items: center;
+  display: flex;
+  height: 18px;
+  justify-content: center;
+}
+.statTitle .line { height: 9px; margin: 0; }
+.statValue {
+  align-items: center;
+  display: flex;
+  height: 51px;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+.statNumber {
+  height: 30px;
+  width: 46%;
+}
+.statPerson { height: 62px; }
+@media (max-width: 800px) {
+  .statTitle { height: 15px; }
+  .statValue { height: 31px; }
+  .statPerson { height: 62px; }
+  .statNumber { height: 20px; }
+}
+
+/* Same footprint as the real subnav, which overlaps the bottom of the hero. */
+.subnav {
+  align-items: center;
+  display: flex;
+  gap: 60px;
+  height: var(--subnav-height);
+  justify-content: center;
+  position: relative;
+  top: calc(0px - var(--subnav-height));
+  z-index: 2;
+}
+.subnavItem {
+  border-radius: 50%;
+  height: 34px;
+  width: 34px;
+}
+@media (max-width: 768px) {
+  .subnav { gap: 22px; }
+  .subnavItem { height: 26px; width: 26px; }
+}
+
+.skeleton .aboutTitle { color: white; }
+.skeleton .aboutText { column-gap: 20px; }
+.aboutText .lines { break-inside: avoid; }
+.map {
+  height: 200px;
+  margin-top: 12px;
+  width: 100%;
+}
+
+.sectionTitle {
+  height: 34px;
+  margin: 12px 0;
+  width: 280px;
+}
+.skeleton .intro { columns: auto; margin-left: 0; max-width: 620px; }
+.topicTitle {
+  height: 22px;
+  margin-bottom: 22px;
+}
+.topicStats {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 24px;
+}
+.topicStat { flex: 1; }
+.topicStatValue {
+  height: 30px;
+  margin-bottom: 10px;
+  width: 55%;
+}
+/* A chart silhouette: bars rising from a baseline. */
+.skeleton .chart {
+  align-items: flex-end;
+  border-bottom: 2px solid rgba(42, 47, 59, 0.12);
+  flex-direction: row;
+  gap: 2.5%;
+  height: 400px;
+  padding: 30px 4% 0;
+}
+.chartBar {
+  border-radius: 3px 3px 0 0;
+  flex: 1;
+}
+@media (max-width: 768px) {
+  .skeleton .chart { height: 260px; margin-top: 10px; min-height: 260px; }
 }

@@ -30,6 +30,28 @@
     width: 30%;
   }
 }
+/* Comparison mode (legacy Splash.css): each geography keeps four statistics, two to a row. The
+   officials, median age and property value are dropped by position, as the legacy rule did. */
+:global(.splash-compare.splash-geo) .stat {
+  max-width: 35%;
+  min-width: 35%;
+  width: 35%;
+}
+:global(.splash-compare.splash-geo) .stat:nth-child(2),
+:global(.splash-compare.splash-geo) .stat:nth-child(3),
+:global(.splash-compare.splash-geo) .stat:nth-child(4),
+:global(.splash-compare.splash-geo) .stat:nth-child(7) {
+  display: none;
+}
+/* ...and on a phone each member's four statistics stack in its half of the screen */
+@media (max-width: 800px) {
+  :global(.splash-compare) .stat, :global(.splash-compare.splash-geo) .stat {
+    max-width: 92%;
+    min-width: 92%;
+    width: 92%;
+  }
+  :global(.splash-compare) .stat .value { font-size: 22px; }
+}
 .title, .subtitle {
   font-size: 12px;
   font-weight: 600;
@@ -47,6 +69,9 @@
   align-items: center;
   display: flex;
   justify-content: center;
+  /* the legacy page default (Blueprint's body line height), which the values inherited; Palanquin's
+     own "normal" is far taller and spread two-line senator names apart */
+  line-height: 1.28581;
   margin-bottom: 5px;
   text-shadow: 0 2px 12px black;
 }

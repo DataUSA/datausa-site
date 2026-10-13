@@ -5,10 +5,19 @@
   line-height: 1.2;
   min-height: 1.2em;
 }
+/* No line is reserved for a topic whose charts name no source (the legacy element was not rendered). */
+.sourceGroup:empty { min-height: 0; }
 .sourceGroup a {
   color: var(--darkgray);
   text-decoration: underline;
   transition: color 0.1s;
 }
 .sourceGroup a:hover { color: var(--black); }
+/* a name that carries a description is underlined and shows it on hover (the legacy tooltip) */
+.sourceGroup span[title]:not([title=""]) {
+  text-decoration: underline;
+  transition: color 0.1s;
+}
+.sourceGroup span[title]:not([title=""]):hover { color: var(--darkgray); }
+.sourceGroup [title]:not([title=""]):hover { cursor: help; }
 .source { display: inline; }

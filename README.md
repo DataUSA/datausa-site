@@ -36,6 +36,7 @@ Useful scripts:
 | `npx tsx scripts/regression/compare.ts /profile/geo/massachusetts …` | Legacy (`:3300`) vs new (`:3301`) comparison: console errors, failed requests, chart counts, hero text, full-page and per-section screenshots in `scripts/regression/out/`. |
 | `node scripts/regression/probe-page.mjs <url> <name>` | Headless check of one page at desktop and phone widths (errors, overflow, screenshots). |
 | `node scripts/regression/probe-d3plus-warnings.mjs <url>` | Audit of CMS chart configs against the installed d3plus version. |
+| `scripts/school-districts/build.sh` | Rebuilds the school district shapes (`public/topojson/SchoolDistrict_<state>.json`) and member list (`data/school-districts.jsonl`) from the Census Bureau's cartographic boundary files (2024 vintage). Run `npm run build:dimensions` afterwards. |
 | `scripts/topojson/build.sh puma\|districts` | Rebuilds `public/topojson/PUMA.json` (2020 PUMAs) or `Districts.json` (119th Congress) from the Census Bureau's cartographic boundary files (downloads the file, checks its SHA-256, simplifies with a pinned `mapshaper` through `npx`). |
 | `scripts/regression/probe-{section,dom,geomap}.mjs`, `scripts/regression/harness/` | Section, element and chart-island probes, and a stand-alone d3plus page (built with esbuild into `public/_harness/`) for bisecting theme/config interactions; see `docs/regression.md`. |
 

@@ -8,12 +8,19 @@ import {HomeGeomap} from "@/components/home/HomeGeomap";
 import {PRISM_TOPICS} from "@/content/home/prism-topics";
 import {getHomeColumns} from "@/lib/home/tiles";
 import {getHomeGeomapData} from "@/lib/home/geomap";
+import {JsonLd} from "@/components/seo/JsonLd";
+import {siteJsonLd} from "@/lib/seo/jsonld";
+import {pageImage, social} from "@/lib/seo/metadata";
+import {SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE} from "@/lib/seo/site";
 import "./home.css";
 
+const TITLE = `${SITE_NAME}: Explore, Map, Compare & Download U.S. Public Data`;
+
 export const metadata: Metadata = {
-  title: {absolute: "Data USA"},
+  title: {absolute: TITLE},
+  description: SITE_DESCRIPTION,
   alternates: {canonical: "/"},
-  openGraph: {images: ["/themes/canyon/share.jpg"]}
+  ...social({title: `${SITE_NAME}: ${SITE_TAGLINE}`, description: SITE_DESCRIPTION, path: "/", image: pageImage("home"), imageAlt: `${SITE_NAME}: ${SITE_TAGLINE}`})
 };
 
 const commas = new Intl.NumberFormat("en-US");
@@ -49,12 +56,13 @@ async function ReportColumns() {
 export default function HomePage() {
   return (
     <main className="home">
+      <JsonLd data={siteJsonLd()} />
       <header className="home-header">
         <div className="home-bg" />
         <div className="home-header-content">
           <div className="home-left">
             <img className="logo" src="/images/home/logo-shadow.png" alt="Data USA" width={400} height={125} />
-            <div className="tagline">The definitive place to explore US public data</div>
+            <h1 className="tagline">{SITE_TAGLINE}</h1>
             <SearchBox className="home-search mobile" placeholder="Search reports" buttonLabel="Search" />
             <Suspense fallback={<div className="report-counts" />}>
               <ReportCounts />

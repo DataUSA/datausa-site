@@ -1,9 +1,11 @@
 import type {Metadata} from "next";
+import {StaticPageJsonLd} from "@/components/seo/StaticPageJsonLd";
+import {staticMetadata} from "@/lib/seo/metadata";
 import {Suspense} from "react";
 import {caveats, usage} from "@/content/about/datasets";
 import {getDatasetSources, sourceSlug} from "@/lib/about/datasets";
 
-export const metadata: Metadata = {title: "Data Sources", alternates: {canonical: "/about/datasets"}};
+export const metadata: Metadata = staticMetadata("datasets");
 
 async function Sources() {
   const sources = await getDatasetSources();
@@ -40,8 +42,11 @@ async function Sources() {
 /** Data sources grouped from the Tesseract cube annotations (legacy `Data/DataSources.jsx`). */
 export default function DatasetsPage() {
   return (
-    <Suspense fallback={<div id="DataSources" />}>
-      <Sources />
-    </Suspense>
+    <>
+      <Suspense fallback={<div id="DataSources" />}>
+        <Sources />
+      </Suspense>
+      <StaticPageJsonLd page="datasets" />
+    </>
   );
 }

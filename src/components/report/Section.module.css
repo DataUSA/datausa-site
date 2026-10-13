@@ -41,14 +41,14 @@
   width: 100%;
 }
 
+/* No max-width, as in the legacy `.section-body`: with a map beside it (About) the text runs from
+   the section's left edge; without one the description centres itself at 1200px. */
 .body {
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
   padding: 0 25px;
   text-align: left;
-  margin: 0 auto;
-  max-width: 1250px;
 }
 .sectionContent {
   display: flex;
@@ -72,7 +72,10 @@
   color: #32415A;
   text-decoration: underline;
 }
-.description p { font-size: 17px; }
+.description p {
+  font-size: 17px;
+  margin-bottom: 10px; /* legacy paragraph spacing (Blueprint), not the site-wide 1em */
+}
 .imageMeta {
   color: white;
   font-size: 14px;
@@ -84,6 +87,7 @@
 
 .visualizations {
   flex: 1;
+  line-height: 1.28581; /* legacy page default; sets the height of the photo credit line */
   margin-left: 50px;
   min-width: 300px;
   overflow: hidden;
@@ -102,6 +106,12 @@
 .photoAttribution:hover {
   text-decoration: none;
   text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
+}
+/* the camera in a 20px slot, 5px in (legacy `.photo-attribution .bp3-icon`) */
+.photoAttribution img {
+  display: inline-block;
+  margin: 0 8px 0 5px;
+  vertical-align: bottom;
 }
 .breadcrumbs {
   align-items: flex-start;
@@ -179,7 +189,6 @@
 
 /* comparison mode: two members side by side */
 .compareSection .body { flex-wrap: wrap; }
-.compareSection .sectionContent:not(:first-child) .description { margin-left: 50px; }
 .topicPair {
   display: flex;
   flex-wrap: wrap;
@@ -191,5 +200,4 @@
 }
 @media (max-width: 768px) {
   .topicPair > * { flex-basis: 100%; }
-  .compareSection .sectionContent:not(:first-child) .description { margin-left: 0; }
 }

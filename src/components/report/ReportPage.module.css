@@ -2,4 +2,3 @@
   background: var(--darkbluegray); /* legacy: the page behind the hero/subnav/sections is dark */
   color: var(--section-text-color);
 }
-.compare :global(.splash-geo) :global([class*="Stat-module"]) { max-width: 35%; min-width: 35%; width: 35%; }

@@ -1,4 +1,5 @@
 import {stripP} from "@/content/formatters";
+import {districtLabel} from "@/lib/dimensions/district-labels";
 import type {ReportView} from "./ReportPage";
 import {Stat} from "./Stat";
 import {HeroSearch} from "./HeroSearch";
@@ -15,14 +16,21 @@ interface HeroProps {
 /** The report header ("splash"): background photo(s), title(s), subtitle and headline statistics. */
 export function Hero({reports, profileSlug, label, dimension}: HeroProps) {
   const statCount = reports[0].hero?.stats.length ?? 0;
+  // congressional districts carry a familiar name under the official one
+  const taglines = reports.map(r => districtLabel(r.loaded.member.id));
   return (
-    <header id="Splash" className={`${styles.hero} splash-${profileSlug} splash-${statCount}`}>
+    <header id="Splash" className={`${styles.hero} splash-${profileSlug} splash-${statCount} ${reports.length > 1 ? "splash-compare" : ""}`}>
       <div className={styles.imageContainer}>
         {reports.map(r => <div key={r.loaded.member.id} className={styles.image} style={{backgroundImage: `url("${r.imageUrl}")`}} />)}
       </div>
       <div className={styles.content}>
         {reports.map(r => <h1 key={r.loaded.member.id} className={styles.title} dangerouslySetInnerHTML={{__html: stripP(r.loaded.report.title)}} />)}
       </div>
+      {taglines.some(Boolean) && (
+        <div className={styles.content}>
+          {reports.map((r, i) => <p key={r.loaded.member.id} className={styles.tagline}>{taglines[i]}</p>)}
+        </div>
+      )}
       <div className={styles.content}>
         {reports.map(r => {
           const subtitle = r.hero?.subtitles[0]?.html;

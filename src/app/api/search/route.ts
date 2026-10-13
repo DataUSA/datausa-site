@@ -1,9 +1,10 @@
 /**
  * Sitewide search (replaces the legacy `/api/searchLegacy`). Query parameters: `q`, `dimension`,
- * `hierarchy`, `limit`. Returns members with the profile slug needed to build links.
+ * `hierarchy`, `limit`, `population=1`. Returns members with the profile slug needed to build links.
  */
 import {NextResponse} from "next/server";
 import {getProfiles, memberTotals, searchMembers} from "@/lib/dimensions/db";
+import {searchReports} from "@/lib/search/reports";
 
 export async function GET(request: Request) {
   const {searchParams} = new URL(request.url);
@@ -11,6 +12,13 @@ export async function GET(request: Request) {
   const dimension = searchParams.get("dimension") ?? undefined;
   const hierarchy = searchParams.get("hierarchy") ?? undefined;
   const limit = Math.min(Number(searchParams.get("limit") ?? 10) || 10, 100);
+  const headers = {"Cache-Control": "public, max-age=300, stale-while-revalidate=3600"};
+  // The search page asks for populations (and the population ranking of a single geography level);
+  // the navigation search box does not need them.
+  if (searchParams.get("population") === "1") {
+    const search = await searchReports(q, {dimension, hierarchy, limit});
+    return NextResponse.json({...search, query: {q, dimension, hierarchy, limit}}, {headers});
+  }
   const profiles = getProfiles();
   const slugByDimension = Object.fromEntries(profiles.filter(p => p.ordering === 0).map(p => [p.dimension, p.slug]));
   const results = searchMembers(q, {dimension, hierarchy, limit}).map(m => ({
@@ -23,7 +31,5 @@ export async function GET(request: Request) {
     zvalue: m.zvalue,
     imageId: m.imageId
   }));
-  return NextResponse.json({results, query: {q, dimension, hierarchy, limit}, totals: memberTotals()}, {
-    headers: {"Cache-Control": "public, max-age=300, stale-while-revalidate=3600"}
-  });
+  return NextResponse.json({results, query: {q, dimension, hierarchy, limit}, totals: memberTotals()}, {headers});
 }

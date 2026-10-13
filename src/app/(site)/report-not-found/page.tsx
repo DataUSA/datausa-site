@@ -1,4 +1,7 @@
+import type {Metadata} from "next";
 import {notFound} from "next/navigation";
+
+export const metadata: Metadata = {title: "Page Not Found", robots: {index: false, follow: true}};
 
 /**
  * Target of the proxy's rewrite for unknown report URLs. Calling `notFound()` while prerendering

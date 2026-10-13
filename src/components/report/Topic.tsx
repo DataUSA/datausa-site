@@ -60,8 +60,9 @@ export function Topic({topic, which = "primary", vizOnly = false, prismLocked = 
             {topic.descriptions.map(d => <div key={d.id} className={styles.description} dangerouslySetInnerHTML={{__html: d.html}} />)}
           </div>
         )}
-        {miniviz && <VizIsland vizId={miniviz.id} sectionSlug={sectionKey} which={which} title={stripP(topic.title)} className={styles.miniviz} />}
-        <SourceGroup sectionSlug={sectionKey} />
+        {miniviz && <VizIsland vizId={miniviz.id} sectionSlug={sectionKey} which={which} title={stripP(topic.title)} className={`${styles.miniviz} topic-miniviz`} />}
+        {/* a sub-heading has no chart and, as in the legacy layout, no source line */}
+        {topic.type !== "SubGrouping" && <SourceGroup sectionSlug={sectionKey} />}
       </div>
       {mainviz.map(viz => (
         <VizIsland key={viz.id} vizId={viz.id} sectionSlug={sectionKey} which={which} title={stripP(topic.title)} className={styles.visualization} />

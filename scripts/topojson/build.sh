@@ -6,6 +6,9 @@
 #                                                         and the one Tesseract uses for every year)
 #   scripts/topojson/build.sh districts   Districts.json  districts of the 119th Congress (2025 file)
 #
+# School district shapes (SchoolDistrict_<state>.json) are built with their member list by
+# scripts/school-districts/build.sh.
+#
 # The files the legacy site shipped predate both: its PUMAs were the 2010 vintage (952 of 2,380 ids
 # matched nothing) and its districts predate the 2022 redistricting. When a new Congress redraws
 # districts, point `districts` at the new cb_<year>_us_cd<congress>_500k file and update the hash.

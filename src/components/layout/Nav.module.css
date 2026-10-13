@@ -78,7 +78,6 @@
   white-space: nowrap;
 }
 .links a:hover { text-decoration: none; opacity: 0.85; }
-.search { margin-left: 5px; }
 
 .menu {
   background-color: var(--black);

@@ -1,8 +1,10 @@
 import type {Metadata} from "next";
+import {StaticPageJsonLd} from "@/components/seo/StaticPageJsonLd";
+import {staticMetadata} from "@/lib/seo/metadata";
 import {Anchor} from "@/components/about/Anchor";
 import {SideNav} from "@/components/about/SideNav";
 
-export const metadata: Metadata = {title: "Terms of Use", alternates: {canonical: "/about/usage"}};
+export const metadata: Metadata = staticMetadata("usage");
 
 export default function UsagePage() {
   return (
@@ -40,6 +42,7 @@ export default function UsagePage() {
           For site security purpose and to ensure that Data USA website(s) remain(s) available to all users, it (they) employ(s) software programs to monitor network traffic to identify unauthorised attempts to upload or change information, or otherwise cause damage and to detect other possible security breaches.
         </p>
       </div>
+      <StaticPageJsonLd page="usage" />
     </div>
   );
 }

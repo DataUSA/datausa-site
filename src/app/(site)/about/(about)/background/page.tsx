@@ -1,7 +1,9 @@
 import type {Metadata} from "next";
+import {StaticPageJsonLd} from "@/components/seo/StaticPageJsonLd";
+import {staticMetadata} from "@/lib/seo/metadata";
 import {Anchor} from "@/components/about/Anchor";
 
-export const metadata: Metadata = {title: "Background", alternates: {canonical: "/about/background"}};
+export const metadata: Metadata = staticMetadata("background");
 
 const VIDEO = "https://www.youtube.com/embed/VJ29nJl-xWw?si=F_wtC81GGDpaxmR1";
 
@@ -47,6 +49,7 @@ export default function BackgroundPage() {
       <p>
         The visualizations in Data USA are powered by <a href="http://d3plus.org/">D3plus</a>, an open-source visualization engine that was created by members of the Datawheel team.
       </p>
+      <StaticPageJsonLd page="background" type="AboutPage" />
     </div>
   );
 }

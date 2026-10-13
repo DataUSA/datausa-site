@@ -2,6 +2,7 @@
 
 import {useEffect, useMemo, useRef, useState} from "react";
 import {configWarnings} from "@d3plus/core";
+import {hash} from "@d3plus/dom";
 import {formatters} from "@/content/formatters";
 import {getVizLoader} from "@/content/viz-registry";
 import {libs} from "@/lib/content/libs";
@@ -37,7 +38,11 @@ interface VizIslandProps {
 // warnings are off unless the page is opened with `?d3plus-warnings=1` (used to audit CMS configs).
 configWarnings(typeof window !== "undefined" && new URLSearchParams(window.location.search).has("d3plus-warnings"));
 
-type Built = {kind: "ok"; type: string; config: AnyRecord; title?: string} | {kind: "error"; error: string};
+/** The topics waiting on each data request, so one shared response can credit its sources to all. */
+const sectionsByData = new Map<string, Set<string>>();
+const dataKey = (data: unknown): string => typeof data === "string" ? data : JSON.stringify(data);
+
+type Built = {kind: "ok"; type: string; config: AnyRecord; title?: string; state: string} | {kind: "error"; error: string};
 
 function useNearViewport<T extends HTMLElement>(margin = "600px"): [React.RefObject<T | null>, boolean] {
   const ref = useRef<T>(null);
@@ -140,7 +145,9 @@ export function VizIsland({vizId, sectionSlug, profileSlug, which = "primary", t
   const built = useMemo<Built | null>(() => {
     if (!definition) return null;
     try {
-      const swap = (template: string) => swapTemplate(template, {variables: report.variables, selectors: report.selectors, labels: report.labels});
+      // What the definition read from the selectors: part of the chart's identity (see `chartKey`).
+      const swapped: Record<string, string> = {};
+      const swap = (template: string) => swapped[template] = swapTemplate(template, {variables: report.variables, selectors: report.selectors, labels: report.labels});
       const config: VizConfig = definition(report.variables, {
         libs, formatters, locale: "en", variables: report.variables, selectors: report.selectors, swap, albersUsaPr
       });
@@ -184,16 +191,20 @@ export function VizIsland({vizId, sectionSlug, profileSlug, which = "primary", t
       // Only charts that load data get the wrapper: a map drawn from topojson alone has no `data`,
       // and d3plus 4 warns about a stray `dataFormat` key.
       if (merged.data !== undefined) merged.dataFormat = (resp: unknown) => {
-        addSources(sectionSlug, extractSources(resp));
+        const sources = extractSources(resp);
+        addSources(sectionSlug, sources);
+        // d3plus loads a URL once and shares the result: when two topics ask for the same data (a
+        // comparison of two places in one state), only one of them gets this call.
+        sectionsByData.get(dataKey(merged.data))?.forEach(slug => addSources(slug, sources));
         try {
-          return userFormat ? userFormat(resp) : defaultDataFormat(resp, merged.data);
+          return dropUndated(userFormat ? userFormat(resp) : defaultDataFormat(resp, merged.data), merged.time);
         }
         catch (err) {
           console.error(`Error in dataFormat of visualization ${vizId}:`, err);
           return [];
         }
       };
-      return {kind: "ok", type, config: merged, title: (merged.title as string | undefined) ?? title};
+      return {kind: "ok", type, config: merged, title: (merged.title as string | undefined) ?? title, state: JSON.stringify(swapped)};
     }
     catch (err) {
       console.error(`Error building visualization ${vizId}:`, err);
@@ -202,6 +213,20 @@ export function VizIsland({vizId, sectionSlug, profileSlug, which = "primary", t
   }, [definition, report, comparison, configOverride, sectionSlug, vizId, title]);
 
   const ok = built && built.kind === "ok" ? built : null;
+  const sharedData = ok && ok.config.data !== undefined ? dataKey(ok.config.data) : null;
+  useEffect(() => {
+    if (!sharedData) return;
+    const sections = sectionsByData.get(sharedData) ?? new Set<string>();
+    sections.add(sectionSlug);
+    sectionsByData.set(sharedData, sections);
+    return () => { sections.delete(sectionSlug); };
+  }, [sharedData, sectionSlug]);
+  // A chart whose config changed (a selector) is drawn by a new d3plus instance: `config()` merges
+  // into what the instance already has, so settings the new config no longer mentions (a colour
+  // scale's domain and midpoint, a label accessor) would survive from the previous option. The
+  // selector values are part of the key because two options often differ only in what the config's
+  // functions close over, which the hash of their source cannot see. Resizes keep the instance.
+  const chartKey = useMemo(() => ok ? `${ok.type}|${ok.state}|${hash(ok.config)}` : "", [ok]);
   const failure = error ?? (built && built.kind === "error" ? built.error : null);
   const supported = ok ? ok.type === "PrismMap" || hasChart(ok.type) : false;
   const explicitHeight = ok && typeof ok.config.height === "number" ? ok.config.height : undefined;
@@ -213,7 +238,7 @@ export function VizIsland({vizId, sectionSlug, profileSlug, which = "primary", t
   }, [ok, figureSize, explicitHeight, fontsReady]);
 
   return (
-    <div ref={ref} className={`${styles.container} ${className}`} data-viz-id={vizId} style={explicitHeight ? {minHeight: explicitHeight} : undefined}>
+    <div ref={ref} className={`${styles.container} ${className}`} data-viz-id={vizId}>
       {ok && options && supported && (
         <Options config={ok.config} title={ok.title ?? title ?? "Data USA Visualization"} sectionSlug={sectionSlug} containerRef={ref} />
       )}
@@ -223,7 +248,7 @@ export function VizIsland({vizId, sectionSlug, profileSlug, which = "primary", t
         ) : ok && supported ? (
           sizedConfig && (ok.type === "PrismMap"
             ? <PrismMap config={sizedConfig} />
-            : <ChartRenderer type={ok.type} config={sizedConfig} />)
+            : <ChartRenderer key={chartKey} type={ok.type} config={sizedConfig} />)
         ) : ok && !supported ? (
           <div className={styles.message}>{ok.type} is not a supported visualization type</div>
         ) : (
@@ -232,6 +257,21 @@ export function VizIsland({vizId, sectionSlug, profileSlug, which = "primary", t
       </div>
     </div>
   );
+}
+
+/**
+ * Drops rows that have no value for the chart's `time` key. The gender pyramids build one row per
+ * gender for every bucket and emit an empty one when a bucket has no men or no women (small race
+ * groups, small places); the d3plus timeline cannot format a missing date, so the chart threw
+ * instead of drawing (in the legacy site as well).
+ */
+function dropUndated(rows: unknown, time: unknown): unknown {
+  if (!Array.isArray(rows) || typeof time !== "string" && typeof time !== "function") return rows;
+  const timeOf = typeof time === "function" ? time as (d: AnyRecord, i: number) => unknown : (d: AnyRecord) => d[time];
+  return rows.filter((d, i) => {
+    const value = d ? timeOf(d, i) : undefined;
+    return value !== undefined && value !== null && value !== "";
+  });
 }
 
 /** Legacy default: concatenate the `data` arrays of one or many responses. */

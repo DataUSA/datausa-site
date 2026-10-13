@@ -75,9 +75,34 @@ location / {
   # existing proxy_cache directives can stay; report pages send Cache-Control for the edge
 }
 
+# generated share images (og:image): each costs a report run and an image render, and sends
+# Cache-Control: public, s-maxage=86400, stale-while-revalidate=604800; let the proxy cache honour it
+location /og/ { proxy_pass http://datausa_site; proxy_cache_valid 200 1d; }
 location = /api/revalidate { proxy_pass http://datausa_site; proxy_cache off; }
 location /api/prism/      { proxy_pass http://datausa_site; proxy_cache off; }
 ```
+
+**Cached HTML and crawlers.** Next.js sends report pages in two shapes. Ordinary browsers (and
+Googlebot, which runs JavaScript) get the page shell first and the `<title>`, description and share
+tags streamed afterwards, inside `<body>`. Crawlers that read only the first HTML (social previews,
+Bing, AI fetchers: the `htmlLimitedBots` list in `next.config.ts`) get the tags in `<head>`. A proxy
+cache that stores one copy per URL can therefore hand a browser's copy to a preview crawler, which
+then finds no tags in `<head>`. Wherever report HTML is cached, keep the two apart by adding the
+visitor class to the cache key:
+
+```nginx
+# http {} level; keep the pattern in step with htmlLimitedBots in next.config.ts
+map $http_user_agent $html_limited_bot {
+  default 0;
+  "~*(-Google|Google-|Slurp|DuckDuckBot|baiduspider|yandex|bingbot|BingPreview|applebot|facebookexternalhit|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|Pinterestbot|redditbot|GPTBot|ChatGPT-User|OAI-SearchBot|ClaudeBot|Claude-User|PerplexityBot|meta-external|Amazonbot|CCBot|Bytespider)" 1;
+}
+# in the location that caches report HTML
+proxy_cache_key "$scheme$host$request_uri$html_limited_bot";
+```
+
+The same applies to a Cloudflare rule that caches HTML: bypass it for these user agents, or do not
+cache report HTML there. The alternative is `htmlLimitedBots: /.*/`, which puts the tags in `<head>`
+for everyone at the cost of the page shell (the loading skeleton) waiting for the report data.
 
 Report HTML is safe to cache at the edge for the same 30 minutes as today; `Cache-Control` headers
 are set by the app. Prism and revalidation endpoints must never be cached (per-visitor cookies).

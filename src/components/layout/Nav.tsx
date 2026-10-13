@@ -23,10 +23,15 @@ export function Nav() {
   // On report pages the bar shows the report title once the hero has scrolled away.
   useEffect(() => {
     if (!pathname.startsWith("/profile/")) return;
-    const read = () => setTitle(document.title.replace(/\s*\|\s*Data USA\s*$/, ""));
+    // The share-card title is the report's plain name (two names in a comparison); the <title>
+    // itself goes on to list what the report covers.
+    const read = () => setTitle(
+      document.querySelector<HTMLMetaElement>("meta[property='og:title']")?.content
+      || document.title.replace(/\s*\|\s*Data USA\s*$/, "")
+    );
     // Next streams the metadata in and may replace the <title> element, so watch the whole head.
     const observer = new MutationObserver(read);
-    observer.observe(document.head, {childList: true, characterData: true, subtree: true});
+    observer.observe(document.head, {attributes: true, childList: true, characterData: true, subtree: true});
     const initial = setTimeout(read, 0);
     return () => { clearTimeout(initial); observer.disconnect(); };
   }, [pathname]);
@@ -56,7 +61,7 @@ export function Nav() {
           <li><Link href="/about">About</Link></li>
           <li><Link href="/about/api">Data</Link></li>
         </ul>
-        {showSearch && <SearchBox placeholder="Search reports" collapsible className={styles.search} />}
+        {showSearch && <SearchBox placeholder="Search reports" collapsible />}
       </div>
       {menu && (
         <div className={styles.menu} role="dialog" aria-label="Site menu">
