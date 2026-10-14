@@ -15,7 +15,7 @@ Massachusetts, Suffolk County MA, Boston MA, Harvard University and Restaurants 
 | Sections | All legacy section ids present; the rewrite adds a `keep-exploring` id for the footer block the legacy site rendered without an id. |
 | Charts rendered | Rewrite ≥ legacy on every page (legacy 16–67 SVGs, rewrite 19–88; the extra SVGs are inline icons). |
 | Console errors | Legacy: React key warnings and NaN path/transform values on Massachusetts and Suffolk County. Rewrite: the same NaN paths on the same two reports (d3plus 4 logs one message per path), and transient sub-pixel negative bar heights while Harvard's graduation-rate mini chart animates (none once it settles). The earlier map "negative height" errors were a real sizing defect, now fixed (A12 in `migration-gaps.md`). |
-| Failed requests | Only `/api/prism/status` 401 (expected when not registered) on both; Chromium `ERR_CACHE_WRITE_FAILURE` appeared on two captures because the development machine's disk was nearly full, not because of the site. |
+| Failed requests | Only `/api/prism/status` 401 (expected when not registered) on the legacy site; the rewrite answers 200 `{gated: true}` instead (a 401 drops HTTP Basic credentials behind the sandbox password); Chromium `ERR_CACHE_WRITE_FAILURE` appeared on two captures because the development machine's disk was nearly full, not because of the site. |
 | Phone width | No horizontal overflow on the five reports, home, search or about pages (`probe-overflow.mjs`). |
 
 Variables: 310 of 311 text variables identical to the legacy payload for Massachusetts (the last one

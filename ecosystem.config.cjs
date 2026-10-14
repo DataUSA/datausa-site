@@ -25,7 +25,8 @@ module.exports = {
       env_production: {
         NODE_ENV: "production",
         PORT: 3301,
-        HOSTNAME: "127.0.0.1"
+        // The Docker sandbox image sets LISTEN_HOST=0.0.0.0 (see Dockerfile).
+        HOSTNAME: process.env.LISTEN_HOST || "127.0.0.1"
       }
     }
   ]

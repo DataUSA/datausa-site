@@ -6,6 +6,8 @@ export async function GET() {
   const user = await getPrismUser();
   // Per-visitor: never let a shared proxy cache this.
   const headers = {"Cache-Control": "no-store, private"};
-  if (!user) return NextResponse.json({gated: true}, {status: 401, headers});
+  // A closed gate is a normal answer, not a 401: a 401 makes browsers drop cached HTTP Basic
+  // credentials, which re-prompts on every page behind the password-protected sandbox.
+  if (!user) return NextResponse.json({gated: true}, {headers});
   return NextResponse.json({verified: true, user_id: user.user_id}, {headers});
 }

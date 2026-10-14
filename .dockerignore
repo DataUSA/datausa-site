@@ -1,0 +1,28 @@
+.git
+node_modules
+.next
+logs
+*.pid
+
+# env files are passed to the build as a secret (build.sh) and to the container by compose
+.env
+.env.*
+!.env.example
+
+# rebuilt in the image by `npm run build:dimensions`
+data/dimensions.sqlite*
+
+scripts/legacy-export/raw/
+scripts/regression/out/
+public/_harness/
+
+# deployment files: changing them should not invalidate the build layers
+Dockerfile
+.dockerignore
+compose-*.yaml
+build.sh
+deploy.sh
+
+.DS_Store
+.vscode
+*.tsbuildinfo
