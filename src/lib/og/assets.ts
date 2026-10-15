@@ -43,6 +43,12 @@ export function ogLogo(): Promise<string> {
  * Downloads a member photo for embedding. Returns undefined instead of throwing: the card is drawn
  * on plain navy when the image host is slow or has no picture.
  */
+/** A JPEG already in memory (a report photo read from disk) as a data URI, under the same size limits as `fetchPhoto`. */
+export function photoDataUri(buffer: Buffer | null): string | undefined {
+  if (!buffer || buffer.byteLength < 1024 || buffer.byteLength > 4 * 1024 * 1024) return undefined;
+  return `data:image/jpeg;base64,${buffer.toString("base64")}`;
+}
+
 export async function fetchPhoto(url: string, timeoutMs = 4000): Promise<string | undefined> {
   try {
     const response = await fetch(url, {signal: AbortSignal.timeout(timeoutMs)});

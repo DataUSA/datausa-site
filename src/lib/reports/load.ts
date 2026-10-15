@@ -97,8 +97,11 @@ export function imageMember(member: MemberRow): MemberRow {
   return (state ? getMember("Geography", state) : undefined) ?? member;
 }
 
-/** Public URL for a member's splash or thumbnail image (served by the legacy image host for now). */
+/**
+ * URL of a member's splash or thumbnail image: this site's `/api/profile/...` route, or the same path
+ * on `NEXT_PUBLIC_IMAGE_BASE_URL` when the photos are served from another host.
+ */
 export function memberImageUrl(profileSlug: string, memberSlug: string, size: "splash" | "thumb"): string {
-  const base = (process.env.NEXT_PUBLIC_IMAGE_BASE_URL ?? "https://datausa.io").replace(/\/$/, "");
+  const base = (process.env.NEXT_PUBLIC_IMAGE_BASE_URL ?? "").replace(/\/$/, "");
   return `${base}/api/profile/${profileSlug}/${memberSlug}/${size}`;
 }

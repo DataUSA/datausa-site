@@ -17,4 +17,12 @@ cp data/dimensions.sqlite .next/standalone/data/dimensions.sqlite
 # fonts read at request time by the /og share-image routes (src/lib/og/assets.ts)
 rm -rf .next/standalone/assets
 cp -R assets .next/standalone/assets
+# report photos (about 720 MB, not in Git): linked, not copied, unless PROFILE_IMAGES_DIR points elsewhere
+# (no trailing slash: removes a previous link, or a copy left by an older build, never the photos themselves)
+rm -rf .next/standalone/profile-images
+if [ -d profile-images ]; then
+  ln -s "$(pwd)/profile-images" .next/standalone/profile-images
+else
+  echo "warning: no profile-images/ folder; report photos will 404 unless PROFILE_IMAGES_DIR is set" >&2
+fi
 echo "standalone bundle ready in .next/standalone ($(du -sh .next/standalone | cut -f1))"

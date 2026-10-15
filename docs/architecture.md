@@ -125,7 +125,7 @@ Server components: everything textual. Client components: `VizIsland` (d3plus), 
 
 ## Images
 
-Profile splash/thumb images stay on the legacy host until migrated; `NEXT_PUBLIC_IMAGE_BASE_URL` builds `/api/profile/<slug>/<member>/<size>` URLs. Cutover gap: those URLs must be served by object storage or a tiny image route before the legacy app is turned off (tracked in `docs/migration-gaps.md`).
+Profile splash/thumb images are served by this app: `GET /api/profile/<slug>/<member>/<splash|thumb|json>` reads the JPEGs from `profile-images/{splash,thumb}/<image id>.jpg` (outside Git, about 720 MB; `PROFILE_IMAGES_DIR` to put them elsewhere) and falls back to the nearest parent's photo, then a stock one (`src/lib/reports/images.ts`). `NEXT_PUBLIC_IMAGE_BASE_URL` can point pages at another host with the same paths.
 
 ## Deployment
 

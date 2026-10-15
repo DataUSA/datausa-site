@@ -2,7 +2,8 @@ import {stripHTML, stripP} from "@/content/formatters";
 import {imageMember, memberImageUrl, type LoadedReport} from "@/lib/reports/load";
 import type {PreparedSection} from "@/lib/reports/engine";
 import {similarGeographies} from "@/lib/dimensions/similar";
-import {getImage} from "@/lib/dimensions/db";
+import type {getImage} from "@/lib/dimensions/db";
+import {pictureCredit} from "@/lib/reports/images";
 import {isPendingLevel} from "@/lib/geo/levels";
 import {Hero} from "./Hero";
 import {Subnav} from "./Subnav";
@@ -36,9 +37,10 @@ export interface ReportView {
   image?: ReturnType<typeof getImage>;
 }
 
-function view(loaded: LoadedReport): ReportView {
+async function view(loaded: LoadedReport): Promise<ReportView> {
   const {report, member, template} = loaded;
-  // the photo, and so its credit, may be another member's (a school district shows its state's)
+  // the photo, and so its credit, may be another member's (a school district shows its state's, a
+  // county without one its nearest parent's): the credit follows the photo the image route sends
   const pictured = imageMember(member);
   return {
     loaded,
@@ -47,15 +49,14 @@ function view(loaded: LoadedReport): ReportView {
     groups: groupSections(report.sections),
     title: stripHTML(report.title),
     imageUrl: memberImageUrl(template.meta.slug, pictured.slug, "splash"),
-    image: pictured.imageId ? getImage(pictured.imageId) : undefined
+    image: await pictureCredit(template.meta.slug, member)
   };
 }
 
 export async function ReportPage({loaded, comparison}: {loaded: LoadedReport; comparison?: LoadedReport}) {
   const {member, template} = loaded;
   const profileSlug = template.meta.slug;
-  const primary = view(loaded);
-  const compare = comparison ? view(comparison) : undefined;
+  const [primary, compare] = await Promise.all([view(loaded), comparison ? view(comparison) : undefined]);
   // similar places are found through the geoservice and ranked by population: neither knows a level without data
   const similar = profileSlug === "geo" && !compare && !isPendingLevel(member.hierarchy) ? await similarGeographies(member) : [];
   const joiner = profileSlug === "geo" ? "in" : "for";

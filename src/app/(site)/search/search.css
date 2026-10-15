@@ -260,6 +260,48 @@
         top: 0;
         z-index: 1;
       }
+      /* universities: what to rank the list by, and the state to limit it to */
+      & .results-header.with-tools { padding-top: 12px; }
+      & .results-header.with-tools > span { display: block; }
+      & .results-tools {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 12px;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        & .rank { display: flex; gap: 1px; }
+        & button, & select {
+          background-color: #434958;
+          border: 0;
+          border-radius: 0;
+          color: #c5cad3;
+          cursor: pointer;
+          font-family: "Palanquin", sans-serif;
+          font-size: 12px;
+          font-weight: 600;
+          height: 28px;
+          letter-spacing: 0.05em;
+          line-height: 1;
+          padding: 0 10px 2px;
+          text-transform: uppercase;
+          transition: background-color 0.2s, color 0.2s;
+          &:hover { background-color: #727682; color: #fff; }
+          &:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
+        }
+        & button.active { background-color: var(--university); color: var(--dark); }
+        /* the order of the list, on the ranking's button: clicking it again turns the list round */
+        & .direction {
+          border: 4px solid transparent;
+          display: inline-block;
+          margin-left: 6px;
+          &.desc { border-bottom-width: 0; border-top: 5px solid currentColor; vertical-align: 1px; }
+          &.asc { border-bottom: 5px solid currentColor; border-top-width: 0; vertical-align: 1px; }
+        }
+        & .state { display: flex; gap: 1px; }
+        & select { max-width: 170px; padding-right: 4px; }
+        & .clear-state { font-size: 18px; font-weight: 400; padding: 0 9px 3px; }
+      }
       & .no-results {
         border: 0;
         color: white;

@@ -1,10 +1,11 @@
 import {getImage, type MemberRow} from "@/lib/dimensions/db";
 import {districtLabel} from "@/lib/dimensions/district-labels";
-import {fetchPhoto, ogLogo} from "@/lib/og/assets";
+import {ogLogo, photoDataUri} from "@/lib/og/assets";
 import {CompareCard, ReportCard, type CompareSide} from "@/lib/og/cards";
 import {geoLocator} from "@/lib/og/locator";
 import {ogImage} from "@/lib/og/render";
-import {imageMember, loadMemberReport, memberImageUrl} from "@/lib/reports/load";
+import {pictureId, readImage} from "@/lib/reports/images";
+import {loadMemberReport} from "@/lib/reports/load";
 import {resolveReportUrl} from "@/lib/reports/resolve";
 import {headlineFacts, heroFacts, levelLabel, plainText, sectionFacts, type Fact} from "@/lib/seo/report";
 import {familyBySlug} from "@/lib/seo/site";
@@ -50,23 +51,26 @@ export async function GET(request: Request, {params}: {params: Promise<{slug: st
   const query = new URL(request.url).searchParams;
   const compareId = query.get("compare");
   const compared = compareId ? resolveReportUrl(slug, compareId) : undefined;
-  const photoOf = (m: MemberRow) => fetchPhoto(memberImageUrl(slug, imageMember(m).slug, "splash"));
+  // the report's photo, read from disk (the image route sends the same one), with its author
+  const photoOf = async (m: MemberRow): Promise<{uri?: string; author?: string}> => {
+    const id = await pictureId(slug, m);
+    const uri = photoDataUri(await readImage("splash", id));
+    return {uri, author: uri ? getImage(id)?.author ?? undefined : undefined};
+  };
 
   if (compared?.status === "ok" && compared.member.id !== member.id) {
     const [logo, a, b, photoA, photoB] = await Promise.all([ogLogo(), side(slug, member), side(slug, compared.member), photoOf(member), photoOf(compared.member)]);
     const sides = (withPhotos: boolean): [CompareSide, CompareSide] => [
-      {name: a.name, photo: withPhotos ? photoA : undefined, facts: headlineFacts(slug, a.facts, 6)},
-      {name: b.name, photo: withPhotos ? photoB : undefined, facts: headlineFacts(slug, b.facts, 6)}
+      {name: a.name, photo: withPhotos ? photoA.uri : undefined, facts: headlineFacts(slug, a.facts, 6)},
+      {name: b.name, photo: withPhotos ? photoB.uri : undefined, facts: headlineFacts(slug, b.facts, 6)}
     ];
     return ogImage(<CompareCard logo={logo} family={family} sides={sides(true)} />, {
-      photo: Boolean(photoA || photoB),
+      photo: Boolean(photoA.uri || photoB.uri),
       fallback: <CompareCard logo={logo} family={family} sides={sides(false)} />
     });
   }
 
-  const [logo, data, photo] = await Promise.all([ogLogo(), side(slug, member, query.get("topic")), photoOf(member)]);
-  const pictured = imageMember(member);
-  const author = photo && pictured.imageId !== null && pictured.imageId !== undefined ? getImage(pictured.imageId)?.author : undefined;
+  const [logo, data, {uri: photo, author}] = await Promise.all([ogLogo(), side(slug, member, query.get("topic")), photoOf(member)]);
   const topicFacts = data.topic?.facts.slice(0, 3) ?? [];
   const card = (withPhoto: boolean) => (
     <ReportCard

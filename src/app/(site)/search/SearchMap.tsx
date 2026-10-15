@@ -9,6 +9,7 @@ import {clusterPoints} from "@/lib/geo/cluster";
 import {isPendingLevel} from "@/lib/geo/levels";
 import {albersUsaPr} from "@/lib/viz/albers-usa-pr";
 import {geomapShapeConfig, theme, tooltipTitle} from "@/lib/viz/theme";
+import {escapeHtml, NO_DATA, OUTLINE, PAGE, quintiles, SCALE, TEXT, useFigureSize} from "./map-shared";
 
 type AnyRecord = Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 type Row = {id: string; name: string; population: number | null; label?: string};
@@ -54,26 +55,11 @@ const IDENTITY = {k: 1, x: 0, y: 0};
 /** Whether the search page has a map for this geography level. */
 export const hasSearchMap = (hierarchy: string) => hierarchy in POINT_LEVELS || hierarchy in SHAPES;
 
-// A sequential scale for the dark page: low values recede into the background, high ones glow.
-const SCALE = ["#22335c", "#35508f", "#5571c4", "#879bf5", "#c8d2ff"];
-const NO_DATA = "#16233f";
-const PAGE = "#00112C";
-const TEXT = "#a5abb6";
-const OUTLINE = "#33456f";
 const commas = new Intl.NumberFormat("en-US");
 
 const pathFill = theme.shapeConfig.Path.fill as (this: unknown, d: AnyRecord, i: number) => string;
 /** A state shape in a file of another level (drawn without data, so the datum is the shape itself). */
 const isState = (d: AnyRecord) => String(d?.id ?? d?.feature?.id ?? "").startsWith("04000US");
-
-/** Lower bounds of five classes holding the same number of geographies each. */
-function quintiles(rows: Row[]): number[] {
-  const values = rows.map(d => d.population).filter((v): v is number => typeof v === "number").sort((a, b) => a - b);
-  if (values.length < SCALE.length) return values;
-  return SCALE.map((_, i) => values[Math.floor(i * values.length / SCALE.length)]);
-}
-
-const escapeHtml = (text: string) => String(text).replace(/[&<>"']/g, c => `&#${c.charCodeAt(0)};`);
 
 const cache = new Map<string, Promise<{year: number | null; data: Row[]}>>();
 function loadLevel(level: string) {
@@ -168,8 +154,7 @@ interface Props {
  */
 export function SearchMap({hierarchy, results, filtered, year}: Props) {
   const router = useRouter();
-  const ref = useRef<HTMLDivElement>(null);
-  const [size, setSize] = useState<{width: number; height: number} | null>(null);
+  const [ref, size] = useFigureSize();
   const [level, setLevel] = useState<{hierarchy: string; data: Row[]} | null>(null);
   const [all, setAll] = useState<{hierarchy: string; points: LevelPoints} | null>(null);
   // d3plus fits this instance to the map on every render, so it also tells where each point is drawn
@@ -185,21 +170,6 @@ export function SearchMap({hierarchy, results, filtered, year}: Props) {
   // a level without data has no population to size its points by, or to show in the tooltip
   const sized = !isPendingLevel(hierarchy);
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const measure = () => {
-      const rect = el.getBoundingClientRect();
-      const next = {width: Math.round(rect.width), height: Math.round(rect.height)};
-      if (next.width > 0 && next.height > 0) setSize(prev => prev && prev.width === next.width && prev.height === next.height ? prev : next);
-    };
-    measure();
-    let timer: ReturnType<typeof setTimeout> | undefined;
-    const observer = new ResizeObserver(() => { clearTimeout(timer); timer = setTimeout(measure, 150); });
-    observer.observe(el);
-    return () => { clearTimeout(timer); observer.disconnect(); };
-  }, []);
-
   // nothing is loaded while the map is hidden (narrow screens)
   const shown = Boolean(size);
   useEffect(() => {
@@ -213,7 +183,7 @@ export function SearchMap({hierarchy, results, filtered, year}: Props) {
   useEffect(() => () => { clearTimeout(zoomTimer.current); stopZoom.current?.(); }, []);
 
   /** Tells the stylesheet the zoom: it divides the points' radii and the counts' type size by it, so they hold their size on screen. */
-  const holdSizes = useCallback((k: number) => { ref.current?.style.setProperty("--k", String(k)); }, []);
+  const holdSizes = useCallback((k: number) => { ref.current?.style.setProperty("--k", String(k)); }, [ref]);
 
   /** Reads the map's zoom once it has settled: the clusters are rebuilt for where it ended up. */
   const followZoom = useCallback((delay = 200) => {
@@ -258,7 +228,7 @@ export function SearchMap({hierarchy, results, filtered, year}: Props) {
       text.textContent = countLabel(d.count);
       group.appendChild(text);
     }
-  }, [holdSizes]);
+  }, [holdSizes, ref]);
 
   const onRender = useCallback((viz: AnyRecord) => {
     dressPoints(viz);
@@ -443,7 +413,7 @@ export function SearchMap({hierarchy, results, filtered, year}: Props) {
         // equal-count classes: populations are so skewed that natural breaks leave nearly every shape
         // in the lowest one
         scale: "buckets",
-        buckets: quintiles(data),
+        buckets: quintiles(data.map(d => d.population)),
         axisConfig: {
           tickFormat: (d: number) => formatters.abbreviate(d),
           title: year ? `${year} Population` : "Population",

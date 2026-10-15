@@ -21,7 +21,8 @@ file in the project root at build time). See `.env.example`.
 |---|---|---|
 | `NEXT_PUBLIC_TESSERACT_URL` | yes | Tesseract base URL (trailing slash). Baked into client code at build time. |
 | `GEOSERVICE_URL` | yes | Geoservice base URL. |
-| `NEXT_PUBLIC_IMAGE_BASE_URL` | yes (for now) | Host serving `/api/profile/<slug>/<member>/<size>` images. |
+| `PROFILE_IMAGES_DIR` | no | Folder with the report photos (`splash/`, `thumb/`); default `profile-images` in the working directory. See below. |
+| `NEXT_PUBLIC_IMAGE_BASE_URL` | no | Another host to take report photos from (its `/api/profile/<slug>/<member>/<size>`). Unset: this site's own route. Baked in at build time. |
 | `SITE_URL` | yes | Canonical origin for metadata, canonical URLs, sitemaps. |
 | `DIMENSIONS_DB_PATH` | no | Override of `data/dimensions.sqlite` (relative to the server's working directory). |
 | `REVALIDATE_SECRET` | yes | Shared secret for `POST /api/revalidate`. |
@@ -31,6 +32,22 @@ file in the project root at build time). See `.env.example`.
 | `API_MAX_CONCURRENCY`, `API_TIMEOUT_MS` | no | Generator fan-out tuning (defaults 12 and 20000). |
 | `GA_KEYFILE`, `GA_PROPERTY_ID` | no | Google Analytics 4 service-account key (path) and property for the home page's most-viewed reports; without them the curated default tiles are shown. |
 | `PM2_INSTANCES` | no | Cluster size (default `max`). |
+
+## Report photos
+
+Report photos (splash and thumbnail, 2,243 JPEGs each, about 720 MB) are not in Git. They are the
+legacy app's `static/images/profile/{splash,thumb}` folders, named by image id, and
+`GET /api/profile/<slug>/<member>/<splash|thumb|json>` serves them (a member without a photo gets its
+nearest parent's, as on the legacy site). Put them in `profile-images/` at the project root, or
+anywhere and set `PROFILE_IMAGES_DIR`:
+
+```bash
+rsync -a <legacy host>:<legacy app>/static/images/profile/splash <legacy host>:<legacy app>/static/images/profile/thumb profile-images/
+```
+
+`scripts/package-standalone.sh` links `profile-images/` into `.next/standalone` instead of copying it,
+so a deploy does not duplicate the photos. A photo added later (a new member's) is a new file in both
+folders, named by its id in `data/images.jsonl`; no rebuild is needed.
 
 ## Build and start
 
@@ -45,7 +62,8 @@ pm2 save
 ```
 
 Health check: `GET /robots.txt` (static) and `GET /profile/geo/massachusetts` (full report, must return 200
-with the title in the HTML). `GET /api/search?q=mass` exercises the SQLite database.
+with the title in the HTML). `GET /api/search?q=mass` exercises the SQLite database and
+`GET /api/profile/geo/massachusetts/thumb` the photo folder.
 
 Build time does not depend on the number of reports: the build compiles code and the content
 modules only. The dimensions database is built from the versioned JSONL export in a few seconds.
@@ -126,4 +144,4 @@ Nothing is pre-generated, so stale entries are at most the `data` cache-life (`n
 2. Validate with the regression script against the live host: `NEW_URL=http://127.0.0.1:3301 npx tsx scripts/regression/compare.ts /profile/geo/massachusetts ...`.
 3. Switch the Nginx upstream to `datausa_site`, `nginx -s reload`, purge Cloudflare.
 4. Keep the Docker containers stopped but present for a week; rollback is switching the upstream back and reloading Nginx.
-5. Before decommissioning the legacy VM services: move profile images (gap G1) and keep the Prism database reachable (gap G2).
+5. Before decommissioning the legacy VM services: keep the Prism database reachable (gap G2). The profile images are served by this app (see Report photos above).

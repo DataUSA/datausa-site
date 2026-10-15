@@ -2,7 +2,8 @@ import type {Metadata} from "next";
 import {Suspense} from "react";
 import {memberTotalsByHierarchy} from "@/lib/dimensions/db";
 import {isPendingLevel} from "@/lib/geo/levels";
-import {searchReports} from "@/lib/search/reports";
+import {getUniversityFigures, isUniversityRanking, UNIVERSITY_RANKINGS} from "@/lib/dimensions/universities";
+import {isUniversityList, searchReports} from "@/lib/search/reports";
 import {svgSymbolMarkup} from "@/lib/inline-svg";
 import {SEARCH_DIMENSIONS} from "@/content/search/dimensions";
 import {pageImage, social, staticMetadata} from "@/lib/seo/metadata";
@@ -22,7 +23,9 @@ function first(value: string | string[] | undefined): string {
 /**
  * Three kinds of search URL: the bare page, a browsable level (`?dimension=Geography&hierarchy=County`,
  * a landing page in its own right with a self-canonical URL) and typed queries, which are kept out
- * of the index (their titles would echo whatever was typed) and point at what they filter.
+ * of the index (their titles would echo whatever was typed) and point at what they filter. A list of
+ * universities in one state or in another ranking (`&state=04000US25&rank=endowment`) is a landing
+ * page too, named after both.
  */
 export async function generateMetadata({searchParams}: {searchParams: SearchParams}): Promise<Metadata> {
   const params = await searchParams;
@@ -55,6 +58,22 @@ export async function generateMetadata({searchParams}: {searchParams: SearchPara
       ...social({title, description, path, image: pageImage("search", level ? {dimension, hierarchy: level} : {dimension}), imageAlt: `${title} | ${SITE_NAME}`})
     };
   }
+  const rank = first(params.rank);
+  const ranking = isUniversityRanking(rank) ? rank : null;
+  if (isUniversityList(dimension, hierarchy) && (ranking || first(params.state))) {
+    const figures = await getUniversityFigures();
+    const state = figures.states.get(first(params.state));
+    if (state || (ranking && figures.byId.size)) {
+      const by = UNIVERSITY_RANKINGS[ranking ?? "enrollment"].label;
+      const query = new URLSearchParams({dimension});
+      if (ranking && ranking !== "enrollment") query.set("rank", ranking);
+      if (state) query.set("state", state.id);
+      const path = `/search?${query.toString()}`;
+      const title = state ? `${commas.format(state.universities)} Universities in ${state.name} Ranked by ${by}` : `Universities Ranked by ${by}`;
+      const description = `${state ? `The ${commas.format(state.universities)} colleges and universities in ${state.name}` : "Colleges and universities in the United States"}, ranked by ${inSentence(by)}${figures.years[ranking ?? "enrollment"] ? ` in ${figures.years[ranking ?? "enrollment"]}` : ""}. Each links to a free Data USA report with charts and downloadable data.`;
+      metadata = {...metadata, title, description, alternates: {canonical: path}, ...social({title, description, path, image: pageImage("search", {dimension}), imageAlt: `${title} | ${SITE_NAME}`})};
+    }
+  }
   if (q) return {...metadata, title: `Search: ${q.slice(0, 60)}`, robots: {index: false, follow: true}};
   return metadata;
 }
@@ -65,7 +84,9 @@ async function SearchContent({searchParams}: {searchParams: SearchParams}) {
   const dimension = first(params.dimension);
   const hierarchy = first(params.hierarchy);
   // First result set is server-rendered so the page is useful before hydration (and for crawlers).
-  const {results, populationYear} = await searchReports(q, {dimension: dimension || undefined, hierarchy: hierarchy || undefined, limit: RESULT_LIMIT});
+  const {results, populationYear, metric, state} = await searchReports(q, {
+    dimension: dimension || undefined, hierarchy: hierarchy || undefined, limit: RESULT_LIMIT, rank: first(params.rank), order: first(params.order), state: first(params.state)
+  });
   // One sprite of the six dimension icons; every result references its symbol with <use>.
   const sprite = SEARCH_DIMENSIONS.map(d => svgSymbolMarkup(`/icons/dimensions/${d.icon}.svg`, `dim-${d.cls}`)).join("");
   return (
@@ -77,6 +98,10 @@ async function SearchContent({searchParams}: {searchParams: SearchParams}) {
         initialHierarchy={hierarchy}
         initialResults={results}
         initialPopulationYear={populationYear}
+        initialRank={metric && first(params.rank) === metric.key ? metric.key : ""}
+        initialOrder={metric && ["asc", "desc"].includes(first(params.order)) ? first(params.order) : ""}
+        initialState={state ?? ""}
+        initialMetric={metric}
         totals={memberTotalsByHierarchy()}
         limit={RESULT_LIMIT}
       />

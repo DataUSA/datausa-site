@@ -14,7 +14,10 @@ const nextConfig: NextConfig = {
   },
   // Self-hosted PM2 deployment: standalone output bundles the server and its dependencies.
   output: "standalone",
-  // Profile images are served from the legacy image host for now (see docs/architecture.md).
+  // The report photos (about 720 MB, outside Git) are read at request time; the build must not copy
+  // them into .next/standalone, where scripts/package-standalone.sh links the folder instead.
+  outputFileTracingExcludes: {"/*": ["./profile-images/**/*"]},
+  // Report photos are plain JPEGs from /api/profile/... (see docs/architecture.md): no optimisation.
   images: {unoptimized: true},
   // Report metadata is streamed after the page shell for ordinary browsers and for crawlers that
   // run JavaScript. Crawlers that read only the first HTML need the tags in <head>: Next's own list

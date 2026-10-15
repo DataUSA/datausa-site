@@ -15,6 +15,9 @@ logs
 .env.*
 !.env.example
 
+# report photos (splash/ and thumb/, about 720 MB), served by /api/profile/...; see docs/deployment.md
+/profile-images/
+
 # migration-only artifacts
 scripts/legacy-export/raw/
 
