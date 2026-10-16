@@ -9,7 +9,7 @@ import {getTemplate} from "@/content/registry";
 import {GEOSERVICE_URL, TESSERACT_URL} from "@/lib/api/tesseract";
 import {stateOf} from "@/lib/api/geoservice";
 import {getMember, type MemberRow} from "@/lib/dimensions/db";
-import {isPendingLevel} from "@/lib/geo/levels";
+import {SCHOOL_DISTRICT} from "@/lib/geo/levels";
 import {baseAttributes, buildVariables, prepareReport, variablesForClient, type BuiltVariables, type PreparedReport, type SelectorQuery} from "@/lib/reports/engine";
 import {resolveReportUrl, type ResolvedReport} from "@/lib/reports/resolve";
 import type {MemberAttributes, ReportTemplate, Variables} from "@/lib/reports/types";
@@ -88,11 +88,11 @@ export function splitComparisonQuery(query: SelectorQuery): {primary: SelectorQu
 }
 
 /**
- * The member whose photo illustrates a report: the member itself, or its state for a level the image
- * host has no photos for (it answers an unknown member with a stock picture).
+ * The member whose photo illustrates a report: the member itself, or its state for a school district
+ * (there are no photos of districts; the image host answers an unknown member with a stock picture).
  */
 export function imageMember(member: MemberRow): MemberRow {
-  if (member.dimension !== "Geography" || !isPendingLevel(member.hierarchy)) return member;
+  if (member.dimension !== "Geography" || member.hierarchy !== SCHOOL_DISTRICT) return member;
   const state = stateOf(member.id);
   return (state ? getMember("Geography", state) : undefined) ?? member;
 }

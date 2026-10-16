@@ -11,26 +11,23 @@ import {template as soc} from "@/content/reports/soc";
 import {template as university} from "@/content/reports/university";
 import {template as napcs} from "@/content/reports/napcs";
 import {schoolDistrictTemplate} from "@/content/reports/geo/school-district";
-import {isPendingLevel, SCHOOL_DISTRICT} from "@/lib/geo/levels";
+import {SCHOOL_DISTRICT} from "@/lib/geo/levels";
 
 export const templates: Record<string, ReportTemplate> = {
   geo, cip, naics, soc, university, napcs
 };
 
 /**
- * Placeholder templates of geography levels that have no data yet (`src/lib/geo/levels.ts`), by
- * level. Every level in `PENDING_LEVELS` needs one.
+ * Location levels with a report of their own instead of the full location report, by level: school
+ * districts, whose data covers a few of its sections (`src/content/reports/geo/school-district.ts`).
  */
-const pendingTemplates: Record<string, ReportTemplate> = {
+const levelTemplates: Record<string, ReportTemplate> = {
   [SCHOOL_DISTRICT]: schoolDistrictTemplate
 };
 
-/**
- * The template of a report family. With the member's `hierarchy`, a location of a level that has no
- * data yet gets that level's placeholder template instead of the full location report.
- */
+/** The template of a report family; with the member's `hierarchy`, a location level's own template. */
 export function getTemplate(slug: string, hierarchy?: string): ReportTemplate | undefined {
-  if (slug === "geo" && hierarchy && isPendingLevel(hierarchy) && pendingTemplates[hierarchy]) return pendingTemplates[hierarchy];
+  if (slug === "geo" && hierarchy && levelTemplates[hierarchy]) return levelTemplates[hierarchy];
   return templates[slug];
 }
 

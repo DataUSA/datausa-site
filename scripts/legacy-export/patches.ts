@@ -37,6 +37,13 @@ export const patches: Record<string, RecordPatch> = {
       ["![stateNeighbors] ? \"Top States\" : \"Similar States\"", "\"Similar States\""]
     ]
   },
+  "visualization:386": {
+    note: "Not a legacy defect: the workforce view kept only occupations with a median earnings figure, so a geography whose earnings cube has no rows (school districts have the workforce cube but not the earnings one) drew an empty treemap. The earnings filter now applies only when earnings data came back; every other geography is unchanged.",
+    replace: [[
+      "return dataWorkforce.filter(d => d[\"Median Earnings\"] >= 0 && d[\"Workforce by Occupation and Gender\"] >= 0)",
+      "return dataWorkforce.filter(d => (!cleanedDataWage.length || d[\"Median Earnings\"] >= 0) && d[\"Workforce by Occupation and Gender\"] >= 0)"
+    ]]
+  },
   "visualization:430": {
     note: "`data: [dataURL, ...dataNation, ...]` spread the second URL string into its characters, so the chart requested ~190 one-letter URLs and never loaded (visible as 'No Data Available' on county pages in production). The intent is clearly a single URL.",
     replace: [["data: [dataURL, ...dataNation, ...dataSimilarURLs]", "data: [dataURL, dataNation, ...dataSimilarURLs]"]]

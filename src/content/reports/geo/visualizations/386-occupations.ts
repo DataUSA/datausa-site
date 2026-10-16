@@ -127,7 +127,7 @@ const viz: VizDefinition = (variables, {libs, formatters, locale, swap}) => {
         });
 
       if(growth === "value"){
-        return dataWorkforce.filter((d: any) => d["Median Earnings"] >= 0 && d["Workforce by Occupation and Gender"] >= 0)
+        return dataWorkforce.filter((d: any) => (!cleanedDataWage.length || d["Median Earnings"] >= 0) && d["Workforce by Occupation and Gender"] >= 0)
       }
       else {
         return dataWorkforce.filter((d: any) => d["Year"] !== 2013 && d["Median Earnings"] && d["Workforce by Occupation and Gender"])

@@ -1,6 +1,7 @@
 /**
  * Development diagnostics: runs the report engine for `?slug=geo&id=massachusetts` and returns the
- * generator/materializer status, timings and variable counts. Disabled in production.
+ * generator/materializer status, timings and variable counts (`&generators=all` lists every generator
+ * and materializer with the variables it set). Disabled in production.
  */
 import {connection, NextResponse} from "next/server";
 import {loadReport} from "@/lib/reports/load";
@@ -28,6 +29,7 @@ export async function GET(request: Request) {
     generators: {total: built.diagnostics.generators.length, failed: failed.map(g => ({id: g.id, name: g.name, url: g.url, status: g.status, error: g.error}))},
     materializers: built.diagnostics.materializers.filter(m => m.error),
     slowest: [...built.diagnostics.generators].sort((a, b) => b.durationMs - a.durationMs).slice(0, 5).map(g => ({id: g.id, name: g.name, ms: g.durationMs})),
+    all: searchParams.get("generators") === "all" ? {generators: built.diagnostics.generators, materializers: built.diagnostics.materializers} : undefined,
     full: searchParams.get("full") === "true" ? {variables: built.variables, report} : undefined
   });
 }
