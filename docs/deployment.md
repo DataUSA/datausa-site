@@ -32,6 +32,7 @@ file in the project root at build time). See `.env.example`.
 | `API_MAX_CONCURRENCY`, `API_TIMEOUT_MS` | no | Generator fan-out tuning (defaults 12 and 20000). |
 | `GA_KEYFILE`, `GA_PROPERTY_ID` | no | Google Analytics 4 service-account key (path) and property for the home page's most-viewed reports; without them the curated default tiles are shown. |
 | `PM2_INSTANCES` | no | Cluster size (default `max`). |
+| `BLS_API_KEY` | production | Free key from https://data.bls.gov/registrationEngine/ for the figures on `/home-next`. Without it the BLS API allows 25 requests a day per IP address, which several PM2 workers (each with its own cache) use up; with it, 500. Never commit it. |
 
 ## Report photos
 
@@ -137,6 +138,12 @@ Application data (Tesseract, geoservice, external feeds) is cached in-process wi
 2. Purge the Nginx proxy cache / Cloudflare as today.
 
 Nothing is pre-generated, so stale entries are at most the `data` cache-life (`next.config.ts`).
+
+The latest-data home page (`/home-next`) reads BLS and EIA directly, not Tesseract. Its figures are
+cached for two hours (state unemployment for twelve) under the `external-data` tag, so on a release
+morning (CPI and the jobs report at 8:30 a.m. ET, EIA fuel prices on Monday or Tuesday) either wait
+up to two hours or purge that tag: `-d '{"tags": ["external-data"]}'`. Release dates for the
+"Coming up" list are in `src/content/latest/releases.ts`; add each new year's BLS dates there.
 
 ## Cutover and rollback
 
