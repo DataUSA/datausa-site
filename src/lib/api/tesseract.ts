@@ -9,6 +9,7 @@
 import {cacheLife, cacheTag} from "next/cache";
 import type {TesseractResponse} from "@/lib/reports/types";
 import {normalizeTesseractUrl} from "@/lib/api/urls";
+import {acquireUpstreamSlot} from "@/lib/api/limit";
 
 export {normalizeTesseractUrl};
 
@@ -25,9 +26,19 @@ export interface FetchResult<T = TesseractResponse> {
   durationMs: number;
 }
 
-/** Uncached fetch with timeout; never throws. */
+/**
+ * Uncached fetch with timeout; never throws. On the server it first waits for a request slot of the
+ * URL's host (`src/lib/api/limit.ts`); the timeout runs from when the request is sent.
+ */
 export async function fetchJsonRaw<T = TesseractResponse>(url: string): Promise<FetchResult<T>> {
   const started = performance.now();
+  let release: () => void;
+  try {
+    release = await acquireUpstreamSlot(url);
+  }
+  catch (error) {
+    return {url, data: null, status: 0, error: (error as Error).message, durationMs: performance.now() - started};
+  }
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), DEFAULT_TIMEOUT_MS);
   try {
@@ -45,6 +56,7 @@ export async function fetchJsonRaw<T = TesseractResponse>(url: string): Promise<
   }
   finally {
     clearTimeout(timer);
+    release();
   }
 }
 

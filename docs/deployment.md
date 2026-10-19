@@ -30,6 +30,9 @@ file in the project root at build time). See `.env.example`.
 | `NEXT_PUBLIC_GDPR` | no | `true` shows the cookie banner and starts GA4 in denied consent mode. |
 | `PRISM_DATABASE_URL`, `PRISM_JWT_SECRET`, `PRISM_COOKIE_DAYS` | no | PeoplePrism registrations (gated health sections). Without them the form answers 503 and the sections stay locked. |
 | `API_MAX_CONCURRENCY`, `API_TIMEOUT_MS` | no | Generator fan-out tuning (defaults 12 and 20000). |
+| `UPSTREAM_MAX_CONCURRENCY` | no | Requests in flight to each data API host (Tesseract, geoservice) per worker, across every report it renders (default 8). The most a deployment sends to Tesseract at once is this times the number of workers. See "Protecting Tesseract" below. |
+| `UPSTREAM_QUEUE_TIMEOUT_MS` | no | How long a request waits for one of those slots before it is dropped and its generator yields nothing (default 30000; 0 waits without limit). |
+| `ENABLE_DEBUG_ROUTES` | no | `true` serves `/api/debug/report` and `/api/debug/upstream` in production; for load tests only. |
 | `GA_KEYFILE`, `GA_PROPERTY_ID` | no | Google Analytics 4 service-account key (path) and property for the home page's most-viewed reports; without them the curated default tiles are shown. |
 | `PM2_INSTANCES` | no | Cluster size (default `max`). |
 | `BLS_API_KEY` | production | Free key from https://data.bls.gov/registrationEngine/ for the figures on `/home-next`. Without it the BLS API allows 25 requests a day per IP address, which several PM2 workers (each with its own cache) use up; with it, 500. Never commit it. |
@@ -125,6 +128,28 @@ for everyone at the cost of the page shell (the loading skeleton) waiting for th
 
 Report HTML is safe to cache at the edge for the same 30 minutes as today; `Cache-Control` headers
 are set by the app. Prism and revalidation endpoints must never be cached (per-visitor cookies).
+
+## Protecting Tesseract
+
+A report that is not cached sends its generators' queries to Tesseract on the server: about 160 for
+a place, 30 to 55 for the other report types. Each worker sends at most `UPSTREAM_MAX_CONCURRENCY`
+requests to a host at a time, whatever the number of reports it is rendering (`src/lib/api/limit.ts`);
+the rest wait their turn, so a cold cache after a deploy makes pages slower instead of piling queries
+onto Tesseract. Size the total (workers × slots) from a load test of the Tesseract server: the
+default 8 slots at about 0.3 s a query are some 25 queries a second per worker, close to the legacy
+CMS's brake of 20 a second per process. The browser's chart requests are not limited by this; they
+go to the public API host (and Cloudflare's cache in front of it) as before.
+
+When requests wait, each worker logs a summary per host at most every 10 seconds:
+
+```
+[upstream] api-penn.datausa.io: 272 requests in 10 s, 263 waited for one of 8 slots (longest 4.5 s, up to 76 waiting), 0 dropped after 30 s; now 8 in flight, 66 waiting
+```
+
+With `ENABLE_DEBUG_ROUTES=true`, `GET /api/debug/upstream` returns the counters of the worker that
+answers (each PM2 worker has its own). Dropped requests leave gaps in the page that was being built;
+if they show up in the log, raise the slots (when Tesseract has room), add workers or reduce the
+traffic that reaches the app (the page cache in front of it).
 
 ## Caching and data releases
 

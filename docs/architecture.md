@@ -97,6 +97,8 @@ All of this happens per request with no page-level cache: the expensive parts (T
 
 PM2 cluster workers each hold their own `use cache` store (Next's default in-memory/file handler). This is correct without coordination; a shared handler (Redis) is documented as an optional upgrade if duplicate upstream requests become a measurable cost.
 
+Every server request to a data API host waits for one of the worker's `UPSTREAM_MAX_CONCURRENCY` slots for that host (`src/lib/api/limit.ts`, default 8), on top of the per-report `API_MAX_CONCURRENCY`, so the load on Tesseract is bounded by workers × slots however many reports are rendered at once (`docs/deployment.md`, "Protecting Tesseract").
+
 ## Dimensions (replaces `canon_cms_search` + lunr)
 
 `scripts/legacy-export/build-dimensions.ts` exports the search and image tables to `data/members.jsonl` / `data/images.jsonl` (versioned, diffable) and `npm run build` compiles them into `data/dimensions.sqlite` (`members`, `members_fts` FTS5, `images`, `profiles`). `lib/dimensions` resolves slugs, powers `/search` and the hero search box, builds breadcrumbs and "Keep Exploring", and maps members to image ids. New members can be added by re-running the builder; no application build or restart is needed (a running server notices within seconds that the file was replaced and reopens it), and a member missing from SQLite but present in Tesseract still resolves by raw id through `tesseract/members`.
