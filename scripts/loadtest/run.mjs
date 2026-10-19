@@ -26,9 +26,14 @@
  * drawn from data/members.jsonl at random, which makes most of them places (as with crawlers).
  * Every 3 s a probe sends Tesseract one small query for a random place, directly, and times it.
  * With ENABLE_DEBUG_ROUTES=true on the site, /api/debug/upstream is polled for the slot counters
- * (each request reaches one worker, so the counters are sampled across workers).
+ * and for how long Tesseract took to answer the site's own requests (each poll opens a new
+ * connection, which PM2 hands to the next worker, so every worker is sampled). The probe and the
+ * answer times together tell which side is slow: the site's requests slowing while the probe stays
+ * fast points at the heavier queries or at workers too busy to read their responses.
  */
 import {readFileSync, writeFileSync} from "node:fs";
+import http from "node:http";
+import https from "node:https";
 
 const BASE = (process.env.BASE ?? "http://127.0.0.1:3054").replace(/\/$/, "");
 const STAGES = (process.env.STAGES ?? "2,4,8,16").split(",").map(Number).filter(n => n > 0);
@@ -98,14 +103,22 @@ async function probeTesseract() {
   }
 }
 
-async function upstreamStats() {
-  try {
-    const res = await fetch(`${BASE}/api/debug/upstream`, {headers, signal: AbortSignal.timeout(5_000)});
-    return res.ok ? await res.json() : null;
-  }
-  catch {
-    return null;
-  }
+/** The counters of one worker; a new connection each time (fetch would keep one, and one worker). */
+function upstreamStats() {
+  const url = new URL(`${BASE}/api/debug/upstream`);
+  const client = url.protocol === "https:" ? https : http;
+  return new Promise(resolve => {
+    const req = client.get(url, {headers, agent: false, timeout: 5_000}, res => {
+      let body = "";
+      res.on("data", chunk => { body += chunk; });
+      res.on("end", () => {
+        try { resolve(res.statusCode === 200 ? JSON.parse(body) : null); }
+        catch { resolve(null); }
+      });
+    });
+    req.on("timeout", () => req.destroy());
+    req.on("error", () => resolve(null));
+  });
 }
 
 const tesseractHost = new URL(TESSERACT).host;
@@ -114,6 +127,8 @@ const counters = snapshot => snapshot.hosts?.[tesseractHost]?.sinceStart ?? {sta
 async function runStage(concurrency) {
   const pages = [], probes = [];
   let maxWaiting = 0, maxInFlight = 0;
+  // the workers' 10-second summaries of Tesseract's answer times, once each
+  const windows = new Map();
   // each worker's first and latest counters in this stage, by pid
   const first = new Map(), latest = new Map();
   const end = Date.now() + STAGE_SECONDS * 1000;
@@ -139,6 +154,8 @@ async function runStage(concurrency) {
         latest.set(s.pid, s);
         const h = s.hosts?.[tesseractHost];
         if (h) { maxWaiting = Math.max(maxWaiting, h.waiting); maxInFlight = Math.max(maxInFlight, h.inFlight); }
+        const w = h?.lastWindow;
+        if (w?.answered) windows.set(`${s.pid}:${h.sinceStart.started}:${w.answered}:${w.p50Ms}`, w);
       }
       await sleep(2_000);
     }
@@ -175,7 +192,11 @@ async function runStage(concurrency) {
     }).filter(([, v]) => v.pages)),
     tesseractProbeMs: {count: probes.length, failed: probes.length - okProbes.length, p50: quantile(okProbes.map(p => p.ms), 0.5), p95: quantile(okProbes.map(p => p.ms), 0.95)},
     upstream: latest.size
-      ? {workersSeen: latest.size, maxInFlight, maxWaiting, requestsSent: sent, dropped}
+      ? {
+        workersSeen: latest.size, maxInFlight, maxWaiting, requestsSent: sent, dropped,
+        // median of the workers' 10-second medians, and the worst 10-second p95
+        answerMs: {p50: quantile([...windows.values()].map(w => w.p50Ms), 0.5), p95: quantile([...windows.values()].map(w => w.p95Ms), 1)}
+      }
       : "unavailable (set ENABLE_DEBUG_ROUTES=true on the site)",
     slowest: [...ok].sort((a, b) => b.ms - a.ms).slice(0, 3).map(p => `${p.path} ${seconds(p.ms)} s`)
   };
@@ -198,10 +219,10 @@ for (const concurrency of STAGES) {
   console.log(`     upstream ${JSON.stringify(r.upstream)}\n`);
 }
 
-console.log("visitors  pages/s  page p50  page p95  probe p50  probe p95  in flight  waiting  dropped");
+console.log("visitors  pages/s  page p50  page p95  probe p50  probe p95  answer p50  answer p95  in flight  waiting  dropped");
 for (const r of results) {
   const u = typeof r.upstream === "object" ? r.upstream : {};
-  console.log([String(r.concurrency).padStart(8), String(r.pagesPerSecond).padStart(8), seconds(r.pageMs.p50).padStart(9), seconds(r.pageMs.p95).padStart(9), seconds(r.tesseractProbeMs.p50).padStart(10), seconds(r.tesseractProbeMs.p95).padStart(10), String(u.maxInFlight ?? "-").padStart(10), String(u.maxWaiting ?? "-").padStart(8), String(u.dropped ?? "-").padStart(8)].join(" "));
+  console.log([String(r.concurrency).padStart(8), String(r.pagesPerSecond).padStart(8), seconds(r.pageMs.p50).padStart(9), seconds(r.pageMs.p95).padStart(9), seconds(r.tesseractProbeMs.p50).padStart(10), seconds(r.tesseractProbeMs.p95).padStart(10), seconds(u.answerMs?.p50 ?? null).padStart(11), seconds(u.answerMs?.p95 ?? null).padStart(11), String(u.maxInFlight ?? "-").padStart(10), String(u.maxWaiting ?? "-").padStart(8), String(u.dropped ?? "-").padStart(8)].join(" "));
 }
 writeFileSync(OUT, JSON.stringify({base: BASE, seed: SEED, stageSeconds: STAGE_SECONDS, tesseract: TESSERACT, baselineProbeMs: quantile(baseline, 0.5), results}, null, 2));
 console.log(`\nResults written to ${OUT}`);

@@ -143,8 +143,12 @@ go to the public API host (and Cloudflare's cache in front of it) as before.
 When requests wait, each worker logs a summary per host at most every 10 seconds:
 
 ```
-[upstream] api-penn.datausa.io: 272 requests in 10 s, 263 waited for one of 8 slots (longest 4.5 s, up to 76 waiting), 0 dropped after 30 s; now 8 in flight, 66 waiting
+[upstream] api-penn.datausa.io: 516 requests in 10 s, answered in 0.12 s (p95 0.40 s, max 3.03 s); 526 waited for one of 8 slots (longest 1.0 s, up to 40 waiting), 0 dropped after 30 s; now 8 in flight, 14 waiting
 ```
+
+"Answered in" is the time from sending a request to having read its response: when it grows while
+Tesseract answers a direct query quickly, the workers are too busy to read their responses (CPU), or
+the site's heavier queries are what slowed. `scripts/loadtest/run.mjs` measures both under load.
 
 With `ENABLE_DEBUG_ROUTES=true`, `GET /api/debug/upstream` returns the counters of the worker that
 answers (each PM2 worker has its own). Dropped requests leave gaps in the page that was being built;
