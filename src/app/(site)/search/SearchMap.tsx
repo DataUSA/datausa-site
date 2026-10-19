@@ -1,7 +1,8 @@
 "use client";
 
 import {useRouter} from "next/navigation";
-import {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import {useCallback, useEffect, useMemo, useRef, useState, type MouseEvent} from "react";
+import {geoPath} from "d3-geo";
 import {formatters} from "@/content/formatters";
 import type {SearchPageResult} from "@/content/search/dimensions";
 import {ChartRenderer} from "@/components/viz/ChartRenderer";
@@ -10,6 +11,7 @@ import {isPendingLevel} from "@/lib/geo/levels";
 import {albersUsaPr} from "@/lib/viz/albers-usa-pr";
 import {geomapShapeConfig, theme, tooltipTitle} from "@/lib/viz/theme";
 import {escapeHtml, NO_DATA, OUTLINE, PAGE, quintiles, SCALE, TEXT, useFigureSize} from "./map-shared";
+import {loadNationShapes, loadStateShapes, toTopology, type Shape} from "./map-shapes";
 
 type AnyRecord = Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 type Row = {id: string; name: string; population: number | null; label?: string};
@@ -51,6 +53,23 @@ const ZOOM_MAX = 64;
 /** How far a click on a cluster zooms in. */
 const CLUSTER_ZOOM = 3;
 const IDENTITY = {k: 1, x: 0, y: 0};
+/** From this zoom on, the states in view draw their members as shapes instead of points. */
+const SHAPES_ZOOM = 6;
+/** A member whose shape would be smaller than this on screen, in pixels, stays a dot, which is easier to see and click. */
+const MIN_SHAPE = 8;
+/**
+ * Radius of the dot of a member too small for its shape: the same for all, rather than sized by
+ * population, or the dense suburbs of a large city would be a heap of overlapping discs.
+ */
+const SMALL_DOT = 3;
+const SHAPE_FILL = "rgba(135, 155, 245, 0.5)";
+const SHAPE_STROKE = "#c8d2ff";
+const STATES = "/topojson/State.json";
+/**
+ * Secondary school districts cover the same ground as the elementary districts under them, so they
+ * stay dots, drawn over the elementary shapes.
+ */
+const asShape = (id: string) => !id.startsWith("96000US");
 
 /** Whether the search page has a map for this geography level. */
 export const hasSearchMap = (hierarchy: string) => hierarchy in POINT_LEVELS || hierarchy in SHAPES;
@@ -149,8 +168,10 @@ interface Props {
  * school districts are points: all of them, gathered into clusters that carry their member count
  * and split as the map is zoomed in, until each is drawn on its own (only the listed matches once a
  * query is typed). Single places are sized by population; school districts, which have no data yet,
- * are plain dots. Hovering names the geography; clicking opens its report, or zooms into a cluster.
- * The search page remounts the map when the level changes, which resets its zoom.
+ * are plain dots. Zoomed in to a few states (`SHAPES_ZOOM`), the states in view load their shape
+ * files and draw their members as shapes, except those still too small to see or click, which stay
+ * dots (as do secondary school districts, which overlap elementary ones). Hovering names the
+ * geography; clicking opens its report, or zooms into a cluster. The search page remounts the map when the level changes, which resets its zoom.
  */
 export function SearchMap({hierarchy, results, filtered, year}: Props) {
   const router = useRouter();
@@ -162,10 +183,14 @@ export function SearchMap({hierarchy, results, filtered, year}: Props) {
   // where d3plus put the map: the fitted projection and the chart margin its coordinates start from
   const [fit, setFit] = useState<{key: string; left: number; top: number} | null>(null);
   const [view, setView] = useState(IDENTITY);
+  // the member shapes of each state loaded so far (by FIPS code), and the states drawn behind them
+  const [stateShapes, setStateShapes] = useState<Record<string, Shape[]>>({});
+  const [nation, setNation] = useState<Shape[] | null>(null);
   const chart = useRef<AnyRecord | null>(null);
   const marksRef = useRef<AnyRecord[]>([]);
   const stopZoom = useRef<(() => void) | undefined>(undefined);
   const zoomTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const settledK = useRef(1);
   const places = hierarchy in POINT_LEVELS;
   // a level without data has no population to size its points by, or to show in the tooltip
   const sized = !isPendingLevel(hierarchy);
@@ -180,17 +205,35 @@ export function SearchMap({hierarchy, results, filtered, year}: Props) {
     return () => { cancelled = true; };
   }, [hierarchy, places, shown]);
 
-  useEffect(() => () => { clearTimeout(zoomTimer.current); stopZoom.current?.(); }, []);
+  // A page Next.js keeps for back navigation (React Activity) comes back with this state but a new
+  // chart, zoomed out (see ChartRenderer): the map starts over from the whole country.
+  useEffect(() => {
+    const figure = ref.current;
+    settledK.current = 1;
+    setView(prev => prev === IDENTITY ? prev : IDENTITY);
+    return () => {
+      clearTimeout(zoomTimer.current);
+      stopZoom.current?.();
+      chart.current = null;
+      figure?.style.removeProperty("--k");
+    };
+  }, [ref]);
 
   /** Tells the stylesheet the zoom: it divides the points' radii and the counts' type size by it, so they hold their size on screen. */
   const holdSizes = useCallback((k: number) => { ref.current?.style.setProperty("--k", String(k)); }, [ref]);
 
-  /** Reads the map's zoom once it has settled: the clusters are rebuilt for where it ended up. */
+  /**
+   * Reads the map's zoom once it has settled: the clusters are rebuilt for where it ended up. After a
+   * zoom the tooltip is cleared, since the cluster it describes may have split or become shapes
+   * under a pointer that has not moved (d3plus leaves it up until the pointer moves).
+   */
   const followZoom = useCallback((delay = 200) => {
     clearTimeout(zoomTimer.current);
     zoomTimer.current = setTimeout(() => {
       const t = chart.current?._zoomTransform;
       const next = t ? {k: t.scale, x: t.x, y: t.y} : IDENTITY;
+      if (Math.abs(settledK.current - next.k) >= 1e-6) chart.current?._tooltipClass?.data([]).render();
+      settledK.current = next.k;
       setView(prev => Math.abs(prev.k - next.k) < 1e-6 && Math.abs(prev.x - next.x) < 0.5 && Math.abs(prev.y - next.y) < 0.5 ? prev : next);
     }, delay);
   }, []);
@@ -281,7 +324,57 @@ export function SearchMap({hierarchy, results, filtered, year}: Props) {
   // Clusters of the whole level at each zoom step, kept while the same points are projected the same way.
   const steps = useMemo(() => new Map<number, ReturnType<typeof clusterPoints>>(), [projected]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // The points and clusters in view at the current zoom.
+  // The states with a member in view, once the map is zoomed in far enough for shapes (FIPS codes,
+  // joined so that the same states compare equal from one zoom to the next).
+  const shapeZoom = places && !filtered && view.k >= SHAPES_ZOOM && Boolean(all) && projected?.source === all?.points;
+  const viewStates = useMemo(() => {
+    if (!shapeZoom || !size || !projected) return "";
+    const {source: points, xs, ys} = projected;
+    const {k, x, y} = view;
+    const found = new Set<string>();
+    for (let i = 0; i < xs.length; i++) {
+      const sx = xs[i] * k + x, sy = ys[i] * k + y;
+      if (sx >= -40 && sx <= size.width + 40 && sy >= -40 && sy <= size.height + 40) found.add(points.ids[i].slice(7, 9));
+    }
+    return [...found].sort().join(",");
+  }, [shapeZoom, size, projected, view]);
+
+  useEffect(() => {
+    if (!viewStates) return;
+    let cancelled = false;
+    if (!nation) loadNationShapes().then(d => { if (!cancelled && d) setNation(d); });
+    for (const state of viewStates.split(",")) {
+      if (stateShapes[state]) continue;
+      loadStateShapes(hierarchy, state).then(d => { if (!cancelled && d) setStateShapes(prev => prev[state] ? prev : {...prev, [state]: d}); });
+    }
+    return () => { cancelled = true; };
+  }, [viewStates, hierarchy, nation, stateShapes]);
+
+  // The states in view whose shapes have loaded: their members are drawn as shapes.
+  const drawn = useMemo(() => nation ? viewStates.split(",").filter(state => state && stateShapes[state]).join(",") : "", [nation, viewStates, stateShapes]);
+
+  // How big each loaded shape is drawn before zoom: the longer side of its box, in chart pixels.
+  const shapeSizes = useMemo(() => {
+    const sizes = new Map<string, number>();
+    if (!fit) return sizes;
+    const path = geoPath(projection);
+    for (const shapes of Object.values(stateShapes)) {
+      for (const shape of shapes) {
+        const [[x0, y0], [x1, y1]] = path.bounds(shape);
+        if (Number.isFinite(x0)) sizes.set(shape.id, Math.max(x1 - x0, y1 - y0));
+      }
+    }
+    return sizes;
+  }, [fit, projection, stateShapes]);
+
+  // What d3plus draws as paths: every state, and the members of the states in view.
+  const topology = useMemo(() => {
+    if (!drawn || !nation) return null;
+    const members = drawn.split(",").flatMap(state => stateShapes[state].filter(d => asShape(d.id)));
+    return toTopology([...nation, ...members], `${hierarchy}:${drawn}`);
+  }, [drawn, nation, stateShapes, hierarchy]);
+
+  // The points and clusters in view at the current zoom, and the shapes of the states drawn as shapes.
   const marks = useMemo(() => {
     if (!size || !source || !projected || projected.source !== source) return [];
     const {xs, ys} = projected;
@@ -299,9 +392,11 @@ export function SearchMap({hierarchy, results, filtered, year}: Props) {
       const sx = xs[i] * k + x, sy = ys[i] * k + y;
       return sx >= -margin && sx <= size.width + margin && sy >= -margin && sy <= size.height + margin;
     };
+    const shaped = new Set(drawn ? drawn.split(",") : []);
+    const inShapes = (i: number) => shaped.size > 0 && shaped.has(source.ids[i].slice(7, 9));
     const rows: AnyRecord[] = [];
     for (const i of clustered.singles) {
-      if (!inView(i)) continue;
+      if (!inView(i) || inShapes(i)) continue;
       rows.push({
         id: source.ids[i],
         name: source.names[i],
@@ -311,7 +406,7 @@ export function SearchMap({hierarchy, results, filtered, year}: Props) {
       });
     }
     for (const {seed, members} of clustered.clusters) {
-      if (!inView(seed)) continue;
+      if (!inView(seed) || inShapes(seed)) continue;
       const total = population ? members.reduce((sum, i) => sum + (population[i] ?? 0), 0) : 0;
       rows.push({
         id: `cluster-${step}-${source.ids[seed]}`,
@@ -326,23 +421,31 @@ export function SearchMap({hierarchy, results, filtered, year}: Props) {
         r: radius(true, members.length, step, shrink)
       });
     }
+    // in the states drawn as shapes, every member is a shape (whether in view or not, so that panning
+    // does not change the data), except those too small to see at this zoom, which are dots
+    if (shaped.size) {
+      for (let i = 0; i < source.ids.length; i++) {
+        if (!inShapes(i)) continue;
+        const id = source.ids[i];
+        const value = population ? population[i] ?? null : null;
+        if (asShape(id) && (shapeSizes.get(id) ?? 0) * k >= MIN_SHAPE) rows.push({id, name: source.names[i], population: value, shape: true});
+        else if (inView(i)) {
+          rows.push({
+            id,
+            name: source.names[i],
+            population: value,
+            lonlat: [source.lon[i], source.lat[i]],
+            r: SMALL_DOT
+          });
+        }
+      }
+    }
     return rows;
-  }, [size, source, projected, steps, view, sized, hierarchy]);
+  }, [size, source, projected, steps, view, sized, hierarchy, drawn, shapeSizes]);
   useEffect(() => { marksRef.current = marks; });
 
   const config = useMemo(() => {
     if (!size) return null;
-    const open = (d: AnyRecord) => {
-      if (d?.cluster) {
-        const viz = chart.current;
-        if (typeof viz?._zoomToBounds !== "function" || !viz._zoomBehavior) return;
-        // the tooltip would stay on a cluster that is about to split
-        viz._tooltipClass?.data([]).render();
-        stopZoom.current?.();
-        stopZoom.current = animateZoom(viz, d.at, Math.min(ZOOM_MAX, view.k * CLUSTER_ZOOM), holdSizes, () => followZoom(0));
-      }
-      else if (d && typeof d.id === "string") router.push(`/profile/geo/${d.id}`);
-    };
     const common: AnyRecord = {
       width: size.width,
       height: size.height,
@@ -358,7 +461,6 @@ export function SearchMap({hierarchy, results, filtered, year}: Props) {
       zoomPan: true,
       zoomScroll: true,
       projection,
-      on: {"click.shape": open},
       tooltipConfig: {
         // a district's familiar name ("Appalachian Kentucky") goes under its official one
         // (a cluster names its largest member there instead)
@@ -375,7 +477,7 @@ export function SearchMap({hierarchy, results, filtered, year}: Props) {
     if (places) {
       // d3plus scales the whole picture with the zoom, so radii are divided by it to stay the same on
       // screen (between redraws the stylesheet does the same from `--r` and `--k`, see `dressPoints`)
-      const radii = marks.map(d => d.r as number);
+      const radii = marks.filter(d => !d.shape).map(d => d.r as number);
       const min = radii.length ? Math.min(...radii) : 4, max = radii.length ? Math.max(...radii) : 4;
       return {
         ...common,
@@ -386,7 +488,11 @@ export function SearchMap({hierarchy, results, filtered, year}: Props) {
         pointSizeMin: min / view.k,
         pointSizeMax: max / view.k,
         zoomMax: ZOOM_MAX,
-        topojson: "/topojson/State.json",
+        // the states, with the members of those in view once zoomed in; the map is always fitted to
+        // the states, so that it does not move when the shapes change
+        topojson: topology ?? STATES,
+        topojsonId: (d: AnyRecord) => d.id,
+        fitObject: STATES,
         topojsonFill: NO_DATA,
         shapeConfig: geomapShapeConfig({
           // clusters are solid discs in two colours by size, with their count written on them
@@ -396,7 +502,14 @@ export function SearchMap({hierarchy, results, filtered, year}: Props) {
             stroke: (d: AnyRecord) => d.cluster ? PAGE : "#c8d2ff",
             strokeWidth: (d: AnyRecord) => d.cluster ? 1.5 : 1
           },
-          Path: {fill: NO_DATA, fillOpacity: 1, stroke: PAGE, strokeOpacity: 1, strokeWidth: 1}
+          // members drawn as shapes are filled; the states, and the shapes of members drawn as dots, are backdrop
+          Path: {
+            fill: (d: AnyRecord) => d?.shape ? SHAPE_FILL : NO_DATA,
+            fillOpacity: 1,
+            stroke: (d: AnyRecord) => d?.shape ? SHAPE_STROKE : PAGE,
+            strokeOpacity: 1,
+            strokeWidth: (d: AnyRecord) => d?.shape ? 0.75 : isState(d) ? 1 : 0.5
+          }
         })
       };
     }
@@ -441,10 +554,37 @@ export function SearchMap({hierarchy, results, filtered, year}: Props) {
         }
       })
     };
-  }, [size, places, sized, results, filtered, level, hierarchy, year, router, projection, marks, view, followZoom, holdSizes]);
+  }, [size, places, sized, results, filtered, level, hierarchy, year, projection, marks, view, topology]);
+
+  // the rows drawn, by the id d3plus writes in each mark's `data-key`
+  const rows = useRef(new Map<string, AnyRecord>());
+  useEffect(() => { rows.current = new Map((config?.data as AnyRecord[] | undefined)?.map(d => [String(d.id), d])); }, [config]);
+
+  /**
+   * Opens the report of the shape or point clicked, or zooms into a cluster. Clicks are read from
+   * the page on their way down to the map, as on the university map, not through d3plus's
+   * `click.shape`: d3plus answers a click only once it has registered the hover, which can take
+   * over half a second, so a quick click on a shape or dot did nothing. A drag that pans the map
+   * ends without a click (d3-zoom cancels it). Shapes without a row (the states behind places)
+   * do nothing.
+   */
+  const pick = (event: MouseEvent) => {
+    const key = (event.target as Element).closest?.("[data-key^='geomap-']")?.getAttribute("data-key") ?? "";
+    const d = rows.current.get(key.replace(/^geomap-(path|point)-/, ""));
+    if (!d) return;
+    if (d.cluster) {
+      const viz = chart.current;
+      if (typeof viz?._zoomToBounds !== "function" || !viz._zoomBehavior) return;
+      // the tooltip would stay on a cluster that is about to split
+      viz._tooltipClass?.data([]).render();
+      stopZoom.current?.();
+      stopZoom.current = animateZoom(viz, d.at, Math.min(ZOOM_MAX, (viz._zoomTransform?.scale ?? 1) * CLUSTER_ZOOM), holdSizes, () => followZoom(0));
+    }
+    else if (typeof d.id === "string") router.push(`/profile/geo/${d.id}`);
+  };
 
   return (
-    <div ref={ref} className="search-map-figure">
+    <div ref={ref} className="search-map-figure" onClickCapture={pick}>
       {config && <ChartRenderer type="Geomap" config={config} onRender={onRender} />}
     </div>
   );

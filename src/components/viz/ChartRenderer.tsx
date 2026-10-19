@@ -50,9 +50,19 @@ export function ChartRenderer({type, config, className = "d3plus", onRender}: Ch
     return () => cancelAnimationFrame(frame);
   }, [type, configHash]);
 
-  useEffect(() => () => {
-    vizRef.current?.destroy?.();
-    vizRef.current = null;
+  // Also runs when Next.js hides a page it keeps for back navigation (React Activity), which keeps
+  // the DOM: the chart drawn when the page is shown again starts from an empty <svg>, without the
+  // old one's marks or the zoom that d3-zoom stores on the element.
+  useEffect(() => {
+    const el = svgRef.current;
+    return () => {
+      vizRef.current?.destroy?.();
+      vizRef.current = null;
+      if (el) {
+        el.replaceChildren();
+        delete (el as SVGSVGElement & {__zoom?: unknown}).__zoom;
+      }
+    };
   }, []);
 
   return (
