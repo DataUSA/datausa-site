@@ -1,50 +1,82 @@
-.banner {
-  align-items: center;
-  background-color: #142E58;
-  bottom: 0;
-  box-shadow: 0 -1px 0.375rem rgba(var(--black-RGB), 0.25);
-  color: var(--white);
-  display: flex;
-  flex-wrap: wrap;
+.dialog {
+  background-color: #FFFFFF;
+  border: 0;
+  border-radius: var(--button-border-radius);
+  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.1), 0 4px 8px rgba(16, 22, 26, 0.2), 0 18px 46px 6px rgba(16, 22, 26, 0.2);
+  color: var(--textblue);
   font-family: var(--base-font-stack);
-  gap: var(--gutter-xs);
-  justify-content: space-between;
-  left: 0;
-  padding: var(--gutter-sm) var(--gutter-md);
-  position: fixed;
-  right: 0;
-  z-index: 1000;
+  max-width: calc(100% - 2rem);
+  padding: 0;
+  width: 28rem;
+}
+.dialog::backdrop { background-color: rgba(var(--black-RGB), 0.35); }
+.content {
+  padding: var(--gutter-lg) var(--gutter-md) var(--gutter-md);
+  position: relative;
+}
+.close {
+  background: transparent;
+  border: none;
+  color: var(--gray);
+  cursor: pointer;
+  font-size: var(--font-lg);
+  line-height: 1;
+  padding: var(--gutter-xs);
+  position: absolute;
+  right: var(--gutter-xs);
+  top: var(--gutter-xs);
+}
+.close:hover { color: var(--dark); }
+.title {
+  font-size: var(--font-lg);
+  font-weight: var(--bold-weight);
+  margin: 0 0 var(--gutter-sm);
 }
 .desc {
-  flex: 1 1 20rem;
-  font-size: var(--font-xs);
+  font-size: var(--font-sm);
   line-height: 1.5;
+  margin: 0 0 var(--gutter-sm);
 }
 .more {
-  color: var(--accent);
-  font-size: var(--font-xs);
+  color: var(--blue);
   text-decoration: underline;
-  white-space: nowrap;
 }
-.more:hover { color: var(--accent-light); }
+.more:hover { color: var(--dark); }
+.note {
+  color: var(--gray);
+  font-size: var(--font-xs);
+  line-height: 1.5;
+  margin: 0 0 var(--gutter-md);
+}
+.actions {
+  display: flex;
+  gap: var(--gutter-xs);
+  justify-content: flex-end;
+}
 .reject, .accept {
   border-radius: var(--button-border-radius);
   cursor: pointer;
   font-family: var(--base-font-stack);
-  font-size: var(--font-xs);
   font-weight: var(--bold-weight);
-  padding: var(--gutter-xs) var(--gutter-md);
   white-space: nowrap;
 }
+/* Reject stays available but quieter than the main call to action. */
 .reject {
   background: transparent;
-  border: 1px solid var(--dark-1);
-  color: var(--white);
+  border: none;
+  color: var(--darkgray);
+  font-size: var(--font-xs);
+  padding: var(--gutter-xs) var(--gutter-md);
 }
-.reject:hover { background: rgba(var(--white-RGB), 0.1); }
+.reject:hover { background: var(--light-2); }
 .accept {
   background: var(--accent);
   border: none;
   color: white;
+  font-size: var(--font-sm);
+  padding: var(--gutter-xs) var(--gutter-lg);
 }
 .accept:hover { background: var(--accent-light); }
+@media (max-width: 480px) {
+  .actions { flex-direction: column-reverse; }
+}
