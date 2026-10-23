@@ -7,6 +7,7 @@ import {formatters} from "@/content/formatters";
 import {getVizLoader} from "@/content/viz-registry";
 import {libs} from "@/lib/content/libs";
 import {swapTemplate} from "@/lib/template";
+import {normalizeTesseractUrl} from "@/lib/api/urls";
 import {albersUsaPr} from "@/lib/viz/albers-usa-pr";
 import {chartFonts, geomapShapeConfig} from "@/lib/viz/theme";
 import type {VizConfig, VizDefinition} from "@/lib/reports/types";
@@ -179,6 +180,9 @@ export function VizIsland({vizId, sectionSlug, profileSlug, which = "primary", t
         console.warn(`Visualization ${vizId}: ignoring malformed data URL fragments`);
         merged.data = merged.data.filter((d: unknown) => !(typeof d === "string" && d.length < 4));
       }
+      // Tesseract URLs as the server sends them (src/lib/api/urls.ts): no redirect, no `sparse=false`
+      if (typeof merged.data === "string") merged.data = normalizeTesseractUrl(merged.data);
+      else if (Array.isArray(merged.data)) merged.data = merged.data.map((d: unknown) => typeof d === "string" ? normalizeTesseractUrl(d) : d);
       // Mobile: tighter bar spacing (legacy behaviour)
       if (typeof window !== "undefined" && window.innerWidth < 768) {
         if (merged.groupPadding) merged.groupPadding = 5;
