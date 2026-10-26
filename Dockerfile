@@ -49,6 +49,12 @@ RUN addgroup --system --gid 1001 nodejs \
 COPY --from=builder /app/ecosystem.config.cjs ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./.next/standalone
 
+# Next writes its incremental cache (generated report HTML, cached data) into this folder at
+# request time. compose-production.yaml mounts a named volume here, and an empty named volume is
+# initialized from the mountpoint's ownership, so create it readable/writable by nextjs before
+# dropping privileges.
+RUN mkdir -p .next/standalone/.next/cache && chown nextjs:nodejs .next/standalone/.next/cache
+
 ARG GIT_SHA=unknown
 LABEL org.opencontainers.image.revision=${GIT_SHA}
 

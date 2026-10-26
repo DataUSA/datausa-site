@@ -1,0 +1,38 @@
+name: datausa-site-prod
+
+services:
+  datausa-site-prod:
+    container_name: datausa-site-prod
+    image: local/datausa-site:prod
+    restart: always
+    # pm2-runtime forwards SIGTERM to the workers; kill_timeout in ecosystem.config.cjs is 15s.
+    stop_signal: SIGTERM
+    stop_grace_period: 30s
+    env_file:
+      - ${ENV_FILE:-.env}
+    environment:
+      - PM2_INSTANCES=${PM2_INSTANCES:-2}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "127.0.0.1:3301:3301"
+    volumes:
+      # The generated profiles (report HTML and cached `use cache` data) live in Next's incremental
+      # cache; bind it to a named volume so recreating the container on a deploy keeps the warm
+      # cache instead of throwing it away (the `next` subdir also holds image-baked assets, so
+      # only `cache` is mounted). Entries age out via cacheLife in next.config.ts; release purges
+      # still work through POST /api/revalidate and `docker exec datausa-site-prod pm2 reload`.
+      - next-cache:/app/.next/standalone/.next/cache
+      # The GA4 service-account key (git-ignored) is read at request time by path (GA_KEYFILE).
+      # If the env file points GA_KEYFILE at the .env.example default path, enable this bind
+      # mount so the file exists inside the container:
+      # - ./googleAnalyticsKey.json:/etc/datausa/ga-service-account.json:ro
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:3301/robots.txt"]
+      interval: 30s
+      timeout: 5s
+      start_period: 20s
+      retries: 3
+
+volumes:
+  next-cache:
