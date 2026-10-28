@@ -12,6 +12,9 @@ services:
       - ${ENV_FILE:-.env}
     environment:
       - PM2_INSTANCES=${PM2_INSTANCES:-2}
+      # Folder holding the report photos (the bind mount below). Requests to
+      # /api/profile/<slug>/<member>/<splash|thumb> 404 without it.
+      - PROFILE_IMAGES_DIR=/srv/datausa/profile-images
     extra_hosts:
       - "host.docker.internal:host-gateway"
     ports:
@@ -23,6 +26,12 @@ services:
       # only `cache` is mounted). Entries age out via cacheLife in next.config.ts; release purges
       # still work through POST /api/revalidate and `docker exec datausa-site-prod pm2 reload`.
       - next-cache:/app/.next/standalone/.next/cache
+      # The report photos (splash/ and thumb/, about 720 MB, never in the image: scripts/
+      # package-standalone.sh only symlinks them on the bare-PM2 deployment) are bind-mounted
+      # from the host at the same path and read at request time via PROFILE_IMAGES_DIR above.
+      # A relative path would resolve against .next/standalone, whose leftover profile-images
+      # symlink has no target inside the container.
+      - /srv/datausa/profile-images:/srv/datausa/profile-images:ro
       # The GA4 service-account key (git-ignored) is read at request time by path (GA_KEYFILE).
       # If the env file points GA_KEYFILE at the .env.example default path, enable this bind
       # mount so the file exists inside the container:
