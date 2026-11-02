@@ -53,6 +53,12 @@ async function view(loaded: LoadedReport): Promise<ReportView> {
   };
 }
 
+/** `<generators that yielded data>/<total>` of the render. */
+function generatorsSummary(loaded: LoadedReport): string {
+  const {generators, failed} = loaded.built.diagnostics;
+  return `${generators.length - failed.length}/${generators.length}`;
+}
+
 export async function ReportPage({loaded, comparison}: {loaded: LoadedReport; comparison?: LoadedReport}) {
   const {member, template} = loaded;
   const profileSlug = template.meta.slug;
@@ -71,7 +77,8 @@ export async function ReportPage({loaded, comparison}: {loaded: LoadedReport; co
       comparison={comparison ? {variables: comparison.clientVariables, selectors: comparison.report.selectors, labels: comparison.report.labels, memberSlug: comparison.member.slug} : undefined}
     >
       <PrismProvider initialUserId={prismUser?.user_id ?? null}>
-      <article id="Profile" className={`${styles.profile} ${compare ? styles.compare : ""}`}>
+      {/* completeness and generator-cache hits of the render (a page streams, so these cannot be response headers) */}
+      <article id="Profile" className={`${styles.profile} ${compare ? styles.compare : ""}`} data-report-generators={generatorsSummary(loaded)} data-gen-cache={loaded.built.diagnostics.cache ? `${loaded.built.diagnostics.cache.hits}/${loaded.built.diagnostics.cache.total}` : undefined}>
         <Hero
           reports={[primary, ...(compare ? [compare] : [])]}
           profileSlug={profileSlug}

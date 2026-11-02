@@ -1,0 +1,60 @@
+# The shared cache of the site (generator outputs, member attributes, lookup tables; see
+# docs/architecture.md, "Generator cache"). Its own compose project, started once and left
+# running: the app's deploy scripts never start, stop or recreate it (they `up --force-recreate
+# --remove-orphans` their own project, which would otherwise take Redis with it), they only check
+# that it answers PING before switching the app.
+#
+#   docker network create datausa-cache                 # once per host
+#   docker compose -f compose-redis.yaml up -d          # once per host
+#   docker exec datausa-redis redis-cli info memory     # size
+#   docker exec datausa-redis redis-cli bgsave          # snapshot now (see docs/deployment.md, backups)
+#
+# The app containers reach it as `redis://datausa-redis:6379` on the `datausa-cache` network, so set
+# REDIS_URL=redis://datausa-redis:6379 in the app's env file. The network is external to both
+# projects (create it once: `docker network create datausa-cache`; the deploy scripts also create it
+# when missing), so neither project's `down` or `--remove-orphans` can remove it from the other.
+#
+# Persistence: AOF (fsync every second) plus RDB snapshots on the named volume, so a Redis restart
+# or a host reboot keeps the cache. Memory: entries carry a TTL and are evicted least-recently-used
+# under `maxmemory`; tag sets, purge counters and the warm queue have no TTL and are never evicted
+# (`volatile-lru` only evicts keys with a TTL).
+name: datausa-redis
+
+services:
+  redis:
+    container_name: datausa-redis
+    image: redis:7.4-alpine
+    restart: always
+    command:
+      - redis-server
+      - --appendonly
+      - "yes"
+      - --appendfsync
+      - everysec
+      - --save
+      - "900 1 300 100 60 10000"
+      - --maxmemory
+      - ${REDIS_MAXMEMORY:-2gb}
+      - --maxmemory-policy
+      - volatile-lru
+    volumes:
+      - redis-data:/data
+    networks:
+      - datausa-cache
+    # Not published on the host: only containers on the network reach it. For a bare-PM2 deployment
+    # on the host, publish it on loopback instead:
+    # ports:
+    #   - "127.0.0.1:6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+volumes:
+  redis-data:
+    name: datausa-redis-data
+
+networks:
+  datausa-cache:
+    external: true

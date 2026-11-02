@@ -31,3 +31,5 @@ scripts/legacy-export/raw/
 data/dimensions.sqlite*
 scripts/regression/out/
 public/_harness/
+# built from source and data/*.jsonl by npm run build:manifest (generator cache versions)
+data/generator-manifest.json

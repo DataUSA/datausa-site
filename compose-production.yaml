@@ -17,6 +17,10 @@ services:
       - PROFILE_IMAGES_DIR=/srv/datausa/profile-images
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    # the shared cache, `redis://datausa-redis:6379` (compose-redis.yaml, its own project)
+    networks:
+      - default
+      - datausa-cache
     ports:
       - "127.0.0.1:3301:3301"
     volumes:
@@ -45,3 +49,7 @@ services:
 
 volumes:
   next-cache:
+
+networks:
+  datausa-cache:
+    external: true

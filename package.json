@@ -16,7 +16,10 @@
     "extract:legacy": "tsx --env-file=.env.migration.local scripts/legacy-export/extract.ts",
     "build:dimensions": "tsx scripts/legacy-export/build-dimensions.ts",
     "export:dimensions": "tsx --env-file=.env.migration.local scripts/legacy-export/export-dimensions.ts",
-    "prebuild": "npm run build:dimensions"
+    "build:manifest": "tsx scripts/cache/build-manifest.ts",
+    "cache:purge": "tsx scripts/cache/purge.ts",
+    "predev": "npm run build:manifest",
+    "prebuild": "npm run build:dimensions && npm run build:manifest"
   },
   "dependencies": {
     "@d3plus/color": "4.7.0",
@@ -31,6 +34,7 @@
     "d3-format": "3.1.2",
     "d3-geo": "3.1.1",
     "d3-time-format": "4.1.0",
+    "ioredis": "5.11.1",
     "leaflet": "^1.9.4",
     "next": "16.4.0",
     "react": "19.3.0",

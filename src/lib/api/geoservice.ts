@@ -3,6 +3,7 @@
  * `geoservice` tag via the shared data client.
  */
 import {fetchData, GEOSERVICE_URL} from "@/lib/api/tesseract";
+import {noteFailure} from "@/lib/api/upstream-scope";
 
 export interface GeoRelation {
   geoid: string;
@@ -21,6 +22,8 @@ function unwrap<T>(data: unknown): T[] {
   if (Array.isArray(data)) return data as T[];
   if (typeof data === "object" && "error" in (data as Record<string, unknown>)) {
     console.error("[geoservice error]", (data as Record<string, unknown>).error);
+    // an error answered with a 200: whatever is computed from it must not be cached
+    noteFailure(`geoservice: ${String((data as Record<string, unknown>).error).slice(0, 200)}`);
     return [];
   }
   return [];

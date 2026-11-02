@@ -19,6 +19,10 @@ services:
       - PM2_INSTANCES=${PM2_INSTANCES:-2}
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    # the shared cache, `redis://datausa-redis:6379` (compose-redis.yaml, its own project)
+    networks:
+      - default
+      - datausa-cache
     ports:
       - "${SANDBOX_PORT:-3054}:3301"
     healthcheck:
@@ -27,3 +31,7 @@ services:
       timeout: 5s
       start_period: 20s
       retries: 3
+
+networks:
+  datausa-cache:
+    external: true

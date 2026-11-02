@@ -1,9 +1,11 @@
 # Deployment — self-hosted VM, PM2, Nginx
 
 The site is a standard Next.js 16 production build run by PM2 in cluster mode behind the existing
-Nginx reverse proxy (and Cloudflare in front of that). There is no Docker, no CMS database, no
-page generation and no cache-warming step: a fresh deploy serves any valid report URL on its
-first request.
+Nginx reverse proxy (on the Docker hosts, PM2 runs inside the container built by `build.sh`). There is
+no CMS database and no page generation: a fresh deploy serves any valid report URL on its first
+request. Nothing caches report HTML (pages are sent `private, no-store`, Nginx proxies without a
+cache and there is no CDN in front); the one cache is the shared generator cache in Redis (below),
+which lives outside the app's deploy cycle.
 
 ## Requirements
 
@@ -32,6 +34,12 @@ file in the project root at build time). See `.env.example`.
 | `API_MAX_CONCURRENCY`, `API_TIMEOUT_MS` | no | Generator fan-out tuning (defaults 12 and 20000). |
 | `UPSTREAM_MAX_CONCURRENCY` | no | Requests in flight to each data API host (Tesseract, geoservice) per worker, across every report it renders (default 8). The most a deployment sends to Tesseract at once is this times the number of workers. See "Protecting Tesseract" below. |
 | `UPSTREAM_QUEUE_TIMEOUT_MS` | no | How long a request waits for one of those slots before it is dropped and its generator yields nothing (default 30000; 0 waits without limit). |
+| `REDIS_URL` | production | The shared cache (`redis://datausa-redis:6379` in Docker, see "Shared cache (Redis)"). Unset: no shared cache, every worker computes reports from Tesseract (development, tests). |
+| `REDIS_READ_TIMEOUT_MS`, `REDIS_WRITE_TIMEOUT_MS` | no | Deadlines of cache reads and writes (defaults 50 and 1000). A slow or failing Redis is skipped, never fails a page. |
+| `CACHE_TTL_DAYS` | no | Safety-net lifetime of cache entries (default 30). Purges are what invalidate. |
+| `GEN_CACHE_LOCK_MS` | no | How long a render waits for another worker computing the same generator before computing it itself (default 60000). |
+| `WARMER_ENABLED`, `WARMER_MAX_QPS`, `WARMER_DEPLOY_COUNTIES` | no | The background warmer (default on in production with `REDIS_URL`; at most 5 Tesseract queries a second; 100 counties after a deploy). |
+| `GENERATOR_CACHE_SKIP` | no | Comma-separated generator ids to recompute on every render instead of caching (added to the built-in list of clock-dependent generators). |
 | `ENABLE_DEBUG_ROUTES` | no | `true` serves `/api/debug/report` and `/api/debug/upstream` in production; for load tests only. |
 | `GA_KEYFILE`, `GA_PROPERTY_ID` | no | Google Analytics 4 service-account key (path) and property for the home page's most-viewed reports; without them the curated default tiles are shown. |
 | `PM2_INSTANCES` | no | Cluster size (default `max`). |
@@ -58,7 +66,7 @@ folders, named by its id in `data/images.jsonl`; no rebuild is needed.
 ```bash
 nvm use                      # Node 24
 npm ci
-npm run build                # prebuild builds data/dimensions.sqlite from data/*.jsonl, then next build (standalone)
+npm run build                # prebuild builds data/dimensions.sqlite and data/generator-manifest.json, then next build (standalone)
 scripts/package-standalone.sh
 pm2 start ecosystem.config.cjs --env production   # first time
 pm2 reload datausa-site                            # subsequent deploys (zero downtime)
@@ -74,15 +82,14 @@ modules only. The dimensions database is built from the versioned JSONL export i
 
 ## Nginx
 
-Keep the existing `server` block and proxy cache; replace the four Docker upstream ports with the
-PM2 cluster port:
+Keep the existing `server` block; replace the four Docker upstream ports with the PM2 cluster port.
+Nginx only proxies: report pages are not cached in front of the app.
 
 ```nginx
 upstream datausa_site { server 127.0.0.1:3301; keepalive 32; }
 
 location /_next/static/ {
   proxy_pass http://datausa_site;
-  proxy_cache_valid 200 365d;
   add_header Cache-Control "public, max-age=31536000, immutable";
 }
 
@@ -94,51 +101,25 @@ location / {
   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
   proxy_buffering off;          # streamed report HTML
   proxy_read_timeout 120s;
-  # existing proxy_cache directives can stay; report pages send Cache-Control for the edge
 }
-
-# generated share images (og:image): each costs a report run and an image render, and sends
-# Cache-Control: public, s-maxage=86400, stale-while-revalidate=604800; let the proxy cache honour it
-location /og/ { proxy_pass http://datausa_site; proxy_cache_valid 200 1d; }
-location = /api/revalidate { proxy_pass http://datausa_site; proxy_cache off; }
-location /api/prism/      { proxy_pass http://datausa_site; proxy_cache off; }
 ```
 
-**Cached HTML and crawlers.** Next.js sends report pages in two shapes. Ordinary browsers (and
-Googlebot, which runs JavaScript) get the page shell first and the `<title>`, description and share
-tags streamed afterwards, inside `<body>`. Crawlers that read only the first HTML (social previews,
-Bing, AI fetchers: the `htmlLimitedBots` list in `next.config.ts`) get the tags in `<head>`. A proxy
-cache that stores one copy per URL can therefore hand a browser's copy to a preview crawler, which
-then finds no tags in `<head>`. Wherever report HTML is cached, keep the two apart by adding the
-visitor class to the cache key:
-
-```nginx
-# http {} level; keep the pattern in step with htmlLimitedBots in next.config.ts
-map $http_user_agent $html_limited_bot {
-  default 0;
-  "~*(-Google|Google-|Slurp|DuckDuckBot|baiduspider|yandex|bingbot|BingPreview|applebot|facebookexternalhit|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|Pinterestbot|redditbot|GPTBot|ChatGPT-User|OAI-SearchBot|ClaudeBot|Claude-User|PerplexityBot|meta-external|Amazonbot|CCBot|Bytespider)" 1;
-}
-# in the location that caches report HTML
-proxy_cache_key "$scheme$host$request_uri$html_limited_bot";
-```
-
-The same applies to a Cloudflare rule that caches HTML: bypass it for these user agents, or do not
-cache report HTML there. The alternative is `htmlLimitedBots: /.*/`, which puts the tags in `<head>`
-for everyone at the cost of the page shell (the loading skeleton) waiting for the report data.
-
-Report HTML is safe to cache at the edge for the same 30 minutes as today; `Cache-Control` headers
-are set by the app. Prism and revalidation endpoints must never be cached (per-visitor cookies).
+**HTML and crawlers.** Next.js sends report pages in two shapes. Ordinary browsers (and Googlebot,
+which runs JavaScript) get the page shell first and the `<title>`, description and share tags streamed
+afterwards, inside `<body>`. Crawlers that read only the first HTML (social previews, Bing, AI
+fetchers: the `htmlLimitedBots` list in `next.config.ts`) get the tags in `<head>`. Should report HTML
+ever be cached in front of the app, the cache key must keep the two apart (the user agent class), or
+a preview crawler would get a browser's copy without tags in `<head>`.
 
 ## Protecting Tesseract
 
 A report that is not cached sends its generators' queries to Tesseract on the server: about 160 for
 a place, 30 to 55 for the other report types. Each worker sends at most `UPSTREAM_MAX_CONCURRENCY`
 requests to a host at a time, whatever the number of reports it is rendering (`src/lib/api/limit.ts`);
-the rest wait their turn, so a cold cache after a deploy makes pages slower instead of piling queries
-onto Tesseract. Size the total (workers × slots) from a load test of the Tesseract server: the
+the rest wait their turn, so a cold cache makes pages slower instead of piling queries onto Tesseract. Size the total (workers × slots) from a load test of the Tesseract server: the
 default 8 slots at about 0.3 s a query are some 25 queries a second per worker, close to the legacy
 CMS's brake of 20 a second per process. The browser's chart requests are not limited by this; they
-go to the public API host (and Cloudflare's cache in front of it) as before.
+go to the public API host directly, as before.
 
 When requests wait, each worker logs a summary per host at most every 10 seconds:
 
@@ -152,21 +133,74 @@ the site's heavier queries are what slowed. `scripts/loadtest/run.mjs` measures 
 
 With `ENABLE_DEBUG_ROUTES=true`, `GET /api/debug/upstream` returns the counters of the worker that
 answers (each PM2 worker has its own). Dropped requests leave gaps in the page that was being built;
-if they show up in the log, raise the slots (when Tesseract has room), add workers or reduce the
-traffic that reaches the app (the page cache in front of it).
+if they show up in the log, raise the slots (when Tesseract has room) or add workers.
 
-## Caching and data releases
+## Shared cache (Redis)
 
-Application data (Tesseract, geoservice, external feeds) is cached in-process with
-`use cache` + tags (`docs/architecture.md`). After a dataset release:
+Reports render from the **generator cache**: the output of each report generator for each member, in
+Redis, tagged by the cube it read (`docs/architecture.md`, "Generator cache"). Member attributes and
+the lookup tables live there too. All workers and hosts share it, it survives deploys and restarts,
+and a data release purges only the cubes it changed.
 
-1. `curl -X POST https://datausa.io/api/revalidate -H "x-revalidate-secret: $REVALIDATE_SECRET"`
-   purges the data tags on the worker that handles the request. With several PM2 workers, either
-   call it once per worker (Nginx `proxy_pass` to each port when workers listen on distinct ports),
-   or simply `pm2 reload datausa-site`, which starts fresh workers with empty caches.
-2. Purge the Nginx proxy cache / Cloudflare as today.
+**Redis is not part of the app's deploy.** It runs in its own compose project, started once per host
+and left running. `deploy.sh` and `deploy-prod.sh` never start, stop or recreate it (their
+`up --force-recreate --remove-orphans` only touches the app's project); they check that it answers
+`PING` before switching the app and stop with an error if it does not.
 
-Nothing is pre-generated, so stale entries are at most the `data` cache-life (`next.config.ts`).
+```bash
+docker network create datausa-cache                     # once per host (the deploy scripts also create it)
+docker compose -f compose-redis.yaml up -d              # once per host; REDIS_MAXMEMORY=2gb by default
+# in the app's env file:  REDIS_URL=redis://datausa-redis:6379
+```
+
+- **Persistence.** AOF (`appendfsync everysec`) plus RDB snapshots on the `datausa-redis-data` volume:
+  a Redis restart or a host reboot keeps the cache.
+- **Memory.** `maxmemory` with `volatile-lru`: entries carry a 30-day TTL and are evicted least
+  recently used; tag sets, purge counters and the warm queue have no TTL and are never evicted.
+  Measured against penn (52 states and the 10 largest counties): about 169 entries per report,
+  median entry 0.4 KB (90th percentile 1.6 KB, largest 190 KB), some 240 KB of entries and 290 KB
+  with the tag sets per report, 18 MB for those 62 reports. The 152 most visited reports take about
+  45 MB, and the default 2 GB holds some 7,000 reports.
+- **Deploys keep it.** Keys carry a version per generator computed from source text and data
+  (`data/generator-manifest.json`, `npm run build:manifest`), never from the build: a deploy that
+  changes no generator reads every entry the previous build wrote; one that changes a generator
+  recomputes only that generator (shared code: all of them). Entries of versions no longer built
+  are never read again and expire by TTL; nothing is flushed on deploy.
+- **Backups** (optional: the cache can always be recomputed from Tesseract):
+  `docker exec datausa-redis redis-cli bgsave`, then copy the volume
+  (`docker run --rm -v datausa-redis-data:/data -v "$PWD":/backup alpine tar czf /backup/redis.tgz -C /data .`).
+  Restore by extracting it into the volume with Redis stopped.
+- **Size and state.** `npm run cache:purge -- --stats` prints the key count, tags and memory;
+  `GET /api/debug/report?id=texas` (with `ENABLE_DEBUG_ROUTES=true`) shows each generator's hit or
+  miss and sends `x-gen-cache: <hits>/<total>`. Every report render logs one line with its hits,
+  misses, waits on other workers and Redis time; report pages carry the same counts in the
+  `data-gen-cache` and `data-report-generators` attributes of `#Profile` (a streamed page cannot set
+  response headers).
+- **Redis down.** Reads time out after 50 ms and a circuit breaker skips Redis for 30 s after five
+  errors: pages render from Tesseract as without the cache, slower but complete.
+
+## Data releases
+
+Each release comes with the list of cubes it changed. Purge exactly those, from a checkout with
+Node (it talks to Redis directly, so it works with the site down):
+
+```bash
+REDIS_URL=redis://<redis host>:6379 npm run cache:purge -- --cubes acs_yg_total_population_5,pums_5
+# or through the site:
+curl -X POST https://datausa.io/api/revalidate -H "x-revalidate-secret: $REVALIDATE_SECRET" \
+     -H "content-type: application/json" -d '{"cubes": ["acs_yg_total_population_5"]}'
+```
+
+Each cube's entries are deleted for every worker and host at once (the counts are printed), the
+affected reports are queued, and the warmer recomputes them in the background at `WARMER_MAX_QPS`
+(states first, then counties by population, then the rest). A name the cache never saw is reported
+as unknown (exit code 2), which catches typos in the list. `{"tags": ["geoservice"]}` (or
+`--tags geoservice`) purges what came from the geoservice.
+
+What still uses Next's per-worker `use cache` (the home page tiles and map, the dataset pages, the
+COVID employment route, the latest-data figures, similar places on report pages) keeps its
+`revalidateTag` tags: `{"tags": ["tesseract"]}` and the others expire them on the worker that answers;
+`pm2 reload datausa-site` clears them on every worker. Report data is not affected by a reload.
 
 The latest-data home page (`/home-next`) reads BLS and EIA directly, not Tesseract. Its figures are
 cached for two hours (state unemployment for twelve) under the `external-data` tag, so on a release
@@ -178,6 +212,6 @@ up to two hours or purge that tag: `-d '{"tags": ["external-data"]}'`. Release d
 
 1. Deploy the new app on the VM on port 3301 next to the running Docker containers (ports 9994-9997).
 2. Validate with the regression script against the live host: `NEW_URL=http://127.0.0.1:3301 npx tsx scripts/regression/compare.ts /profile/geo/massachusetts ...`.
-3. Switch the Nginx upstream to `datausa_site`, `nginx -s reload`, purge Cloudflare.
+3. Switch the Nginx upstream to `datausa_site`, `nginx -s reload`.
 4. Keep the Docker containers stopped but present for a week; rollback is switching the upstream back and reloading Nginx.
 5. Before decommissioning the legacy VM services: keep the Prism database reachable (gap G2). The profile images are served by this app (see Report photos above).
