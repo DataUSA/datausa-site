@@ -5,7 +5,7 @@
  */
 import {formatters} from "@/content/formatters";
 import {libs} from "@/lib/content/libs";
-import {fetchData, fetchJsonRaw, GEOSERVICE_URL, TESSERACT_URL, type FetchResult} from "@/lib/api/tesseract";
+import {fetchData, fetchJsonRaw, GEOSERVICE_URL, normalizeTesseractUrl, TESSERACT_URL, type FetchResult} from "@/lib/api/tesseract";
 import {fetchLegacyEndpoint, isLegacyEndpoint} from "@/lib/api/legacy-endpoints";
 import {withUpstreamScope} from "@/lib/api/upstream-scope";
 import {generatorCacheEnabled, resolveGenerators, type CacheState, type CacheStats, type FailureKind, type GeneratorResult, type GroupComputation, type ResolvedGenerator} from "@/lib/cache/generator-cache";
@@ -103,17 +103,68 @@ export function baseAttributes(member: MemberAttributes, print = false): Variabl
   return attrs;
 }
 
+/**
+ * The URL `fetchGeneratorUrl` sends upstream for a generator URL, or null when it is answered in
+ * process (legacy `/api/...` endpoints) or is not a URL (`error:`). The batched warmer keys its
+ * response map by this (`src/lib/cache/batch-warm/`).
+ */
+export function upstreamUrlOf(url: string): string | null {
+  if (url.startsWith("error:") || isLegacyEndpoint(url)) return null;
+  if (/^https?:\/\//.test(url)) return normalizeTesseractUrl(url);
+  return `${TESSERACT_URL.replace(/\/$/, "")}${url.startsWith("/") ? "" : "/"}${url}`;
+}
+
 /** Fetches a generator URL: absolute URLs go to the data client, legacy paths to in-process handlers. */
 async function fetchGeneratorUrl(url: string, attrs: Variables): Promise<FetchResult<unknown>> {
   if (isLegacyEndpoint(url)) return fetchLegacyEndpoint(url, attrs);
   if (/^https?:\/\//.test(url)) return fetchData<unknown>(url);
-  return fetchJsonRaw<unknown>(`${TESSERACT_URL.replace(/\/$/, "")}${url.startsWith("/") ? "" : "/"}${url}`);
+  return fetchJsonRaw<unknown>(upstreamUrlOf(url)!);
 }
 
 /** Generators that read the same URL, in template order: they share one response. */
-interface UrlGroup {
+export interface UrlGroup {
   url: string;
   generators: GeneratorDefinition[];
+}
+
+/** What a render of the template for these attributes will fetch, worked out without fetching. */
+export interface ReportPlan {
+  /** The generators allowed for these attributes, in template order. */
+  generators: GeneratorDefinition[];
+  /** One group per distinct generator URL, in order of first use. */
+  groups: UrlGroup[];
+  /** Each generator's URL (`error:<message>` when its `api` threw). */
+  urlFor: Map<GeneratorDefinition, string>;
+}
+
+/**
+ * Plans a render: the allowed generators and their URLs grouped as the render fetches them. Every
+ * render goes through this, so the batched warmer's plan (`src/lib/cache/batch-warm/`) is the
+ * render's own.
+ */
+export function planReport(template: ReportTemplate, attrs: Variables): ReportPlan {
+  const generators = template.generators.filter(g => isAllowed(g.allowed, attrs));
+  const groups: UrlGroup[] = [];
+  const groupOf = new Map<string, UrlGroup>();
+  const urlFor = new Map<GeneratorDefinition, string>();
+  for (const g of generators) {
+    let url: string;
+    try {
+      url = g.api(attrs);
+    }
+    catch (error) {
+      url = `error:${(error as Error).message}`;
+    }
+    urlFor.set(g, url);
+    let group = groupOf.get(url);
+    if (!group) {
+      group = {url, generators: []};
+      groupOf.set(url, group);
+      groups.push(group);
+    }
+    group.generators.push(g);
+  }
+  return {generators, groups, urlFor};
 }
 
 /**
@@ -141,27 +192,7 @@ async function computeGroup(group: UrlGroup, attrs: Variables, ctx: GeneratorCon
 export async function buildVariables(template: ReportTemplate, attrs: Variables, locale = "en", options: BuildOptions = {}): Promise<BuiltVariables> {
   const started = performance.now();
   const ctx = contentContext(locale);
-  const generators = template.generators.filter(g => isAllowed(g.allowed, attrs));
-  const groups: UrlGroup[] = [];
-  const groupOf = new Map<string, UrlGroup>();
-  const urlFor = new Map<GeneratorDefinition, string>();
-  for (const g of generators) {
-    let url: string;
-    try {
-      url = g.api(attrs);
-    }
-    catch (error) {
-      url = `error:${(error as Error).message}`;
-    }
-    urlFor.set(g, url);
-    let group = groupOf.get(url);
-    if (!group) {
-      group = {url, generators: []};
-      groupOf.set(url, group);
-      groups.push(group);
-    }
-    group.generators.push(g);
-  }
+  const {generators, groups, urlFor} = planReport(template, attrs);
 
   const genCtx: GeneratorContext = {...ctx, variables: attrs};
   let outcome: Map<GeneratorDefinition, ResolvedGenerator>;

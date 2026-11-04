@@ -149,6 +149,79 @@ gen:<generator id>:<generator version>:<hash of resolved URL>:<hash of the attri
   `x-report-generators`; report pages carry `data-gen-cache` and `data-report-generators` on
   `#Profile` (a streamed page cannot set headers).
 
+### Batched warmer
+
+`npm run warm:batch -- --plan <file>` (`scripts/cache/warm-batch.ts`, `src/lib/cache/batch-warm/`)
+fills the generator cache for a list of reports in far fewer Tesseract queries than rendering them one
+by one, and writes exactly the entries a page view would: every report still goes through the real
+engine (`loadEngine`), with the same keys, tags and purge-safe writes. Only the fetch layer differs,
+and only inside a warm run.
+
+- **Plan without fetching.** `planReport(template, attrs)` (`src/lib/reports/engine.ts`) is the
+  render's own planning (allowed generators, `g.api(attrs)`, URL groups); `upstreamUrlOf` gives the
+  URL `fetchGeneratorUrl` would send, and `planGroupKeys` (`generator-cache.ts`) the keys the render
+  reads and writes. A report whose keys all exist (or whose `warm:done:<profile>|<id>` marker matches
+  its plan and still finds every key it stored) is a full hit and is skipped: rerunning a plan resumes it.
+- **Warm scope.** The worker renders each member inside a warm scope (`src/lib/api/warm-scope.ts`,
+  AsyncLocalStorage like `upstream-scope.ts`). `fetchJsonRaw` first asks the scope for the URL; the
+  scope answers with a held response (parsed exactly as a fetched one) or nothing, and what it does
+  not answer is fetched as usual, waiting for a slot of the run's global cap. Outside a warm run the
+  scope does not exist and live renders, misses and purges are unchanged.
+- **Fetched once per run.** URLs without the member id (national, state, county, lookups read inside
+  in-process endpoints and attributes) go through the coordinator, which fetches each once for the
+  whole run and keeps it (2 GB, least recently used). Member responses are freed as soon as the
+  member is rendered. Only 2xx responses are held: a failed fetch is fetched again by the render,
+  so the failure it records is the usual one.
+- **Levels the cube lacks.** The coordinator reads `/tesseract/cubes` once. A query naming a level its
+  cube does not have (drilldowns, include/exclude keys, cut parameters) is answered without calling
+  Tesseract, with the failure Tesseract gives it. That failure is learnt from one real request per
+  (endpoint, cube, missing levels, measures) and used only if it is the "Could not find a Level
+  named …" 400; the render records it exactly as before (and, being a failure, stores nothing).
+- **Shapes and batches.** A member-keyed URL's shape is the URL with the member id replaced by `{M}`,
+  where the id is the whole value of an include entry (`include=Place:{M}`, also compound
+  `include=Health Provider:1;State County:{M}`), of a cut parameter (`University={M}`) or of the
+  `filter` of an RCA query (`complexity/rca_historical?…&filter=University:{M}`: the RCA is computed
+  over every location and the filter only keeps rows), once and nowhere else. Per member group (300 members of one level, sorted by id), each shape becomes one or
+  two queries with the ids in a list (under 6,000 characters of URL; 1,000 ids gave HTTP 414), the
+  level added to `drilldowns` when missing (at the end, else at the start), split by the level's id
+  column; the columns a single response does not have are removed, and `annotations`, `page` and
+  `columns` are rebuilt in the batch's key order. `limit=N` with a `sort` is fetched without the
+  limit and cut per member (`page.limit` and `page.total` as a single query reports them).
+  `top=`, offsets, `calcs/` and the other `complexity/` queries are not batched. Members per batch
+  are cut to keep a batched response near 4 MB.
+- **Verification gate.** Before a shape is batched in a run, the split responses of 3 members (with
+  data where the group has them) must equal their single responses byte for byte after canonical
+  JSON (the keys of `annotations` sorted, since Tesseract returns them in a different order from one
+  identical request to the next; rows, row keys and values compared as they are). Members a batch
+  does not mention get the shape's empty response only when two real single responses of such
+  members agreed (Tesseract answers an empty query with `columns: []`); otherwise they are fetched
+  alone. Verified and rejected shapes are kept in Redis under `warm:shape:<hash of profile, level and
+  shape>:<cube epoch>`, so a purge of the cube makes the next run verify again; transient rejections
+  (5xx, timeouts, no member with data yet) are kept for the run only.
+- **What the gate cannot see, handled per member.** `time=Year.latest[.N]` picks the periods among
+  the rows a query matches, so a batch answers with the group's latest periods: a member is split
+  only if it has rows in all of them; a member without rows is looked up in a presence query (the
+  batch without `time`) and gets the empty response only if it has no data at all, else it is
+  fetched alone. Tesseract orders rows tied on the `sort` column in no reproducible order, so a member
+  whose rows tie on it is fetched alone.
+- **Global cap.** All Tesseract requests of the run (workers and coordinator) share one cap: 16 at
+  first, raised by 4 every 20 s up to 50 while requests wait and nothing fails, lowered by 40% on two
+  or more 5xx/429/timeouts (a URL that keeps answering 5xx counts once, and a 5xx answered within a
+  second, a query that always fails, not at all) or a p95 above 15 s, with a
+  30 s pause after five errors. Every change is logged. `complexity/` and `calcs/` queries (10–50 s
+  each on their own) run in a lane of an eighth of the cap and are left out of the p95. Waiting
+  requests go in priority order: what renders and plans wait on, then shared, verification and
+  batches, then single queries.
+- **Geoservice.** Attributes and a few generators read the geoservice, which blocks a client that
+  sends too many requests (429 with a challenge page, for a few minutes). In a warm run its requests
+  go through the coordinator's own limiter (`--geo-rate`, default 4 a second, 4 at a time; a 429
+  halves the rate and pauses a minute), the ones without the member id (a state's neighbours) are
+  fetched once per run, and a 429 is retried three times inside the warm scope.
+- **Output.** `progress.jsonl` every 15 s (reports, upstream requests by kind, shapes, cap, rate,
+  p50/p95 per cube, Redis memory, workers' RSS and CPU), `upstream.jsonl` (every request sent),
+  `logical-*.jsonl` (every logical URL and how it was served), `shapes.jsonl`, `skips.jsonl`,
+  `summary.json`. One run at a time per Redis (`warm:batch:lock`).
+
 Every server request to a data API host waits for one of the worker's `UPSTREAM_MAX_CONCURRENCY` slots for that host (`src/lib/api/limit.ts`, default 8), on top of the per-report `API_MAX_CONCURRENCY`, so the load on Tesseract is bounded by workers × slots however many reports are rendered at once (`docs/deployment.md`, "Protecting Tesseract").
 
 ## Dimensions (replaces `canon_cms_search` + lunr)

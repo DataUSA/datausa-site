@@ -176,8 +176,50 @@ docker compose -f compose-redis.yaml up -d              # once per host; REDIS_M
   misses, waits on other workers and Redis time; report pages carry the same counts in the
   `data-gen-cache` and `data-report-generators` attributes of `#Profile` (a streamed page cannot set
   response headers).
+- **Browsing keys (optional).** RedisInsight is defined in `compose-redis.yaml` under the `ui`
+  profile, so it never starts with Redis. It has no login and listens on `127.0.0.1:5540` only:
+  start it when needed (`docker compose -f compose-redis.yaml --profile ui up -d redisinsight`),
+  open an SSH tunnel (`ssh -L 5540:127.0.0.1:5540 <host>`, then http://localhost:5540), and stop it
+  afterwards (`docker compose -f compose-redis.yaml --profile ui stop redisinsight`). The
+  connection to `datausa-redis` is preconfigured.
 - **Redis down.** Reads time out after 50 ms and a circuit breaker skips Redis for 30 s after five
   errors: pages render from Tesseract as without the cache, slower but complete.
+
+### Warming the whole site (batched warmer)
+
+The background warmer recomputes purged reports one at a time at `WARMER_MAX_QPS`; filling an empty
+cache that way takes days. `npm run warm:batch` (`docs/architecture.md`, "Batched warmer") renders
+a list of reports through the real engine in member groups, fetching shared URLs once, skipping
+queries for levels a cube lacks and batching member queries whose split passed the verification
+gate. Run it from a checkout of the deployed commit with the production build's manifest
+(`npm run build:manifest`, so the keys are the ones the site reads) against the Tesseract the site
+uses:
+
+```bash
+# the plan: a JSON array of {"profile": "geo", "id": "05000US25025"} (a hierarchy is optional)
+NEXT_PUBLIC_TESSERACT_URL=https://api.datausa.io/ GEOSERVICE_URL=https://geoservice.datausa.io/api/ \
+REDIS_URL=redis://<redis host>:6379 \
+  npm run warm:batch -- --plan plan.json --out /var/tmp/warm-$(date +%F) --workers 6 --cap 16 --max-cap 50 --geo-rate 8
+```
+
+- **Load on Tesseract.** All requests of the run share one cap: it starts at `--cap` (16), rises by 4
+  every 20 s up to `--max-cap` while nothing fails, and drops by 40% (pausing 30 s after five
+  errors) on 5xx, timeouts or a p95 above 15 s. Every change is logged in `events.jsonl`. The
+  site's own traffic is not counted: on a server that also serves users, keep `--max-cap` well under
+  what Tesseract takes (one penn server answered about 30 requests a second at most).
+- **Geoservice.** Geo reports read it for their attributes (parents, neighbours) and two
+  generators. It blocks a client that sends too many requests (HTTP 429 behind a challenge page, for
+  a few minutes: about 30 a second did it), so the run keeps it at `--geo-rate` a second (default 4),
+  halves the rate and pauses a minute on a 429. Reports whose attributes are already cached do not
+  call it.
+- **Redis memory.** Size `maxmemory` for the reports in the plan before starting (about 0.2–0.3 MB
+  per geo report, see the measurements in the run's `summary.json`); with `volatile-lru` an
+  undersized Redis evicts entries the run just wrote.
+- **Resuming.** Rerunning the same plan skips the reports that are already a full hit, so a run that
+  stopped can simply be started again. `--force` re-renders everything.
+- **One at a time.** A run takes `warm:batch:lock` in Redis and refuses to start if another holds it.
+- **Progress.** `progress.jsonl` (one line every 15 s: reports, requests by kind, cap and rate,
+  p50/p95 per cube, Redis memory, workers' memory and CPU); the console prints a one-line summary.
 
 ## Data releases
 

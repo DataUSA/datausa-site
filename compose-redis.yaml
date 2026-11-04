@@ -8,6 +8,7 @@
 #   docker compose -f compose-redis.yaml up -d          # once per host
 #   docker exec datausa-redis redis-cli info memory     # size
 #   docker exec datausa-redis redis-cli bgsave          # snapshot now (see docs/deployment.md, backups)
+#   docker compose -f compose-redis.yaml --profile ui up -d redisinsight   # optional browser UI, see below
 #
 # The app containers reach it as `redis://datausa-redis:6379` on the `datausa-cache` network, so set
 # REDIS_URL=redis://datausa-redis:6379 in the app's env file. The network is external to both
@@ -51,9 +52,34 @@ services:
       timeout: 3s
       retries: 3
 
+  # Optional browser UI for inspecting keys (RedisInsight), off unless the `ui` profile is asked for,
+  # so `up -d` above never starts it. It has no login: it is published on loopback only, reach it
+  # through an SSH tunnel (`ssh -L 5540:127.0.0.1:5540 <host>`, then http://localhost:5540) and stop
+  # it when done (`docker compose -f compose-redis.yaml --profile ui stop redisinsight`). The
+  # connection to datausa-redis is preconfigured. Pinned by digest; update it deliberately.
+  redisinsight:
+    container_name: datausa-redisinsight
+    image: redis/redisinsight@sha256:b5e19ee240abef6edb435871b90ff8a210995422e8e018ab61c0339d318a1f84
+    profiles: ["ui"]
+    restart: unless-stopped
+    environment:
+      - RI_REDIS_HOST=datausa-redis
+      - RI_REDIS_PORT=6379
+      - RI_REDIS_ALIAS=datausa-redis
+    ports:
+      - "127.0.0.1:5540:5540"
+    volumes:
+      - redisinsight-data:/data
+    networks:
+      - datausa-cache
+    depends_on:
+      - redis
+
 volumes:
   redis-data:
     name: datausa-redis-data
+  redisinsight-data:
+    name: datausa-redisinsight-data
 
 networks:
   datausa-cache:

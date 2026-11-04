@@ -103,7 +103,11 @@ export function loadEngine(profileSlug: string, member: MemberRow, print = false
   return run;
 }
 
-async function runEngine(profileSlug: string, member: MemberRow, print: boolean, options: BuildOptions & {label?: string}): Promise<EngineRun> {
+/**
+ * The template and the attributes the engine runs with for a member (attributes from the shared
+ * cache when they are there). The batched warmer plans with these before rendering.
+ */
+export async function engineInputs(profileSlug: string, member: MemberRow, print = false): Promise<{template: ReportTemplate; attrs: Variables}> {
   const template = getTemplate(profileSlug, member.hierarchy);
   if (!template) throw new Error(`Unknown profile ${profileSlug}`);
   const memberAttrs: MemberAttributes = {
@@ -111,7 +115,11 @@ async function runEngine(profileSlug: string, member: MemberRow, print: boolean,
     name: member.name, cubeName: member.cubeName, imageId: member.imageId, zvalue: member.zvalue
   };
   const custom = await memberAttributes(profileSlug, memberAttrs);
-  const attrs: Variables = {...baseAttributes(memberAttrs, print), ...custom};
+  return {template, attrs: {...baseAttributes(memberAttrs, print), ...custom}};
+}
+
+async function runEngine(profileSlug: string, member: MemberRow, print: boolean, options: BuildOptions & {label?: string}): Promise<EngineRun> {
+  const {template, attrs} = await engineInputs(profileSlug, member, print);
   const built = await buildVariables(template, attrs, "en", options);
   const {failed, generators, totalMs, cache: stats} = built.diagnostics;
   // one line per render with the generator cache's counters, and per incomplete render naming the

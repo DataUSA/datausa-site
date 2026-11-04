@@ -11,6 +11,7 @@ import type {TesseractResponse} from "@/lib/reports/types";
 import {normalizeTesseractUrl} from "@/lib/api/urls";
 import {acquireUpstreamSlot, UpstreamBusyError} from "@/lib/api/limit";
 import {currentScope, noteFetch} from "@/lib/api/upstream-scope";
+import {currentWarm, type WarmRelease, type WarmResponse} from "@/lib/api/warm-scope";
 
 export {normalizeTesseractUrl};
 
@@ -34,10 +35,39 @@ export interface FetchResult<T = TesseractResponse> {
  * URL's host (`src/lib/api/limit.ts`); the timeout runs from when the request is sent.
  */
 export async function fetchJsonRaw<T = TesseractResponse>(url: string): Promise<FetchResult<T>> {
+  const result = await fetchJsonRawOnce<T>(url);
+  // a warm run sends many requests at once: a host that sheds load (429) is asked again, a little
+  // later, instead of leaving the report incomplete (live renders are unchanged)
+  if (result.status === 429 && currentWarm()) {
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      await new Promise(r => setTimeout(r, 2000 * attempt));
+      const again = await fetchJsonRawOnce<T>(url);
+      if (again.status !== 429) return again;
+    }
+  }
+  return result;
+}
+
+async function fetchJsonRawOnce<T>(url: string): Promise<FetchResult<T>> {
   const started = performance.now();
+  // a batched warm run (`src/lib/api/warm-scope.ts`) may already hold the answer
+  const warm = currentWarm();
+  const held = warm ? await warm.lookup(url) : undefined;
+  if (held) return heldResult<T>(url, held, started);
   let release: () => void;
+  let warmRelease: WarmRelease | undefined;
+  let status = 0;
+  let bytes = 0;
+  let failed: string | undefined;
   try {
-    release = await acquireUpstreamSlot(url);
+    const warmSlot = warm?.acquire(url);
+    if (warmSlot) {
+      warmRelease = await warmSlot;
+      // the run's answer times start when the request is sent, not while it waited for the slot
+      const sentAt = performance.now();
+      release = () => warmRelease!({status, ms: performance.now() - sentAt, bytes, error: failed});
+    }
+    else release = await acquireUpstreamSlot(url);
   }
   catch (error) {
     noteFetch(url, (error as Error).message);
@@ -48,17 +78,28 @@ export async function fetchJsonRaw<T = TesseractResponse>(url: string): Promise<
   try {
     const res = await fetch(url, {signal: controller.signal, headers: {accept: "application/json"}, cache: "no-store"});
     const durationMs = performance.now() - started;
+    status = res.status;
     if (!res.ok) {
       const text = await res.text().catch(() => "");
+      bytes = text.length;
       const error = `HTTP ${res.status}: ${text.slice(0, 300)}`;
+      failed = error;
       noteFetch(url, error);
       return {url, data: null, status: res.status, error, failure: "http", durationMs};
     }
     let data: T;
     try {
-      data = await res.json() as T;
+      if (warmRelease) {
+        // the warm run counts bytes; the same parse as `res.json()`
+        const text = await res.text();
+        bytes = text.length;
+        data = JSON.parse(text) as T;
+        warm?.keep?.(url, {status: res.status, body: text});
+      }
+      else data = await res.json() as T;
     }
     catch (error) {
+      failed = controller.signal.aborted ? "timeout" : `unreadable response: ${(error as Error).message}`;
       noteFetch(url, (error as Error).message);
       return {url, data: null, status: res.status, error: `unreadable response: ${(error as Error).message}`, failure: controller.signal.aborted ? "timeout" : "parse", durationMs: performance.now() - started};
     }
@@ -68,6 +109,7 @@ export async function fetchJsonRaw<T = TesseractResponse>(url: string): Promise<
   catch (error) {
     const timedOut = controller.signal.aborted;
     const message = timedOut ? `timed out after ${DEFAULT_TIMEOUT_MS} ms` : (error as Error).message;
+    failed = timedOut ? "timeout" : message;
     noteFetch(url, message);
     return {url, data: null, status: 0, error: message, failure: timedOut ? "timeout" : "network", durationMs: performance.now() - started};
   }
@@ -75,6 +117,18 @@ export async function fetchJsonRaw<T = TesseractResponse>(url: string): Promise<
     clearTimeout(timer);
     release();
   }
+}
+
+/** A response held by the warm run, returned as `fetchJsonRaw` returns the same response fetched. */
+function heldResult<T>(url: string, held: WarmResponse, started: number): FetchResult<T> {
+  const durationMs = performance.now() - started;
+  if (held.status < 200 || held.status >= 300) {
+    const error = `HTTP ${held.status}: ${held.body.slice(0, 300)}`;
+    noteFetch(url, error);
+    return {url, data: null, status: held.status, error, failure: "http", durationMs};
+  }
+  noteFetch(url);
+  return {url, data: JSON.parse(held.body) as T, status: held.status, durationMs};
 }
 
 /**
@@ -104,8 +158,8 @@ async function fetchDataCached<T>(normalized: string): Promise<FetchResult<T>> {
  */
 export async function fetchData<T = TesseractResponse>(url: string): Promise<FetchResult<T>> {
   const normalized = normalizeTesseractUrl(url);
-  // fetchJsonRaw notes the read itself
-  if (currentScope()?.uncached) return fetchJsonRaw<T>(normalized);
+  // fetchJsonRaw notes the read itself; a warm run (`warm-scope.ts`) caches in Redis only
+  if (currentScope()?.uncached || currentWarm()) return fetchJsonRaw<T>(normalized);
   const result = await fetchDataCached<T>(normalized);
   noteFetch(normalized, result.error);
   return result;

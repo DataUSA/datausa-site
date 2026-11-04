@@ -145,6 +145,40 @@ function failedOutcome(kind: FailureKind, message: string, n: number): SharedOut
 
 const isSuccess = (c: GroupComputation) => c.status >= 200 && c.status < 300 && !c.upstreamFailures.length;
 
+/** The cache keys of one URL group of a render. */
+export interface PlannedGroup {
+  group: Group;
+  /** Each generator's key, or null when it is never stored. */
+  keys: (string | null)[];
+  /** Why a generator is never stored, or null. */
+  reasons: (string | null)[];
+  /** Every generator of the group can be stored: the group may be shared and served from the cache. */
+  shareable: boolean;
+  groupKey: string;
+}
+
+/**
+ * The keys a render of these attributes reads and writes, per URL group. `resolveGenerators` uses
+ * it, and so does the batched warmer to tell which reports are already a full hit.
+ */
+export function planGroupKeys(attrs: Variables, groups: Group[]): PlannedGroup[] {
+  const attrsHash = hash(stableJson(attrs));
+  return groups.map(group => {
+    const urlHash = hash(/^\/?api\//.test(group.url) ? `legacy:${attrs.tesseract}|${attrs.geoservice}|${group.url}` : group.url);
+    const keys: (string | null)[] = [];
+    const reasons: (string | null)[] = [];
+    for (const g of group.generators) {
+      const version = versionOf(g, group.url);
+      const reason = ineligible(g, group.url, version);
+      reasons.push(reason);
+      keys.push(reason ? null : `gen:${g.id}:${version}:${urlHash}:${attrsHash}`);
+    }
+    const shareable = keys.every(Boolean);
+    const groupKey = keys.length === 1 && keys[0] ? keys[0] : `grp:${hash(keys.join(","))}:${urlHash}:${attrsHash}`;
+    return {group, keys, reasons, shareable, groupKey};
+  });
+}
+
 /**
  * Resolves every generator of a render: reads all keys at once, computes only the groups with a
  * missing output (sharing computations with concurrent renders), stores the successes, and returns
@@ -161,31 +195,9 @@ export async function resolveGenerators(ctx: Context): Promise<{resolved: Map<Ge
       stats.redisMs += performance.now() - t;
     }
   };
-  const attrsHash = hash(stableJson(ctx.attrs));
   const owner = `${ctx.profile}|${ctx.memberId}`;
-
-  interface Planned {
-    group: Group;
-    keys: (string | null)[];
-    reasons: (string | null)[];
-    /** Every generator of the group can be stored: the group may be shared and served from the cache. */
-    shareable: boolean;
-    groupKey: string;
-  }
-  const planned: Planned[] = ctx.groups.map(group => {
-    const urlHash = hash(/^\/?api\//.test(group.url) ? `legacy:${ctx.attrs.tesseract}|${ctx.attrs.geoservice}|${group.url}` : group.url);
-    const keys: (string | null)[] = [];
-    const reasons: (string | null)[] = [];
-    for (const g of group.generators) {
-      const version = versionOf(g, group.url);
-      const reason = ineligible(g, group.url, version);
-      reasons.push(reason);
-      keys.push(reason ? null : `gen:${g.id}:${version}:${urlHash}:${attrsHash}`);
-    }
-    const shareable = keys.every(Boolean);
-    const groupKey = keys.length === 1 && keys[0] ? keys[0] : `grp:${hash(keys.join(","))}:${urlHash}:${attrsHash}`;
-    return {group, keys, reasons, shareable, groupKey};
-  });
+  type Planned = PlannedGroup;
+  const planned: Planned[] = planGroupKeys(ctx.attrs, ctx.groups);
 
   // 1. one read for every key of the render
   const allKeys = planned.flatMap(p => p.keys.filter((k): k is string => Boolean(k)));
