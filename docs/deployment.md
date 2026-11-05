@@ -303,7 +303,7 @@ Repeat step 1 after every `git pull` that you also deploy.
 ```bash
 tmux new -s warm            # later: tmux attach -t warm; leave with Ctrl-b d
 cd "$APP_DIR"
-# NEXT_PUBLIC_TESSERACT_URL and GEOSERVICE_URL exactly as the site uses them (only these two are read)
+# the API servers to warm against; the site's own are the simplest choice (only these two lines are read)
 export $(grep -E '^(NEXT_PUBLIC_TESSERACT_URL|GEOSERVICE_URL)=' .env | tr -d "\"'" | xargs)
 REDIS_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' datausa-redis)
 docker run --rm -it --network host --oom-score-adj 500 --user "$(id -u):$(id -g)" -e HOME=/tmp \
@@ -311,8 +311,9 @@ docker run --rm -it --network host --oom-score-adj 500 --user "$(id -u):$(id -g)
   -e NEXT_PUBLIC_TESSERACT_URL -e GEOSERVICE_URL -e REDIS_URL=redis://$REDIS_IP:6379 \
   node:24 npm run warm:ui -- --runs /app/warm-runs
 ```
-- **Same URLs as the site.** `NEXT_PUBLIC_TESSERACT_URL` and `GEOSERVICE_URL` must be byte for byte
-  those in the site's `.env`: they are part of the cache keys.
+- **Which servers.** Cache keys don't include hosts, so the warm may ask a different API host than
+  the site (for example api-penn.datausa.io for a site reading api.datausa.io), as long as both
+  carry the same data release. Reading them from the site's `.env`, as above, is the simplest.
 - **Reaching Redis.** It isn't published on the host, so the UI reaches it at its container IP.
   Look `REDIS_IP` up again whenever Redis is recreated.
 - **Kill order.** `--oom-score-adj 500` makes the kernel stop the warm, not Redis, if memory runs

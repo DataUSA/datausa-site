@@ -12,7 +12,6 @@
 import {cacheLife, cacheTag} from "next/cache";
 import {fetchData, TESSERACT_URL} from "@/lib/api/tesseract";
 import {withUpstreamScope} from "@/lib/api/upstream-scope";
-import {hash} from "@/lib/cache/generator-cache";
 import {generatorManifest} from "@/lib/cache/manifest";
 import {redisConfigured} from "@/lib/cache/redis";
 import {cachedValue} from "@/lib/cache/values";
@@ -31,7 +30,8 @@ async function completeOnly<T>(compute: () => Promise<T>): Promise<T> {
  */
 async function orUncached<T>(cached: () => Promise<T>, compute: () => Promise<T>, name: string): Promise<T> {
   const version = redisConfigured() ? generatorManifest()?.lookups : undefined;
-  if (version) return cachedValue(`lookup:${name}:${version}:${hash(TESSERACT_URL)}`, `lookup|${name}`, compute);
+  // no host in the key: a table holds data, whichever API host it was read from (see `hostFree`)
+  if (version) return cachedValue(`lookup:${name}:${version}`, `lookup|${name}`, compute);
   try {
     return await cached();
   }

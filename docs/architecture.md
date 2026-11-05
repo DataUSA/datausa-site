@@ -102,7 +102,7 @@ All of this happens per request with no page-level cache: the expensive part (ge
 Each entry is the output of one generator for one member, as JSON:
 
 ```
-gen:<generator id>:<generator version>:<hash of resolved URL>:<hash of the attributes given to the generator>
+gen:<generator id>:<generator version>:<hash of the URL without its host>:<hash of the attributes given to the generator>
 ```
 
 - **Version** (`data/generator-manifest.json`, built by `npm run build:manifest` before `next build`):
@@ -114,9 +114,16 @@ gen:<generator id>:<generator version>:<hash of resolved URL>:<hash of the attri
   git sha or file times), so a deploy that changes no generator keeps every entry readable, and two
   builds of the same commit give identical manifests (`build-manifest.ts --check`). Generators that
   call in-process `/api/...` endpoints also carry the hash of `legacy-endpoints.ts` and what it imports.
-- **URL**: carries the Tesseract host, so environments sharing a Redis never share entries.
+- **URL, without its host**: the Tesseract and geoservice base URLs are replaced by placeholders
+  (`{tesseract}/data.jsonrecords?…`, `hostFree` in `src/lib/cache/generator-cache.ts`). Keys never
+  contain a host, so a cache warmed against one API server (api-penn.datausa.io) serves a site that
+  reads another (api.datausa.io), and changing the API's hostname keeps the cache. The condition is
+  that both servers carry the same data: which data an entry holds is tracked by its cube tags and
+  the release purges, not by the host. Environments with different data must not share a Redis.
 - **Attributes**: everything the logic reads besides the response (a state's parents change its
-  key). The member id is stored in the value and in the tag sets, for tracing and the warmer.
+  key), except the `tesseract` and `geoservice` base URLs. Cached member attributes (`attrs:…`) and
+  lookup tables (`lookup:…`) leave the host out of their keys too; attributes are stored without the
+  two URLs, and the deployment's own are added back when they are read. The member id is stored in the value and in the tag sets, for tracing and the warmer.
 - **Tags**: the entry is added to `cube:<name>` for the cube its URL reads (`cube=` or a path-style
   `/cubes/<name>`), `tag:geoservice` for geoservice URLs. In-process endpoints are tagged with every
   cube they read plus `tag:dimensions`; the tags come from what the computation actually fetched

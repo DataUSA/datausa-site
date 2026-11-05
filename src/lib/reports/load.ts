@@ -11,7 +11,7 @@ import {stateOf} from "@/lib/api/geoservice";
 import {getMember, type MemberRow} from "@/lib/dimensions/db";
 import {SCHOOL_DISTRICT} from "@/lib/geo/levels";
 import {withUpstreamScope} from "@/lib/api/upstream-scope";
-import {hash, stableJson} from "@/lib/cache/generator-cache";
+import {hash, stableJson, withoutHosts} from "@/lib/cache/generator-cache";
 import {generatorManifest} from "@/lib/cache/manifest";
 import {redisConfigured} from "@/lib/cache/redis";
 import {cachedValue} from "@/lib/cache/values";
@@ -59,8 +59,11 @@ async function memberAttributes(profileSlug: string, member: MemberAttributes): 
   const templateKey = member.hierarchy === SCHOOL_DISTRICT && profileSlug === "geo" ? "geo/school-district" : profileSlug;
   const version = manifest?.attributes[templateKey];
   if (version) {
-    const key = `attrs:${templateKey}:${version}:${hash(`${TESSERACT_URL}|${GEOSERVICE_URL}`)}:${hash(stableJson(member))}`;
-    return cachedValue(key, `${profileSlug}|${member.id}`, () => computeAttributes(profileSlug, member));
+    // no host in the key or the stored value: the servers to ask are added back from this deployment's
+    // configuration, so attributes cached against one API host serve another (see `hostFree`)
+    const key = `attrs:${templateKey}:${version}:${hash(stableJson(member))}`;
+    const stored = await cachedValue(key, `${profileSlug}|${member.id}`, async () => withoutHosts(await computeAttributes(profileSlug, member)));
+    return {...stored, tesseract: TESSERACT_URL, geoservice: GEOSERVICE_URL};
   }
   try {
     return await cachedAttributes(profileSlug, member);

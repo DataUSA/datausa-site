@@ -16,7 +16,6 @@
  */
 import {randomUUID} from "node:crypto";
 import {upstreamStats} from "@/lib/api/limit";
-import {TESSERACT_URL} from "@/lib/api/tesseract";
 import {generatorManifest} from "@/lib/cache/manifest";
 import {WARM_QUEUE_KEY} from "@/lib/cache/purge";
 import {redisClient} from "@/lib/cache/redis";
@@ -81,8 +80,8 @@ async function queueAfterDeploy() {
   const client = redisClient();
   const manifest = generatorManifest();
   if (!client || !manifest) return;
-  const id = hash(`${TESSERACT_URL}|${JSON.stringify(manifest.generators)}|${manifest.legacy}`);
-  const previous = await client.getset(`${DEPLOY_KEY}:${hash(TESSERACT_URL)}`, id);
+  const id = hash(`${JSON.stringify(manifest.generators)}|${manifest.legacy}`);
+  const previous = await client.getset(DEPLOY_KEY, id);
   if (previous === id) return;
   const states = listMembers("Geography", "State", 100).map(m => `geo|${m.id}`);
   const counties = listMembers("Geography", "County", DEPLOY_COUNTIES).map(m => `geo|${m.id}`);

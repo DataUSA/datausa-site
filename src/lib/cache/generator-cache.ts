@@ -161,10 +161,35 @@ export interface PlannedGroup {
  * The keys a render of these attributes reads and writes, per URL group. `resolveGenerators` uses
  * it, and so does the batched warmer to tell which reports are already a full hit.
  */
+/** The attribute fields that only say which servers to ask (`tesseract`, `geoservice`), not what the data is. */
+export const HOST_FIELDS = ["tesseract", "geoservice"] as const;
+
+/** Attributes without the server base URLs, as they are hashed into keys and stored in the cache. */
+export function withoutHosts(attrs: Variables): Variables {
+  const out: Variables = {...attrs};
+  for (const field of HOST_FIELDS) delete out[field];
+  return out;
+}
+
+/**
+ * A URL with the Tesseract and geoservice base URLs replaced by placeholders. Keys never contain a
+ * host: a cache warmed against one server (api-penn.datausa.io) serves a site reading another
+ * (api.datausa.io) as long as both carry the same data, and moving the API to a new hostname keeps
+ * the cache. Which data an entry holds is tracked by its cube tags and purges, not by the host.
+ */
+export function hostFree(url: string, attrs: Variables): string {
+  for (const field of HOST_FIELDS) {
+    const base = attrs[field];
+    if (typeof base === "string" && base && url.startsWith(base)) return `{${field}}/${url.slice(base.length).replace(/^\//, "")}`;
+  }
+  return url;
+}
+
 export function planGroupKeys(attrs: Variables, groups: Group[]): PlannedGroup[] {
-  const attrsHash = hash(stableJson(attrs));
+  const attrsHash = hash(stableJson(withoutHosts(attrs)));
   return groups.map(group => {
-    const urlHash = hash(/^\/?api\//.test(group.url) ? `legacy:${attrs.tesseract}|${attrs.geoservice}|${group.url}` : group.url);
+    // in-process `/api/...` answers read Tesseract and the geoservice at whatever host is configured
+    const urlHash = hash(/^\/?api\//.test(group.url) ? `legacy:${group.url}` : hostFree(group.url, attrs));
     const keys: (string | null)[] = [];
     const reasons: (string | null)[] = [];
     for (const g of group.generators) {
