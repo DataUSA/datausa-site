@@ -519,6 +519,22 @@ async function main() {
   const logFd = openSync(join(OUT, "workers.log"), "a");
   const workerEntry = resolve(__dirname, "warm-batch-worker.ts");
   const workers: WorkerState[] = [];
+  // Stopped from outside (Ctrl-C, or Stop in `npm run warm:ui`): stop the workers and free the lock,
+  // so the next run can start at once. What was rendered stays in Redis, and a rerun skips it.
+  let stopping = false;
+  const stop = (signal: string) => {
+    if (stopping) return;
+    stopping = true;
+    event({stopped: signal, reports: totals});
+    for (const w of workers) w.child.kill("SIGTERM");
+    clearInterval(lockTimer);
+    void redis.get("warm:batch:lock")
+      .then(holder => holder === lockId ? redis.del("warm:batch:lock") : 0)
+      .catch(() => 0)
+      .finally(() => events.end(() => process.exit(130)));
+  };
+  process.once("SIGTERM", () => stop("SIGTERM"));
+  process.once("SIGINT", () => stop("SIGINT"));
   let next = 0;
   let done = 0;
   const finished = new Promise<void>(resolveAll => {

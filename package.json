@@ -19,6 +19,7 @@
     "build:manifest": "tsx scripts/cache/build-manifest.ts",
     "cache:purge": "tsx scripts/cache/purge.ts",
     "warm:batch": "tsx scripts/cache/warm-batch.ts",
+    "warm:ui": "tsx scripts/cache/warm-ui.ts",
     "predev": "npm run build:manifest",
     "prebuild": "npm run build:dimensions && npm run build:manifest"
   },

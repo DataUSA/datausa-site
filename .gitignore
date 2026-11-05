@@ -33,3 +33,5 @@ scripts/regression/out/
 public/_harness/
 # built from source and data/*.jsonl by npm run build:manifest (generator cache versions)
 data/generator-manifest.json
+# runs started from npm run warm:ui (plans, logs, summaries)
+warm-runs/

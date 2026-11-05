@@ -220,6 +220,33 @@ REDIS_URL=redis://<redis host>:6379 \
 - **One at a time.** A run takes `warm:batch:lock` in Redis and refuses to start if another holds it.
 - **Progress.** `progress.jsonl` (one line every 15 s: reports, requests by kind, cap and rate,
   p50/p95 per cube, Redis memory, workers' memory and CPU); the console prints a one-line summary.
+- **Stopping.** Ctrl-C (or SIGTERM) stops the workers and frees the lock at once. Reports already
+  rendered stay in Redis, so starting the same plan again carries on from there.
+
+#### Warm UI
+`npm run warm:ui` serves a small page to start, watch and stop runs without writing a plan by hand:
+
+```bash
+NEXT_PUBLIC_TESSERACT_URL=https://api-penn.datausa.io/ REDIS_URL=redis://<redis host>:6379 \
+  npm run warm:ui -- --port 5560 --runs /var/tmp/warm-runs
+```
+
+- **Start.** Pick levels (all members, the N largest by zvalue, or a random percentage with the 10
+  largest always in) and the run settings (workers, cap, the lane for RCA and `calcs` queries,
+  geoservice rate, re-render cached reports). The page writes the plan and starts `warm:batch`
+  with it.
+- **Watch.** The page refreshes every 5 s with the run's progress, rate, cap and errors, reports done
+  per level, Redis size, the warmer's events and its `status.txt`.
+- **Stop.** Ends the run cleanly (workers stopped, lock freed).
+- **History.** Past runs stay in the runs folder (`warm-runs/` by default, git-ignored), each with its
+  plan, logs and `summary.json`; the page lists them and opens any of them.
+- **Access.** It listens on 127.0.0.1 only and has no login. On a server, open an SSH tunnel
+  (`ssh -L 5560:127.0.0.1:5560 <host>`, then http://localhost:5560) and stop it when done. Requests
+  that start or stop runs need an `X-Warm-UI` header, so another site open in the same browser cannot
+  trigger them.
+- **Defaults.** Cap 12–24 and 7 RCA/`calcs` queries at a time: on 2026-11-04, `pums_5` started
+  failing on api-penn above about 24 queries in flight. Raise them once the ClickHouse projections
+  for `pums_5` are in place (`docs/clickhouse-pums-projections.md`).
 
 ## Data releases
 
