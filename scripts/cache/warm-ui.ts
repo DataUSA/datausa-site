@@ -1,10 +1,20 @@
 // A small web page to start, watch and stop the batched warmer (`npm run warm:batch`) and browse past
-// runs. It builds the plan from the levels you pick, starts the warmer as a child process, and reads the
-// files the warmer writes (progress.jsonl, events.jsonl, status.txt, summary.json). See
+// runs. It builds the plan for the strategy you pick, starts the warmer as a child process, and reads
+// the files the warmer writes (progress.jsonl, events.jsonl, status.txt, summary.json). See
 // docs/deployment.md, "Warm UI".
 //
 //   NEXT_PUBLIC_TESSERACT_URL=https://api-penn.datausa.io/ REDIS_URL=redis://127.0.0.1:6379 \
 //     npm run warm:ui -- [--port 5560] [--runs warm-runs]
+//
+// Strategies. Every run computes only outputs missing from Redis (the warmer checks each report's keys),
+// so they differ in which reports they look at and what they clear first:
+// - whole site: every report of every published level;
+// - profiles: the levels you pick, all members, the largest N or a random share;
+// - generators: the profiles that have them; only their outputs count as missing. A changed
+//   generator has new keys, so its outputs are missing by themselves; "recompute" deletes their
+//   current outputs first, for a refresh without a code change;
+// - cubes: purges the cubes (as a data release does) and recomputes the outputs that read them, for the
+//   reports that had them cached.
 //
 // It listens on 127.0.0.1 only and has no login: on a server, reach it through an SSH tunnel
 // (`ssh -L 5560:127.0.0.1:5560 <host>`, then http://localhost:5560). Requests that change anything
@@ -17,6 +27,9 @@ import {join, resolve} from "node:path";
 import {DatabaseSync} from "node:sqlite";
 import Redis from "ioredis";
 import {isPendingLevel} from "../../src/lib/geo/levels";
+import {purgeTags} from "../../src/lib/cache/purge";
+import {TAG_REGISTRY_KEY} from "../../src/lib/cache/store";
+import {parsePurgeInput} from "../../src/lib/cache/tags";
 
 const argv = process.argv.slice(2);
 const opt = (name: string, fallback: string) => {
@@ -41,16 +54,18 @@ const redis = new Redis(REDIS_URL, {maxRetriesPerRequest: 2, lazyConnect: false}
 const redisShown = REDIS_URL.replace(/\/\/([^:@/]*):[^@/]*@/, "//$1:***@");
 
 // ---------------------------------------------------------------------------------------------
-// Levels and plans
+// Levels, generators, cubes
 // ---------------------------------------------------------------------------------------------
 
 interface Level {key: string; profile: string; hierarchy: string; members: number}
 
 const GEO_ORDER = ["Nation", "State", "County", "MSA", "PUMA", "Congressional District", "Place"];
 
+const openDb = () => new DatabaseSync(DB_PATH, {readOnly: true});
+
 /** Every profile level with visible members, in the order the warmer processes them. */
 function levels(): Level[] {
-  const db = new DatabaseSync(DB_PATH, {readOnly: true});
+  const db = openDb();
   try {
     const rows = db.prepare(`
       SELECT p.slug AS profile, m.hierarchy AS hierarchy, COUNT(*) AS n
@@ -70,16 +85,40 @@ function levels(): Level[] {
   }
 }
 
+interface GeneratorInfo {id: number; profile: string; name: string}
+
+/** Report generators from their files: `src/content/reports/<profile>/generators/<id>-<name>.ts`. */
+function generatorIndex(): GeneratorInfo[] {
+  const dir = join(ROOT, "src/content/reports");
+  const out: GeneratorInfo[] = [];
+  for (const profile of readdirSync(dir)) {
+    const gdir = join(dir, profile, "generators");
+    if (!existsSync(gdir)) continue;
+    for (const file of readdirSync(gdir)) {
+      const m = file.match(/^(\d+)-(.+)\.ts$/);
+      if (m) out.push({id: Number(m[1]), profile, name: m[2].replace(/-/g, " ")});
+    }
+  }
+  return out.sort((a, b) => a.id - b.id);
+}
+const GENERATORS = generatorIndex();
+
+/** Cubes the cache has seen (they have a tag set), from the tag registry. */
+async function knownCubes(): Promise<string[]> {
+  const tags = await redis.smembers(TAG_REGISTRY_KEY).catch(() => [] as string[]);
+  return tags.filter(t => t.startsWith("cube:")).map(t => t.slice(5)).sort();
+}
+
 interface Pick {key: string; mode: "all" | "top" | "sample"; n: number}
+type PlanEntry = {profile: string; id: string; hierarchy: string};
 
 /**
  * The members of each picked level: all of them, the `n` largest by zvalue (most visited first), or
  * `n` percent at random (with the 10 largest always in).
  */
-function buildPlan(picks: Pick[]): {plan: {profile: string; id: string; hierarchy: string}[]; counts: Record<string, number>} {
-  const db = new DatabaseSync(DB_PATH, {readOnly: true});
-  const plan: {profile: string; id: string; hierarchy: string}[] = [];
-  const counts: Record<string, number> = {};
+function buildPlan(picks: Pick[]): PlanEntry[] {
+  const db = openDb();
+  const plan: PlanEntry[] = [];
   try {
     for (const p of picks) {
       const [profile, hierarchy] = p.key.split("|");
@@ -100,38 +139,113 @@ function buildPlan(picks: Pick[]): {plan: {profile: string; id: string; hierarch
         chosen = [...head, ...rest.slice(0, want - head.length)];
       }
       for (const id of chosen) plan.push({profile, id, hierarchy});
-      counts[p.key] = chosen.length;
     }
   }
   finally {
     db.close();
   }
-  return {plan, counts};
+  return plan;
+}
+
+/** The reports whose cached entries read these cube tags (from the tag sets: `<key>|<profile>|<member>`). */
+async function reportsReading(tags: string[]): Promise<PlanEntry[]> {
+  const owners = new Map<string, Set<string>>();
+  for (const tag of tags) {
+    let cursor = "0";
+    do {
+      const [next, members] = await redis.sscan(tag, cursor, "COUNT", 2000);
+      cursor = next;
+      for (const m of members) {
+        const [, profile, member] = m.split("|");
+        if (!profile || !member) continue;
+        if (!owners.has(profile)) owners.set(profile, new Set());
+        owners.get(profile)!.add(member);
+      }
+    } while (cursor !== "0");
+  }
+  const db = openDb();
+  const plan: PlanEntry[] = [];
+  try {
+    for (const [profile, members] of owners) {
+      const dim = (db.prepare("SELECT dimension FROM profiles WHERE slug = ? AND ordering = 0").get(profile) as {dimension: string} | undefined)?.dimension;
+      if (!dim) continue;
+      const list = Array.from(members);
+      for (let i = 0; i < list.length; i += 500) {
+        const chunk = list.slice(i, i + 500);
+        const rows = db.prepare(`SELECT id, hierarchy FROM members WHERE dimension = ? AND hidden = 0 AND id IN (${chunk.map(() => "?").join(",")})`)
+          .all(dim, ...chunk) as {id: string; hierarchy: string}[];
+        const seen = new Set<string>();
+        for (const r of rows) {
+          if (seen.has(String(r.id)) || isPendingLevel(r.hierarchy)) continue;
+          seen.add(String(r.id));
+          plan.push({profile, id: String(r.id), hierarchy: r.hierarchy});
+        }
+      }
+    }
+  }
+  finally {
+    db.close();
+  }
+  return plan;
+}
+
+/** Deletes every cached output of these generators (all versions); returns how many. */
+async function deleteGeneratorOutputs(ids: number[]): Promise<number> {
+  let deleted = 0;
+  for (const id of ids) {
+    let cursor = "0";
+    do {
+      const [next, keys] = await redis.scan(cursor, "MATCH", `gen:${id}:*`, "COUNT", 5000);
+      cursor = next;
+      if (keys.length) deleted += await redis.unlink(...keys);
+    } while (cursor !== "0");
+  }
+  return deleted;
 }
 
 // ---------------------------------------------------------------------------------------------
 // Runs
 // ---------------------------------------------------------------------------------------------
 
+type Mode = "site" | "levels" | "generators" | "cubes";
+
 interface Settings {workers: number; group: number; cap: number; maxCap: number; capStep: number; latencyFloor: number; slowP95: number; heavy: number; geoRate: number; force: boolean}
 
-const DEFAULTS: Settings = {workers: 4, group: 300, cap: 12, maxCap: 24, capStep: 4, latencyFloor: 12, slowP95: 15000, heavy: 7, geoRate: 50, force: false};
+const DEFAULTS: Settings = {workers: 2, group: 300, cap: 12, maxCap: 24, capStep: 4, latencyFloor: 12, slowP95: 15000, heavy: 5, geoRate: 50, force: false};
 
 interface Meta {
   id: string;
+  mode: Mode;
   startedAt: string;
   endedAt?: string;
   exitCode?: number | null;
   stoppedByUser?: boolean;
   reports: number;
   levels: Record<string, number>;
+  generators?: number[];
+  cubes?: string[];
+  /** What was cleared before the run (generator outputs deleted, cubes purged). */
+  prepared?: string;
   settings: Settings;
   tesseract: string;
   redis: string;
   pid?: number;
 }
 
+interface StartBody {
+  mode?: Mode;
+  picks?: Pick[];
+  generators?: number[];
+  cubes?: string[];
+  /** generators: delete their current outputs first. */
+  recompute?: boolean;
+  /** cubes: purge them first. */
+  purge?: boolean;
+  settings?: Partial<Settings>;
+}
+
 let current: {meta: Meta; child: ChildProcess} | null = null;
+let preparing: string | null = null;
 
 const runDir = (id: string) => join(RUNS, id);
 const metaPath = (id: string) => join(runDir(id), "meta.json");
@@ -139,30 +253,74 @@ const saveMeta = (meta: Meta) => writeFileSync(metaPath(meta.id), JSON.stringify
 
 function readMeta(id: string): Meta | null {
   try {
-    return JSON.parse(readFileSync(metaPath(id), "utf8")) as Meta;
+    const meta = JSON.parse(readFileSync(metaPath(id), "utf8")) as Meta;
+    meta.mode ??= "levels";
+    return meta;
   }
   catch {
     return null;
   }
 }
 
-async function startRun(picks: Pick[], settings: Partial<Settings>): Promise<{id?: string; error?: string}> {
-  if (current) return {error: `run ${current.meta.id} is still going`};
+async function startRun(body: StartBody): Promise<{id?: string; error?: string}> {
+  if (current || preparing) return {error: current ? `run ${current.meta.id} is still going` : "another run is being prepared"};
   const holder = await redis.get("warm:batch:lock").catch(() => null);
   if (holder) return {error: `another warm run holds warm:batch:lock (${holder}). If it was killed, the lock expires within a minute.`};
-  const s: Settings = {...DEFAULTS, ...settings};
-  const {plan, counts} = buildPlan(picks);
+  const mode: Mode = body.mode ?? "levels";
+  const s: Settings = {...DEFAULTS, ...body.settings};
+  const extra: string[] = [];
+  let plan: PlanEntry[] = [];
+  let prepared: string | undefined;
+  let generators: number[] | undefined;
+  let cubes: string[] | undefined;
+  preparing = mode;
+  try {
+    if (mode === "site") plan = buildPlan(levels().map(l => ({key: l.key, mode: "all", n: 0})));
+    else if (mode === "levels") plan = buildPlan(body.picks ?? []);
+    else if (mode === "generators") {
+      const known = new Set(GENERATORS.map(g => g.id));
+      generators = Array.from(new Set((body.generators ?? []).filter(id => known.has(id))));
+      if (!generators.length) return {error: "no known generator ids"};
+      // the levels of the profiles that have these generators, or the ones picked
+      const profiles = new Set(GENERATORS.filter(g => generators!.includes(g.id)).map(g => g.profile));
+      const picks = body.picks?.length ? body.picks : levels().filter(l => profiles.has(l.profile)).map(l => ({key: l.key, mode: "all" as const, n: 0}));
+      plan = buildPlan(picks);
+      extra.push("--generators", generators.join(","));
+      if (body.recompute) prepared = `deleted ${(await deleteGeneratorOutputs(generators)).toLocaleString("en-US")} cached outputs of generators ${generators.join(", ")}`;
+    }
+    else if (mode === "cubes") {
+      const {valid, invalid} = parsePurgeInput(body.cubes ?? [], []);
+      if (invalid.length) return {error: `invalid cube names: ${invalid.join(", ")}`};
+      if (!valid.length) return {error: "no cubes given"};
+      cubes = valid.map(t => t.replace(/^cube:/, ""));
+      // the reports that had outputs reading these cubes, read before the purge empties the sets
+      plan = await reportsReading(valid);
+      if (!plan.length) return {error: "no cached report reads these cubes: nothing to recompute"};
+      if (body.purge !== false) {
+        const results = await purgeTags(redis, valid);
+        prepared = "purged " + results.map(r => `${r.tag.replace(/^cube:/, "")} (${r.deleted.toLocaleString("en-US")} entries)`).join(", ");
+      }
+      // outputs of these cubes that failed before the data changed are tried again (not the others)
+      extra.push("--retry-cubes", cubes.join(","));
+    }
+  }
+  finally {
+    preparing = null;
+  }
   if (!plan.length) return {error: "no reports picked"};
+  const counts: Record<string, number> = {};
+  for (const p of plan) counts[`${p.profile}|${p.hierarchy}`] = (counts[`${p.profile}|${p.hierarchy}`] ?? 0) + 1;
   const id = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
   mkdirSync(runDir(id), {recursive: true});
   writeFileSync(join(runDir(id), "plan.json"), JSON.stringify(plan));
-  const meta: Meta = {id, startedAt: new Date().toISOString(), reports: plan.length, levels: counts, settings: s, tesseract: TESSERACT, redis: redisShown};
+  const meta: Meta = {id, mode, startedAt: new Date().toISOString(), reports: plan.length, levels: counts, generators, cubes, prepared, settings: s, tesseract: TESSERACT, redis: redisShown};
   const args = [
     join(ROOT, "scripts/cache/warm-batch.ts"), "--plan", join(runDir(id), "plan.json"), "--out", runDir(id),
     "--workers", String(s.workers), "--group", String(s.group), "--cap", String(s.cap), "--max-cap", String(s.maxCap),
     "--cap-step", String(s.capStep), "--latency-floor", String(s.latencyFloor), "--slow-p95", String(s.slowP95),
     "--heavy", String(s.heavy), "--geo-rate", String(s.geoRate),
-    ...(s.force ? ["--force"] : [])
+    ...(s.force ? ["--force"] : []),
+    ...extra
   ];
   const log = openSync(join(runDir(id), "output.log"), "a");
   const child = spawn(TSX, args, {cwd: ROOT, env: process.env, stdio: ["ignore", log, log]});
@@ -256,7 +414,8 @@ function listRuns() {
     const s = runStatus(id)!;
     const reports = (s.progress?.reports ?? {}) as Record<string, number>;
     return {
-      id, state: s.state, startedAt: s.meta.startedAt, endedAt: s.meta.endedAt ?? null, reports: s.meta.reports, levels: s.meta.levels,
+      id, mode: s.meta.mode, state: s.state, startedAt: s.meta.startedAt, endedAt: s.meta.endedAt ?? null, reports: s.meta.reports, levels: s.meta.levels,
+      generators: s.meta.generators ?? null, cubes: s.meta.cubes ?? null,
       done: (reports.rendered ?? 0) + (reports.fullHits ?? 0) + (reports.errors ?? 0),
       elapsedS: (s.progress?.elapsedS as number | undefined) ?? null, wallS: (s.summary?.wallS as number | undefined) ?? null
     };
@@ -290,8 +449,9 @@ const server = http.createServer(async (req, res) => {
       const holder = await redis.get("warm:batch:lock").catch(() => null);
       const info = await redis.info("memory").catch(() => "");
       return send(res, 200, {
-        tesseract: TESSERACT, redis: redisShown, runsDir: RUNS, lock: holder, current: current?.meta.id ?? null, defaults: DEFAULTS,
-        redisMemory: Number(info.match(/used_memory:(\d+)/)?.[1] ?? 0), redisKeys: await redis.dbsize().catch(() => 0), levels: levels()
+        tesseract: TESSERACT, redis: redisShown, runsDir: RUNS, lock: holder, current: current?.meta.id ?? null, preparing, defaults: DEFAULTS,
+        redisMemory: Number(info.match(/used_memory:(\d+)/)?.[1] ?? 0), redisMax: Number(info.match(/maxmemory:(\d+)/)?.[1] ?? 0),
+        redisKeys: await redis.dbsize().catch(() => 0), levels: levels(), generators: GENERATORS, cubes: await knownCubes()
       });
     }
     if (req.method === "GET" && url.pathname === "/api/runs") return send(res, 200, listRuns());
@@ -303,8 +463,7 @@ const server = http.createServer(async (req, res) => {
     if (req.method === "POST") {
       if (req.headers["x-warm-ui"] !== "1") return send(res, 403, {error: "missing X-Warm-UI header"});
       if (url.pathname === "/api/runs") {
-        const body = JSON.parse(await readBody(req) || "{}") as {picks?: Pick[]; settings?: Partial<Settings>};
-        const r = await startRun(body.picks ?? [], body.settings ?? {});
+        const r = await startRun(JSON.parse(await readBody(req) || "{}") as StartBody);
         return send(res, r.error ? 409 : 200, r);
       }
       if (url.pathname === "/api/stop") {
@@ -356,11 +515,15 @@ th{font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;le
 td.n,th.n{text-align:right}tr:last-child td{border-bottom:0}
 .scroll{overflow-x:auto}
 input[type=number]{width:72px;padding:3px 6px;font:inherit;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:4px}
+input[type=text]{width:min(100%,520px);padding:5px 8px;font:inherit;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:4px}
 select{padding:3px 6px;font:inherit;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:4px}
 button{font:inherit;padding:6px 14px;border-radius:5px;border:1px solid var(--line);background:var(--panel);color:var(--fg);cursor:pointer}
 button.primary{background:var(--accent);border-color:var(--accent);color:var(--panel);font-weight:600}
 button.danger{border-color:var(--bad);color:var(--bad)}
 button:disabled{opacity:.5;cursor:default}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}.tabs label{border:1px solid var(--line);border-radius:5px;padding:6px 12px;cursor:pointer}
+.tabs input{position:absolute;opacity:0}.tabs label:has(input:checked){background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:600}
+.tabs label:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:1px}
 .pill{display:inline-block;padding:1px 10px;border-radius:999px;font-size:12px;font-weight:600;background:var(--accent-soft);color:var(--accent)}
 .pill.warn{background:var(--warn-soft);color:var(--warn)}.pill.bad{background:var(--bad-soft);color:var(--bad)}.pill.idle{background:var(--bg);color:var(--muted)}
 .bar{height:10px;background:var(--bg);border-radius:5px;overflow:hidden;border:1px solid var(--line)}.bar>div{height:100%;background:var(--accent)}
@@ -368,14 +531,46 @@ button:disabled{opacity:.5;cursor:default}button:focus-visible,input:focus-visib
 .kpi{border:1px solid var(--line);border-radius:5px;padding:8px 10px}.kpi b{display:block;font-size:1.15rem;font-variant-numeric:tabular-nums}.kpi span{font-size:12px;color:var(--muted)}
 pre{margin:0;font:12px/1.45 var(--mono);white-space:pre;overflow-x:auto;background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:10px;max-height:360px}
 .err{color:var(--bad)}details summary{cursor:pointer;color:var(--muted)}
+.help{color:var(--muted);max-width:75ch;margin:0}
 a{color:var(--accent);cursor:pointer}
 </style></head><body><main>
 <header class="row" style="justify-content:space-between"><h1>Cache warm</h1><span class="muted" id="conn"></span></header>
 
-<section class="card" id="startCard">
-  <div class="row" style="justify-content:space-between"><h2>Start a run</h2>
-    <div class="row"><span class="muted">Select:</span><a data-sel="none">none</a><a data-sel="geo">geo</a><a data-sel="states">states and counties</a><a data-sel="all">all</a></div></div>
-  <div class="scroll"><table><thead><tr><th></th><th>Profile</th><th>Level</th><th class="n">Members</th><th>Which members</th><th class="n">Reports</th></tr></thead><tbody id="levels"></tbody></table></div>
+<section class="card">
+  <h2>Start a run</h2>
+  <div class="tabs" role="radiogroup" aria-label="Strategy">
+    <label><input type="radio" name="mode" value="site"> Whole site</label>
+    <label><input type="radio" name="mode" value="levels" checked> Profiles and levels</label>
+    <label><input type="radio" name="mode" value="generators"> Generators</label>
+    <label><input type="radio" name="mode" value="cubes"> Cubes</label>
+  </div>
+
+  <div data-panel="site" hidden>
+    <p class="help">Every report of every published level (<span id="siteTotal"></span>). Reports already in the cache are skipped, so this also completes a partial warm.</p>
+  </div>
+
+  <div data-panel="levels">
+    <div class="row" style="justify-content:space-between"><p class="help">Pick levels and which of their members. Reports already in the cache are skipped.</p>
+      <div class="row"><span class="muted">Select:</span><a data-sel="none">none</a><a data-sel="geo">geo</a><a data-sel="states">states and counties</a><a data-sel="all">all</a></div></div>
+    <div class="scroll"><table><thead><tr><th></th><th>Profile</th><th>Level</th><th class="n">Members</th><th>Which members</th><th class="n">Reports</th></tr></thead><tbody id="levels"></tbody></table></div>
+  </div>
+
+  <div data-panel="generators" hidden>
+    <p class="help">After a generator's code changes, its outputs get a new version and count as missing, so a run computes only those, for every profile that has the generator. Tick "recompute" to also refresh outputs whose code didn't change.</p>
+    <label class="row" style="gap:8px">Generator ids <input type="text" id="genIds" placeholder="for example 8, 652, 664" autocomplete="off"></label>
+    <div id="genInfo" class="muted"></div>
+    <label class="row" style="gap:6px"><input type="checkbox" id="genLimit"> Only the levels ticked under "Profiles and levels" (otherwise every level of these profiles)</label>
+    <label class="row" style="gap:6px"><input type="checkbox" id="genRecompute"> Recompute even if cached (deletes their current outputs first)</label>
+  </div>
+
+  <div data-panel="cubes" hidden>
+    <p class="help">For a data release. Purges the cubes (as <code>npm run cache:purge</code> does), then recomputes the outputs that read them, for the reports that had them cached. Generators reading these cubes that failed before are tried again.</p>
+    <label class="row" style="gap:8px">Cubes <input type="text" id="cubeNames" list="cubeList" placeholder="for example acs_yg_total_population_5, pums_5" autocomplete="off"></label>
+    <datalist id="cubeList"></datalist>
+    <div id="cubeInfo" class="muted"></div>
+    <label class="row" style="gap:6px"><input type="checkbox" id="cubePurge" checked> Purge them first (untick if they were already purged)</label>
+  </div>
+
   <div class="row" id="settings"></div>
   <div class="row"><button class="primary" id="start">Start</button><span id="planInfo" class="muted"></span><span id="startMsg" class="err"></span></div>
 </section>
@@ -383,6 +578,7 @@ a{color:var(--accent);cursor:pointer}
 <section class="card" id="runCard" hidden>
   <div class="row" style="justify-content:space-between"><div class="row"><h2 id="runTitle"></h2><span class="pill" id="runState"></span></div>
     <div class="row"><button class="danger" id="stop" hidden>Stop</button></div></div>
+  <div class="muted" id="runWhat"></div>
   <div class="bar"><div id="runBar" style="width:0"></div></div>
   <div class="muted" id="runLine"></div>
   <div class="kpis" id="kpis"></div>
@@ -394,7 +590,7 @@ a{color:var(--accent);cursor:pointer}
 
 <section class="card">
   <h2>Runs</h2>
-  <div class="scroll"><table><thead><tr><th>Started</th><th>State</th><th>Levels</th><th class="n">Reports</th><th class="n">Done</th><th class="n">Time</th></tr></thead><tbody id="runs"></tbody></table></div>
+  <div class="scroll"><table><thead><tr><th>Started</th><th>Strategy</th><th>State</th><th>What</th><th class="n">Reports</th><th class="n">Done</th><th class="n">Time</th></tr></thead><tbody id="runs"></tbody></table></div>
 </section>
 </main>
 <script>
@@ -404,7 +600,8 @@ const fmtS = s => s == null ? "" : s >= 3600 ? Math.floor(s/3600) + " h " + Stri
 const fmtB = b => b >= 1e9 ? (b/1e9).toFixed(2) + " GB" : (b/1e6).toFixed(0) + " MB";
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const label = k => k.replace("|", " / ");
-let info = null, viewing = null, levelsState = {};
+const MODE_NAMES = {site: "Whole site", levels: "Profiles", generators: "Generators", cubes: "Cubes"};
+let info = null, viewing = null, levelsState = {}, mode = "levels";
 const SETTINGS = [["workers","Workers"],["cap","Cap start"],["maxCap","Cap max"],["heavy","RCA and calcs at once"],["geoRate","Geoservice req/s"]];
 
 async function api(path, body) {
@@ -412,19 +609,53 @@ async function api(path, body) {
   return r.json();
 }
 
+const count = (l, s) => s.mode === "all" ? l.members : s.mode === "top" ? Math.min(l.members, Math.max(1, Math.floor(s.n))) : Math.max(1, Math.round(l.members * Math.min(100, s.n) / 100));
+const parseIds = () => Array.from(new Set($("genIds").value.split(/[^0-9]+/).filter(Boolean).map(Number)));
+const parseCubes = () => Array.from(new Set($("cubeNames").value.split(",").map(s => s.trim()).filter(Boolean)));
+
 function renderLevels() {
   $("levels").innerHTML = info.levels.map(l => {
     const s = levelsState[l.key] ??= {on: false, mode: "all", n: l.members > 300 ? 10 : 100};
-    return '<tr><td><input type="checkbox" data-k="' + esc(l.key) + '" data-f="on"' + (s.on ? " checked" : "") + '></td><td>' + esc(l.profile) + '</td><td>' + esc(l.hierarchy) + '</td><td class="n">' + fmtN(l.members) + '</td>' +
+    return '<tr><td><input type="checkbox" aria-label="' + esc(label(l.key)) + '" data-k="' + esc(l.key) + '" data-f="on"' + (s.on ? " checked" : "") + '></td><td>' + esc(l.profile) + '</td><td>' + esc(l.hierarchy) + '</td><td class="n">' + fmtN(l.members) + '</td>' +
       '<td><select data-k="' + esc(l.key) + '" data-f="mode"><option value="all"' + (s.mode==="all"?" selected":"") + '>all</option><option value="top"' + (s.mode==="top"?" selected":"") + '>largest N</option><option value="sample"' + (s.mode==="sample"?" selected":"") + '>random %</option></select> ' +
       (s.mode === "all" ? "" : '<input type="number" min="1" data-k="' + esc(l.key) + '" data-f="n" value="' + s.n + '"> ' + (s.mode === "top" ? "members" : "%")) + '</td>' +
       '<td class="n">' + (s.on ? fmtN(count(l, s)) : "") + '</td></tr>';
   }).join("");
-  const total = info.levels.reduce((t, l) => t + (levelsState[l.key].on ? count(l, levelsState[l.key]) : 0), 0);
-  $("planInfo").textContent = total ? fmtN(total) + " reports" : "Pick at least one level";
-  $("start").disabled = !total || Boolean(info.current) || Boolean(info.lock);
+  updatePlanInfo();
 }
-const count = (l, s) => s.mode === "all" ? l.members : s.mode === "top" ? Math.min(l.members, Math.max(1, Math.floor(s.n))) : Math.max(1, Math.round(l.members * Math.min(100, s.n) / 100));
+
+/** What Start would do, and whether it can. */
+function updatePlanInfo() {
+  let text = "", ok = false;
+  if (mode === "site") {
+    const t = info.levels.reduce((n, l) => n + l.members, 0);
+    text = fmtN(t) + " reports"; ok = t > 0;
+  }
+  else if (mode === "levels") {
+    const t = info.levels.reduce((n, l) => n + (levelsState[l.key]?.on ? count(l, levelsState[l.key]) : 0), 0);
+    text = t ? fmtN(t) + " reports" : "Pick at least one level"; ok = t > 0;
+  }
+  else if (mode === "generators") {
+    const ids = parseIds();
+    const found = info.generators.filter(g => ids.includes(g.id));
+    const unknown = ids.filter(id => !found.some(g => g.id === id));
+    const profiles = Array.from(new Set(found.map(g => g.profile)));
+    const limited = $("genLimit").checked;
+    const reports = info.levels.filter(l => profiles.includes(l.profile) && (!limited || levelsState[l.key]?.on)).reduce((n, l) => n + (limited ? count(l, levelsState[l.key]) : l.members), 0);
+    $("genInfo").innerHTML = found.map(g => esc(g.id + " " + g.name + " (" + g.profile + ")")).join("<br>") + (unknown.length ? '<br><span class="err">Unknown: ' + esc(unknown.join(", ")) + '</span>' : "");
+    text = found.length ? "Checks " + fmtN(reports) + " " + profiles.join(" and ") + " reports; computes only these generators' missing outputs" : "Enter at least one generator id";
+    ok = found.length > 0;
+  }
+  else if (mode === "cubes") {
+    const names = parseCubes();
+    const unknown = names.filter(n => !info.cubes.includes(n));
+    $("cubeInfo").innerHTML = unknown.length ? '<span class="err">Not in the cache (no output ever read them): ' + esc(unknown.join(", ")) + '</span>' : "";
+    text = names.length ? "The reports are found from the cache when you start" : "Enter at least one cube";
+    ok = names.length > 0;
+  }
+  $("planInfo").textContent = info.preparing ? "Preparing the previous request…" : text;
+  $("start").disabled = !ok || Boolean(info.current) || Boolean(info.lock) || Boolean(info.preparing);
+}
 
 $("levels").addEventListener("change", e => {
   const k = e.target.dataset.k, f = e.target.dataset.f; if (!k) return;
@@ -437,6 +668,15 @@ document.querySelectorAll("[data-sel]").forEach(a => a.addEventListener("click",
   for (const l of info.levels) levelsState[l.key].on = sel === "all" || (sel === "geo" && l.profile === "geo") || (sel === "states" && l.profile === "geo" && ["Nation","State","County"].includes(l.hierarchy));
   renderLevels();
 }));
+document.querySelectorAll('input[name="mode"]').forEach(r => r.addEventListener("change", () => {
+  mode = r.value;
+  document.querySelectorAll("[data-panel]").forEach(p => { p.hidden = p.dataset.panel !== mode; });
+  $("start").textContent = {site: "Warm the whole site", levels: "Start", generators: "Recompute these generators", cubes: "Purge and recompute"}[mode];
+  updatePlanInfo();
+}));
+["genIds", "cubeNames"].forEach(id => $(id).addEventListener("input", updatePlanInfo));
+$("genLimit").addEventListener("change", updatePlanInfo);
+$("cubePurge").addEventListener("change", () => { $("start").textContent = $("cubePurge").checked ? "Purge and recompute" : "Recompute"; });
 
 function renderSettings() {
   $("settings").innerHTML = SETTINGS.map(([k, lbl]) => '<label class="row" style="gap:6px">' + lbl + ' <input type="number" min="1" id="set_' + k + '" value="' + info.defaults[k] + '"></label>').join("") +
@@ -445,24 +685,38 @@ function renderSettings() {
 
 $("start").addEventListener("click", async () => {
   $("startMsg").textContent = "";
-  const picks = info.levels.filter(l => levelsState[l.key].on).map(l => ({key: l.key, mode: levelsState[l.key].mode, n: levelsState[l.key].n}));
   const settings = Object.fromEntries(SETTINGS.map(([k]) => [k, Number($("set_" + k).value)]));
   settings.force = $("set_force").checked;
+  const body = {mode, settings};
+  if (mode === "levels") body.picks = info.levels.filter(l => levelsState[l.key].on).map(l => ({key: l.key, mode: levelsState[l.key].mode, n: levelsState[l.key].n}));
+  if (mode === "generators") {
+    body.generators = parseIds(); body.recompute = $("genRecompute").checked;
+    if ($("genLimit").checked) body.picks = info.levels.filter(l => levelsState[l.key].on).map(l => ({key: l.key, mode: levelsState[l.key].mode, n: levelsState[l.key].n}));
+  }
+  if (mode === "cubes") { body.cubes = parseCubes(); body.purge = $("cubePurge").checked; }
   $("start").disabled = true;
-  const r = await api("/api/runs", {picks, settings});
-  if (r.error) { $("startMsg").textContent = r.error; }
-  else { viewing = r.id; }
+  $("planInfo").textContent = mode === "cubes" || (mode === "generators" && body.recompute) ? "Clearing the cache entries first…" : "Starting…";
+  const r = await api("/api/runs", body);
+  if (r.error) $("startMsg").textContent = r.error;
+  else viewing = r.id;
   await refresh();
 });
 $("stop").addEventListener("click", async () => {
   $("stop").disabled = true;
   const r = await api("/api/stop", {});
-  if (r.error) alertLine(r.error);
+  if (r.error) $("runLine").textContent = r.error;
   await refresh();
 });
-const alertLine = t => { $("runLine").textContent = t; };
 
 function kpi(v, t) { return '<div class="kpi"><b>' + v + '</b><span>' + t + '</span></div>'; }
+
+function what(m) {
+  const parts = [MODE_NAMES[m.mode] || m.mode];
+  if (m.generators) parts.push("generators " + m.generators.join(", "));
+  if (m.cubes) parts.push("cubes " + m.cubes.join(", "));
+  if (m.prepared) parts.push(m.prepared);
+  return parts.join(" · ");
+}
 
 async function renderRun() {
   if (!viewing) { $("runCard").hidden = true; return; }
@@ -474,19 +728,20 @@ async function renderRun() {
   $("runTitle").textContent = "Run " + s.meta.id.replace("T", " ");
   const cls = {running: "", stopping: "warn", finished: "", stopped: "idle", failed: "bad", interrupted: "bad"}[s.state] ?? "idle";
   $("runState").className = "pill " + cls; $("runState").textContent = s.state;
+  $("runWhat").textContent = what(s.meta);
   $("stop").hidden = s.state !== "running"; $("stop").disabled = false;
   $("runBar").style.width = (100 * done / Math.max(1, s.meta.reports)).toFixed(1) + "%";
   const elapsed = p.elapsedS;
   const eta = done && s.state === "running" ? elapsed / done * (s.meta.reports - done) : null;
-  $("runLine").textContent = fmtN(done) + " of " + fmtN(s.meta.reports) + " reports in finished groups" + (elapsed != null ? " · " + fmtS(elapsed) : "") + (eta ? " · about " + fmtS(eta) + " left at this pace (levels differ)" : "") + (s.summary ? " · finished in " + fmtS(s.summary.wallS) : "");
+  $("runLine").textContent = fmtN(done) + " of " + fmtN(s.meta.reports) + " reports in finished groups" + (elapsed != null ? " · " + fmtS(elapsed) : "") + (eta ? " · about " + fmtS(eta) + " left at this pace (levels differ)" : "") + (s.summary ? " · finished in " + fmtS(s.summary.wallS) + ", " + fmtN(s.summary.upstream) + " Tesseract requests" : "");
   const er = p.errors || {};
   $("kpis").innerHTML = p.t ? [
     kpi((p.ratePerS ?? 0) + "/s", "Tesseract requests"),
     kpi((p.inFlight ?? 0) + " / " + (p.cap ?? 0), "In flight / cap (queue " + (p.queue ?? 0) + ")"),
     kpi(fmtN(er.timeouts) + " · " + fmtN(er.s5xx), "Timeouts · 5xx"),
-    kpi(fmtN(rep.incomplete), "Reports with a failed generator"),
+    kpi(fmtN(rep.fullHits), "Reports already complete"),
     kpi(p.redis ? fmtB(p.redis.usedMemory) : "", "Redis (" + fmtN(p.redis && p.redis.keys) + " keys)"),
-    kpi(fmtN(p.shapes && p.shapes.verified) + " / " + fmtN(p.shapes && p.shapes.rejected), "Batch shapes passed / rejected")
+    kpi(p.shared ? fmtB(p.shared.heldBytes || 0) : "", "Held responses")
   ].join("") : '<span class="muted">Waiting for the first progress line…</span>';
   $("runLevels").innerHTML = Object.entries(s.meta.levels).map(([k, planned]) => {
     const d = s.done[k] || {rendered: 0, cached: 0, errors: 0, incomplete: 0};
@@ -501,17 +756,24 @@ async function renderRun() {
 
 async function renderRuns() {
   const runs = await api("/api/runs");
-  $("runs").innerHTML = runs.map(r => '<tr><td><a data-run="' + esc(r.id) + '">' + esc(r.startedAt.slice(0, 19).replace("T", " ")) + '</a></td><td>' + esc(r.state) + '</td><td>' + esc(Object.keys(r.levels).map(label).join(", ")) + '</td><td class="n">' + fmtN(r.reports) + '</td><td class="n">' + fmtN(r.done) + '</td><td class="n">' + fmtS(r.wallS ?? r.elapsedS) + '</td></tr>').join("") || '<tr><td colspan="6" class="muted">No runs yet</td></tr>';
+  $("runs").innerHTML = runs.map(r => {
+    const target = r.generators ? "generators " + r.generators.join(", ") : r.cubes ? "cubes " + r.cubes.join(", ") : Object.keys(r.levels).map(label).join(", ");
+    return '<tr><td><a data-run="' + esc(r.id) + '">' + esc(r.startedAt.slice(0, 19).replace("T", " ")) + '</a></td><td>' + esc(MODE_NAMES[r.mode] || r.mode) + '</td><td>' + esc(r.state) + '</td><td>' + esc(target) + '</td><td class="n">' + fmtN(r.reports) + '</td><td class="n">' + fmtN(r.done) + '</td><td class="n">' + fmtS(r.wallS ?? r.elapsedS) + '</td></tr>';
+  }).join("") || '<tr><td colspan="7" class="muted">No runs yet</td></tr>';
   document.querySelectorAll("[data-run]").forEach(a => a.addEventListener("click", () => { viewing = a.dataset.run; renderRun(); }));
 }
 
 async function refresh() {
   info = await api("/api/info");
-  $("conn").textContent = "Tesseract " + info.tesseract + " · Redis " + info.redis + " (" + fmtB(info.redisMemory) + ", " + fmtN(info.redisKeys) + " keys)" + (info.lock && !info.current ? " · lock held: " + info.lock : "");
+  $("conn").textContent = "Tesseract " + info.tesseract + " · Redis " + info.redis + " (" + fmtB(info.redisMemory) + (info.redisMax ? " of " + fmtB(info.redisMax) : "") + ", " + fmtN(info.redisKeys) + " keys)" + (info.lock && !info.current ? " · lock held: " + info.lock : "");
   if (info.current && !viewing) viewing = info.current;
   // the level table is only redrawn on first load and on edits, so typing in it is never interrupted
-  if (!$("levels").children.length) { renderSettings(); renderLevels(); }
-  else $("start").disabled = !info.levels.some(l => levelsState[l.key].on) || Boolean(info.current) || Boolean(info.lock);
+  if (!$("levels").children.length) {
+    renderSettings(); renderLevels();
+    $("siteTotal").textContent = fmtN(info.levels.reduce((n, l) => n + l.members, 0)) + " reports in " + info.levels.length + " levels";
+    $("cubeList").innerHTML = info.cubes.map(c => '<option value="' + esc(c) + '">').join("");
+  }
+  else updatePlanInfo();
   await renderRun();
   await renderRuns();
 }

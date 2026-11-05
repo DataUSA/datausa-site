@@ -26,7 +26,7 @@ import {TTL_MS} from "@/lib/cache/store";
 import {getMember, getProfile, type MemberRow} from "@/lib/dimensions/db";
 import {planReport, upstreamUrlOf, type ReportPlan} from "@/lib/reports/engine";
 import {engineInputs, loadEngine} from "@/lib/reports/load";
-import type {Variables} from "@/lib/reports/types";
+import type {GeneratorDefinition, Variables} from "@/lib/reports/types";
 import {PHASES, type GroupJob, type GroupStats, type Phase, type ShapeRecord, type ToCoordinator, type ToWorker, type UpstreamKind, type WorkerConfig} from "@/lib/cache/batch-warm/protocol";
 import {allUrl, batchUrl, canonical, chunkIds, cubeOf, filterByList, firstDifference, getParam, idColumn, listRef, memberRef, membersWithRows, normId, presenceUrl, tiedMembers, unionUrl, unsafeMembers, missingLevels, parseUrl, pathOf, splitBatch, strategiesFor, type ListRef, type MemberRef, type SplitSpec, type Strategy} from "@/lib/cache/batch-warm/shapes";
 
@@ -143,6 +143,8 @@ interface Item {
   urls: Map<string, Logical>;
   /** Responses held for this member's render. */
   held: Map<string, WarmResponse>;
+  /** The URL groups whose outputs are still missing: only these are fetched before the render. */
+  needed: Set<object>;
 }
 
 /** Responses of shared and parent URLs kept across groups (bounded). */
@@ -664,6 +666,14 @@ async function runGroup(job: GroupJob): Promise<GroupStats> {
   if (!profile) throw new Error(`unknown profile ${job.profile}`);
   const level = job.hierarchy;
   const client = redisClient();
+  // the site's client refuses commands until it is connected (no offline queue): wait for it, so the
+  // first group of a run doesn't fail on its first read
+  if (client && client.status !== "ready") {
+    await new Promise<void>((ok, fail) => {
+      const timer = setTimeout(() => fail(new Error(`Redis not ready after 10 s (${client.status})`)), 10_000);
+      client.once("ready", () => { clearTimeout(timer); ok(); });
+    });
+  }
   const enter = (phase: Phase, items: number) => send({t: "phase", gid: job.gid, phase, items});
 
   // 1. plan: attributes, the render's own plan, and the reports already complete
@@ -691,35 +701,63 @@ async function runGroup(job: GroupJob): Promise<GroupStats> {
     const planHash = hash(keyed.map(k => k.keys.join(",")).join("|"));
     const held = new Map(attrsFetched.get(id) ?? []);
     attrsFetched.delete(id);
-    return {id, member, attrs, plan, keyed, planHash, urls: new Map(), held};
+    return {id, member, attrs, plan, keyed, planHash, urls: new Map(), held, needed: new Set()};
   });
   let items = planned.filter((x): x is Item => Boolean(x));
   stats.oldRequests = items.reduce((n, item) => n + item.plan.groups.filter(g => {
     const u = upstreamUrlOf(g.url);
     return u && isTesseract(u);
   }).length, 0);
-  if (!config.force && client) {
+  // What still needs computing. A URL group is needed when one of its target generators (all of them,
+  // or those of --generators) has a key that is not in Redis, unless that generator failed the last
+  // time this report was rendered (its failures are never stored, so it would look missing forever;
+  // --retry-failed tries them again, after a data release). Reports with nothing needed are a full
+  // hit; the others fetch only the needed groups' URLs and read everything else from Redis. A changed
+  // generator (new version, new keys) or a purged cube therefore costs only its own queries.
+  const targets = config.targetGenerators?.length ? new Set(config.targetGenerators) : null;
+  const isTarget = (g: GeneratorDefinition) => !targets || targets.has(g.id);
+  const targetKeys = (k: PlannedGroup) => k.keys.filter((key, i): key is string => Boolean(key) && isTarget(k.group.generators[i]));
+  if (client) {
+    const markers = await client.mget(...items.map(item => `${MARKER_PREFIX}${job.profile}|${item.id}`));
+    // --retry-cubes: a failure reading one of these cubes may be gone with the new data, the others not
+    const retryCubes = new Set(config.retryCubes ?? []);
+    const retried = (k: PlannedGroup) => {
+      const url = upstreamUrlOf(k.group.url);
+      const cube = url ? cubeOf(url) : null;
+      return Boolean(cube && retryCubes.has(cube));
+    };
+    const failedOf = (i: number): Set<string> => {
+      if (config.retryFailed || !markers[i]) return new Set();
+      try {
+        return new Set((JSON.parse(markers[i]!) as {failed?: string[]}).failed ?? []);
+      }
+      catch {
+        return new Set();
+      }
+    };
     const pipeline = client.pipeline();
-    for (const item of items) {
-      const keys = item.keyed.flatMap(k => k.keys.filter((x): x is string => Boolean(x)));
-      pipeline.get(`${MARKER_PREFIX}${job.profile}|${item.id}`);
-      pipeline.exists(...(keys.length ? keys : ["__none__"]));
-    }
-    const replies = await pipeline.exec();
-    const skip = new Set<string>();
+    const asks: {item: Item; group: object; key: string; failed: boolean}[] = [];
     items.forEach((item, i) => {
-      const marker = replies?.[2 * i]?.[1] as string | null;
-      const present = Number(replies?.[2 * i + 1]?.[1] ?? 0);
-      const keys = item.keyed.flatMap(k => k.keys.filter((x): x is string => Boolean(x)));
-      if (present === keys.length) { skip.add(item.id); return; }
-      if (marker) {
-        const m = JSON.parse(marker) as {h: string; stored: number};
-        if (m.h === item.planHash && present >= m.stored) skip.add(item.id);
+      const failed = failedOf(i);
+      for (const k of item.keyed) {
+        const retry = retryCubes.size > 0 && retried(k);
+        for (const key of targetKeys(k)) {
+          asks.push({item, group: k.group, key, failed: failed.has(key) && !retry});
+          pipeline.exists(key);
+        }
       }
     });
-    stats.fullHits = skip.size;
-    items = items.filter(item => !skip.has(item.id));
+    const replies = asks.length ? await pipeline.exec() : [];
+    asks.forEach((a, i) => {
+      const present = Number(replies?.[i]?.[1] ?? 0) === 1;
+      if (config.force || (!present && !a.failed)) a.item.needed.add(a.group);
+    });
   }
+  else {
+    for (const item of items) for (const k of item.keyed) if (targetKeys(k).length) item.needed.add(k.group);
+  }
+  stats.fullHits = items.filter(item => !item.needed.size).length;
+  items = items.filter(item => item.needed.size > 0);
   phases.plan += (performance.now() - t) / 1000;
   if (!items.length) return stats;
 
@@ -732,6 +770,8 @@ async function runGroup(job: GroupJob): Promise<GroupStats> {
   const geoSingles: {item: Item; l: Logical}[] = [];
   for (const item of items) {
     for (const group of item.plan.groups) {
+      // outputs already in Redis: the render reads them, nothing to fetch
+      if (!item.needed.has(group)) continue;
       const url = upstreamUrlOf(group.url);
       if (url && isGeoservice(url) && !item.held.has(url) && !item.urls.has(url)) {
         const l: Logical = {url, kind: url.includes(item.id) ? "member" : "parent", cube: null, gens: group.generators.map(g => g.id), served: "geo", status: 0};
@@ -920,7 +960,11 @@ async function runGroup(job: GroupJob): Promise<GroupStats> {
       // outputs now in the cache: the full-hit test of a rerun expects at least these
       const stored = d.generators.filter(g => !g.error && !g.uncached && g.cache !== "off").length;
       if (client && cache?.enabled) {
-        await client.set(`${MARKER_PREFIX}${job.profile}|${item.id}`, JSON.stringify({h: item.planHash, stored, at: Date.now()}), "PX", TTL_MS);
+        // the keys of generators that weren't stored (failed, or an output that can't be stored such as a
+        // NaN), so a rerun doesn't take them for missing outputs
+        const failedIds = new Set(d.generators.filter(g => g.error || g.uncached).map(g => g.id));
+        const failed = item.keyed.flatMap(k => k.keys.filter((key, i): key is string => Boolean(key) && failedIds.has(k.group.generators[i].id)));
+        await client.set(`${MARKER_PREFIX}${job.profile}|${item.id}`, JSON.stringify({h: item.planHash, stored, failed, at: Date.now()}), "PX", TTL_MS);
       }
       reportRows.push({profile: job.profile, level, id: item.id, slug: item.member.slug, ms: Math.round(performance.now() - started), generators: d.generators.length, failed: d.failed.map(f => `${f.id} ${f.kind}${f.status ? ` ${f.status}` : ""}`), hits: cache?.hits ?? 0, misses: cache?.misses ?? 0, stored: cache?.stored ?? 0, uncached: d.generators.filter(g => g.uncached).map(g => `${g.id}: ${g.uncached}`)});
     }

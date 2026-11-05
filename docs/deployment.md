@@ -231,10 +231,23 @@ NEXT_PUBLIC_TESSERACT_URL=https://api-penn.datausa.io/ REDIS_URL=redis://<redis 
   npm run warm:ui -- --port 5560 --runs /var/tmp/warm-runs
 ```
 
-- **Start.** Pick levels (all members, the N largest by zvalue, or a random percentage with the 10
-  largest always in) and the run settings (workers, cap, the lane for RCA and `calcs` queries,
-  geoservice rate, re-render cached reports). The page writes the plan and starts `warm:batch`
-  with it.
+- **Strategies.** Every run computes only outputs missing from Redis: the warmer checks each report's
+  keys and fetches only the queries of missing outputs, reading the rest from the cache. Generators
+  that failed at a report's last render are not counted as missing, since failures are never stored.
+  The four strategies differ in which reports they check and what they clear first:
+  - **Whole site:** every report of every published level. It also completes a partial warm.
+  - **Profiles and levels:** the levels you pick, with all members, the N largest by zvalue, or a
+    random share (the 10 largest always included).
+  - **Generators:** for after a generator change. Its outputs get a new version (the manifest), so
+    they count as missing, and the run computes only those, for every profile that has the
+    generator (or only the levels ticked). Tick "recompute" to delete their current outputs first and
+    refresh them without a code change. The warmer flag is `--generators 8,652`.
+  - **Cubes:** for a data release. Purges the cubes (as `npm run cache:purge` does), finds the
+    reports whose cached outputs read them (from the cubes' tag sets, read before the purge), and
+    recomputes the purged outputs. Failed generators reading those cubes are retried (`--retry-cubes`),
+    and the others are not.
+- **Settings.** Workers, cap, the lane for RCA and `calcs` queries, geoservice rate, and an option to
+  re-render reports already cached.
 - **Watch.** The page refreshes every 5 s with the run's progress, rate, cap and errors, reports done
   per level, Redis size, the warmer's events and its `status.txt`.
 - **Stop.** Ends the run cleanly (workers stopped, lock freed).
@@ -250,9 +263,83 @@ NEXT_PUBLIC_TESSERACT_URL=https://api-penn.datausa.io/ REDIS_URL=redis://<redis 
   memory runs out the kernel stops the warm rather than Redis (`compose-redis.yaml` sets
   `oom_score_adj: -500`). On 2026-11-05 an unbounded version of that buffer grew past 1 GB during a
   university run on penn and the kernel killed Redis; it restarted from its files.
-- **Defaults.** Cap 12–24 and 7 RCA/`calcs` queries at a time: on 2026-11-04, `pums_5` started
-  failing on api-penn above about 24 queries in flight. Raise them once the ClickHouse projections
-  for `pums_5` are in place (`docs/clickhouse-pums-projections.md`).
+- **Defaults.** 2 workers, cap 12–24 and 5 RCA/`calcs` queries at a time: on 2026-11-04, `pums_5`
+  started failing on api-penn above about 24 queries in flight, and penn has little memory to spare.
+  Raise them once the ClickHouse projections for `pums_5` are in place
+  (`docs/clickhouse-pums-projections.md`).
+
+#### Running the warm UI on a Google Cloud VM
+For a VM that already runs the site (`./deploy-prod.sh`) and Redis (`compose-redis.yaml`). The host's
+Node may be too old (the project needs 24), so the warm tools run in a `node:24` container from the
+same checkout the image was built from.
+
+**Names used below** (set them for your VM):
+
+| Variable | Example | Meaning |
+|---|---|---|
+| `VM` | `penn` | Instance name |
+| `ZONE`, `PROJECT` | `<zone>`, `data-usa-174910` | Where the instance is (`gcloud compute instances list` shows the zone; omit both if `gcloud config` has them) |
+| `VM_USER` | `deploy` | The user that owns the checkout and runs Docker |
+| `APP_DIR` | `~/datausa-site-rewrite` | The checkout the running image was built from |
+
+**1. Once per checkout: install and build the generated files.** These are the same steps the image
+build runs, so the cache keys match.
+```bash
+cd "$APP_DIR"
+NODE='docker run --rm -it --network host --user '"$(id -u):$(id -g)"' -e HOME=/tmp -v '"$PWD"':/app -w /app node:24'
+$NODE npm ci
+$NODE npm run build:dimensions
+$NODE npm run build:manifest
+```
+Check that the manifest matches the one in the running image. The hashes must be equal; otherwise
+the warm writes keys the site never reads:
+```bash
+sha256sum data/generator-manifest.json
+docker exec datausa-site-prod sh -c 'sha256sum $(find / -name generator-manifest.json 2>/dev/null | grep -v node_modules | head -1)'
+```
+Repeat step 1 after every `git pull` that you also deploy.
+
+**2. Start the UI in tmux,** so it survives the SSH session:
+```bash
+tmux new -s warm            # later: tmux attach -t warm; leave with Ctrl-b d
+cd "$APP_DIR"
+# NEXT_PUBLIC_TESSERACT_URL and GEOSERVICE_URL exactly as the site uses them (only these two are read)
+export $(grep -E '^(NEXT_PUBLIC_TESSERACT_URL|GEOSERVICE_URL)=' .env | tr -d "\"'" | xargs)
+REDIS_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' datausa-redis)
+docker run --rm -it --network host --oom-score-adj 500 --user "$(id -u):$(id -g)" -e HOME=/tmp \
+  -v "$PWD":/app -w /app \
+  -e NEXT_PUBLIC_TESSERACT_URL -e GEOSERVICE_URL -e REDIS_URL=redis://$REDIS_IP:6379 \
+  node:24 npm run warm:ui -- --runs /app/warm-runs
+```
+- **Same URLs as the site.** `NEXT_PUBLIC_TESSERACT_URL` and `GEOSERVICE_URL` must be byte for byte
+  those in the site's `.env`: they are part of the cache keys.
+- **Reaching Redis.** It isn't published on the host, so the UI reaches it at its container IP.
+  Look `REDIS_IP` up again whenever Redis is recreated.
+- **Kill order.** `--oom-score-adj 500` makes the kernel stop the warm, not Redis, if memory runs
+  out.
+- **Runs folder.** Runs are kept in `$APP_DIR/warm-runs/`. To follow the newest from a shell:
+  `watch -n 5 "cat \$(ls -td $APP_DIR/warm-runs/*/ | head -1)status.txt"`.
+
+**3. From your machine, open a tunnel:**
+```bash
+gcloud compute ssh "$VM_USER@$VM" --zone "$ZONE" --project "$PROJECT" -- -L 5560:127.0.0.1:5560 -N
+```
+Then open http://localhost:5560. The header shows the Tesseract and Redis the UI is connected to; it
+should be the VM's Redis (a `172.x` container address), not a local one. If port 5560 is already
+taken on your machine (for example by a local warm UI), the tunnel only binds what's free and the
+browser can end up on the local UI: use another local port (`-L 5561:127.0.0.1:5560`, then
+http://localhost:5561).
+
+**4. Before starting a run, check memory on the VM.** Machines without swap (penn has none) don't
+slow down when memory runs out: the kernel kills a process.
+```bash
+free -g | head -2
+docker exec datausa-redis redis-cli info memory | grep -E 'used_memory_human|maxmemory_human'
+```
+Keep at least 1–2 GB available during a run: lower the workers or stop the run otherwise.
+
+**5. When done,** stop the UI with Ctrl-C in its tmux window. A run still going is stopped cleanly,
+and starting it again later carries on where it stopped.
 
 ## Data releases
 

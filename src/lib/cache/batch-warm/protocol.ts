@@ -24,6 +24,12 @@ export interface WorkerConfig {
   force: boolean;
   /** Batching off: shared fetches, skips and singles only (for comparison). */
   noBatch: boolean;
+  /** Only these generators count as missing (`--generators`); null: all of them. */
+  targetGenerators: number[] | null;
+  /** Generators that failed at a report's last render count as missing again (`--retry-failed`). */
+  retryFailed: boolean;
+  /** Only failed generators reading these cubes count as missing again (`--retry-cubes`, after a purge). */
+  retryCubes: string[];
   /** Geoservice prefetches in flight at a time from a worker (the run's geoservice limiter still applies). */
   geoConcurrency: number;
   /** MB of shared and parent responses a worker keeps across groups (`--worker-shared-mb`). */

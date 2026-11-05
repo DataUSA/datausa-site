@@ -4,7 +4,8 @@
 //
 //   NEXT_PUBLIC_TESSERACT_URL=https://api-penn.datausa.io/ REDIS_URL=redis://127.0.0.1:6379 \
 //     npm run warm:batch -- --plan plan.json [--out dir] [--workers 4] [--group 300] [--cap 16]
-//     [--max-cap 50] [--cap-step 8] [--slow-p95 10000] [--latency-floor 50] [--shared-mb 512] [--worker-shared-mb 128] [--heavy 8] [--render 6] [--fetch 32] [--max-url 6000] [--max-ids 400] [--timeout 60000]
+//     [--max-cap 50] [--cap-step 8] [--slow-p95 10000] [--latency-floor 50] [--shared-mb 512] [--worker-shared-mb 128]
+//     [--generators 12,345] [--retry-failed] [--retry-cubes a,b] [--heavy 8] [--render 6] [--fetch 32] [--max-url 6000] [--max-ids 400] [--timeout 60000]
 //     [--geo-rate 50] [--geo-concurrency 32] [--force] [--no-batch] [--limit N]
 //
 // The plan is a JSON array of `{profile, id}` (a `hierarchy` is looked up when missing). Reports are
@@ -333,6 +334,8 @@ const cubeOfUrl = (url: string) => {
 
 /** Responses of shared URLs held for the run, in MB (`--shared-mb`); least recently used are dropped. */
 const SHARED_BUDGET = Number(opt("shared-mb", "512")) * 1024 * 1024;
+/** `--generators 12,345`: only these generators' missing outputs are computed (a changed or purged generator). */
+const TARGET_GENERATORS = opt("generators", "").split(",").map(Number).filter(n => Number.isInteger(n) && n > 0);
 const shared = new Map<string, WarmResponse>();
 let sharedBytes = 0;
 const sharedInflight = new Map<string, Promise<WarmResponse | null>>();
@@ -503,7 +506,7 @@ async function main() {
 
   const jobs = loadPlan();
   const reportsTotal = jobs.reduce((n, j) => n + j.ids.length, 0);
-  event({start: true, plan: PLAN, reports: reportsTotal, groups: jobs.length, workers: WORKERS, group: GROUP, cap: CAP_START, maxCap: CAP_MAX, tesseract: TESSERACT});
+  event({start: true, plan: PLAN, reports: reportsTotal, groups: jobs.length, workers: WORKERS, group: GROUP, cap: CAP_START, maxCap: CAP_MAX, tesseract: TESSERACT, generators: TARGET_GENERATORS.length ? TARGET_GENERATORS : null, retryFailed: flag("retry-failed")});
 
   // the cube schema, once per run
   const schemaStarted = performance.now();
@@ -681,7 +684,7 @@ async function main() {
       const config: WorkerConfig = {
         outDir: OUT, workerIndex: i, renderConcurrency: Number(opt("render", "6")), fetchConcurrency: Number(opt("fetch", "32")),
         maxUrlLength: Number(opt("max-url", "6000")), maxIds: Number(opt("max-ids", "400")), fetchTimeoutMs: TIMEOUT_MS,
-        force: flag("force"), noBatch: flag("no-batch"), geoConcurrency: Math.max(4, Math.ceil(GEO_CONCURRENCY / WORKERS) * 2), sharedBudgetMb: Number(opt("worker-shared-mb", "128")), cubeLevels
+        force: flag("force"), noBatch: flag("no-batch"), geoConcurrency: Math.max(4, Math.ceil(GEO_CONCURRENCY / WORKERS) * 2), sharedBudgetMb: Number(opt("worker-shared-mb", "128")), targetGenerators: TARGET_GENERATORS, retryFailed: flag("retry-failed"), retryCubes: opt("retry-cubes", "").split(",").map(c => c.trim()).filter(Boolean), cubeLevels
       };
       child.send({t: "init", config} satisfies ToWorker);
     }
