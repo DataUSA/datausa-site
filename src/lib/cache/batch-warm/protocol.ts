@@ -26,6 +26,8 @@ export interface WorkerConfig {
   noBatch: boolean;
   /** Geoservice prefetches in flight at a time from a worker (the run's geoservice limiter still applies). */
   geoConcurrency: number;
+  /** MB of shared and parent responses a worker keeps across groups (`--worker-shared-mb`). */
+  sharedBudgetMb: number;
   cubeLevels: [string, string[]][];
 }
 

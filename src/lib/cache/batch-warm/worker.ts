@@ -148,7 +148,8 @@ interface Item {
 /** Responses of shared and parent URLs kept across groups (bounded). */
 const sharedCache = new Map<string, WarmResponse>();
 let sharedBytes = 0;
-const SHARED_BUDGET = 400 * 1024 * 1024;
+/** Set from the run config (`--worker-shared-mb`); 128 MB until the config arrives. */
+let SHARED_BUDGET = 128 * 1024 * 1024;
 
 function keepShared(url: string, response: WarmResponse) {
   if (sharedCache.has(url)) return;
@@ -970,6 +971,7 @@ export function startWorker() {
     switch (msg.t) {
       case "init":
         config = msg.config;
+        if (config.sharedBudgetMb > 0) SHARED_BUDGET = config.sharedBudgetMb * 1024 * 1024;
         cubeLevels = new Map(msg.config.cubeLevels.map(([cube, levels]) => [cube, new Set(levels)]));
         send({t: "ready"});
         break;

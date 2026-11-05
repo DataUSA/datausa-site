@@ -244,6 +244,12 @@ NEXT_PUBLIC_TESSERACT_URL=https://api-penn.datausa.io/ REDIS_URL=redis://<redis 
   (`ssh -L 5560:127.0.0.1:5560 <host>`, then http://localhost:5560) and stop it when done. Requests
   that start or stop runs need an `X-Warm-UI` header, so another site open in the same browser cannot
   trigger them.
+- **Memory.** A run holds the responses it shares across reports: at most `--shared-mb` (512) in the
+  main process and `--worker-shared-mb` (128) in each worker, plus about 0.5–1 GB per worker while it
+  renders. On a host without swap, start the warm container with `--oom-score-adj 500`, so that if
+  memory runs out the kernel stops the warm rather than Redis (`compose-redis.yaml` sets
+  `oom_score_adj: -500`). On 2026-11-05 an unbounded version of that buffer grew past 1 GB during a
+  university run on penn and the kernel killed Redis; it restarted from its files.
 - **Defaults.** Cap 12–24 and 7 RCA/`calcs` queries at a time: on 2026-11-04, `pums_5` started
   failing on api-penn above about 24 queries in flight. Raise them once the ClickHouse projections
   for `pums_5` are in place (`docs/clickhouse-pums-projections.md`).

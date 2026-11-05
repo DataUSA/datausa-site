@@ -42,6 +42,10 @@ services:
       - redis-data:/data
     networks:
       - datausa-cache
+    # When the host runs out of memory the kernel kills the process with the highest score; on
+    # 2026-11-05 that was Redis (1.7 GB) during a warm run on penn. A low score makes it pick
+    # something else first (a warm run started with `--oom-score-adj 500`, see docs/deployment.md).
+    oom_score_adj: -500
     # Not published on the host: only containers on the network reach it. For a bare-PM2 deployment
     # on the host, publish it on loopback instead:
     # ports:
