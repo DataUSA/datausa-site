@@ -35,7 +35,7 @@ file in the project root at build time). See `.env.example`.
 | `UPSTREAM_MAX_CONCURRENCY` | no | Requests in flight to each data API host (Tesseract, geoservice) per worker, across every report it renders (default 8). The most a deployment sends to Tesseract at once is this times the number of workers. See "Protecting Tesseract" below. |
 | `UPSTREAM_QUEUE_TIMEOUT_MS` | no | How long a request waits for one of those slots before it is dropped and its generator yields nothing (default 30000; 0 waits without limit). |
 | `REDIS_URL` | production | The shared cache (`redis://datausa-redis:6379` in Docker, see "Shared cache (Redis)"). Unset: no shared cache, every worker computes reports from Tesseract (development, tests). |
-| `REDIS_READ_TIMEOUT_MS`, `REDIS_WRITE_TIMEOUT_MS` | no | Deadlines of cache reads and writes (defaults 50 and 1000). A slow or failing Redis is skipped, never fails a page. |
+| `REDIS_READ_TIMEOUT_MS`, `REDIS_WRITE_TIMEOUT_MS` | no | Deadlines of cache reads and writes (code defaults 50 and 1000; a read of many keys gets the deadline per 50 keys). **Set `REDIS_READ_TIMEOUT_MS=250` in production** (see "Shared cache (Redis)"). A slow or failing Redis is skipped, never fails a page. |
 | `CACHE_TTL_DAYS` | no | Safety-net lifetime of cache entries (default 30). Purges are what invalidate. |
 | `GEN_CACHE_LOCK_MS` | no | How long a render waits for another worker computing the same generator before computing it itself (default 60000). |
 | `WARMER_ENABLED`, `WARMER_MAX_QPS`, `WARMER_DEPLOY_COUNTIES` | no | The background warmer (default on in production with `REDIS_URL`; at most 5 Tesseract queries a second; 100 counties after a deploy). |
@@ -182,8 +182,16 @@ docker compose -f compose-redis.yaml up -d              # once per host; REDIS_M
   open an SSH tunnel (`ssh -L 5540:127.0.0.1:5540 <host>`, then http://localhost:5540), and stop it
   afterwards (`docker compose -f compose-redis.yaml --profile ui stop redisinsight`). The
   connection to `datausa-redis` is preconfigured.
-- **Redis down.** Reads time out after 50 ms and a circuit breaker skips Redis for 30 s after five
-  errors: pages render from Tesseract as without the cache, slower but complete.
+- **Redis down.** Reads time out after `REDIS_READ_TIMEOUT_MS` and a circuit breaker skips Redis for
+  30 s after five errors: pages render from Tesseract as without the cache, slower but complete.
+- **Read deadline: set `REDIS_READ_TIMEOUT_MS=250`.** The code default (50 ms per 50 keys) is too
+  tight. It covers the whole round trip as the worker sees it, including time the reply waits while
+  the worker is busy rendering. On 2026-11-06 occupation reports (44 outputs, about 300 KB) read in
+  57 to 70 ms on a busy host, missed the deadline every time, rendered from Tesseract in 12 to 20 s
+  and stored nothing, so they never became hits. At 250 ms they hit every time in about 1 s.
+  - Set it in the env file, not in the code: `src/lib/cache/redis.ts` is part of the hashes of the
+    attributes, the lookup tables and the in-process `/api/` generators (`scripts/cache/build-manifest.ts`
+    follows its imports), so editing it, even a comment, makes those cache entries stale.
 
 ### Warming the whole site (batched warmer)
 

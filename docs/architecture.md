@@ -89,6 +89,42 @@ All of this happens per request with no page-level cache: the expensive part (ge
 
 ## Caching and invalidation
 
+**A page request.** Reports are assembled from cached generator outputs; nothing caches whole pages.
+
+```mermaid
+flowchart TB
+  B["Browser"] -->|"1. request"| S["Site"]
+  S -->|"2. read"| R[("Redis")]
+  S -->|"3. only missing"| T[("Tesseract")]
+  S -->|"4. store"| R
+  B -.->|"charts"| T
+```
+
+1. The browser asks for a report, for example `/profile/geo/texas`.
+2. The site reads all the report's generator outputs from Redis in one round trip.
+3. Only if some are missing, it fetches just those generators' queries from Tesseract.
+4. It stores the new outputs, tagged by the cube each one read, and returns the page.
+
+The page's charts (dotted line) query Tesseract from the browser and are not cached here.
+
+**What fills and clears the cache.**
+
+```mermaid
+flowchart LR
+  V["Visits"] -->|"miss: compute"| R[("Redis")]
+  W["Warm UI"] -->|"fill missing"| R
+  P["Data release"] -->|"purge cubes"| R
+  D["Deploy"] -.->|"new keys"| R
+```
+
+- **Visits** compute and store any output that is missing.
+- **The warm** fills outputs ahead of visitors, only those that are missing. It uses the same engine as
+  the site and asks Tesseract for many members per request (see "Batched warmer").
+- **A data release** purges the changed cubes: every output that read them is deleted.
+- **A deploy** deletes nothing: changed generators get new keys, and the old entries expire.
+- **No host in any key**: the cache can be warmed against one API server and read by a site that uses
+  another, as long as both carry the same data (see "Generator cache").
+
 | Layer | Mechanism | Lifetime | Invalidation |
 |---|---|---|---|
 | Generator outputs, member attributes, lookup tables | Redis, shared by every worker and host (`src/lib/cache/`) | until purged (30-day TTL as a safety net) | purge by cube after a release (`npm run cache:purge -- --cubes …` or `POST /api/revalidate {"cubes": […]}`); a deploy only for the generators whose code changed |
@@ -142,7 +178,7 @@ gen:<generator id>:<generator version>:<hash of the URL without its host>:<hash 
 - **Coalescing**: within a worker, renders share one computation per group; across workers the first
   takes `lock:<key>` (`SET NX PX`) and the others poll for its entries, then compute themselves if it
   gives up. Eight simultaneous views of an uncached state send one set of queries.
-- **Redis failures never fail a page**: 50 ms read deadline, a circuit breaker, and the render falls
+- **Redis failures never fail a page**: a read deadline (`REDIS_READ_TIMEOUT_MS`, 250 ms in production), a circuit breaker, and the render falls
   back to computing everything (with in-process coalescing). Without `REDIS_URL` the cache is off and
   attributes and lookups use Next's `use cache` (success-only) as before.
 - **Purge** (`src/lib/cache/purge.ts`): per tag, bump its epoch, `SSCAN` its set, delete the entries,
