@@ -15,10 +15,11 @@
 # projects (create it once: `docker network create datausa-cache`; the deploy scripts also create it
 # when missing), so neither project's `down` or `--remove-orphans` can remove it from the other.
 #
-# Persistence: AOF (fsync every second) plus RDB snapshots on the named volume, so a Redis restart
-# or a host reboot keeps the cache. Memory: entries carry a TTL and are evicted least-recently-used
-# under `maxmemory`; tag sets, purge counters and the warm queue have no TTL and are never evicted
-# (`volatile-lru` only evicts keys with a TTL).
+# Persistence: AOF (fsync every second) plus RDB snapshots in the host folder ./data/redis (bind
+# mount), so a Redis restart or a host reboot keeps the cache and you can copy dump.rdb / the AOF
+# files in and out directly from the host. Memory: entries carry a TTL and are evicted
+# least-recently-used under `maxmemory`; tag sets, purge counters and the warm queue have no TTL and
+# are never evicted (`volatile-lru` only evicts keys with a TTL).
 name: datausa-redis
 
 services:
@@ -39,7 +40,7 @@ services:
       - --maxmemory-policy
       - volatile-lru
     volumes:
-      - redis-data:/data
+      - ./data/redis:/data
     networks:
       - datausa-cache
     # When the host runs out of memory the kernel kills the process with the highest score; on
@@ -80,8 +81,7 @@ services:
       - redis
 
 volumes:
-  redis-data:
-    name: datausa-redis-data
+  # RedisInsight keeps its own state in a named volume; only the Redis dataset moved to a bind mount.
   redisinsight-data:
     name: datausa-redisinsight-data
 
