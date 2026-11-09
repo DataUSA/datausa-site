@@ -20,6 +20,8 @@
     "cache:purge": "tsx scripts/cache/purge.ts",
     "warm:batch": "tsx scripts/cache/warm-batch.ts",
     "warm:ui": "tsx scripts/cache/warm-ui.ts",
+    "warm:stress": "tsx scripts/cache/stress.ts",
+    "redis:monitor": "tsx scripts/cache/monitor.ts",
     "predev": "npm run build:manifest",
     "prebuild": "npm run build:dimensions && npm run build:manifest"
   },

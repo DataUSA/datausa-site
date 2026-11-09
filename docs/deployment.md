@@ -276,6 +276,69 @@ NEXT_PUBLIC_TESSERACT_URL=https://api-penn.datausa.io/ REDIS_URL=redis://<redis 
   Raise them once the ClickHouse projections for `pums_5` are in place
   (`docs/clickhouse-pums-projections.md`).
 
+#### Redis monitor and stress mode
+Two more tools in the warm UI, for load tests of the cache (and the monitor for watching warms too).
+
+**Monitor** (a card on the page; `scripts/cache/monitor.ts`). A read-only Redis sampler: every second
+it times a `PING` and an `MGET` of a fixed sample of 100 real `gen:*` keys (picked with `SCAN` at the
+start and saved as `keys.json`), and reads `INFO`. It only ever sends `INFO`, `PING`, `MGET` and
+`SCAN` (plus the client's own handshake: `CLIENT SETNAME warm-ui-monitor`); any other command is
+refused in code. The card shows ops/s, CPU, clients, memory and fragmentation, keyspace hits and
+misses, evictions, rejected connections, snapshot or AOF rewrite in progress, `latest_fork_usec`,
+`aof_delayed_fsync`, the `PING` and `MGET` p50, p95 and max over the last minute, the host's available
+memory (from `/proc/meminfo`, Linux only), and charts of each. Samples go to
+`<runs>/<time>-monitor/samples.jsonl`, one line per sample, `t` in milliseconds since the epoch
+(UTC), so they line up with a stress run's files from another machine.
+- **On the site's host, monitor only:** `--monitor-only` serves only the monitor: no warm, no stress,
+  and no Redis connection in the UI process itself. `--monitor` starts sampling at launch
+  (`--monitor-interval 1000`, `--monitor-keys 100`). Run it from a separate checkout (never the one the
+  site's image is built from), on another port than a warm UI, for example:
+  ```bash
+  git clone -b <branch> https://github.com/DataUSA/datausa-site.git ~/warm-tools && cd ~/warm-tools
+  docker run --rm --user "$(id -u):$(id -g)" -e HOME=/tmp -v "$PWD":/app -w /app node:24 npm ci
+  REDIS_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' datausa-redis)
+  docker run -d --name warm-tools-monitor --network host --oom-score-adj 500 --user "$(id -u):$(id -g)" -e HOME=/tmp \
+    -v "$PWD":/app -w /app -e REDIS_URL=redis://$REDIS_IP:6379 \
+    node:24 npm run warm:ui -- --monitor-only --monitor --port 5561 --runs /app/warm-runs
+  ```
+  Then `gcloud compute ssh "$VM_USER@$VM" --zone "$ZONE" -- -L 5561:127.0.0.1:5561 -N` and
+  http://localhost:5561. `docker stop warm-tools-monitor` ends it. Without the UI:
+  `REDIS_URL=... npm run redis:monitor -- --out <dir>`.
+- **Next to a warm:** a warm UI started with both variables shows the same card, with Start and Stop.
+
+**Stress** (a strategy; `scripts/cache/stress.ts`). Cached report pages at fixed arrival rates, an
+open model: requests start on schedule whether or not earlier ones finished, up to a cap in flight
+(requests due at the cap are dropped and counted). Each page is read to the end. **Never run it on
+the site's host**: it competes with the site for CPU. On the load machine it needs neither variable:
+`npm run warm:ui -- --port 5560` (with `data/dimensions.sqlite` built). It refuses `datausa.io` and
+`api.datausa.io`.
+- **Inputs:** the target (default https://penn.datausa.io); the stages, rising rates (pages/s,
+  seconds each, a pause between) or a spike (base rate, peak, back to base); the cap in flight and the
+  page timeout; the stop conditions; the Tesseract probe host; optionally the monitor's URL through its
+  tunnel (http://localhost:5561), polled every 5 s for the host's memory and Redis latency.
+- **The URL list** is built from the dimensions database, from the warmed levels only (no school
+  districts): each level gets its share (mostly places and counties), and within a level members are
+  drawn by size rank with weight 1/rank^skew, so states, big cities and large universities repeat.
+  "Largest only" limits a level to its N largest members. "Preview the list" shows the counts. The
+  list is saved with the run (`urls.txt`, `url-mix.json`).
+- **A cache hit** is a page whose `data-gen-cache="<hits>/<total>"` is within 5 of its total, or
+  (option) within 5 of the most hits that URL showed in the run, and above 0. The second rule is for
+  levels where some generators always fail: failures are never stored, so those pages never reach
+  their total (a large place shows `148/171` on every visit) and the site computes the failed
+  generators again on each visit.
+- **Stop conditions,** over the last 30 s once 20 requests finished: more than 2% errors (5xx,
+  timeouts, connection errors), more than 5% cache misses, more than 2% of requests dropped at the
+  cap; a Tesseract probe (one small query every 10 s) slower than 5 s or failing; the host's memory
+  below 2 GB (with the monitor URL). The run records which one stopped it, and when. "Stop now" aborts
+  every request in flight.
+- **Live:** every 2 s, over the last 10 s: pages/s sent and served, page time p50, p95 and p99, time
+  to first byte, errors, timeouts, in flight, cache-hit share, the probe, with a chart of each and the
+  current stage, and a table per finished stage.
+- **Files** in `<runs>/<time>-stress/`: `requests.jsonl` (every request: start time, stage, URL,
+  status, time to first byte, total time, bytes, hits and total, hit), `progress.jsonl`,
+  `events.jsonl` (stage boundaries, the stop and its reason), `probe.jsonl`, `summary.json` (per
+  stage), `config.json`. Times are milliseconds since the epoch (UTC).
+
 #### Running the warm UI on a Google Cloud VM
 For a VM that already runs the site (`./deploy-prod.sh`) and Redis (`compose-redis.yaml`). The host's
 Node may be too old (the project needs 24), so the warm tools run in a `node:24` container from the
