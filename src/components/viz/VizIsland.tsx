@@ -224,6 +224,42 @@ export function VizIsland({vizId, sectionSlug, profileSlug, which = "primary", t
 
   const ok = built && built.kind === "ok" ? built : null;
   const sharedData = ok && ok.config.data !== undefined ? dataKey(ok.config.data) : null;
+
+  // A chart that reads several URLs is loaded here rather than by d3plus: d3plus loads them as one
+  // set, and one failed URL (api-penn answers some empty results with a 500) left the whole chart
+  // empty. Here a failed URL counts as an empty response and the chart draws from the others
+  // (QA DIFF-002). d3plus then gets the formatted rows; `Options` keeps the URLs.
+  const multiUrls = ok && isMultiUrl(ok.config.data) ? ok.config.data as string[] : null;
+  const multiKey = multiUrls ? dataKey(multiUrls) : null;
+  const [prefetched, setPrefetched] = useState<{key: string; resp: unknown[]} | null>(null);
+  useEffect(() => {
+    if (!multiUrls || !multiKey || prefetched?.key === multiKey) return;
+    let cancelled = false;
+    Promise.allSettled(multiUrls.map(url => fetch(url).then(res => res.ok ? res.json() : Promise.reject(new Error(`HTTP ${res.status}`)))))
+      .then(results => {
+        if (cancelled) return;
+        const resp = results.map((r, i) => {
+          if (r.status === "fulfilled") return foldResponse(r.value);
+          console.warn(`Visualization ${vizId}: ${multiUrls[i]} failed (${(r.reason as Error)?.message ?? r.reason}); drawn without it`);
+          return {data: []};
+        });
+        setPrefetched({key: multiKey, resp});
+      });
+    return () => { cancelled = true; };
+  }, [multiUrls, multiKey, prefetched, vizId]);
+  const chartConfig = useMemo<AnyRecord | null>(() => {
+    if (!ok) return null;
+    if (!multiKey) return ok.config;
+    if (prefetched?.key !== multiKey) return null;
+    const {dataFormat, ...config} = ok.config;
+    const formatted = typeof dataFormat === "function" ? dataFormat(prefetched.resp) : prefetched.resp;
+    // like d3plus: a formatter may return an object holding `data` and more config
+    if (formatted && typeof formatted === "object" && !Array.isArray(formatted)) {
+      const {data, ...more} = formatted as AnyRecord;
+      return {...config, ...more, data: data ?? []};
+    }
+    return {...config, data: formatted ?? []};
+  }, [ok, multiKey, prefetched]);
   useEffect(() => {
     if (!sharedData) return;
     const sections = sectionsByData.get(sharedData) ?? new Set<string>();
@@ -243,9 +279,9 @@ export function VizIsland({vizId, sectionSlug, profileSlug, which = "primary", t
   const [figureRef, figureSize] = useFigureSize<HTMLDivElement>(Boolean(ok && supported));
   const fontsReady = useChartFonts();
   const sizedConfig = useMemo(() => {
-    if (!ok || !figureSize || !fontsReady) return null;
-    return {...ok.config, width: figureSize.width, height: explicitHeight ?? figureSize.height};
-  }, [ok, figureSize, explicitHeight, fontsReady]);
+    if (!chartConfig || !figureSize || !fontsReady) return null;
+    return {...chartConfig, width: figureSize.width, height: explicitHeight ?? figureSize.height};
+  }, [chartConfig, figureSize, explicitHeight, fontsReady]);
 
   return (
     <div ref={ref} className={`${styles.container} ${className}`} data-viz-id={vizId}>
@@ -293,6 +329,19 @@ function firstGroupBy(groupBy: unknown): (d: AnyRecord, i: number) => unknown {
   if (typeof first === "function") return first as (d: AnyRecord, i: number) => unknown;
   const key = String(first);
   return (d: AnyRecord) => d[key];
+}
+
+/** Whether a chart's `data` is several URLs (loaded by the island, see `VizIsland`). */
+function isMultiUrl(data: unknown): boolean {
+  return Array.isArray(data) && data.length > 1 && data.every(d => typeof d === "string");
+}
+
+/** A response in `{headers, data: [[...]]}` form as rows, the way d3plus's loader folds it. */
+function foldResponse(value: unknown): unknown {
+  const v = value as AnyRecord | null;
+  if (!v || Array.isArray(v) || !Array.isArray(v.data) || !Array.isArray(v.headers)) return value;
+  const headers = v.headers as string[];
+  return (v.data as unknown[][]).map(row => Object.fromEntries(headers.map((h, i) => [h, row[i]])));
 }
 
 /** Legacy default: concatenate the `data` arrays of one or many responses. */

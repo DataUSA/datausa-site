@@ -14,11 +14,25 @@ const materializer: MaterializerDefinition = {
            medianEarningsByIndustry, singleState, visiblePayroll, freightName, lastYearPumsEducation, lastYearNoSchooling,
            incomeRace0Child1Visible, incomeCurr, gini1Curr, commuteMeansYear, commuteTime, vehiclesNum, visibleSevereHousingProblems,
            povertyRate, visibleChildrenInPoverty, providerYear_, coverageByAge, insuranceYearCurr, visibleHealthCare, visibleAwardedDegrees, 
-           visibleDegrees, visibleUniversities, visibleGradsRace, visibleTuition, visibleAdmEnr, senatorTotal, houseStats,
+           visibleDegrees, visibleUniversities, visibleGradsRace, visibleTuition, visibleAdmEnr, senatorTotal, houseStats, houseTotal,
            isStateDistrictPumaMSAPlace, lastYearProvider, isCounty, lastYearProviderCounty, ageCurr,ageGrowth, povertyRateGrowth, payingIndustryListACS,
            propertyCurr, propertyGrowth, pct_rentOwn, incomeGrowth, acsMultiYear, propertyCurrMoe, providerVisible,
-           visiblePresident
+           visiblePresident, insuranceSome, insuranceEmp, insuranceMedicaid, insuranceMedicare, insuranceNon,
+           insuranceOther, insuranceNone, menCoverage, womenCoverage, gradsRace1Ratio, isNotDistrict
     } = variables;
+
+    // Shares over a total of 0 (the smallest places have no ACS rows) come out as NaN or Infinity and
+    // printed as "NaNN%": hide the text or topic that would show them (QA DIFF-012, DIFF-014). Only
+    // numbers that are not finite count; a missing value keeps the old behaviour.
+    const nonFinite = (...values: any[]) => values.some(v => typeof v === "number" && !Number.isFinite(v));
+    const textAboutProperty = Boolean(propertyCurr) && !nonFinite(pct_rentOwn);
+    const textHealthCoverage = Boolean(notDistrict) && !nonFinite(insuranceSome, insuranceEmp, insuranceMedicaid, insuranceMedicare, insuranceNon, insuranceOther);
+    const visibleUninsuredTopic = Boolean(insuranceYearCurr) && !nonFinite(insuranceEmp, insuranceMedicaid, insuranceNone);
+    const textCoverageByGender = !nonFinite(menCoverage, womenCoverage);
+    const textCoverageByGenderIntro = Boolean(isNotDistrict) && textCoverageByGender;
+    // the age shares arrive already formatted ("NaNN% under 18 years")
+    const textCoverageByAge = !(Array.isArray(coverageByAge) && coverageByAge.some((d: any) => String(d).includes("NaN")));
+    const textGradsRaceRatio = !nonFinite(gradsRace1Ratio);
 
     const visibleTextIncome = incomeGrowth && acsMultiYear;
     const visiblePropertyStat = propertyCurrMoe && propertyCurr;
@@ -66,6 +80,9 @@ const materializer: MaterializerDefinition = {
 
     const visibleHouse = houseStats && notNation;
     const visibleHouseSection = visibleHouse || isNation;
+    // the "currently represented by" sentence: any area with members in the house (not the
+    // territories, which have none in the data; QA DIFF-005)
+    const visibleHouseText = houseTotal && notNation;
 
     const visibleElection = visiblePresident || visibleHouseSection || visibleSenatorSection;
 
@@ -99,6 +116,7 @@ const materializer: MaterializerDefinition = {
       visibleSenatorSection,
       visibleHouse,
       visibleHouseSection,
+      visibleHouseText,
       visibleTextProvider,
       visibleTextProviderCounty,
       visibleAgeStat,
@@ -106,7 +124,14 @@ const materializer: MaterializerDefinition = {
       visibleTextHousing,
       visibleTextIncome,
       visiblePropertyStat,
-      visibleElection
+      visibleElection,
+      textAboutProperty,
+      textHealthCoverage,
+      visibleUninsuredTopic,
+      textCoverageByGender,
+      textCoverageByGenderIntro,
+      textCoverageByAge,
+      textGradsRaceRatio
     }
   }
 };
