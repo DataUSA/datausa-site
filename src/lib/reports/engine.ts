@@ -61,6 +61,8 @@ export interface BuildOptions {
   throttle?: () => Promise<void>;
   /** `bypass` renders without the generator cache (diagnostics: compare with a cached render). */
   cache?: "auto" | "bypass";
+  /** Query generators whose failure the cache remembers instead of reusing it (warm renders). */
+  retryFailures?: boolean;
 }
 
 const MAX_CONCURRENT_REQUESTS = Number(process.env.API_MAX_CONCURRENCY ?? 12);
@@ -206,7 +208,8 @@ export async function buildVariables(template: ReportTemplate, attrs: Variables,
       groups,
       compute: group => computeGroup(group, attrs, genCtx, options, true),
       concurrency: MAX_CONCURRENT_REQUESTS,
-      limit: mapWithConcurrency
+      limit: mapWithConcurrency,
+      retryFailures: options.retryFailures
     });
     outcome = resolved.resolved;
     cacheStats = resolved.stats;

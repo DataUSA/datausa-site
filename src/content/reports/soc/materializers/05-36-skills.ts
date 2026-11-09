@@ -11,14 +11,9 @@ const materializer: MaterializerDefinition = {
   logic: (variables) => {
     const {showRCASkills, showValueSkills} = variables;
 
-    let showSkills
-    if (showRCASkills === false && showValueSkills === false){
-       showSkills = false;
-    }
-
-    else {
-       showSkills = true;
-    }
+    // a flag left undefined (its generator failed, e.g. api-penn answering an empty result with a 500)
+    // counts as "no skills", so a failed generator hides the topic instead of showing it empty (QA DIFF-006)
+    const showSkills = Boolean(showRCASkills || showValueSkills);
 
     return {
       onetValue: "Value",

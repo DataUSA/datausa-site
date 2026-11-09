@@ -97,7 +97,7 @@ async function warmOne(entry: string, stats: WarmerStats, wait: () => Promise<vo
   if (!member) return;
   // imported lazily: the engine pulls in every report template
   const {loadEngine} = await import("@/lib/reports/load");
-  const run = await loadEngine(profileSlug, member, false, {throttle: wait, label: "warmer"});
+  const run = await loadEngine(profileSlug, member, false, {throttle: wait, label: "warmer", retryFailures: true});
   const failed = run.built.diagnostics.failed.length;
   stats.warmed++;
   if (failed) stats.failed++;

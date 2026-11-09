@@ -166,10 +166,24 @@ gen:<generator id>:<generator version>:<hash of the URL without its host>:<hash 
   (`src/lib/api/upstream-scope.ts`), and an output whose reads cannot all be mapped is not stored
   (`scripts/cache/check-tags.mjs` renders the states and top counties and fails on any).
 - **Only successes are stored**: a 2xx response with nothing failing underneath, logic that did not
-  throw and returned an object, an output that survives the JSON round trip (`undefined` is kept
-  exactly; anything else that would change is reported and left uncached), and a generator not in
-  `UNCACHED_GENERATORS` (`src/lib/cache/generator-cache.ts`: the four that read the calendar year,
-  plus any ids in `GENERATOR_CACHE_SKIP`).
+  throw and returned an object or nothing, an output that survives the JSON round trip (`undefined`,
+  `NaN` and the infinities are kept exactly, as markers; anything else that would change is reported
+  and left uncached), and a generator not in `UNCACHED_GENERATORS`
+  (`src/lib/cache/generator-cache.ts`: the four that read the calendar year, plus any ids in
+  `GENERATOR_CACHE_SKIP`).
+- **Failures are remembered, not stored**: a group that failed leaves a `failed|…` mark in its
+  `lock:<key>`, naming the failed generators. Renders that find it answer at once (siblings from
+  their entries, the failed generators with the remembered failure) instead of querying again. The
+  mark lasts 6 h for answers a retry will not change (4xx, logic that threw, no data;
+  `GEN_CACHE_FAILED_MS`) and 10 s for timeouts and network errors. **A 5xx is never remembered**
+  (a requirement): every render that meets one retries it itself. Warm renders (the background
+  warmer and `warm:batch`) ignore marks, query again and replace or clear them, so a re-warm after a
+  data release (`--retry-failed`, `--retry-cubes`) is not held back. A changed generator or member
+  gets a new key, so a code fix is never held back either; a purge alone does not clear marks, so
+  without a re-warm a data release can take up to 6 h to fill a generator that used to fail with a
+  4xx. Before this, every view of a
+  cached page re-queried its failing generators (about 14 a page on geo reports), which limited
+  penn to about 20 pages/s in the 2026-11-09 load test.
 - **Generators that share a URL** share its response, and some of them change it for the next ones,
   so they are computed together whenever one of them is missing, as an uncached render would.
 - **Purge-safe writes**: `cube-epoch` counts the purges of each tag. A render reads it before

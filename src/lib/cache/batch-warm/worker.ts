@@ -949,7 +949,7 @@ async function runGroup(job: GroupJob): Promise<GroupStats> {
     };
     const started = performance.now();
     try {
-      const run = await withWarm(context, () => loadEngine(job.profile, item.member, false, {label: "warm"}));
+      const run = await withWarm(context, () => loadEngine(job.profile, item.member, false, {label: "warm", retryFailures: true}));
       const d = run.built.diagnostics;
       const cache = d.cache;
       stats.rendered++;

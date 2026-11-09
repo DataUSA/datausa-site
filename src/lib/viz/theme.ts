@@ -288,7 +288,10 @@ export const theme: AnyRecord = {
       return uniques.length === 1 ? uniques[0] : uniques;
     }
   },
-  axisConfig: axisStyles,
+  // Only the Radar (and Priestley) read a top-level `axisConfig`. The Radar's own default gives its
+  // level rings `fill: "none"`; this object replaces that shapeConfig, so without the fill the rings
+  // are SVG circles with the default black fill (a black disc). Plot axes use x/yConfig below.
+  axisConfig: {...axisStyles, shapeConfig: {...axisStyles.shapeConfig, fill: "none"}},
   barPadding: 0,
   colorScaleConfig: {
     axisConfig: {

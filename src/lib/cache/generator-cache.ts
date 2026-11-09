@@ -21,8 +21,16 @@
  *
  * Coalescing: within a worker, renders that need the same group share one computation; across
  * workers, the first takes `lock:<group>` (`SET NX PX`) and the others poll for its entries, then
- * compute themselves if it gave up. A failed computation leaves a short `failed` mark so the waiting
- * renders do not repeat a query that just failed.
+ * compute themselves if it gave up.
+ *
+ * Failures are remembered in the same `lock:<group>` key, as a `failed|…` mark naming the failed
+ * generators. A render that finds the mark answers at once: siblings that succeeded from their
+ * entries, the failed ones with the remembered failure, without querying the API again. How long a
+ * mark lasts depends on whether the failure can change on a retry (`failureMarkMs`): hours for an
+ * answer that will not change (4xx, logic that threw, no data), seconds for timeouts and network
+ * errors. A 5xx is never remembered: every render that meets one retries it itself. Warm renders
+ * (`retryFailures`) ignore marks, query again and replace or clear the mark. A new generator version
+ * or new attributes give a new group key, so a fixed generator is never held back by an old mark.
  */
 import {createHash} from "node:crypto";
 import {generatorManifest} from "@/lib/cache/manifest";
@@ -31,8 +39,12 @@ import {decodeOutput, encodeOutput, epochSnapshot, jsonProblem, storeEntries, ty
 import type {GeneratorDefinition, Variables} from "@/lib/reports/types";
 
 const LOCK_MS = Number(process.env.GEN_CACHE_LOCK_MS ?? 60_000);
-const FAILED_MARK_MS = 10_000;
+/** Timeouts, network errors, a busy limiter, a failed upstream read: retry soon. */
+const FAILED_TRANSIENT_MS = 10_000;
+/** An answer that will not change on a retry: a 4xx, logic that threw on the data, no data. */
+const FAILED_FINAL_MS = Number(process.env.GEN_CACHE_FAILED_MS ?? 6 * 3_600_000);
 const POLL_MS = 150;
+const FAILED_PREFIX = "failed";
 
 export const hash = (text: string) => createHash("sha256").update(text).digest("hex").slice(0, 16);
 
@@ -96,6 +108,8 @@ interface Context {
   compute: (group: Group) => Promise<GroupComputation>;
   concurrency: number;
   limit: <T, R>(items: T[], limit: number, fn: (item: T) => Promise<R>) => Promise<R[]>;
+  /** Query groups whose failure is remembered instead of answering from the mark (warm renders). */
+  retryFailures?: boolean;
 }
 
 /** The outcome of a computation as shared between renders: outputs as JSON, so each render gets its own copy. */
@@ -139,11 +153,80 @@ function ineligible(g: GeneratorDefinition, url: string, version: string | null)
   return null;
 }
 
-function failedOutcome(kind: FailureKind, message: string, n: number): SharedOutcome {
-  return {status: 0, durationMs: 0, results: Array.from({length: n}, () => ({ok: false as const, kind, message}))};
+const isSuccess = (c: GroupComputation) => c.status >= 200 && c.status < 300 && !c.upstreamFailures.length;
+
+/**
+ * Non-finite numbers in generator outputs. Content produces them (a share of a total of 0) and an
+ * uncached render keeps them, but JSON cannot hold them, so they are written as markers (a NUL, which
+ * no content produces, then the name) and restored on read. Without this such an output is never
+ * stored and the generator is recomputed from the API on every visit. Done here rather than in
+ * `store.ts`, whose code is part of the attribute, lookup and endpoint hashes in the manifest.
+ */
+const NON_FINITE: Record<string, number> = {"\u0000NaN": NaN, "\u0000Infinity": Infinity, "\u0000-Infinity": -Infinity};
+
+function mapValues(value: unknown, fn: (v: unknown) => unknown): unknown {
+  const v = fn(value);
+  if (Array.isArray(v)) return v.map(x => mapValues(x, fn));
+  if (v && typeof v === "object" && Object.getPrototypeOf(v) === Object.prototype) {
+    return Object.fromEntries(Object.entries(v).map(([k, x]) => [k, mapValues(x, fn)]));
+  }
+  return v;
 }
 
-const isSuccess = (c: GroupComputation) => c.status >= 200 && c.status < 300 && !c.upstreamFailures.length;
+const markNonFinite = (output: Variables) => mapValues(output, v => typeof v === "number" && !Number.isFinite(v)
+  ? Number.isNaN(v) ? "\u0000NaN" : v > 0 ? "\u0000Infinity" : "\u0000-Infinity"
+  : v) as Variables;
+
+const hasMarker = (text: string) => text.includes("\\u0000NaN") || text.includes("\\u0000Infinity") || text.includes("\\u0000-Infinity");
+
+/** `decodeOutput`, with non-finite numbers restored. */
+function readOutput(text: string): Variables {
+  const {output} = decodeOutput(text);
+  return hasMarker(text) ? mapValues(output, v => typeof v === "string" && v in NON_FINITE ? NON_FINITE[v] : v) as Variables : output;
+}
+
+/** A remembered failure of a group: the status, and each failed generator's index, kind and message. */
+interface FailureMark {
+  s: number;
+  /** null for a mark from before failures were itemised: every output not in the cache counts as failed. */
+  f: [number, FailureKind, string][] | null;
+}
+
+const encodeMark = (mark: FailureMark) => `${FAILED_PREFIX}|${JSON.stringify(mark)}`;
+
+/** The failure mark in a `lock:<group>` value, or null when the value is a lock or nothing. */
+function parseMark(value: unknown): FailureMark | null {
+  if (typeof value !== "string" || !value.startsWith(FAILED_PREFIX)) return null;
+  if (value === FAILED_PREFIX) return {s: 0, f: null};
+  try {
+    return JSON.parse(value.slice(FAILED_PREFIX.length + 1)) as FailureMark;
+  }
+  catch {
+    return {s: 0, f: null};
+  }
+}
+
+/**
+ * How long to remember a group's failure, or 0 for none. A 5xx is never remembered (a requirement:
+ * no render may show a failure because of an earlier 5xx; each retries it). Otherwise the shortest
+ * rule among its failures wins. A mark also hides siblings that succeeded but could not be stored,
+ * so then it is kept as short as a transient failure.
+ */
+function failureMarkMs(computation: GroupComputation, results: SharedOutcome["results"]): number {
+  const failures = computation.results.filter((r): r is Extract<GeneratorResult, {ok: false}> => !r.ok);
+  if (!failures.length) return 0;
+  if (computation.status >= 500) return 0;
+  // the failed fetch itself is also noted as an upstream failure; its status decides below. Other
+  // failed reads (inside an in-process endpoint that still answered) may not happen again.
+  if (computation.upstreamFailures.length && !failures.some(f => f.kind === "http")) return FAILED_TRANSIENT_MS;
+  let ms = FAILED_FINAL_MS;
+  for (const f of failures) {
+    if (f.kind === "http") ms = Math.min(ms, computation.status >= 400 ? FAILED_FINAL_MS : FAILED_TRANSIENT_MS);
+    else if (f.kind !== "logic" && f.kind !== "no-data" && f.kind !== "url") ms = Math.min(ms, FAILED_TRANSIENT_MS);
+  }
+  if (results.some(r => r.ok && r.json === null)) ms = Math.min(ms, FAILED_TRANSIENT_MS);
+  return ms;
+}
 
 /** The cache keys of one URL group of a render. */
 export interface PlannedGroup {
@@ -235,8 +318,26 @@ export async function resolveGenerators(ctx: Context): Promise<{resolved: Map<Ge
   const resolved = new Map<GeneratorDefinition, ResolvedGenerator>();
   const fromCache = (p: Planned, state: CacheState, texts: string[]) => {
     p.group.generators.forEach((g, i) => {
-      const {output} = decodeOutput(texts[i]);
+      const output = readOutput(texts[i]);
       resolved.set(g, {result: {ok: true, output}, status: 200, durationMs: 0, cache: state});
+    });
+  };
+
+  /** Answers a group from a failure mark: entries for the siblings that have one, the remembered failure for the rest. */
+  const fromMark = (p: Planned, mark: FailureMark, texts: (string | null | undefined)[]) => {
+    p.group.generators.forEach((g, i) => {
+      const text = texts[i];
+      if (text) {
+        resolved.set(g, {result: {ok: true, output: readOutput(text)}, status: 200, durationMs: 0, cache: "hit"});
+        stats.hits += 1;
+        return;
+      }
+      const failed = mark.f?.find(([index]) => index === i);
+      const result: GeneratorResult = failed
+        ? {ok: false, kind: failed[1], message: failed[2]}
+        : {ok: false, kind: "concurrent", message: "failed in a concurrent render a moment ago"};
+      resolved.set(g, {result, status: mark.s, durationMs: 0, cache: "wait", uncached: "failure remembered"});
+      stats.waits += 1;
     });
   };
 
@@ -254,17 +355,32 @@ export async function resolveGenerators(ctx: Context): Promise<{resolved: Map<Ge
     const epochs = redisUp ? await timed(epochSnapshot()) : undefined;
     const canWrite = Boolean(epochs);
 
-    // 3. cross-worker locks for the groups that can be shared
+    // 3. cross-worker locks for the groups that can be shared; a lock already held may be a failure mark
     const lockable = canWrite ? toCompute.filter(p => p.shareable && !inflight.has(p.groupKey)) : [];
     const owned = new Set<string>();
+    const marked = new Map<string, FailureMark>();
     if (lockable.length) {
       const replies = await timed(withRedis("write", async client => {
         const pipeline = client.pipeline();
-        lockable.forEach(p => pipeline.set(`lock:${p.groupKey}`, String(process.pid), "PX", LOCK_MS, "NX"));
+        lockable.forEach(p => {
+          pipeline.set(`lock:${p.groupKey}`, String(process.pid), "PX", LOCK_MS, "NX");
+          pipeline.get(`lock:${p.groupKey}`);
+        });
         return pipeline.exec();
-      }, lockable.length));
+      }, 2 * lockable.length));
       if (!replies) lockable.forEach(p => owned.add(p.groupKey)); // Redis failed: compute ourselves
-      else replies.forEach(([error, reply], i) => { if (error || reply === "OK") owned.add(lockable[i].groupKey); });
+      else {
+        lockable.forEach((p, i) => {
+          const [error, reply] = replies[2 * i] ?? [null, null];
+          if (error || reply === "OK") owned.add(p.groupKey);
+          else {
+            const mark = parseMark(replies[2 * i + 1]?.[1]);
+            // a warm render queries again and replaces the mark (or clears it on success)
+            if (mark && ctx.retryFailures) owned.add(p.groupKey);
+            else if (mark) marked.set(p.groupKey, mark);
+          }
+        });
+      }
     }
 
     const uncachedReasons = new Map<GeneratorDefinition, string>();
@@ -276,16 +392,22 @@ export async function resolveGenerators(ctx: Context): Promise<{resolved: Map<Ge
         if (!r.ok) return r;
         let reason = p.reasons[i];
         if (!reason && !success) reason = computation.upstreamFailures.length ? "an upstream read failed" : `HTTP ${computation.status}`;
-        if (!reason && (!r.output || typeof r.output !== "object")) reason = "logic returned no object";
+        // logic that returns nothing is stored as nothing, so it is not rerun on every visit
+        if (!reason && r.output != null && typeof r.output !== "object") reason = "logic returned a non-object";
         if (!reason && !computation.tags?.length) reason = "URL maps to no tag";
-        const problem = !reason && r.output ? jsonProblem(r.output) : null;
+        let stored = r.output;
+        let problem = !reason && stored ? jsonProblem(stored) : null;
+        if (problem && /is (-?Infinity|NaN)$/.test(problem)) {
+          stored = markNonFinite(stored!);
+          problem = jsonProblem(stored);
+        }
         if (problem) reason = `not JSON-safe: ${problem}`;
         if (reason) {
           uncachedReasons.set(p.group.generators[i], reason);
           return {ok: true, json: null, output: r.output};
         }
         const g = p.group.generators[i];
-        const json = encodeOutput(r.output!, {g: g.id, m: ctx.memberId, p: ctx.profile});
+        const json = encodeOutput(stored!, {g: g.id, m: ctx.memberId, p: ctx.profile});
         writes.push({key: p.keys[i]!, value: json, tags: computation.tags!, owner});
         return {ok: true, json, output: r.output};
       });
@@ -294,10 +416,14 @@ export async function resolveGenerators(ctx: Context): Promise<{resolved: Map<Ge
         stats.stored += stored; // not `+= await`: concurrent groups would overwrite each other's count
       }
       if (owned.has(p.groupKey)) {
-        const failed = results.some(r => !r.ok);
-        // a failure leaves a short mark so the renders waiting on it do not repeat the query at once
+        // a failure leaves a mark so later renders do not repeat the query (see `failureMarkMs`)
+        const markMs = failureMarkMs(computation, results);
+        const mark: FailureMark = {
+          s: computation.status,
+          f: computation.results.flatMap((r, i): [number, FailureKind, string][] => r.ok ? [] : [[i, r.kind, r.message.slice(0, 300)]])
+        };
         void withRedis("write", async client => {
-          if (failed) await client.set(`lock:${p.groupKey}`, "failed", "PX", FAILED_MARK_MS);
+          if (markMs) await client.set(`lock:${p.groupKey}`, encodeMark(mark), "PX", markMs);
           else await client.del(`lock:${p.groupKey}`);
         });
       }
@@ -312,7 +438,7 @@ export async function resolveGenerators(ctx: Context): Promise<{resolved: Map<Ge
         if (!r.ok) result = r;
         // this render's own objects as they are (like an uncached render); a copy for anyone else
         else if (computedHere) result = {ok: true, output: r.output};
-        else if (r.json !== null) result = {ok: true, output: decodeOutput(r.json).output};
+        else if (r.json !== null) result = {ok: true, output: readOutput(r.json)};
         else result = {ok: true, output: undefined};
         resolved.set(g, {result, status: outcome.status, durationMs: outcome.durationMs, cache: state, uncached: uncachedReasons.get(g) ?? p.reasons[i] ?? undefined});
       });
@@ -331,6 +457,10 @@ export async function resolveGenerators(ctx: Context): Promise<{resolved: Map<Ge
             stats.waits += p.keys.length;
             return;
           }
+        }
+        else if (marked.has(p.groupKey)) {
+          fromMark(p, marked.get(p.groupKey)!, p.keys.map(k => cached.get(k!)));
+          return;
         }
         else if (canWrite && !owned.has(p.groupKey)) {
           waiting.push(p);
@@ -371,14 +501,16 @@ export async function resolveGenerators(ctx: Context): Promise<{resolved: Map<Ge
           const texts = replies.slice(offset, offset + p.keys.length);
           offset += p.keys.length;
           const lock = replies[keys.length + i];
+          const mark = parseMark(lock);
           if (texts.every(Boolean)) {
             fromCache(p, "wait", texts as string[]);
             stats.waits += p.keys.length;
           }
-          else if (lock === "failed") {
-            settle(p, failedOutcome("concurrent", "failed in a concurrent render a moment ago", p.keys.length), "wait", false);
-            stats.waits += p.keys.length;
+          else if (mark && ctx.retryFailures) {
+            owned.add(p.groupKey);
+            next.push(p);
           }
+          else if (mark) fromMark(p, mark, texts);
           else if (lock === null) {
             owned.add(p.groupKey); // the other worker finished without storing: compute ourselves
             next.push(p);
