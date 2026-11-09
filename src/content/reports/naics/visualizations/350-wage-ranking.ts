@@ -27,7 +27,10 @@ const viz: VizDefinition = (variables, {libs, formatters, locale}) => {
             d["Shape"] = "Bar"
           });
 
-          const rank = group.values.find((d: any) => d["Industry Group ID"] === id)["Ranking"]
+          // A year with no wage for this industry has nothing to rank (it threw and blanked the chart).
+          const own = group.values.find((d: any) => d["Industry Group ID"] === id)
+          if (!own) return;
+          const rank = own["Ranking"]
        
           if (rank < 5) {
             const lastRanked: Record<string, any> = {

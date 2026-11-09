@@ -199,6 +199,17 @@ input[type="text"]:focus { outline: 0; }
   vertical-align: baseline;
 }
 
+/* Text for screen readers only. Content uses it: the senators generator wraps each senator's class
+   number in it, so stat titles read "Senator from Massachusetts" with the "1" kept off screen. */
+.u-visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
 /* d3plus overrides (tooltips are appended to <body>, so these must be global). Axis titles are
    upper-cased in the chart island config: d3plus 4 gives their text nodes no `d3plus-Axis-title`
    class to style. */

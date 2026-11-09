@@ -163,6 +163,12 @@ export function VizIsland({vizId, sectionSlug, profileSlug, which = "primary", t
       delete merged.cart;
       // d3plus 4 ignores fillOpacity/strokeOpacity on map paths; fold them into the colours.
       if (type === "Geomap") merged.shapeConfig = geomapShapeConfig(merged.shapeConfig);
+      // A chart that resets the fill asks for d3plus's own default fill: the colour scale's value,
+      // else a colour assigned from the `color` accessor. The theme turns that accessor off
+      // (`color: false`, so legends key on the fill), which made the default fill throw
+      // ("schema.color is not a function") and the chart never drew. Such charts get d3plus's
+      // default accessor back, the first groupBy level, as the legacy d3plus 2 charts had.
+      if (merged.color === undefined && merged.shapeConfig?.fill === FILL_RESET) merged.color = firstGroupBy(merged.groupBy);
       // The legacy stylesheet upper-cased axis titles (`.d3plus-Axis-title text`); d3plus 4 renders
       // titles as generic text nodes with no such class, so apply the transform to the config.
       for (const key of ["xConfig", "yConfig", "x2Config", "y2Config"]) {
@@ -276,6 +282,17 @@ function dropUndated(rows: unknown, time: unknown): unknown {
     const value = d ? timeOf(d, i) : undefined;
     return value !== undefined && value !== null && value !== "";
   });
+}
+
+/** The value d3plus's `config()` reads as "restore this key's default". */
+const FILL_RESET = "D3PLUS-COMMON-RESET";
+
+/** d3plus's default `color` accessor: the first groupBy level (`id` when the chart has no groupBy). */
+function firstGroupBy(groupBy: unknown): (d: AnyRecord, i: number) => unknown {
+  const first = Array.isArray(groupBy) ? groupBy[0] : groupBy ?? "id";
+  if (typeof first === "function") return first as (d: AnyRecord, i: number) => unknown;
+  const key = String(first);
+  return (d: AnyRecord) => d[key];
 }
 
 /** Legacy default: concatenate the `data` arrays of one or many responses. */

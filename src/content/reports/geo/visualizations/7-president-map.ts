@@ -35,6 +35,9 @@ const viz: VizDefinition = (variables, {libs, formatters, albersUsaPr}) => {
       colorMid: colorGrey,
       colorMax: colorParty.Republican,
       domain: [-100, 100],
+      // One stop per colour. Without it d3plus 4.7 derives [-100, 0, 50, 100] from three colours
+      // centred on 0, so every share above 50% Republican was full red (legacy: -100…0…100).
+      buckets: [-100, 0, 100],
       //data: [{"Vote Share": -100}, {"Vote Share": 0}, {"Vote Share": 100}],
       scale: "linear"
     },
