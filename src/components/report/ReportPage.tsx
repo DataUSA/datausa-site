@@ -2,6 +2,7 @@ import {stripHTML, stripP} from "@/content/formatters";
 import {imageMember, memberImageUrl, type LoadedReport} from "@/lib/reports/load";
 import type {PreparedSection} from "@/lib/reports/engine";
 import {similarGeographies} from "@/lib/dimensions/similar";
+import {similarMembers} from "@/lib/dimensions/similar-members";
 import type {getImage} from "@/lib/dimensions/db";
 import {pictureCredit} from "@/lib/reports/images";
 import {isPendingLevel} from "@/lib/geo/levels";
@@ -64,7 +65,10 @@ export async function ReportPage({loaded, comparison}: {loaded: LoadedReport; co
   const profileSlug = template.meta.slug;
   const [primary, compare] = await Promise.all([view(loaded), comparison ? view(comparison) : undefined]);
   // similar places are found through the geoservice and ranked by population: neither knows a level without data
-  const similar = profileSlug === "geo" && !compare && !isPendingLevel(member.hierarchy) ? await similarGeographies(member) : [];
+  // other profiles: parents and neighbours by rank, or similar universities (QA DIFF-008)
+  const similar = compare ? []
+    : profileSlug === "geo" ? isPendingLevel(member.hierarchy) ? [] : await similarGeographies(member)
+      : await similarMembers(profileSlug, member);
   const joiner = profileSlug === "geo" ? "in" : "for";
   const hasPrism = loaded.report.sections.some(s => s.type.startsWith("Prism"));
   const prismUser = hasPrism ? await getPrismUser() : null;
