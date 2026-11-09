@@ -20,12 +20,23 @@
 // (`ssh -L 5560:127.0.0.1:5560 <host>`, then http://localhost:5560). Requests that change anything
 // need an `X-Warm-UI` header, which a page on another site cannot send without CORS approval.
 // One run at a time, as the warmer's own Redis lock (`warm:batch:lock`) also enforces.
+//
+// Two more tools, for load tests of the cache (docs/deployment.md, "Warm UI"):
+// - Stress: a strategy that sends cached report pages to a site at fixed rates (scripts/cache/stress.ts).
+//   It needs neither Redis nor Tesseract variables: on a load machine, `npm run warm:ui` alone.
+// - Monitor: a read-only Redis sampler (scripts/cache/monitor.ts), next to a warm or a stress run.
+//   `--monitor-only` serves only it (no warm, no stress, and no Redis connection in this process),
+//   for the site's host; `--monitor` starts sampling at launch.
 import {spawn, type ChildProcess} from "node:child_process";
 import {closeSync, existsSync, mkdirSync, openSync, readdirSync, readFileSync, readSync, statSync, writeFileSync} from "node:fs";
 import http from "node:http";
 import {join, resolve} from "node:path";
 import {DatabaseSync} from "node:sqlite";
 import Redis from "ioredis";
+import {latest as monitorLatest, parseSamples, series as monitorSeries} from "./monitor-view";
+import {FORBIDDEN_HOSTS, type StressConfig} from "./stress";
+import {buildStages, buildUrls, DEFAULT_MIX, DEFAULT_STRESS, probePlaces, stressStatus, type StageInput, type UrlMix} from "./stress-plan";
+import {MONITOR_CARD, PANELS_CSS, PANELS_JS, STRESS_CARD, STRESS_PANEL} from "./warm-ui-panels";
 import {isPendingLevel} from "../../src/lib/geo/levels";
 import {purgeTags} from "../../src/lib/cache/purge";
 import {TAG_REGISTRY_KEY} from "../../src/lib/cache/store";
@@ -43,13 +54,24 @@ const DB_PATH = resolve(process.env.DIMENSIONS_DB_PATH ?? join(ROOT, "data/dimen
 const TESSERACT = process.env.NEXT_PUBLIC_TESSERACT_URL ?? "";
 const REDIS_URL = process.env.REDIS_URL ?? "";
 const TSX = join(ROOT, "node_modules/.bin/tsx");
+const MONITOR_ONLY = argv.includes("--monitor-only");
+const MONITOR_AT_START = argv.includes("--monitor");
+const MONITOR_INTERVAL = Number(opt("monitor-interval", "1000"));
+const MONITOR_KEYS = Number(opt("monitor-keys", "100"));
+/** Warm strategies need both; Stress needs neither; the Monitor needs Redis. */
+const WARM = !MONITOR_ONLY && Boolean(TESSERACT && REDIS_URL);
+const STRESS = !MONITOR_ONLY;
 
-if (!TESSERACT || !REDIS_URL) {
-  console.error("usage: NEXT_PUBLIC_TESSERACT_URL=... REDIS_URL=... npm run warm:ui -- [--port 5560] [--runs warm-runs]");
+if (MONITOR_ONLY && !REDIS_URL) {
+  console.error("usage: REDIS_URL=... npm run warm:ui -- --monitor-only [--monitor] [--port 5560] [--runs warm-runs]");
   process.exit(2);
 }
+if (!MONITOR_ONLY && !WARM) {
+  console.log("NEXT_PUBLIC_TESSERACT_URL or REDIS_URL is not set: only the Stress mode is available" + (REDIS_URL ? " (and the Redis monitor)" : ""));
+}
 mkdirSync(RUNS, {recursive: true});
-const redis = new Redis(REDIS_URL, {maxRetriesPerRequest: 2, lazyConnect: false});
+// The warm's connection. Not opened with --monitor-only: the monitor child has its own, read-only one.
+const redis = WARM ? new Redis(REDIS_URL, {maxRetriesPerRequest: 2, lazyConnect: false}) : (null as unknown as Redis);
 /** The Redis URL without its password, for display. */
 const redisShown = REDIS_URL.replace(/\/\/([^:@/]*):[^@/]*@/, "//$1:***@");
 
@@ -207,7 +229,7 @@ async function deleteGeneratorOutputs(ids: number[]): Promise<number> {
 // Runs
 // ---------------------------------------------------------------------------------------------
 
-type Mode = "site" | "levels" | "generators" | "cubes";
+type Mode = "site" | "levels" | "generators" | "cubes" | "stress" | "monitor";
 
 interface Settings {workers: number; group: number; cap: number; maxCap: number; capStep: number; latencyFloor: number; slowP95: number; heavy: number; geoRate: number; force: boolean}
 
@@ -226,10 +248,14 @@ interface Meta {
   cubes?: string[];
   /** What was cleared before the run (generator outputs deleted, cubes purged). */
   prepared?: string;
-  settings: Settings;
+  settings?: Settings;
   tesseract: string;
   redis: string;
   pid?: number;
+  /** stress runs: the target and the stages */
+  stress?: {target: string; stages: number; seconds: number; rates: number[]};
+  /** monitor runs: how often, and the MGET sample size */
+  monitor?: {intervalMs: number; keys: number};
 }
 
 interface StartBody {
@@ -242,6 +268,21 @@ interface StartBody {
   /** cubes: purge them first. */
   purge?: boolean;
   settings?: Partial<Settings>;
+  /** stress: everything the Stress panel sends */
+  stress?: StressBody;
+}
+
+interface StressBody {
+  target?: string;
+  tesseract?: string;
+  monitorUrl?: string;
+  stageInput?: StageInput;
+  mix?: UrlMix;
+  cap?: number;
+  timeoutMs?: number;
+  hitMargin?: number;
+  hitRule?: "total" | "best";
+  stop?: Partial<StressConfig["stop"]>;
 }
 
 let current: {meta: Meta; child: ChildProcess} | null = null;
@@ -264,6 +305,8 @@ function readMeta(id: string): Meta | null {
 
 async function startRun(body: StartBody): Promise<{id?: string; error?: string}> {
   if (current || preparing) return {error: current ? `run ${current.meta.id} is still going` : "another run is being prepared"};
+  if (body.mode === "stress") return startStress(body.stress ?? {});
+  if (!WARM) return {error: MONITOR_ONLY ? "this UI was started with --monitor-only" : "warm runs need NEXT_PUBLIC_TESSERACT_URL and REDIS_URL"};
   const holder = await redis.get("warm:batch:lock").catch(() => null);
   if (holder) return {error: `another warm run holds warm:batch:lock (${holder}). If it was killed, the lock expires within a minute.`};
   const mode: Mode = body.mode ?? "levels";
@@ -337,6 +380,113 @@ async function startRun(body: StartBody): Promise<{id?: string; error?: string}>
   return {id};
 }
 
+const newId = (suffix: string) => new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19) + suffix;
+
+/** A stress run: builds the URL list and the stages, writes them to the run folder, starts stress.ts. */
+function startStress(b: StressBody): {id?: string; error?: string} {
+  if (!STRESS) return {error: "this UI was started with --monitor-only"};
+  const d = DEFAULT_STRESS;
+  let target: URL;
+  try {
+    target = new URL(b.target || d.target);
+  }
+  catch {
+    return {error: "the target is not a URL"};
+  }
+  if (!/^https?:$/.test(target.protocol)) return {error: "the target must be http or https"};
+  if (FORBIDDEN_HOSTS.has(target.hostname)) return {error: `${target.hostname} is production: never load it`};
+  const stages = buildStages(b.stageInput ?? d.stageInput);
+  if (!stages.some(st => st.rate > 0)) return {error: "no stages"};
+  const mix = {...DEFAULT_MIX, ...b.mix, levels: b.mix?.levels ?? DEFAULT_MIX.levels};
+  const db = openDb();
+  let urls: string[], byLevel: Record<string, {urls: number}>, placeIds: string[];
+  try {
+    ({urls, byLevel} = buildUrls(db, mix));
+    placeIds = probePlaces(db);
+  }
+  finally {
+    db.close();
+  }
+  if (!urls.length) return {error: "the URL list is empty: give some levels a share"};
+  const config: StressConfig = {
+    target: target.origin, stages, cap: Math.max(1, Number(b.cap ?? d.cap)), timeoutMs: Math.max(1000, Number(b.timeoutMs ?? d.timeoutMs)),
+    hitMargin: Number(b.hitMargin ?? d.hitMargin), hitRule: b.hitRule === "best" ? "best" : "total", stop: {...d.stop, ...b.stop},
+    probe: {tesseract: b.tesseract || d.tesseract, everyS: 10, placeIds}, monitorUrl: b.monitorUrl || undefined
+  };
+  const id = newId("-stress");
+  mkdirSync(runDir(id), {recursive: true});
+  writeFileSync(join(runDir(id), "config.json"), JSON.stringify(config, null, 1));
+  writeFileSync(join(runDir(id), "url-mix.json"), JSON.stringify({mix, byLevel}, null, 1));
+  writeFileSync(join(runDir(id), "urls.txt"), urls.join("\n") + "\n");
+  const levelsCount = Object.fromEntries(Object.entries(byLevel).map(([k, v]) => [k, v.urls]));
+  const meta: Meta = {
+    id, mode: "stress", startedAt: new Date().toISOString(), reports: urls.length, levels: levelsCount, tesseract: config.probe.tesseract, redis: "",
+    stress: {target: config.target, stages: stages.filter(st => st.rate > 0).length, seconds: stages.reduce((n, st) => n + st.seconds, 0), rates: stages.filter(st => st.rate > 0).map(st => st.rate)}
+  };
+  const log = openSync(join(runDir(id), "output.log"), "a");
+  const child = spawn(TSX, [join(ROOT, "scripts/cache/stress.ts"), "--out", runDir(id)], {cwd: ROOT, env: process.env, stdio: ["ignore", log, log]});
+  closeSync(log);
+  meta.pid = child.pid;
+  saveMeta(meta);
+  current = {meta, child};
+  child.on("exit", code => {
+    meta.endedAt = new Date().toISOString();
+    meta.exitCode = code;
+    saveMeta(meta);
+    if (current?.meta.id === id) current = null;
+  });
+  return {id};
+}
+
+let monitorRun: {meta: Meta; child: ChildProcess} | null = null;
+
+/** Starts the read-only Redis sampler (scripts/cache/monitor.ts) in its own run folder. */
+function startMonitor(intervalMs: number, keys: number): {id?: string; error?: string} {
+  if (!REDIS_URL) return {error: "the monitor needs REDIS_URL"};
+  if (monitorRun) return {error: `the monitor is already sampling (${monitorRun.meta.id})`};
+  const id = newId("-monitor");
+  mkdirSync(runDir(id), {recursive: true});
+  const interval = Math.max(250, Number(intervalMs) || 1000), n = Math.max(1, Math.min(1000, Number(keys) || 100));
+  const meta: Meta = {id, mode: "monitor", startedAt: new Date().toISOString(), reports: 0, levels: {}, tesseract: "", redis: redisShown, monitor: {intervalMs: interval, keys: n}};
+  const log = openSync(join(runDir(id), "output.log"), "a");
+  const child = spawn(TSX, [join(ROOT, "scripts/cache/monitor.ts"), "--out", runDir(id), "--interval", String(interval), "--keys", String(n)], {cwd: ROOT, env: process.env, stdio: ["ignore", log, log]});
+  closeSync(log);
+  meta.pid = child.pid;
+  saveMeta(meta);
+  monitorRun = {meta, child};
+  child.on("exit", code => {
+    meta.endedAt = new Date().toISOString();
+    meta.exitCode = code;
+    saveMeta(meta);
+    if (monitorRun?.meta.id === id) monitorRun = null;
+  });
+  return {id};
+}
+
+function stopMonitor(): {ok?: boolean; error?: string} {
+  if (!monitorRun) return {error: "the monitor isn't sampling"};
+  monitorRun.meta.stoppedByUser = true;
+  saveMeta(monitorRun.meta);
+  monitorRun.child.kill("SIGTERM");
+  return {ok: true};
+}
+
+/** The newest monitor run, or the one asked for. */
+function monitorRunId(id?: string | null): string | null {
+  if (id && readMeta(id)?.mode === "monitor") return id;
+  if (monitorRun) return monitorRun.meta.id;
+  return null;
+}
+
+function monitorStatus(id: string | null, minutes: number) {
+  if (!id) return {id: null, samples: 0, latest: null, series: [], keys: 0, file: ""};
+  const file = join(runDir(id), "samples.jsonl");
+  // about 800 bytes a sample: enough for the window asked for at 1 s, more at a longer interval
+  const samples = parseSamples(tail(file, Math.min(64_000_000, Math.max(200_000, minutes * 60 * 900))));
+  const keys = existsSync(join(runDir(id), "keys.json")) ? (JSON.parse(readFileSync(join(runDir(id), "keys.json"), "utf8")) as string[]).length : 0;
+  return {id, samples: samples.length, latest: monitorLatest(samples), series: monitorSeries(samples, minutes), keys, file};
+}
+
 function stopRun(): {ok?: boolean; error?: string} {
   if (!current) return {error: "no run is going"};
   current.meta.stoppedByUser = true;
@@ -375,6 +525,20 @@ function runStatus(id: string) {
   const meta = readMeta(id);
   if (!meta) return null;
   const dir = runDir(id);
+  if (meta.mode === "stress" || meta.mode === "monitor") {
+    const running = meta.mode === "stress" ? current?.meta.id === id : monitorRun?.meta.id === id;
+    const stress = meta.mode === "stress" ? stressStatus(dir, tail) : null;
+    const finished = stress?.events.some(e => e.type === "finished");
+    const state = running ? (meta.stoppedByUser ? "stopping" : "running")
+      : meta.mode === "monitor" ? (meta.endedAt ? "stopped" : "interrupted")
+      : finished ? ((stress?.summary?.stoppedBy as {reason?: string} | null)?.reason ? "stopped" : "finished")
+      : meta.endedAt ? (meta.exitCode === 0 ? "finished" : "failed")
+      : "interrupted";
+    return {
+      meta, state, stress, progress: null, done: {}, events: [], status: "", summary: null,
+      output: tail(join(dir, "output.log"), 6_000).split("\n").filter(l => !/ExperimentalWarning|trace-warnings/.test(l)).slice(-30).join("\n")
+    };
+  }
   const progress = jsonLines(tail(join(dir, "progress.jsonl"), 64_000)).pop() ?? null;
   const events = existsSync(join(dir, "events.jsonl")) ? jsonLines(readFileSync(join(dir, "events.jsonl"), "utf8")) : [];
   // finished groups per level: rendered, already cached, failed
@@ -412,6 +576,16 @@ function listRuns() {
   if (!existsSync(RUNS)) return [];
   return readdirSync(RUNS).filter(d => existsSync(metaPath(d))).sort().reverse().slice(0, 50).map(id => {
     const s = runStatus(id)!;
+    if (s.stress || s.meta.mode === "monitor") {
+      const m = s.meta;
+      const stages = (s.stress?.summary?.stages ?? []) as {finished?: number}[];
+      const startS = Date.parse(m.startedAt) / 1000, endS = m.endedAt ? Date.parse(m.endedAt) / 1000 : Date.now() / 1000;
+      const what = m.stress ? `${m.stress.target}, ${m.stress.rates.join(", ")} pages/s` : `Redis ${m.redis}, every ${m.monitor?.intervalMs ?? 1000} ms`;
+      return {
+        id, mode: m.mode, state: s.state, startedAt: m.startedAt, endedAt: m.endedAt ?? null, reports: m.reports, levels: m.levels, generators: null, cubes: null, what,
+        done: m.mode === "stress" ? stages.reduce((n, st) => n + (st.finished ?? 0), 0) : null, elapsedS: endS - startS, wallS: m.endedAt ? endS - startS : null
+      };
+    }
     const reports = (s.progress?.reports ?? {}) as Record<string, number>;
     return {
       id, mode: s.meta.mode, state: s.state, startedAt: s.meta.startedAt, endedAt: s.meta.endedAt ?? null, reports: s.meta.reports, levels: s.meta.levels,
@@ -445,13 +619,33 @@ const server = http.createServer(async (req, res) => {
   try {
     const url = new URL(req.url ?? "/", "http://localhost");
     if (req.method === "GET" && url.pathname === "/") return send(res, 200, PAGE, "text/html; charset=utf-8");
+    if (req.method === "GET" && url.pathname === "/api/monitor") {
+      const minutes = Math.max(1, Math.min(24 * 60, Number(url.searchParams.get("minutes") ?? 15)));
+      return send(res, 200, monitorStatus(monitorRunId(url.searchParams.get("id")), minutes));
+    }
+    if (req.method === "GET" && url.pathname === "/api/monitor/latest") {
+      // for a stress run on another machine, through this UI's tunnel
+      const s = monitorStatus(monitorRunId(null), 1);
+      return send(res, 200, {id: s.id, latest: s.latest ? {...s.latest, host: undefined} : null, host: s.latest?.host ?? null});
+    }
+    if (req.method === "GET" && url.pathname === "/api/info" && !WARM) {
+      // no warm: no Redis connection here, no levels for --monitor-only (the Stress mode reads them)
+      return send(res, 200, {
+        monitorOnly: MONITOR_ONLY, warm: false, stressMode: STRESS, tesseract: TESSERACT, redis: redisShown, runsDir: RUNS, lock: null, current: current?.meta.id ?? null, preparing,
+        defaults: DEFAULTS, redisMemory: 0, redisMax: 0, redisKeys: null, levels: STRESS ? levels() : [], generators: [], cubes: [],
+        stress: STRESS ? {...DEFAULT_STRESS, mix: DEFAULT_MIX} : null,
+        monitor: REDIS_URL ? {current: monitorRun?.meta.id ?? null, redis: redisShown} : null
+      });
+    }
     if (req.method === "GET" && url.pathname === "/api/info") {
       const holder = await redis.get("warm:batch:lock").catch(() => null);
       const info = await redis.info("memory").catch(() => "");
       return send(res, 200, {
         tesseract: TESSERACT, redis: redisShown, runsDir: RUNS, lock: holder, current: current?.meta.id ?? null, preparing, defaults: DEFAULTS,
         redisMemory: Number(info.match(/used_memory:(\d+)/)?.[1] ?? 0), redisMax: Number(info.match(/maxmemory:(\d+)/)?.[1] ?? 0),
-        redisKeys: await redis.dbsize().catch(() => 0), levels: levels(), generators: GENERATORS, cubes: await knownCubes()
+        redisKeys: await redis.dbsize().catch(() => 0), levels: levels(), generators: GENERATORS, cubes: await knownCubes(),
+        monitorOnly: false, warm: true, stressMode: STRESS, stress: {...DEFAULT_STRESS, mix: DEFAULT_MIX},
+        monitor: {current: monitorRun?.meta.id ?? null, redis: redisShown}
       });
     }
     if (req.method === "GET" && url.pathname === "/api/runs") return send(res, 200, listRuns());
@@ -462,6 +656,27 @@ const server = http.createServer(async (req, res) => {
     }
     if (req.method === "POST") {
       if (req.headers["x-warm-ui"] !== "1") return send(res, 403, {error: "missing X-Warm-UI header"});
+      if (url.pathname === "/api/monitor/start") {
+        const b = JSON.parse(await readBody(req) || "{}") as {interval?: number; keys?: number};
+        const r = startMonitor(b.interval ?? MONITOR_INTERVAL, b.keys ?? MONITOR_KEYS);
+        return send(res, r.error ? 409 : 200, r);
+      }
+      if (url.pathname === "/api/monitor/stop") {
+        const r = stopMonitor();
+        return send(res, r.error ? 409 : 200, r);
+      }
+      if (MONITOR_ONLY) return send(res, 403, {error: "this UI was started with --monitor-only"});
+      if (url.pathname === "/api/stress/urls") {
+        const b = JSON.parse(await readBody(req) || "{}") as {mix?: UrlMix};
+        const db = openDb();
+        try {
+          const {urls, byLevel} = buildUrls(db, {...DEFAULT_MIX, ...b.mix, levels: b.mix?.levels ?? DEFAULT_MIX.levels});
+          return send(res, 200, {urls: urls.length, distinct: new Set(urls).size, byLevel, sample: urls.slice(0, 20)});
+        }
+        finally {
+          db.close();
+        }
+      }
       if (url.pathname === "/api/runs") {
         const r = await startRun(JSON.parse(await readBody(req) || "{}") as StartBody);
         return send(res, r.error ? 409 : 200, r);
@@ -479,7 +694,11 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, "127.0.0.1", () => {
-  console.log(`warm UI on http://127.0.0.1:${PORT}  (Tesseract ${TESSERACT}, Redis ${redisShown}, runs in ${RUNS})`);
+  console.log(`warm UI on http://127.0.0.1:${PORT}  (${MONITOR_ONLY ? "monitor only" : WARM ? "warm, stress and monitor" : "stress" + (REDIS_URL ? " and monitor" : "") + " only"}; Tesseract ${TESSERACT || "-"}, Redis ${redisShown || "-"}, runs in ${RUNS})`);
+  if (MONITOR_AT_START) {
+    const r = startMonitor(MONITOR_INTERVAL, MONITOR_KEYS);
+    console.log(r.error ? `monitor: ${r.error}` : `monitor sampling into ${join(runDir(r.id!), "samples.jsonl")}`);
+  }
 });
 
 const shutdown = () => {
@@ -487,8 +706,12 @@ const shutdown = () => {
     console.log(`stopping run ${current.meta.id}`);
     stopRun();
   }
+  if (monitorRun) {
+    console.log(`stopping the monitor ${monitorRun.meta.id}`);
+    stopMonitor();
+  }
   server.close();
-  setTimeout(() => process.exit(0), current ? 3000 : 0);
+  setTimeout(() => process.exit(0), current || monitorRun ? 3000 : 0);
 };
 process.once("SIGINT", shutdown);
 process.once("SIGTERM", shutdown);
@@ -533,17 +756,20 @@ pre{margin:0;font:12px/1.45 var(--mono);white-space:pre;overflow-x:auto;backgrou
 .err{color:var(--bad)}details summary{cursor:pointer;color:var(--muted)}
 .help{color:var(--muted);max-width:75ch;margin:0}
 a{color:var(--accent);cursor:pointer}
+${PANELS_CSS}
 </style></head><body><main>
 <header class="row" style="justify-content:space-between"><h1>Cache warm</h1><span class="muted" id="conn"></span></header>
 
-<section class="card">
+<section class="card" id="startCard">
   <h2>Start a run</h2>
   <div class="tabs" role="radiogroup" aria-label="Strategy">
     <label><input type="radio" name="mode" value="site"> Whole site</label>
     <label><input type="radio" name="mode" value="levels" checked> Profiles and levels</label>
     <label><input type="radio" name="mode" value="generators"> Generators</label>
     <label><input type="radio" name="mode" value="cubes"> Cubes</label>
+    <label><input type="radio" name="mode" value="stress"> Stress</label>
   </div>
+  <p class="help" id="noWarm" hidden>Warm strategies need <code>NEXT_PUBLIC_TESSERACT_URL</code> and <code>REDIS_URL</code>; this UI was started without them, for the Stress mode.</p>
 
   <div data-panel="site" hidden>
     <p class="help">Every report of every published level (<span id="siteTotal"></span>). Reports already in the cache are skipped, so this also completes a partial warm.</p>
@@ -571,6 +797,7 @@ a{color:var(--accent);cursor:pointer}
     <label class="row" style="gap:6px"><input type="checkbox" id="cubePurge" checked> Purge them first (untick if they were already purged)</label>
   </div>
 
+${STRESS_PANEL}
   <div class="row" id="settings"></div>
   <div class="row"><button class="primary" id="start">Start</button><span id="planInfo" class="muted"></span><span id="startMsg" class="err"></span></div>
 </section>
@@ -588,6 +815,9 @@ a{color:var(--accent);cursor:pointer}
   <details><summary>Output</summary><pre id="output"></pre></details>
 </section>
 
+${STRESS_CARD}
+${MONITOR_CARD}
+
 <section class="card">
   <h2>Runs</h2>
   <div class="scroll"><table><thead><tr><th>Started</th><th>Strategy</th><th>State</th><th>What</th><th class="n">Reports</th><th class="n">Done</th><th class="n">Time</th></tr></thead><tbody id="runs"></tbody></table></div>
@@ -600,7 +830,7 @@ const fmtS = s => s == null ? "" : s >= 3600 ? Math.floor(s/3600) + " h " + Stri
 const fmtB = b => b >= 1e9 ? (b/1e9).toFixed(2) + " GB" : (b/1e6).toFixed(0) + " MB";
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const label = k => k.replace("|", " / ");
-const MODE_NAMES = {site: "Whole site", levels: "Profiles", generators: "Generators", cubes: "Cubes"};
+const MODE_NAMES = {site: "Whole site", levels: "Profiles", generators: "Generators", cubes: "Cubes", stress: "Stress", monitor: "Monitor"};
 let info = null, viewing = null, levelsState = {}, mode = "levels";
 const SETTINGS = [["workers","Workers"],["cap","Cap start"],["maxCap","Cap max"],["heavy","RCA and calcs at once"],["geoRate","Geoservice req/s"]];
 
@@ -653,8 +883,13 @@ function updatePlanInfo() {
     text = names.length ? "The reports are found from the cache when you start" : "Enter at least one cube";
     ok = names.length > 0;
   }
+  else if (mode === "stress") {
+    const st = stagesOf(stageInput());
+    text = st.some(x => x.rate > 0) ? "Sends load to " + $("stTarget").value : "Enter at least one rate";
+    ok = st.some(x => x.rate > 0) && $("stTarget").value.trim() !== "";
+  }
   $("planInfo").textContent = info.preparing ? "Preparing the previous request…" : text;
-  $("start").disabled = !ok || Boolean(info.current) || Boolean(info.lock) || Boolean(info.preparing);
+  $("start").disabled = !ok || Boolean(info.current) || (mode !== "stress" && Boolean(info.lock)) || Boolean(info.preparing) || (mode !== "stress" && !info.warm);
 }
 
 $("levels").addEventListener("change", e => {
@@ -671,7 +906,8 @@ document.querySelectorAll("[data-sel]").forEach(a => a.addEventListener("click",
 document.querySelectorAll('input[name="mode"]').forEach(r => r.addEventListener("change", () => {
   mode = r.value;
   document.querySelectorAll("[data-panel]").forEach(p => { p.hidden = p.dataset.panel !== mode; });
-  $("start").textContent = {site: "Warm the whole site", levels: "Start", generators: "Recompute these generators", cubes: "Purge and recompute"}[mode];
+  $("start").textContent = {site: "Warm the whole site", levels: "Start", generators: "Recompute these generators", cubes: "Purge and recompute", stress: "Start the stress run"}[mode];
+  $("settings").hidden = mode === "stress";
   updatePlanInfo();
 }));
 ["genIds", "cubeNames"].forEach(id => $(id).addEventListener("input", updatePlanInfo));
@@ -685,6 +921,17 @@ function renderSettings() {
 
 $("start").addEventListener("click", async () => {
   $("startMsg").textContent = "";
+  if (mode === "stress") {
+    const b = stressBody();
+    const st = stagesOf(b.stageInput).filter(x => x.rate > 0);
+    if (!confirm("Send load to " + b.target + "?" + String.fromCharCode(10) + "Stages: " + st.map(x => x.rate + "/s for " + x.seconds + " s").join(", ") + String.fromCharCode(10) + "Agree a time window with the team first.")) return;
+    $("start").disabled = true; $("planInfo").textContent = "Building the URL list…";
+    const r = await api("/api/runs", {mode: "stress", stress: b});
+    if (r.error) $("startMsg").textContent = r.error;
+    else viewing = r.id;
+    await refresh();
+    return;
+  }
   const settings = Object.fromEntries(SETTINGS.map(([k]) => [k, Number($("set_" + k).value)]));
   settings.force = $("set_force").checked;
   const body = {mode, settings};
@@ -721,7 +968,10 @@ function what(m) {
 async function renderRun() {
   if (!viewing) { $("runCard").hidden = true; return; }
   const s = await api("/api/runs/" + viewing);
-  if (s.error) { $("runCard").hidden = true; return; }
+  if (s.error) { $("runCard").hidden = true; $("stressCard").hidden = true; return; }
+  if (s.meta.mode === "monitor") { monViewing = s.meta.id; viewing = null; $("runCard").hidden = true; $("stressCard").hidden = true; await renderMonitor(); return; }
+  if (s.meta.mode === "stress") { $("runCard").hidden = true; renderStress(s); return; }
+  $("stressCard").hidden = true;
   $("runCard").hidden = false;
   const p = s.progress || {}; const rep = p.reports || {};
   const done = (rep.rendered || 0) + (rep.fullHits || 0) + (rep.errors || 0);
@@ -757,7 +1007,7 @@ async function renderRun() {
 async function renderRuns() {
   const runs = await api("/api/runs");
   $("runs").innerHTML = runs.map(r => {
-    const target = r.generators ? "generators " + r.generators.join(", ") : r.cubes ? "cubes " + r.cubes.join(", ") : Object.keys(r.levels).map(label).join(", ");
+    const target = r.what ? r.what : r.generators ? "generators " + r.generators.join(", ") : r.cubes ? "cubes " + r.cubes.join(", ") : Object.keys(r.levels).map(label).join(", ");
     return '<tr><td><a data-run="' + esc(r.id) + '">' + esc(r.startedAt.slice(0, 19).replace("T", " ")) + '</a></td><td>' + esc(MODE_NAMES[r.mode] || r.mode) + '</td><td>' + esc(r.state) + '</td><td>' + esc(target) + '</td><td class="n">' + fmtN(r.reports) + '</td><td class="n">' + fmtN(r.done) + '</td><td class="n">' + fmtS(r.wallS ?? r.elapsedS) + '</td></tr>';
   }).join("") || '<tr><td colspan="7" class="muted">No runs yet</td></tr>';
   document.querySelectorAll("[data-run]").forEach(a => a.addEventListener("click", () => { viewing = a.dataset.run; renderRun(); }));
@@ -765,7 +1015,24 @@ async function renderRuns() {
 
 async function refresh() {
   info = await api("/api/info");
-  $("conn").textContent = "Tesseract " + info.tesseract + " · Redis " + info.redis + " (" + fmtB(info.redisMemory) + (info.redisMax ? " of " + fmtB(info.redisMax) : "") + ", " + fmtN(info.redisKeys) + " keys)" + (info.lock && !info.current ? " · lock held: " + info.lock : "");
+  if (info.monitorOnly) {
+    document.title = "Redis Monitor"; document.querySelector("h1").textContent = "Redis monitor";
+    $("conn").textContent = "Monitor only · Redis " + info.redis + " · runs in " + info.runsDir;
+    $("startCard").hidden = true; $("runCard").hidden = true; $("stressCard").hidden = true;
+    await renderMonitor();
+    await renderRuns();
+    return;
+  }
+  $("conn").textContent = info.warm
+    ? "Tesseract " + info.tesseract + " · Redis " + info.redis + " (" + fmtB(info.redisMemory) + (info.redisMax ? " of " + fmtB(info.redisMax) : "") + ", " + fmtN(info.redisKeys) + " keys)" + (info.lock && !info.current ? " · lock held: " + info.lock : "")
+    : "Stress mode" + (info.monitor ? " and monitor (Redis " + info.redis + ")" : "") + " · no warm (Tesseract or Redis not set)";
+  if (!info.warm && !$("levels").children.length) {
+    $("noWarm").hidden = false;
+    document.querySelectorAll('input[name="mode"]').forEach(r => { if (r.value !== "stress") r.disabled = true; });
+    const st = document.querySelector('input[name="mode"][value="stress"]');
+    if (!st.checked) { st.checked = true; st.dispatchEvent(new Event("change")); }
+  }
+  stressDefaults();
   if (info.current && !viewing) viewing = info.current;
   // the level table is only redrawn on first load and on edits, so typing in it is never interrupted
   if (!$("levels").children.length) {
@@ -775,8 +1042,10 @@ async function refresh() {
   }
   else updatePlanInfo();
   await renderRun();
+  await renderMonitor();
   await renderRuns();
 }
+${PANELS_JS}
 refresh();
 setInterval(refresh, 5000);
 </script></body></html>`;
