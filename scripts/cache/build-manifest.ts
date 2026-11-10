@@ -70,12 +70,20 @@ function importsOf(text: string): string[] {
 }
 
 
+/**
+ * Modules that only carry cached values to and from Redis (the connection, its deadlines and its
+ * circuit breaker). They decide whether a value is read, never what it is, so they are left out of
+ * every closure: editing them must not re-key the cache. How values are encoded (`store.ts`) and
+ * which ones are stored (`values.ts`, `generator-cache.ts`) stay in.
+ */
+const CACHE_TRANSPORT = new Set(["src/lib/cache/redis.ts"]);
+
 /** Every local file and package a module depends on, with the hash of each (sorted by path). */
 function closure(entry: string, exclude: Set<string> = new Set()): Map<string, string> {
   const seen = new Map<string, string>();
   const visit = (file: string) => {
     const key = rel(file);
-    if (seen.has(key) || exclude.has(key)) return;
+    if (seen.has(key) || exclude.has(key) || CACHE_TRANSPORT.has(key)) return;
     const text = readText(file);
     seen.set(key, short(text));
     if (!/\.(ts|tsx|js|mjs)$/.test(file)) return;
