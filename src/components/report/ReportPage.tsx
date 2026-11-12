@@ -11,6 +11,7 @@ import {Subnav} from "./Subnav";
 import {AboutSection} from "./AboutSection";
 import {GroupingSection} from "./GroupingSection";
 import {KeepExploring} from "./KeepExploring";
+import {HashScroll} from "./HashScroll";
 import {ReportProvider} from "./ReportProvider";
 import {PrismProvider} from "@/components/prism/PrismProvider";
 import {getPrismUser} from "@/lib/prism/session";
@@ -109,6 +110,7 @@ export async function ReportPage({loaded, comparison}: {loaded: LoadedReport; co
         ))}
         {similar.length > 0 && <KeepExploring profileSlug={profileSlug} members={similar} />}
       </article>
+      <HashScroll rootId="Profile" />
       </PrismProvider>
     </ReportProvider>
   );
