@@ -107,7 +107,41 @@ function levels(): Level[] {
   }
 }
 
-interface GeneratorInfo {id: number; profile: string; name: string}
+interface GeneratorInfo {id: number; profile: string; name: string; cubes: string[]}
+
+/**
+ * The cubes a generator's request URL names (`cube=<name>` or `/cubes/<name>`), decoded; a part
+ * filled from the attributes (`${attrs.x}`) becomes `*`. Generators that read in-process `/api/`
+ * endpoints or the geoservice name none: only the cache's tag sets know what they read.
+ */
+function urlCubes(source: string): string[] {
+  const api = source.match(/^\s*api:\s*(.*)$/m)?.[1] ?? "";
+  const names = [...api.matchAll(/[?&]cube=([^&`"]+)/g), ...api.matchAll(/\/cubes\/([^/?`"]+)/g)].map(m => {
+    const raw = m[1].replace(/\$\{[^}]*\}/g, "*").replace(/\+/g, " ").replace(/\.(json|jsonrecords|csv)$/, "");
+    try {
+      return decodeURIComponent(raw).trim();
+    }
+    catch {
+      return raw.trim();
+    }
+  });
+  return Array.from(new Set(names.filter(Boolean)));
+}
+
+/** Whether `cube` fits `pattern`, whose `*`s stand for any text (the same test runs in the page). */
+function cubeMatches(pattern: string, cube: string): boolean {
+  const parts = pattern.split("*");
+  if (parts.length === 1) return pattern === cube;
+  const first = parts[0], last = parts[parts.length - 1];
+  if (cube.length < first.length + last.length || !cube.startsWith(first) || !cube.endsWith(last)) return false;
+  let at = first.length;
+  for (const part of parts.slice(1, -1)) {
+    const found = cube.indexOf(part, at);
+    if (found < 0) return false;
+    at = found + part.length;
+  }
+  return at <= cube.length - last.length;
+}
 
 /** Report generators from their files: `src/content/reports/<profile>/generators/<id>-<name>.ts`. */
 function generatorIndex(): GeneratorInfo[] {
@@ -118,12 +152,23 @@ function generatorIndex(): GeneratorInfo[] {
     if (!existsSync(gdir)) continue;
     for (const file of readdirSync(gdir)) {
       const m = file.match(/^(\d+)-(.+)\.ts$/);
-      if (m) out.push({id: Number(m[1]), profile, name: m[2].replace(/-/g, " ")});
+      if (m) out.push({id: Number(m[1]), profile, name: m[2].replace(/-/g, " "), cubes: urlCubes(readFileSync(join(gdir, file), "utf8"))});
     }
   }
   return out.sort((a, b) => a.id - b.id);
 }
 const GENERATORS = generatorIndex();
+
+/** The generators whose request URL names one of `cubes`. */
+function generatorsReading(cubes: string[]): GeneratorInfo[] {
+  return GENERATORS.filter(g => g.cubes.some(pattern => cubes.some(cube => cubeMatches(pattern, cube))));
+}
+
+/** How many cached entries (generator outputs, attributes, lookups) the tag sets list for these tags. */
+async function cachedEntries(tags: string[]): Promise<number> {
+  const counts = await Promise.all(tags.map(t => redis.scard(t).catch(() => 0)));
+  return counts.reduce((a, b) => a + b, 0);
+}
 
 /** Cubes the cache has seen (they have a tag set), from the tag registry. */
 async function knownCubes(): Promise<string[]> {
@@ -336,13 +381,28 @@ async function startRun(body: StartBody): Promise<{id?: string; error?: string}>
       if (invalid.length) return {error: `invalid cube names: ${invalid.join(", ")}`};
       if (!valid.length) return {error: "no cubes given"};
       cubes = valid.map(t => t.replace(/^cube:/, ""));
-      // the reports that had outputs reading these cubes, read before the purge empties the sets
-      plan = await reportsReading(valid);
-      if (!plan.length) return {error: "no cached report reads these cubes: nothing to recompute"};
+      const readers = generatorsReading(cubes);
+      // Which reports: those whose cached outputs read these cubes (the tag sets, read before the
+      // purge empties them; they also cover attributes, lookups and /api/ generators), plus every
+      // report of the profiles whose generators name these cubes in their URL, known from the code,
+      // so the plan doesn't depend on the tag sets (a purge run elsewhere has emptied them).
+      const profiles = new Set(readers.map(g => g.profile));
+      const fromCode = buildPlan(levels().filter(l => profiles.has(l.profile)).map(l => ({key: l.key, mode: "all" as const, n: 0})));
+      const seen = new Set(fromCode.map(p => `${p.profile}|${p.id}`));
+      plan = fromCode.concat((await reportsReading(valid)).filter(p => !seen.has(`${p.profile}|${p.id}`)));
+      if (!plan.length) return {error: "no generator names these cubes and no cached output reads them: nothing to recompute"};
+      const entries = await cachedEntries(valid);
+      if (body.purge === false && entries > 0 && !s.force) {
+        return {error: `${cubes.join(", ")} still ${entries === 1 ? "has 1 cached entry" : `have ${entries.toLocaleString("en-US")} cached entries`}: without a purge the warm finds them cached and recomputes nothing. Tick "Purge them first", or Force to overwrite them.`};
+      }
       if (body.purge !== false) {
         const results = await purgeTags(redis, valid);
         prepared = "purged " + results.map(r => `${r.tag.replace(/^cube:/, "")} (${r.deleted.toLocaleString("en-US")} entries)`).join(", ");
       }
+      generators = readers.map(g => g.id);
+      // Force without a purge overwrites only the outputs of the generators that read these cubes,
+      // not every generator of these reports
+      if (s.force && readers.length) extra.push("--generators", generators.join(","));
       // outputs of these cubes that failed before the data changed are tried again (not the others)
       extra.push("--retry-cubes", cubes.join(","));
     }
@@ -790,7 +850,7 @@ ${PANELS_CSS}
   </div>
 
   <div data-panel="cubes" hidden>
-    <p class="help">For a data release. Purges the cubes (as <code>npm run cache:purge</code> does), then recomputes the outputs that read them, for the reports that had them cached. Generators reading these cubes that failed before are tried again.</p>
+    <p class="help">For a data release. Purges the cubes (as <code>npm run cache:purge</code> does), then recomputes what read them: every report of the profiles whose generators name these cubes, plus the reports the cache lists as reading them. It also works when the cubes were already purged elsewhere (untick the box). Without a purge, Force overwrites only the outputs of the generators that name these cubes. Generators reading these cubes that failed before are tried again.</p>
     <label class="row" style="gap:8px">Cubes <input type="text" id="cubeNames" list="cubeList" placeholder="for example acs_yg_total_population_5, pums_5" autocomplete="off"></label>
     <datalist id="cubeList"></datalist>
     <div id="cubeInfo" class="muted"></div>
@@ -842,6 +902,20 @@ async function api(path, body) {
 const count = (l, s) => s.mode === "all" ? l.members : s.mode === "top" ? Math.min(l.members, Math.max(1, Math.floor(s.n))) : Math.max(1, Math.round(l.members * Math.min(100, s.n) / 100));
 const parseIds = () => Array.from(new Set($("genIds").value.split(/[^0-9]+/).filter(Boolean).map(Number)));
 const parseCubes = () => Array.from(new Set($("cubeNames").value.split(",").map(s => s.trim()).filter(Boolean)));
+// the server's \`cubeMatches\`: a \`*\` in a generator's cube stands for a part filled from the attributes
+function cubeMatch(pattern, cube) {
+  const parts = pattern.split("*");
+  if (parts.length === 1) return pattern === cube;
+  const first = parts[0], last = parts[parts.length - 1];
+  if (cube.length < first.length + last.length || !cube.startsWith(first) || !cube.endsWith(last)) return false;
+  let at = first.length;
+  for (const part of parts.slice(1, -1)) {
+    const found = cube.indexOf(part, at);
+    if (found < 0) return false;
+    at = found + part.length;
+  }
+  return at <= cube.length - last.length;
+}
 
 function renderLevels() {
   $("levels").innerHTML = info.levels.map(l => {
@@ -879,8 +953,12 @@ function updatePlanInfo() {
   else if (mode === "cubes") {
     const names = parseCubes();
     const unknown = names.filter(n => !info.cubes.includes(n));
-    $("cubeInfo").innerHTML = unknown.length ? '<span class="err">Not in the cache (no output ever read them): ' + esc(unknown.join(", ")) + '</span>' : "";
-    text = names.length ? "The reports are found from the cache when you start" : "Enter at least one cube";
+    const readers = info.generators.filter(g => (g.cubes || []).some(c => names.some(n => cubeMatch(c, n))));
+    const profiles = Array.from(new Set(readers.map(g => g.profile)));
+    const reports = info.levels.filter(l => profiles.includes(l.profile)).reduce((n, l) => n + l.members, 0);
+    $("cubeInfo").innerHTML = (readers.length ? "Generators naming them: " + esc(readers.map(g => g.id + " (" + g.profile + ")").join(", ")) : "No generator names them in its URL")
+      + (unknown.length ? '<br><span class="err">No cached output reads: ' + esc(unknown.join(", ")) + '</span>' : "");
+    text = names.length ? (readers.length ? "Checks " + fmtN(reports) + " " + profiles.join(" and ") + " reports, plus those the cache lists" : "The reports are found from the cache when you start") : "Enter at least one cube";
     ok = names.length > 0;
   }
   else if (mode === "stress") {
