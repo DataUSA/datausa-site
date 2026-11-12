@@ -934,6 +934,14 @@ async function runGroup(job: GroupJob): Promise<GroupStats> {
   });
   phases.geo += (performance.now() - t) / 1000;
 
+  // --force: the render reads outputs through the cache, so an output still in Redis would be served
+  // as it is and nothing recomputed or stored (the fetches above wasted). Delete the target outputs
+  // of the groups being recomputed first, so the render computes and stores them again.
+  if (config.force && client) {
+    const stale = items.flatMap(item => item.keyed.filter(k => item.needed.has(k.group)).flatMap(targetKeys));
+    for (let i = 0; i < stale.length; i += 1000) await client.unlink(...stale.slice(i, i + 1000));
+  }
+
   // 6. render through the real engine; the scope serves what was fetched above
   enter("render", items.length);
   let renderedSoFar = 0;
