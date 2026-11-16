@@ -40,7 +40,7 @@
     "d3-time-format": "4.1.0",
     "ioredis": "5.11.1",
     "leaflet": "^1.9.4",
-    "next": "16.4.0",
+    "next": "16.4.6",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "topojson-client": "^3.1.0"
@@ -61,7 +61,7 @@
     "@types/topojson-client": "^3.1.5",
     "@types/topojson-specification": "^1.0.5",
     "eslint": "9.39.1",
-    "eslint-config-next": "16.4.0",
+    "eslint-config-next": "16.4.6",
     "pg": "^8.23.1",
     "playwright": "^1.58.2",
     "tsx": "4.23.15",
