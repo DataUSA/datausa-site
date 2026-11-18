@@ -7,6 +7,7 @@
 import {readFileSync, mkdirSync, rmSync, existsSync, renameSync} from "node:fs";
 import {resolve, dirname} from "node:path";
 import {DatabaseSync} from "node:sqlite";
+import {geoContainment} from "./geo-containment";
 
 interface MemberLine {
   id: string; dimension: string; hierarchy: string; slug: string; name: string; zvalue: number | null;
@@ -62,6 +63,10 @@ export function buildDimensionsDb(dataDir = resolve("data"), target = process.en
     CREATE INDEX members_image ON members (image_id);
     CREATE VIRTUAL TABLE members_fts USING fts5(name, keywords, content='members', content_rowid='rowid', tokenize='unicode61 remove_diacritics 2');
     CREATE TABLE school_districts (id TEXT PRIMARY KEY, low_grade TEXT, high_grade TEXT, land_sqmi REAL, lon REAL, lat REAL);
+    CREATE TABLE geo_facts (id TEXT PRIMARY KEY, land_sqmi REAL, water_sqmi REAL, lon REAL, lat REAL) WITHOUT ROWID;
+    CREATE TABLE geo_contains (parent_id TEXT NOT NULL, child_id TEXT NOT NULL, child_level TEXT NOT NULL, PRIMARY KEY (parent_id, child_level, child_id)) WITHOUT ROWID;
+    CREATE INDEX geo_contains_child ON geo_contains (child_id);
+    CREATE TABLE university_locations (id TEXT PRIMARY KEY, lon REAL NOT NULL, lat REAL NOT NULL, city TEXT, state TEXT) WITHOUT ROWID;
     CREATE TABLE images (id INTEGER PRIMARY KEY, url TEXT, author TEXT, license INTEGER, meta TEXT);
     CREATE TABLE profiles (id INTEGER PRIMARY KEY, profile_id INTEGER, slug TEXT, dimension TEXT, levels TEXT, measure TEXT, cube_name TEXT, ordering INTEGER, visible INTEGER);
   `);
@@ -73,6 +78,37 @@ export function buildDimensionsDb(dataDir = resolve("data"), target = process.en
   }
   const insertSchoolDistrict = db.prepare("INSERT OR REPLACE INTO school_districts (id, low_grade, high_grade, land_sqmi, lon, lat) VALUES (?, ?, ?, ?, ?, ?)");
   for (const d of schoolDistricts) insertSchoolDistrict.run(d.id, d.lowGrade, d.highGrade, d.landSqMi, d.lonlat[0], d.lonlat[1]);
+  // land area and an interior point of states, counties, places, metro areas and congressional
+  // districts, from the Census gazetteer (`scripts/gazetteer/build.sh`); school districts carry theirs
+  const gazetteerFile = resolve(dataDir, "gazetteer.tsv");
+  const facts = existsSync(gazetteerFile)
+    ? readFileSync(gazetteerFile, "utf8").split("\n").slice(1).filter(Boolean).map(line => {
+      const [id, land, water, lat, lon] = line.split("\t");
+      return {id, land: Number(land), water: Number(water), lat: Number(lat), lon: Number(lon)};
+    })
+    : [];
+  for (const d of schoolDistricts) facts.push({id: d.id, land: d.landSqMi, water: NaN, lat: d.lonlat[1], lon: d.lonlat[0]});
+  const known = new Set(members.filter(m => m.dimension === "Geography" && !m.hidden).map(m => m.id));
+  const num = (n: number) => Number.isFinite(n) ? n : null;
+  const insertFact = db.prepare("INSERT OR REPLACE INTO geo_facts (id, land_sqmi, water_sqmi, lon, lat) VALUES (?, ?, ?, ?, ?)");
+  for (const f of facts) if (known.has(f.id)) insertFact.run(f.id, num(f.land), num(f.water), num(f.lon), num(f.lat));
+  // what lies inside each county and metropolitan area, from those points and the shapes the maps draw
+  const containment = geoContainment(
+    resolve(dataDir, "..", "public", "topojson"),
+    new Map(facts.filter(f => Number.isFinite(f.lon) && Number.isFinite(f.lat)).map(f => [f.id, [f.lon, f.lat] as [number, number]])),
+    known
+  );
+  const insertContains = db.prepare("INSERT OR IGNORE INTO geo_contains (parent_id, child_id, child_level) VALUES (?, ?, ?)");
+  for (const c of containment) insertContains.run(c.parent, c.child, c.level);
+  // where each college and university is, from the IPEDS directory (`scripts/university-locations/build.sh`)
+  const universityFile = resolve(dataDir, "university-locations.tsv");
+  if (existsSync(universityFile)) {
+    const insertLocation = db.prepare("INSERT OR REPLACE INTO university_locations (id, lon, lat, city, state) VALUES (?, ?, ?, ?, ?)");
+    for (const line of readFileSync(universityFile, "utf8").split("\n").slice(1)) {
+      const [id, lat, lon, city, state] = line.split("\t");
+      if (id && Number.isFinite(Number(lat)) && Number.isFinite(Number(lon))) insertLocation.run(id, Number(lon), Number(lat), city || null, state || null);
+    }
+  }
   const insertImage = db.prepare("INSERT OR REPLACE INTO images (id, url, author, license, meta) VALUES (?, ?, ?, ?, ?)");
   for (const i of images) insertImage.run(i.id, i.url, i.author, i.license, i.meta ?? null);
   const insertProfile = db.prepare("INSERT OR REPLACE INTO profiles (id, profile_id, slug, dimension, levels, measure, cube_name, ordering, visible) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -89,10 +125,10 @@ export function buildDimensionsDb(dataDir = resolve("data"), target = process.en
   db.close();
   if (existsSync(target)) rmSync(target);
   renameSync(tmp, target);
-  return {target, members: members.length, images: images.length, profiles: profiles.length};
+  return {target, members: members.length, images: images.length, profiles: profiles.length, containment: containment.length};
 }
 
 if (process.argv[1] && /build-dimensions/.test(process.argv[1])) {
   const result = buildDimensionsDb();
-  console.log(`Built ${result.target}: ${result.members} members, ${result.images} images, ${result.profiles} profiles`);
+  console.log(`Built ${result.target}: ${result.members} members, ${result.images} images, ${result.profiles} profiles, ${result.containment} containment relations`);
 }

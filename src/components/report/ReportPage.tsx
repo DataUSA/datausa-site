@@ -6,6 +6,7 @@ import {similarMembers} from "@/lib/dimensions/similar-members";
 import type {getImage} from "@/lib/dimensions/db";
 import {pictureCredit} from "@/lib/reports/images";
 import {isPendingLevel} from "@/lib/geo/levels";
+import {reportHierarchy, type ReportHierarchy} from "@/lib/reports/hierarchy";
 import {Hero} from "./Hero";
 import {Subnav} from "./Subnav";
 import {AboutSection} from "./AboutSection";
@@ -37,6 +38,8 @@ export interface ReportView {
   title: string;
   imageUrl: string;
   image?: ReturnType<typeof getImage>;
+  /** Where the member sits in its hierarchy: what it is part of, what it contains, how it ranks. */
+  hierarchy?: ReportHierarchy;
 }
 
 async function view(loaded: LoadedReport): Promise<ReportView> {
@@ -51,7 +54,8 @@ async function view(loaded: LoadedReport): Promise<ReportView> {
     groups: groupSections(report.sections),
     title: stripHTML(report.title),
     imageUrl: memberImageUrl(template.meta.slug, pictured.slug, "splash"),
-    image: await pictureCredit(template.meta.slug, member)
+    image: await pictureCredit(template.meta.slug, member),
+    hierarchy: await reportHierarchy(template.meta.slug, member, (loaded.built.variables.breadcrumbs ?? []) as {id: string; slug: string; name: string; hierarchy?: string}[])
   };
 }
 
@@ -97,6 +101,8 @@ export async function ReportPage({loaded, comparison}: {loaded: LoadedReport; co
             breadcrumbs={[loaded, ...(comparison ? [comparison] : [])].map(l => (l.built.variables.breadcrumbs ?? []) as {id: string; slug: string; name: string}[])}
             images={[primary.image, compare?.image]}
             profileSlug={profileSlug}
+            hierarchy={compare ? undefined : primary.hierarchy}
+            name={primary.title}
           />
         )}
         {primary.groups.map((group, i) => (

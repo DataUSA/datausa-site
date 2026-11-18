@@ -197,19 +197,30 @@
         line-height: 40px;
         padding-left: var(--home-search-height);
       }
-      & ul {
-        background-color: var(--light-1);
-        box-shadow: 0 1px 1px inset #ccc;
-        max-height: 30vh;
-        top: var(--home-search-height);
-        width: calc(100% - 86px);
-        & li { transition: none; }
-        & li:hover, & li[aria-selected="true"] { background-color: #E9E9E9; }
-        & button { padding: var(--gutter-xs) calc((var(--home-search-height) - 25px) / 2); }
-        & img { height: 25px; margin-right: calc((var(--home-search-height) - 25px) / 2); width: 25px; }
-        & button span span:first-child { color: var(--black); font-size: 16px; line-height: 20px; }
-        & button span span:last-child { color: #727682; font-size: 12px; margin-top: 5px; }
-        & li:only-child:not([role]) { background: #e9e9e9; color: var(--black); font-weight: 400; padding: 5px 0; }
+      /* its suggestions (SearchBox's custom properties and data-* hooks): a light list, lined up
+         with the input rather than the button, icons under the input's magnifier */
+      --search-button-width: 86px;
+      --search-popup-bg: var(--light-1);
+      --search-popup-border: #d5d9df;
+      --search-option-text: var(--black);
+      --search-option-meta: #5d6370;
+      --search-option-hover: #eceef1;
+      --search-option-active: #e1e6ec;
+      --search-option-active-meta: #4d5360;
+      --search-option-pressed: #d6dce4;
+      --search-error: #b3261e;
+      --search-icon-filter: none;
+      --search-option-height: 48px;
+      --search-rows: 5.5;
+      & [data-search-popup] { top: var(--home-search-height); }
+      & [data-search-option] {
+        /* the pale family colours (industries, universities) darkened to show on the light list */
+        --search-option-accent: color-mix(in srgb, var(--search-family, var(--red)) 70%, #000);
+        gap: calc((var(--home-search-height) - 25px) / 2);
+        padding: 4px 12px 4px calc((var(--home-search-height) - 25px) / 2);
+        & img { height: 25px; width: 25px; }
+        & span span:first-child { font-size: 16px; line-height: 20px; }
+        & span span:last-child { font-size: 12px; }
       }
       &.mobile { display: none; }
       @media (max-width: 768px) {

@@ -2,6 +2,8 @@ import Link from "next/link";
 import type {ImageRow} from "@/lib/dimensions/db";
 import type {PreparedSection} from "@/lib/reports/engine";
 import {VizIsland} from "@/components/viz/VizIsland";
+import type {ReportHierarchy} from "@/lib/reports/hierarchy";
+import {Hierarchy} from "./Hierarchy";
 import styles from "./Section.module.css";
 
 interface AboutProps {
@@ -10,10 +12,13 @@ interface AboutProps {
   breadcrumbs: {id: string; slug: string; name: string}[][];
   images: (ImageRow | undefined)[];
   profileSlug: string;
+  /** The member in its hierarchy, shown under the narrative (single reports only). */
+  hierarchy?: ReportHierarchy;
+  name?: string;
 }
 
 /** The "About" section: narrative, photo credit, breadcrumbs and any introductory visualization. */
-export function AboutSection({sections, breadcrumbs, images, profileSlug}: AboutProps) {
+export function AboutSection({sections, breadcrumbs, images, profileSlug, hierarchy, name}: AboutProps) {
   return (
     <section className={`${styles.section} ${styles.about} ${sections.length > 1 ? styles.compareSection : ""}`} id="about">
       <h2 className={styles.sectionTitle}>
@@ -53,6 +58,7 @@ export function AboutSection({sections, breadcrumbs, images, profileSlug}: About
           );
         })}
       </div>
+      {hierarchy && <Hierarchy hierarchy={hierarchy} name={name ?? ""} />}
     </section>
   );
 }

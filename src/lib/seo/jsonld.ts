@@ -3,6 +3,8 @@
  * it describes: names, the breadcrumb trail and what the page is about.
  */
 import type {MemberRow} from "@/lib/dimensions/db";
+import {landingFamilyByDimension, landingLevel, landingPath} from "@/content/landing/levels";
+import {isPendingLevel} from "@/lib/geo/levels";
 import {familyBySlug, searchPath, SITE_DESCRIPTION, SITE_NAME, SITE_URL} from "./site";
 
 type Json = Record<string, unknown>;
@@ -80,6 +82,28 @@ export function pageJsonLd({path, name, description, crumbs, type = "WebPage"}: 
   return graph({...webPage(url, name, description), "@type": type}, breadcrumbList(url, crumbs));
 }
 
+/**
+ * A landing page: a collection page with its breadcrumb trail and, as an item list, the members it
+ * leads with (the top of its main ranking, each linked on the page).
+ */
+export function landingJsonLd({path, name, description, crumbs, items}: {path: string; name: string; description?: string; crumbs: Crumb[]; items: {name: string; path: string}[]}): Json {
+  const url = `${SITE_URL}${path}`;
+  return graph(
+    {
+      ...webPage(url, name, description),
+      "@type": "CollectionPage",
+      ...(items.length ? {mainEntity: {"@id": `${url}#list`}} : {})
+    },
+    breadcrumbList(url, crumbs),
+    items.length ? {
+      "@type": "ItemList",
+      "@id": `${url}#list`,
+      "numberOfItems": items.length,
+      "itemListElement": items.map((item, i) => ({"@type": "ListItem", "position": i + 1, "name": item.name, "url": `${SITE_URL}${item.path}`}))
+    } : undefined
+  );
+}
+
 const GEO_TYPES: Record<string, string> = {"Nation": "Country", "State": "State", "Place": "City", "School District": "SchoolDistrict"};
 
 /** What a report is about, as the closest schema.org type for its family. */
@@ -124,9 +148,14 @@ export interface ReportJsonLdInput {
 export function reportJsonLd({profileSlug, member, name, title, description, image, state, website}: ReportJsonLdInput): Json {
   const url = `${SITE_URL}/profile/${profileSlug}/${member.slug}`;
   const family = familyBySlug(profileSlug);
+  // home, the family's hub, the member's level (in its state, for a location inside one), its
+  // state, the report: the same trail the page links in its hero and About section
+  const hub = landingFamilyByDimension(member.dimension);
+  const level = isPendingLevel(member.hierarchy) ? undefined : landingLevel(member.dimension, member.hierarchy);
   const crumbs: Crumb[] = [
-    ...(family ? [{name: family.label, path: searchPath(family.dimension)}] : []),
-    ...(state ? [{name: state.name, path: `/profile/geo/${state.slug}`}] : []),
+    ...(hub ? [{name: hub.label, path: landingPath(hub)}] : family ? [{name: family.label, path: searchPath(family.dimension)}] : []),
+    ...(level && level.level.slug !== level.family.home ? [{name: level.level.plural, path: landingPath(level.family, level.level)}] : []),
+    ...(state ? [{name: state.name, path: level?.level.byState ? landingPath(level.family, level.level, state.slug) : `/profile/geo/${state.slug}`}] : []),
     {name}
   ];
   return graph(

@@ -3,6 +3,7 @@ import {districtLabel} from "@/lib/dimensions/district-labels";
 import type {ReportView} from "./ReportPage";
 import {Stat} from "./Stat";
 import {HeroSearch} from "./HeroSearch";
+import {HierarchyContext} from "./Hierarchy";
 import styles from "./Hero.module.css";
 
 interface HeroProps {
@@ -12,6 +13,9 @@ interface HeroProps {
   label: string;
   dimension: string;
 }
+
+/** Report families whose hero subtitle is the member's level, shown as a pill. */
+const PILLS = new Set(["geo", "naics", "soc"]);
 
 /** The report header ("splash"): background photo(s), title(s), subtitle and headline statistics. */
 export function Hero({reports, profileSlug, label, dimension}: HeroProps) {
@@ -34,6 +38,11 @@ export function Hero({reports, profileSlug, label, dimension}: HeroProps) {
       <div className={styles.content}>
         {reports.map(r => {
           const subtitle = r.hero?.subtitles[0]?.html;
+          // Where the hero names the member's level ("County"), it becomes the context line: the level
+          // linked to its landing page and what the member is part of ("County in Massachusetts").
+          if (r.hierarchy?.level && PILLS.has(profileSlug)) {
+            return <div key={r.loaded.member.id} className={`${styles.subtitle} ${styles.context}`}><span><HierarchyContext hierarchy={{...r.hierarchy, parents: r.hierarchy.parents.slice(0, 1)}} /></span></div>;
+          }
           return subtitle ? <div key={r.loaded.member.id} className={styles.subtitle} dangerouslySetInnerHTML={{__html: stripP(subtitle)}} /> : null;
         })}
       </div>

@@ -66,8 +66,11 @@
   margin: 0;
   padding: 0;
 }
-.links a {
+.links > li { align-items: center; display: flex; }
+.links > li > a {
+  align-items: center;
   color: var(--white);
+  display: inline-flex;
   font-family: "Pathway Gothic One", sans-serif;
   font-size: 17px;
   font-weight: 400;
@@ -77,7 +80,164 @@
   text-transform: uppercase;
   white-space: nowrap;
 }
-.links a:hover { text-decoration: none; opacity: 0.85; }
+.links > li > a:hover { text-decoration: none; opacity: 0.85; }
+
+/* ---- Reports menu ---- */
+.right { position: relative; }
+.reportsLink { gap: 6px; }
+.caret {
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid currentColor;
+  display: inline-block;
+  margin-top: 1px;
+  opacity: 0.7;
+  transition: transform 0.15s;
+}
+.reportsLinkOpen .caret { transform: rotate(180deg); }
+.reportsPanel {
+  animation: navDrop 0.14s ease-out;
+  background: var(--dark);
+  border: 1px solid #22335c;
+  border-radius: 3px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  padding: 8px;
+  position: absolute;
+  right: 0;
+  text-align: left;
+  top: calc(100% + 7px);
+  width: 560px;
+  z-index: 22;
+}
+/* keeps the pointer inside the menu while it crosses the gap under "Reports" */
+.reportsPanel::before { content: ""; height: 10px; left: 0; position: absolute; right: 0; top: -10px; }
+.families {
+  display: grid;
+  gap: 2px;
+  grid-template-columns: 1fr 1fr;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.family {
+  align-items: center;
+  border-radius: 2px;
+  color: white;
+  display: flex;
+  gap: 12px;
+  padding: 10px 12px;
+}
+.family:hover, .family:focus-visible { background: rgba(255, 255, 255, 0.07); color: white; text-decoration: none; }
+.family[aria-current="page"] { background: rgba(255, 255, 255, 0.05); box-shadow: inset 2px 0 0 var(--family); }
+.familyIcon {
+  background: var(--family);
+  flex: none;
+  height: 26px;
+  mask: center / contain no-repeat;
+  -webkit-mask: center / contain no-repeat;
+  width: 26px;
+}
+.familyText { display: flex; flex-direction: column; min-width: 0; }
+.familyName {
+  font-family: "Palanquin", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.family:hover .familyName { color: var(--family); }
+.familyTagline { color: var(--lightgray); font-size: 12.5px; line-height: 1.35; }
+.reportsFoot {
+  align-items: center;
+  border-top: 1px solid #22335c;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  padding: 10px 12px 4px;
+}
+.reportsFoot a {
+  color: white;
+  font-family: "Pathway Gothic One", sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.reportsFoot a + a { color: var(--lightgray); }
+.reportsFoot a:hover { color: var(--geo); text-decoration: none; }
+@keyframes navDrop { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
+/* ---- search ---- */
+.searchButton {
+  background: none;
+  border: 0;
+  border-radius: 2px;
+  cursor: pointer;
+  flex: none;
+  height: 32px;
+  margin-left: 4px;
+  opacity: 0.8;
+  padding: 7px;
+  transition: opacity 0.2s, background-color 0.2s;
+  width: 32px;
+}
+.searchButton:hover, .searchButton[aria-expanded="true"] { background: rgba(255, 255, 255, 0.1); opacity: 1; }
+.searchButton img { display: block; }
+.searchBackdrop {
+  animation: navFade 0.15s ease-out;
+  background: rgba(0, 8, 24, 0.6);
+  inset: 0;
+  position: fixed;
+  z-index: 24;
+}
+.searchPanel {
+  animation: navDrop 0.16s ease-out;
+  background: var(--dark);
+  border-bottom: 1px solid #22335c;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+  left: 0;
+  padding: 28px 16px 22px;
+  position: fixed;
+  right: 0;
+  text-align: left;
+  top: 0;
+  z-index: 25;
+}
+.searchInner { margin: 0 auto; max-width: 760px; }
+.searchHint {
+  color: var(--lightgray);
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 13px;
+  gap: 8px 20px;
+  justify-content: space-between;
+  margin: 12px 0 0;
+}
+.searchHint kbd {
+  border: 1px solid #33456f;
+  border-radius: 3px;
+  color: white;
+  font-family: inherit;
+  font-size: 12px;
+  padding: 0 5px;
+}
+.searchLinks { display: flex; gap: 18px; }
+.searchLinks a { color: var(--geo); }
+.searchClose {
+  background: none;
+  border: 0;
+  color: var(--lightgray);
+  cursor: pointer;
+  font-size: 30px;
+  line-height: 1;
+  padding: 4px 10px;
+  position: absolute;
+  right: 12px;
+  top: 8px;
+}
+.searchClose:hover { color: white; }
+@keyframes navFade { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .reportsPanel, .searchPanel, .searchBackdrop { animation: none; }
+}
 
 .menu {
   background-color: var(--black);
@@ -125,6 +285,7 @@
 
 @media (max-width: 768px) {
   .menuButton { display: block; }
+  .searchPanel { padding: 52px 16px 18px; }
   .home { padding-left: 30px; }
   .links { display: none; }
 }

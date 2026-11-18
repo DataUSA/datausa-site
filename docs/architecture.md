@@ -51,7 +51,7 @@ src/
 scripts/legacy-export/     extract.ts (CMS → candidate TS files + manifest), build-dimensions.ts (JSONL → SQLite)
 scripts/topojson/          build.sh (Census boundary files → public/topojson/PUMA.json, Districts.json)
 scripts/school-districts/  build.sh (Census boundary files → public/topojson/SchoolDistrict_<state>.json + data/school-districts.jsonl)
-data/                      members.jsonl, images.jsonl (versioned export), members-additions.jsonl (hand-added members), school-districts.jsonl (built from Census files) → dimensions.sqlite (built, gitignored)
+data/                      members.jsonl, images.jsonl (versioned export), members-additions.jsonl (hand-added members), school-districts.jsonl (built from Census files), gazetteer.tsv (land areas and interior points, built from Census files) → dimensions.sqlite (built, gitignored)
 public/                    icons, images, topojson (only files referenced by content), fonts
 ```
 
@@ -303,9 +303,93 @@ When production has the data:
 3. As more cubes get the level, add their sections to the template (the location report's section, its generators by id, its charts) and check each against a district, as was done for the first seven.
 4. `similarGeographies` is skipped for pending levels in `ReportPage.tsx`; check what the geoservice returns for district ids before enabling "Keep Exploring" similar places.
 
+## Landing pages and hierarchy
+
+Every report family has a hub and every level of its hierarchy a landing page; geography levels
+inside a state, and universities, have one per state as well:
+
+```
+/reports                             every family and its levels, under a search box (the nav's "Reports";
+                                     its menu lists the six hubs, a second click opens this page)
+/locations                           hub: the levels of the family, each with its largest members
+/locations/counties                  a level: map, rankings, size classes, a table of every member
+/locations/counties/massachusetts    the same for one state
+/industries/sub-sectors              a classification level: treemap, rankings, grouped directory
+```
+
+- **What is where.** `src/content/landing/levels.ts` names the pages (URL segments, headings, one
+  sentence on what the level is) and says which figures each level is compared on. A level few
+  readers know (PUMAs, metro areas) also has an `explainer` ("What is a PUMA?"), shown under the
+  page's opening sentence with a link to the Census Bureau's definition.
+  `src/lib/landing/data.ts` reads one figure for a whole level in one Tesseract query (two when the
+  measure has an earlier period to measure change from), kept in the worker for an hour and shared
+  by the national page, its state pages and the reports. `src/lib/landing/model.ts` joins the figures
+  to the members and derives the statistics, rankings and size classes;
+  `src/components/landing/` renders them. The six route files
+  (`src/app/(site)/<family>/[[...path]]/page.tsx`) only name their family.
+- **Server-rendered.** The headline sentence, statistics, rankings, size classes and the table or
+  directory are HTML: the pages need no JavaScript to be read or crawled. Sorting and paging the
+  table are links (`?sort=income&dir=asc&page=2`, a hundred rows a page) whose canonical URL is the
+  unsorted page. The map (`LevelMap`, a d3plus Geomap fed by `/api/landing/map`) and the treemap of
+  a classification level are the only client code, loaded after the page.
+- **Maps.** Levels with a national shape file are drawn member by member. Places and school
+  districts have a shape file per state only, so their national pages (and the universities page)
+  draw the states, shaded by how many members each has and linking to the state's page; their state
+  pages draw every member.
+- **County shapes** come from `Counties_2023.json` (ids in `properties.id`), which has
+  Connecticut's planning regions; `County.json` still has the eight counties the data no longer
+  reports. In a place file the state's own outline is drawn as a backdrop. Levels with state pages
+  have a state menu in the header.
+- **Universities** open on the universities themselves: `/universities` is the national page of the
+  `colleges` level (`home` in `levels.ts`), and `/universities/colleges` redirects there in the
+  proxy; state pages stay `/universities/colleges/<state>`. Nationally the map shades states by how
+  many universities each has; a state's page zooms into the state and draws each university as a
+  point sized and shaded by enrollment, with the list of its universities directly under the map.
+  Tesseract has no coordinates for universities: they come from the IPEDS institutional directory
+  (`scripts/university-locations/build.sh` → `data/university-locations.tsv` → the
+  `university_locations` table). Re-run it with the next year's file when the enrollment cube moves.
+- **Map data addresses carry a version** (`src/lib/landing/map-version.ts`): browsers keep a map's
+  data for an hour, so raise it whenever what a map address answers changes shape.
+- **Rankings of small members.** Medians and growth are ranked among geographies of at least
+  10,000 people, at both ends of the period for growth (a place redrawn from a hamlet into a town
+  did not grow). The ACS top codes ($250,001, $2,000,001) are printed as "$250,000+" and a ranking
+  whose first place is shared names no leader.
+- **Status codes and indexing.** `src/proxy.ts` answers an unknown level or state with the 404
+  route, like reports. A page is `noindex, follow` when its level is pending (school districts),
+  when it lists fewer than two members, or when no figures could be read. The sitemap
+  (`/sitemap/0.xml`) lists the hubs, the levels and the state pages with at least two members. The
+  search page's level listings (`/search?dimension=Geography&hierarchy=County`) now name the
+  landing page as their canonical URL.
+- **Containment** (which places and school districts are in a county, which counties and places in
+  a metropolitan area) is worked out when the dimensions database is built
+  (`scripts/legacy-export/geo-containment.ts` → table `geo_contains`): a child belongs to the parent
+  whose shape (`public/topojson`) contains its interior point, so a place that straddles a county
+  line is listed under one county. What lies in a state is read from the id. Land area and the
+  interior points come from the Census gazetteer (`scripts/gazetteer/build.sh` →
+  `data/gazetteer.tsv` → table `geo_facts`; 2024 vintage, re-run with the population data's
+  vintage). `gazetteer.tsv` is deliberately not a `.jsonl`: the files of that extension are hashed
+  into every generator cache key.
+- **`geo-db.ts`, not `db.ts`.** The queries on these tables live in `src/lib/dimensions/geo-db.ts`
+  with a connection of their own, because `db.ts` is in the engine closure that keys the generator
+  cache: adding a function there would re-key every cached generator.
+- **On reports** (`src/lib/reports/hierarchy.ts`, `src/components/report/Hierarchy.tsx`): the hero's
+  level pill is a context line ("County in Massachusetts", the level linked to its landing page, the
+  parent to its report), and the About section ends with the member in context: its rank among its
+  peers in its state and in the country, land area and density, its metropolitan area, and what it
+  contains (a county's places and school districts, a state's counties, places, districts and PUMAs,
+  an industry sector's sub-sectors), largest first, each a link. It reads the same level figures as
+  the landing pages, so a report sends no query of its own for it, and it is left out of comparisons.
+  The report's breadcrumb structured data follows the same trail (hub, level, level in the state).
+
 ## Rendering responsibilities
 
-Server components: everything textual. Client components: `VizIsland` (d3plus), `Options` (view data / CSV / PNG-SVG / share-embed), selector controls, Subnav scroll tracking, hero search + compare button, Prism gate form, GA consent hooks.
+Server components: everything textual. Client components: `VizIsland` (d3plus), `Options` (view data / CSV / PNG-SVG / share-embed), selector controls, Subnav scroll tracking, hero search + compare button, Prism gate form, GA consent hooks, the navigation's Reports menu
+(`ReportsMenu`) and search panel (`SearchPanel`: the magnifier, or the "s" key on any page when no
+input has the focus). The search box (`SearchBox`) is an editable combobox with list
+autocomplete (WAI-ARIA Authoring Practices): focus stays in the input, arrow keys move an
+`aria-activedescendant` highlight, Enter or a click opens a suggestion. Its keyboard, focus,
+scrolling and state behaviour is covered by browser tests: `npm run test:search` against a running
+site (`BASE_URL`, default `http://localhost:3301`).
 
 ## Images
 

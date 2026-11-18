@@ -12,6 +12,7 @@
     "build": "next build",
     "start": "next start -p 3301",
     "lint": "eslint .",
+    "test:search": "node --test --test-concurrency=1 --test-timeout=180000 scripts/regression/search-combobox.test.mjs",
     "typecheck": "tsc --noEmit",
     "extract:legacy": "tsx --env-file=.env.migration.local scripts/legacy-export/extract.ts",
     "build:dimensions": "tsx scripts/legacy-export/build-dimensions.ts",

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import {LANDING_FAMILIES} from "@/content/landing/levels";
 import styles from "./Footer.module.css";
 
 /** Site footer (legacy `Footer/index.jsx`). */
@@ -11,9 +12,12 @@ export function Footer() {
           <p>Explore, map, compare, and download U.S. data</p>
           <div className={styles.column}>
             <div className={styles.linkColumn}><Link href="/">Home</Link></div>
-            <div className={styles.linkColumn}><Link href="/search">Reports</Link></div>
+            <div className={styles.linkColumn}><Link href="/reports">Reports</Link></div>
             <div className={styles.linkColumn}><Link href="/about/background">About</Link></div>
           </div>
+          <nav className={styles.browse} aria-label="Browse reports">
+            {LANDING_FAMILIES.map(family => <Link key={family.slug} href={`/${family.slug}`}>{family.label}</Link>)}
+          </nav>
         </div>
         <div className={styles.contact}>
           <p className={styles.contactLabel}>Have Questions or Feedback?</p>

@@ -1,121 +1,47 @@
+/* Autocomplete search (SearchBox.tsx). The colours are custom properties on the box, so a page can
+   restyle it (home.css: a light list under a light input) without reaching into the markup. */
 .search {
+  --search-popup-bg: var(--darkgray);
+  --search-popup-border: rgba(255, 255, 255, 0.14);
+  --search-option-text: #fff;
+  --search-option-meta: #c3c9d3;
+  --search-option-hover: #3a4b5f;
+  --search-option-active: #4a5d75;
+  --search-option-active-meta: #e3e7ec;
+  --search-option-pressed: #55697f;
+  --search-error: #ffb4a8;
+  --search-focus: #3b5bdb;
+  /* the dimension icons are dark line drawings: drawn light on the dark list */
+  --search-icon-filter: brightness(0) invert(1) opacity(0.78);
+  /* the list shows about six and a half suggestions, so a cut-off row says there are more */
+  --search-option-height: 46px;
+  --search-rows: 6.5;
+  /* width of the Search button: the list lines up with the input, not the button */
+  --search-button-width: 0px;
   display: flex;
   position: relative;
   width: 100%;
 }
+.withButton { --search-button-width: 87px; }
+
 .input {
   background-color: rgba(255, 255, 255, 0.95);
   border: 0;
   border-radius: 2px;
   box-sizing: border-box;
   color: var(--darkgray);
+  flex: 1 1 auto;
   font-family: "Palanquin", sans-serif;
   font-size: 14px;
   height: 36px;
   line-height: 1;
-  outline: 0;
+  min-width: 0;
   padding: 0 12px;
   width: 100%;
 }
 .input::placeholder { color: var(--gray); }
-
-/* collapsed navigation-bar variant */
-.collapsible {
-  overflow: visible;
-  transition: width 0.25s ease-in-out;
-  width: 36px;
-}
-.collapsible.open {
-  background-color: var(--darkgray);
-  width: 250px;
-}
-.toggle {
-  background: none;
-  border: 0;
-  cursor: pointer;
-  flex: none;
-  height: 26px;
-  margin: 5px;
-  opacity: 0.75;
-  padding: 0;
-  transition: opacity 0.2s;
-  width: 26px;
-}
-.toggle:hover { opacity: 1; }
-/* the glyph sits at the button's top left, where the legacy 16px button was */
-.toggle img { display: block; margin: 5px 0; }
-.collapsible .input {
-  background-color: transparent;
-  color: white;
-  font-size: 13px;
-  height: 36px;
-  padding: 0 5px;
-}
-.collapsible .input::placeholder { color: var(--lightgray); }
-
-.results {
-  background-color: var(--darkgray);
-  border-radius: 0;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-  left: 0;
-  list-style: none;
-  margin: 0;
-  max-height: 300px;
-  overflow-y: auto;
-  padding: 0;
-  position: absolute;
-  top: 100%;
-  width: 100%;
-  z-index: 30;
-}
-.collapsible .results { top: 36px; width: 250px; }
-.result { transition: background-color 0.25s; }
-.result.highlighted, .result:hover { background-color: var(--gray); }
-.resultButton {
-  align-items: center;
-  background: none;
-  border: 0;
-  color: white;
-  cursor: pointer;
-  display: flex;
-  padding: 10px 10px 10px 6px;
-  text-align: left;
-  width: 100%;
-}
-.resultIcon {
-  display: inline-block;
-  flex: none;
-  height: 20px;
-  margin-right: 6px;
-  width: 20px;
-}
-.resultText { display: inline-block; }
-.resultTitle {
-  color: white;
-  display: block;
-  font-size: 14px;
-  line-height: 1.25;
-  margin-bottom: 2px;
-}
-.resultLevel {
-  color: var(--lightgray);
-  display: block;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  line-height: 1.15;
-  margin-top: 3px;
-  text-transform: uppercase;
-}
-.noResults {
-  color: white;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  padding: 10px 0;
-  text-align: center;
-  text-transform: uppercase;
-}
+/* a ring inside the box (the page's global `input:focus` rule removes the browser's own) */
+.search .input:focus-visible { outline: 2px solid var(--search-focus); outline-offset: -2px; }
 
 .button {
   align-items: center;
@@ -127,6 +53,130 @@
   font-size: 17px;
   justify-content: center;
   text-transform: uppercase;
-  width: 87px;
+  width: var(--search-button-width);
 }
-.button:hover { color: white; text-decoration: none; }
+.button:hover { background: #dc5139; color: white; text-decoration: none; }
+.button:focus-visible { outline: 2px solid white; outline-offset: -4px; }
+
+/* ---- the list under the input ---- */
+.popup {
+  background-color: var(--search-popup-bg);
+  border: 1px solid var(--search-popup-border);
+  border-top: 0;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+  left: 0;
+  position: absolute;
+  right: var(--search-button-width);
+  text-align: left;
+  top: 100%;
+  z-index: 30;
+}
+.popup[hidden], .listbox[hidden] { display: none; }
+.listbox {
+  list-style: none;
+  margin: 0;
+  /* never past the bottom of the window (`--search-room` is the space under the input) */
+  max-height: min(calc(var(--search-option-height) * var(--search-rows)), max(var(--search-room, 100vh), 140px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 4px 0;
+  position: relative;
+}
+.option {
+  align-items: center;
+  box-sizing: border-box;
+  color: var(--search-option-text);
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+  min-height: var(--search-option-height);
+  padding: 6px 12px 6px 10px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+}
+@media (hover: hover) {
+  .option:hover { background-color: var(--search-option-hover); }
+}
+/* the suggestion the arrow keys are on: a stronger fill and a bar in its report family's colour
+   (`--search-family`, set on each option; red for a family without one) */
+.option { --search-option-accent: var(--search-family, var(--red)); }
+.option[data-active] {
+  background-color: var(--search-option-active);
+  box-shadow: inset 3px 0 0 var(--search-option-accent);
+}
+.option:active { background-color: var(--search-option-pressed); }
+.optionIcon {
+  display: block;
+  filter: var(--search-icon-filter);
+  flex: none;
+  height: 20px;
+  width: 20px;
+}
+.optionText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.optionTitle {
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  font-size: 14px;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  line-height: 1.3;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+.optionLevel {
+  color: var(--search-option-meta);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+.option[data-active] .optionLevel { color: var(--search-option-active-meta); }
+.message {
+  color: var(--search-option-meta);
+  font-size: 13px;
+  line-height: 1.4;
+  margin: 0;
+  padding: 12px 14px;
+}
+.message[data-search-message="error"] { color: var(--search-error); }
+
+/* announced to screen readers, not shown */
+.status {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+/* the navigation's search panel: a taller input, a little more room per suggestion */
+.large {
+  --search-option-height: 50px;
+}
+.large.withButton { --search-button-width: 110px; }
+.large .input {
+  background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23727682' d='M15.55 13.43l-2.67-2.68a6.94 6.94 0 001.11-3.76c0-3.87-3.13-7-7-7s-7 3.13-7 7 3.13 7 7 7c1.39 0 2.68-.42 3.76-1.11l2.68 2.67a1.498 1.498 0 102.12-2.12zm-8.56-1.44c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z'/%3E%3C/svg%3E") no-repeat 16px center / 18px;
+  font-size: 18px;
+  height: 52px;
+  padding: 0 16px 0 46px;
+}
+.large .button { font-size: 20px; }
+.large .popup { border-top: 1px solid var(--search-popup-border); top: calc(100% + 4px); }
+.large .option { gap: 12px; padding: 6px 14px 6px 12px; }
+.large .optionIcon { height: 22px; width: 22px; }
+.large .optionTitle { font-size: 15px; }
+
+@media (max-width: 768px) {
+  /* a little less on a phone, where the keyboard takes half the screen */
+  .search { --search-rows: 5.5; }
+}

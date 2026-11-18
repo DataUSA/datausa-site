@@ -2,9 +2,14 @@
 
 import Link from "next/link";
 import {usePathname} from "next/navigation";
-import {useEffect, useState} from "react";
-import {SearchBox} from "@/components/search/SearchBox";
+import {useCallback, useEffect, useRef, useState} from "react";
+import {ReportsMenu} from "./ReportsMenu";
+import {SearchPanel} from "./SearchPanel";
 import styles from "./Nav.module.css";
+
+/** Where a typed "s" is text, not the search shortcut. */
+const isTyping = (target: EventTarget | null) => target instanceof HTMLElement
+  && (target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName));
 
 /** Fixed top navigation (legacy `Nav/index.jsx`): transparent over splash pages until scrolled. */
 export function Nav() {
@@ -12,6 +17,43 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [menu, setMenu] = useState(false);
   const [title, setTitle] = useState("");
+  const [search, setSearch] = useState(false);
+  const [path, setPath] = useState(pathname);
+  const searchButton = useRef<HTMLButtonElement>(null);
+
+  // a new page closes the search
+  if (path !== pathname) {
+    setPath(pathname);
+    setSearch(false);
+  }
+
+  // "s" anywhere opens the search, unless it is being typed somewhere
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "s" && e.key !== "S") return;
+      if (e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey || e.isComposing || isTyping(e.target)) return;
+      e.preventDefault();
+      setMenu(false);
+      setSearch(true);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, []);
+
+  const closeSearch = useCallback(() => {
+    setSearch(false);
+    // back to the magnifier, for keyboard users
+    requestAnimationFrame(() => searchButton.current?.focus({preventScroll: true}));
+  }, []);
+
+  // Escape closes it wherever the focus is in the panel; when the box has used the key (to close
+  // its suggestions first) the panel stays
+  useEffect(() => {
+    if (!search) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape" && !e.defaultPrevented) closeSearch(); };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [search, closeSearch]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 45);
@@ -40,7 +82,6 @@ export function Nav() {
   const splash = home || pathname.startsWith("/profile");
   const dark = !splash;
   const background = scrolled || dark;
-  const showSearch = !(home || pathname.startsWith("/search"));
 
   return (
     <nav id="Nav" className={`${styles.nav} ${background ? styles.background : ""} ${menu ? styles.menuOpen : ""}`}>
@@ -57,25 +98,36 @@ export function Nav() {
       </div>
       <div className={styles.right}>
         <ul className={styles.links}>
-          <li><Link href="/search">Reports</Link></li>
+          <ReportsMenu pathname={pathname} />
           <li><Link href="/about">About</Link></li>
           <li><Link href="/about/api">Data</Link></li>
         </ul>
-        {showSearch && <SearchBox placeholder="Search reports" collapsible />}
+        <button
+          ref={searchButton}
+          type="button"
+          className={styles.searchButton}
+          aria-label="Search"
+          aria-keyshortcuts="s"
+          aria-expanded={search}
+          title="Search (S)"
+          onClick={() => { setMenu(false); setSearch(true); }}
+        >
+          <img src="/images/icons/search.svg" alt="" width={18} height={18} />
+        </button>
       </div>
       {menu && (
         <div className={styles.menu} role="dialog" aria-label="Site menu">
           <ul>
             {!home && <li><Link href="/" onClick={() => setMenu(false)}>Home</Link></li>}
             <li>
-              <Link href="/search" onClick={() => setMenu(false)}>Reports</Link>
+              <Link href="/reports" onClick={() => setMenu(false)}>Reports</Link>
               <ul>
-                <li><Link href="/search?dimension=Geography" onClick={() => setMenu(false)}>Locations</Link></li>
-                <li><Link href="/search?dimension=PUMS Industry" onClick={() => setMenu(false)}>Industries</Link></li>
-                <li><Link href="/search?dimension=PUMS Occupation" onClick={() => setMenu(false)}>Occupations</Link></li>
-                <li><Link href="/search?dimension=CIP" onClick={() => setMenu(false)}>Degrees</Link></li>
-                <li><Link href="/search?dimension=University" onClick={() => setMenu(false)}>Universities</Link></li>
-                <li><Link href="/search?dimension=NAPCS" onClick={() => setMenu(false)}>Products &amp; Services</Link></li>
+                <li><Link href="/locations" onClick={() => setMenu(false)}>Locations</Link></li>
+                <li><Link href="/industries" onClick={() => setMenu(false)}>Industries</Link></li>
+                <li><Link href="/occupations" onClick={() => setMenu(false)}>Occupations</Link></li>
+                <li><Link href="/degrees" onClick={() => setMenu(false)}>Degrees</Link></li>
+                <li><Link href="/universities" onClick={() => setMenu(false)}>Universities</Link></li>
+                <li><Link href="/products" onClick={() => setMenu(false)}>Products &amp; Services</Link></li>
               </ul>
             </li>
             <li><Link href="/about" onClick={() => setMenu(false)}>About</Link></li>
@@ -85,6 +137,7 @@ export function Nav() {
         </div>
       )}
       {menu && <div className={styles.backdrop} onClick={() => setMenu(false)} />}
+      {search && <SearchPanel onClose={closeSearch} />}
     </nav>
   );
 }

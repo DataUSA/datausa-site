@@ -4,6 +4,7 @@
  * topped up with the curated defaults below. Cached for an hour.
  */
 import {cacheLife, cacheTag} from "next/cache";
+import {landingFamilyByDimension, landingPath} from "@/content/landing/levels";
 import {getMembersBySlugOrId, memberTotals} from "@/lib/dimensions/db";
 import {memberImageUrl} from "@/lib/reports/load";
 import {popularReportSlugs} from "./analytics";
@@ -54,7 +55,8 @@ export async function getHomeColumns(): Promise<HomeColumn[]> {
     }));
     return {
       title: column.title, slug: column.slug, dimension: column.dimension, icon: column.icon,
-      url: `/search?dimension=${encodeURIComponent(column.dimension)}`,
+      // the family's hub (`/locations`), which leads to its levels and to search
+      url: landingFamilyByDimension(column.dimension) ? landingPath(landingFamilyByDimension(column.dimension)!) : `/search?dimension=${encodeURIComponent(column.dimension)}`,
       total: totals[column.dimension] ?? 0,
       tiles
     };
