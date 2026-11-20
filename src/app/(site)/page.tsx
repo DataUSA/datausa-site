@@ -31,7 +31,7 @@ async function ReportCounts() {
     <div className="report-counts">
       {columns.map(column => (
         <Link href={column.url} className={`report-count ${column.slug}`} key={column.slug}>
-          <span className="report-count-icon"><InlineSvg src={column.icon} height={25} /></span>
+          <span className="report-count-icon"><InlineSvg src={column.icon} width={25} height={25} /></span>
           <span>
             <span className="report-count-total">{commas.format(column.total)}</span>
             <span className="report-count-title">{column.title}</span>

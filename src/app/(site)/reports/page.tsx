@@ -59,7 +59,7 @@ export default function ReportsPage() {
           <nav className="reports-jump" aria-label="Report types">
             {families.map(({family, total}) => (
               <a key={family.slug} href={`#${family.slug}`} className={`landing-${family.profile}`}>
-                <InlineSvg src={`/icons/dimensions/${family.dimension}.svg`} height={18} />
+                <InlineSvg src={`/icons/dimensions/${family.dimension}.svg`} width={18} height={18} />
                 <span>{family.label}</span>
                 <span className="count">{commas.format(total)}</span>
               </a>
@@ -72,7 +72,7 @@ export default function ReportsPage() {
           {families.map(({family, levels, total}) => (
             <section key={family.slug} id={family.slug} className={`reports-family landing-${family.profile}`}>
               <header>
-                <span className="reports-icon"><InlineSvg src={`/icons/dimensions/${family.dimension}.svg`} height={24} /></span>
+                <span className="reports-icon"><InlineSvg src={`/icons/dimensions/${family.dimension}.svg`} width={24} height={24} /></span>
                 <div>
                   <h2><Link href={landingPath(family)}>{family.label}</Link></h2>
                   <p className="reports-total">{commas.format(total)} reports</p>

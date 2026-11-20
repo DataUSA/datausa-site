@@ -141,6 +141,8 @@
           margin: 2px var(--gutter-xs) 0;
           text-align: center;
           width: 25px;
+          /* a fixed square (the icon centred in it): Safari draws `height: auto` here at zero size */
+          & svg { display: block; height: 25px; width: 25px; }
           & [fill] { fill: var(--white); }
           & [stroke] { stroke: var(--white); }
         }

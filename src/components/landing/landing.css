@@ -649,7 +649,9 @@
 }
 .reports-family .arrow-link { font-size: 14px; }
 .reports-index .inline-svg { display: inline-flex; line-height: 0; }
-.reports-index .inline-svg svg { height: auto; max-width: 100%; }
+/* a fixed square from the width and height attributes: Safari draws an inline SVG sized by
+   `height: auto` and `max-width` inside a shrink-wrapped box at zero size */
+.reports-index .inline-svg svg { display: block; flex: none; }
 /* the icons in the family's colour, whatever ink their files carry */
 .reports-index .inline-svg svg [fill]:not([fill="none"]) { fill: var(--family); }
 .reports-index .inline-svg svg [stroke]:not([stroke="none"]) { stroke: var(--family); }
