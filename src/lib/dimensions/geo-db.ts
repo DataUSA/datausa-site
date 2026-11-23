@@ -18,6 +18,9 @@ let checkedAt = 0;
 const statements = new Map<string, StatementSync>();
 const RECHECK_MS = 5000;
 
+/** Tables read here that an older build of the database lacks. */
+const REQUIRED_TABLES = ["geo_facts", "geo_contains", "university_locations"];
+
 function dbPath(): string {
   const override = process.env.DIMENSIONS_DB_PATH;
   return override ? resolve(/* turbopackIgnore: true */ override) : join(process.cwd(), "data", "dimensions.sqlite");
@@ -45,7 +48,16 @@ function prepare(sql: string): StatementSync {
     }
   }
   if (!db) {
-    db = new DatabaseSync(path, {readOnly: true});
+    const opening = new DatabaseSync(path, {readOnly: true});
+    // `data/dimensions.sqlite` is not in Git: a checkout can hold one built before these tables
+    // existed, and reading it would quietly give empty maps and lists
+    const present = new Set((opening.prepare("SELECT name FROM sqlite_master WHERE type = 'table'").all() as Raw[]).map(r => String(r.name)));
+    const missing = REQUIRED_TABLES.filter(t => !present.has(t));
+    if (missing.length) {
+      opening.close();
+      throw new Error(`The dimensions database at ${path} is out of date (no ${missing.join(", ")} table). Run \`npm run build:dimensions\`.`);
+    }
+    db = opening;
     opened = fingerprint(path);
     checkedAt = Date.now();
   }
@@ -70,54 +82,33 @@ export interface GeoFacts {
 
 /** Land area and interior point of a geography (Census gazetteer; school districts from their boundary file). */
 export function geoFacts(id: string): GeoFacts | undefined {
-  try {
-    const row = prepare("SELECT land_sqmi, water_sqmi, lon, lat FROM geo_facts WHERE id = ?").get(id) as Raw | undefined;
-    if (!row) return undefined;
-    const n = (v: unknown) => v === null || v === undefined ? null : Number(v);
-    const lon = n(row.lon), lat = n(row.lat);
-    return {landSqMi: n(row.land_sqmi), waterSqMi: n(row.water_sqmi), lonlat: lon !== null && lat !== null ? [lon, lat] : null};
-  }
-  catch {
-    // a database built before the table existed
-    return undefined;
-  }
+  const row = prepare("SELECT land_sqmi, water_sqmi, lon, lat FROM geo_facts WHERE id = ?").get(id) as Raw | undefined;
+  if (!row) return undefined;
+  const n = (v: unknown) => v === null || v === undefined ? null : Number(v);
+  const lon = n(row.lon), lat = n(row.lat);
+  return {landSqMi: n(row.land_sqmi), waterSqMi: n(row.water_sqmi), lonlat: lon !== null && lat !== null ? [lon, lat] : null};
 }
 
 /** Land area in square miles of every geography of a level that has one, by id. */
 export function levelLandAreas(hierarchy: string): Map<string, number> {
-  try {
-    const rows = prepare("SELECT f.id, f.land_sqmi FROM geo_facts f JOIN members m ON m.id = f.id AND m.dimension = 'Geography' WHERE m.hierarchy = ? AND f.land_sqmi > 0").all(hierarchy) as Raw[];
-    return new Map(rows.map(r => [String(r.id), Number(r.land_sqmi)]));
-  }
-  catch {
-    return new Map();
-  }
+  const rows = prepare("SELECT f.id, f.land_sqmi FROM geo_facts f JOIN members m ON m.id = f.id AND m.dimension = 'Geography' WHERE m.hierarchy = ? AND f.land_sqmi > 0").all(hierarchy) as Raw[];
+  return new Map(rows.map(r => [String(r.id), Number(r.land_sqmi)]));
 }
 
 /** Visible members of one level that a county or metropolitan area contains, in name order. */
 export function containedMembers(parentId: string, level: string): GeoMember[] {
-  try {
-    const rows = prepare(`SELECT m.id, m.slug, m.name, m.hierarchy FROM geo_contains c
-      JOIN members m ON m.id = c.child_id AND m.dimension = 'Geography' AND m.hidden = 0
-      WHERE c.parent_id = ? AND c.child_level = ? ORDER BY m.name`).all(parentId, level) as Raw[];
-    return rows.map(toMember);
-  }
-  catch {
-    return [];
-  }
+  const rows = prepare(`SELECT m.id, m.slug, m.name, m.hierarchy FROM geo_contains c
+    JOIN members m ON m.id = c.child_id AND m.dimension = 'Geography' AND m.hidden = 0
+    WHERE c.parent_id = ? AND c.child_level = ? ORDER BY m.name`).all(parentId, level) as Raw[];
+  return rows.map(toMember);
 }
 
 /** The county and metropolitan area a place, county or school district lies in. */
 export function containers(childId: string): GeoMember[] {
-  try {
-    const rows = prepare(`SELECT m.id, m.slug, m.name, m.hierarchy FROM geo_contains c
-      JOIN members m ON m.id = c.parent_id AND m.dimension = 'Geography' AND m.hidden = 0
-      WHERE c.child_id = ?`).all(childId) as Raw[];
-    return rows.map(toMember);
-  }
-  catch {
-    return [];
-  }
+  const rows = prepare(`SELECT m.id, m.slug, m.name, m.hierarchy FROM geo_contains c
+    JOIN members m ON m.id = c.parent_id AND m.dimension = 'Geography' AND m.hidden = 0
+    WHERE c.child_id = ?`).all(childId) as Raw[];
+  return rows.map(toMember);
 }
 
 /** Visible members of a level in one state (two-digit FIPS code: the id carries it after "US"), in name order. */
@@ -147,15 +138,9 @@ export interface UniversityLocation {
 
 /** Where each college and university is, by University id, from the IPEDS directory. */
 export function universityLocations(): Map<string, UniversityLocation> {
-  try {
-    const rows = prepare("SELECT id, lon, lat, city, state FROM university_locations").all() as Raw[];
-    return new Map(rows.map(r => [String(r.id), {
-      lonlat: [Number(r.lon), Number(r.lat)] as [number, number],
-      place: r.city ? `${String(r.city)}${r.state ? `, ${String(r.state)}` : ""}` : undefined
-    }]));
-  }
-  catch {
-    // a database built before the table existed
-    return new Map();
-  }
+  const rows = prepare("SELECT id, lon, lat, city, state FROM university_locations").all() as Raw[];
+  return new Map(rows.map(r => [String(r.id), {
+    lonlat: [Number(r.lon), Number(r.lat)] as [number, number],
+    place: r.city ? `${String(r.city)}${r.state ? `, ${String(r.state)}` : ""}` : undefined
+  }]));
 }
