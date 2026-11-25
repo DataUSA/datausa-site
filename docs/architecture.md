@@ -192,6 +192,25 @@ gen:<generator id>:<generator version>:<hash of the URL without its host>:<hash 
 - **Coalescing**: within a worker, renders share one computation per group; across workers the first
   takes `lock:<key>` (`SET NX PX`) and the others poll for its entries, then compute themselves if it
   gives up. Eight simultaneous views of an uncached state send one set of queries.
+- **Shared lookups** (`src/lib/cache/shared-lookup.ts`): the level figures of the landing pages and
+  of every report's "in context" section (`src/lib/landing/data.ts`, `lookup:level:<level>:<measure>:…`)
+  and the university figures (`lookup:universities:…`) are one heavy query or a few for a whole level
+  (every place's population is a 2.5 MB answer), read by every page of the level. Building all of
+  them takes 72 queries, 44 for the "in context" sections alone. Kept only in each worker's memory,
+  every worker missed at the same moment after a deploy, a restart or a purge and sent the same
+  queries (9 workers on penn, up to 8 in flight each); without NGINX's cache, three workers were
+  enough to push the place queries past the 20 s timeout. Now one worker computes each lookup:
+  the first to miss takes `lock:<key>` and the others poll for its entry. The entry is tagged with
+  its cubes, written purge-safe and deleted by a purge like any other, so a deploy or restart reads
+  it back and a release purge refreshes it. Failures are not stored: a `failed|…` mark in the lock
+  makes the other workers answer without figures for 10 s (`LOOKUP_FAILED_MS`) instead of repeating
+  the failing queries. Each worker keeps the value in memory for an hour and compares the purge
+  counters of its cubes every 30 s, so a purge reaches every worker within that time. A worker
+  waits up to 2 s for its first connection to Redis rather than querying without it, and the lock
+  lasts 90 s (`LOOKUP_LOCK_MS`), long enough for two queries that hit the API timeout. Without
+  Redis each worker computes its lookups as before. `REDIS_URL=… npx tsx
+  scripts/cache/test-shared-lookup.ts` checks this across processes with a stand-in lookup (no
+  Tesseract query).
 - **Redis failures never fail a page**: a read deadline (`REDIS_READ_TIMEOUT_MS`, 250 ms in production), a circuit breaker, and the render falls
   back to computing everything (with in-process coalescing). Without `REDIS_URL` the cache is off and
   attributes and lookups use Next's `use cache` (success-only) as before.
@@ -322,8 +341,9 @@ inside a state, and universities, have one per state as well:
   readers know (PUMAs, metro areas) also has an `explainer` ("What is a PUMA?"), shown under the
   page's opening sentence with a link to the Census Bureau's definition.
   `src/lib/landing/data.ts` reads one figure for a whole level in one Tesseract query (two when the
-  measure has an earlier period to measure change from), kept in the worker for an hour and shared
-  by the national page, its state pages and the reports. `src/lib/landing/model.ts` joins the figures
+  measure has an earlier period to measure change from), shared by the national page, its state
+  pages and the reports' "in context" sections (see "Shared lookups" below for how workers share
+  it). `src/lib/landing/model.ts` joins the figures
   to the members and derives the statistics, rankings and size classes;
   `src/components/landing/` renders them. The six route files
   (`src/app/(site)/<family>/[[...path]]/page.tsx`) only name their family.

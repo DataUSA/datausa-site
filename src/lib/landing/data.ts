@@ -2,15 +2,19 @@
  * Figures behind the landing pages: one measure for every member of a level, in the latest period
  * the cube has and, where the measure asks for it, an earlier one to measure change from.
  *
- * Each (level, measure) is one or two Tesseract queries shared by every page of the level (the
- * national page and its 52 state pages read the same lookup). The responses go through the data
- * cache like any other request; the parsed lookup is also kept in the worker for an hour. A failed
- * request yields an empty lookup, which the pages treat as "no figures", and is retried after half a
- * minute.
+ * Each (level, measure) is one or two Tesseract queries shared by every page of the level: the
+ * national page, its 52 state pages and every report's "in context" section read the same lookup.
+ * Some are among the heaviest queries the site sends (the population of every place is 2.5 MB), so
+ * a lookup is computed by one worker and shared with the others through Redis, where a deploy or a
+ * restart finds it again and a purge of its cube removes it (`src/lib/cache/shared-lookup.ts`).
+ * Without Redis each worker computes it, as before. A failed lookup has no figures (the pages
+ * then show none) and is tried again 10 s later (30 s without Redis).
  */
 import {MEASURES, type LandingMeasure, type MeasureKey} from "@/content/landing/levels";
 import {fetchData, fetchJsonRaw, tesseractDataUrl} from "@/lib/api/tesseract";
-import {getUniversityFigures} from "@/lib/dimensions/universities";
+import {currentScope} from "@/lib/api/upstream-scope";
+import {sharedLookup, sharedLookupKey} from "@/lib/cache/shared-lookup";
+import {getUniversityFigures, type UniversityFigures} from "@/lib/dimensions/universities";
 
 export interface LevelFigures {
   /** Period of the figures (the cube's latest for this level). */
@@ -45,11 +49,12 @@ async function query(hierarchy: string, m: LandingMeasure, period: string): Prom
     time: latest ? `${time}.latest` : undefined
   });
   let result = await fetchData(url);
-  // The data cache can go on answering with a failure it holds after the API has recovered (seen
-  // for minutes after a rate limit): ask again, past the cache, before settling for no figures.
-  // This lookup is kept for an hour, or retried in half a minute, so the extra request is rare.
-  // A held answer without rows (a challenge page, an empty body) counts as a failure too.
-  if (result.error || !(result.data?.data as Row[] | undefined)?.length) result = await fetchJsonRaw(url);
+  // Next's data cache (without Redis) can go on answering with a failure it holds after the API has
+  // recovered (seen for minutes after a rate limit): ask again, past the cache, before settling for
+  // no figures. A held answer without rows (a challenge page, an empty body) counts as a failure
+  // too. A shared lookup asks the API itself (an uncached scope): asking again would only repeat a
+  // failing query.
+  if (!currentScope()?.uncached && (result.error || !(result.data?.data as Row[] | undefined)?.length)) result = await fetchJsonRaw(url);
   const values = new Map<string, number>();
   let year: number | null = null;
   for (const row of (result.data?.data ?? []) as Row[]) {
@@ -75,33 +80,53 @@ async function load(hierarchy: string, m: LandingMeasure): Promise<LevelFigures>
   return {year: latest.year, previousYear: previous.year, values: latest.values, previous: previous.values};
 }
 
+type UniversityKey = "enrollment" | "endowment" | "acceptance";
+/** Each university figure as level figures, made once per copy of the university lookup. */
+const universityLevels = new WeakMap<UniversityFigures, Partial<Record<UniversityKey, LevelFigures>>>();
+
 /** The three university figures come from one shared lookup, which also knows each university's state. */
-async function universityFigures(key: "enrollment" | "endowment" | "acceptance"): Promise<LevelFigures> {
+
+async function universityFigures(key: UniversityKey): Promise<LevelFigures> {
   const figures = await getUniversityFigures();
-  const values = new Map<string, number>();
-  for (const [id, figure] of figures.byId) {
-    const value = figure[key];
-    if (value !== undefined) values.set(id, value);
+  let levels = universityLevels.get(figures);
+  if (!levels) universityLevels.set(figures, levels = {});
+  let level = levels[key];
+  if (!level) {
+    const values = new Map<string, number>();
+    for (const [id, figure] of figures.byId) {
+      const value = figure[key];
+      if (value !== undefined) values.set(id, value);
+    }
+    level = levels[key] = {year: figures.years[key], previousYear: null, values, previous: new Map()};
   }
-  return {year: figures.years[key], previousYear: null, values, previous: new Map()};
+  return level;
 }
 
-const TTL_MS = 60 * 60 * 1000;
-const RETRY_MS = 30 * 1000;
-const cache = new Map<string, {expires: number; value: Promise<LevelFigures>}>();
+/**
+ * What a lookup holds, and how it is read from Tesseract: change it when `query` or `load` change
+ * what they return, so that the shared copies made by the old code are not read.
+ */
+const FORMAT = 1;
+
+interface StoredFigures {y: number | null; py: number | null; v: Record<string, number>; p: Record<string, number>}
+
+const encodeFigures = (f: LevelFigures): StoredFigures => ({y: f.year, py: f.previousYear, v: Object.fromEntries(f.values), p: Object.fromEntries(f.previous)});
+const decodeFigures = (stored: unknown): LevelFigures => {
+  const s = stored as StoredFigures;
+  return {year: s.y, previousYear: s.py, values: new Map(Object.entries(s.v)), previous: new Map(Object.entries(s.p))};
+};
 
 export function getLevelFigures(hierarchy: string, key: MeasureKey): Promise<LevelFigures> {
-  const name = `${hierarchy}|${key}`;
-  const hit = cache.get(name);
-  if (hit && hit.expires > Date.now()) return hit.value;
-  const value = (hierarchy === "University" && (key === "enrollment" || key === "endowment" || key === "acceptance")
-    ? universityFigures(key)
-    : load(hierarchy, MEASURES[key])
-  ).catch(() => EMPTY);
-  const entry = {expires: Date.now() + TTL_MS, value};
-  cache.set(name, entry);
-  value.then(figures => { if (!figures.values.size) entry.expires = Date.now() + RETRY_MS; });
-  return value;
+  if (hierarchy === "University" && (key === "enrollment" || key === "endowment" || key === "acceptance")) return universityFigures(key);
+  const m = MEASURES[key];
+  return sharedLookup({
+    key: sharedLookupKey(`level:${hierarchy}:${key}`, [FORMAT, m.cube, m.measure, m.include ?? null, m.time ?? null, m.lag ?? null]),
+    label: `${hierarchy} ${m.phrase}`,
+    compute: () => load(hierarchy, m),
+    encode: encodeFigures,
+    decode: decodeFigures,
+    fallback: EMPTY
+  });
 }
 
 /** Every measure of a level, in the order given. */

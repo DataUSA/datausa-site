@@ -151,25 +151,22 @@ async function geoHierarchy(member: MemberRow, breadcrumbs: {id: string; slug: s
   }
 
   // what it contains
-  const add = async (level: string, members: GeoMember[], stateSlug?: string) => {
-    if (!members.length) return;
+  const contained: [level: string, members: GeoMember[], stateSlug?: string][] =
+    hierarchy === "Nation" ? [["State", levelMembers("Geography", "State")]]
+    : hierarchy === "State" ? ["County", "Place", "Congressional District", "School District", "PUMA"].map(level => [level, stateMembers(level, id.slice(7, 9)), member.slug])
+    : hierarchy === "County" ? ["Place", "School District"].map(level => [level, containedMembers(id, level)])
+    : hierarchy === "MSA" ? ["County", "Place"].map(level => [level, containedMembers(id, level)])
+    : [];
+  // the levels' figures together, not one after the other (each may be waiting for another worker)
+  const groups = await Promise.all(contained.map(async ([level, members, stateSlug]) => {
+    if (!members.length) return undefined;
     const found = landingLevel("Geography", level);
     const more = found && (stateSlug ? found.level.byState : true) && (stateSlug || hierarchy === "Nation")
       ? {name: `All ${pluralInSentence(found.level)}${stateSlug ? ` in ${member.name}` : ""}`, href: landingPath(found.family, found.level, stateSlug)}
       : undefined;
-    const g = group("geo", level, members, await population(level), measure, hierarchy !== "Nation" && hierarchy !== "MSA", more);
-    if (g) out.groups.push(g);
-  };
-  if (hierarchy === "Nation") await add("State", levelMembers("Geography", "State"));
-  else if (hierarchy === "State") {
-    for (const level of ["County", "Place", "Congressional District", "School District", "PUMA"]) await add(level, stateMembers(level, id.slice(7, 9)), member.slug);
-  }
-  else if (hierarchy === "County") {
-    for (const level of ["Place", "School District"]) await add(level, containedMembers(id, level));
-  }
-  else if (hierarchy === "MSA") {
-    for (const level of ["County", "Place"]) await add(level, containedMembers(id, level));
-  }
+    return group("geo", level, members, await population(level), measure, hierarchy !== "Nation" && hierarchy !== "MSA", more);
+  }));
+  for (const g of groups) if (g) out.groups.push(g);
   return out;
 }
 
@@ -188,13 +185,15 @@ async function classificationHierarchy(profile: string, member: MemberRow, bread
   if (member.hierarchy === "University") return out;
 
   const measure = MEASURES[level.measures[0]];
+  // the level below's figures meanwhile, for what it contains
+  const below = family.levels[family.levels.indexOf(level) + 1];
+  const belowFigures = below && below.hierarchy !== "University" ? getLevelFigures(below.hierarchy, below.measures[0]) : undefined;
   const figures = await getLevelFigures(level.hierarchy, level.measures[0]);
   const rank = rankOf(member.id, levelMembers(member.dimension, member.hierarchy), figures);
   if (rank && !measure.ascending) out.ranks.push({...rank, by: measure.phrase, among: pluralInSentence(level), href: landingPath(family, level)});
 
   // what it contains: the members one level down that name it among their ancestors
-  const below = family.levels[family.levels.indexOf(level) + 1];
-  if (below && below.hierarchy !== "University") {
+  if (below && belowFigures) {
     let lookup: Record<string, string[]> = {};
     try {
       lookup = await parentLookup(profile);
@@ -205,7 +204,7 @@ async function classificationHierarchy(profile: string, member: MemberRow, bread
     const ids = Object.keys(lookup).filter(child => child !== member.id && lookup[child].includes(member.id));
     const members = getMembers(member.dimension, ids, below.hierarchy).filter(m => !m.hidden);
     const childMeasure = MEASURES[below.measures[0]];
-    const g = group(profile, below.hierarchy, members, await getLevelFigures(below.hierarchy, below.measures[0]), childMeasure, false);
+    const g = group(profile, below.hierarchy, members, await belowFigures, childMeasure, false);
     if (g) out.groups.push({...g, label: below.plural});
   }
   return out;
