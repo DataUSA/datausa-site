@@ -93,7 +93,7 @@ export default function HomePage() {
               <div className="feature-item"><span className="feature-icon"><InlineSvg src="/icons/features/cart.svg" width={25} /></span><span>Download data</span></div>
               <div className="feature-item"><span className="feature-icon"><InlineSvg src="/icons/features/compare.svg" width={25} /></span><span>Compare reports</span></div>
             </div>
-            <Link href="/search" className="arrow-link">Search Reports</Link>
+            <Link href="/reports" className="arrow-link">Browse Reports</Link>
           </div>
           <div className="home-image home-mockup" role="img" aria-label="Data USA report mockups" style={{backgroundImage: "url(/images/home/home-mockup.png)"}} />
         </div>
@@ -130,7 +130,7 @@ export default function HomePage() {
         <Suspense fallback={<div className="report-columns" />}>
           <ReportColumns />
         </Suspense>
-        <Link href="/search" className="arrow-link light">Search All Reports</Link>
+        <Link href="/reports" className="arrow-link light">Browse All Reports</Link>
       </section>
     </main>
   );
