@@ -207,8 +207,11 @@ gen:<generator id>:<generator version>:<hash of the URL without its host>:<hash 
   the failing queries. Each worker keeps the value in memory for an hour and compares the purge
   counters of its cubes every 30 s, so a purge reaches every worker within that time. A worker
   waits up to 2 s for its first connection to Redis rather than querying without it, and the lock
-  lasts 90 s (`LOOKUP_LOCK_MS`), long enough for two queries that hit the API timeout. Without
-  Redis each worker computes its lookups as before. `REDIS_URL=… npx tsx
+  lasts 90 s (`LOOKUP_LOCK_MS`), long enough for two queries that hit the API timeout. Keys carry
+  a hash of the code that queries and parses each family (`sharedLookups` in the generator
+  manifest: `data.ts` with `MEASURES`, and `universities.ts`), so a deploy that changes either
+  reads none of the old copies, with no version to bump by hand. Without Redis, or without a
+  manifest, each worker computes its lookups as before. `REDIS_URL=… npx tsx
   scripts/cache/test-shared-lookup.ts` checks this across processes with a stand-in lookup (no
   Tesseract query).
 - **Redis failures never fail a page**: a read deadline (`REDIS_READ_TIMEOUT_MS`, 250 ms in production), a circuit breaker, and the render falls

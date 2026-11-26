@@ -155,12 +155,21 @@ for (const family of readdirSync(reportsDir).sort()) {
 attributes["geo/school-district"] = short(JSON.stringify([dimensionsHash, digest(closure(join(reportsDir, "geo", "school-district.ts")))]));
 const lookupsHash = digest(closure(join(SRC, "lib/content/lookups.ts")));
 
+// Lookups shared between workers (`src/lib/cache/shared-lookup.ts`): the code that queries and
+// parses each family. Their values come from Tesseract alone, so the dimensions data is left out.
+// The level figures pass the university lookup through without storing it: not part of theirs.
+const sharedLookups = {
+  levels: digest(closure(join(SRC, "lib/landing/data.ts"), new Set(["src/lib/dimensions/universities.ts"]))),
+  universities: digest(closure(join(SRC, "lib/dimensions/universities.ts")))
+};
+
 const manifest = {
   format: 1,
   engine: engineHash,
   dimensions: dimensionsHash,
   legacy: legacyHash,
   lookups: lookupsHash,
+  sharedLookups,
   attributes,
   generators,
   engineFiles: [...engineSet].sort()

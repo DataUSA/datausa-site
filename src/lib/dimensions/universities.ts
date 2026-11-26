@@ -5,7 +5,7 @@
  */
 import {UNIVERSITY_RANK_OPTIONS} from "@/content/search/dimensions";
 import {fetchData, tesseractDataUrl} from "@/lib/api/tesseract";
-import {sharedLookup, sharedLookupKey} from "@/lib/cache/shared-lookup";
+import {lookupCodeVersion, sharedLookup, sharedLookupKey} from "@/lib/cache/shared-lookup";
 import {listMembers} from "@/lib/dimensions/db";
 
 export type UniversityRanking = typeof UNIVERSITY_RANK_OPTIONS[number]["key"];
@@ -66,8 +66,6 @@ const QUERIES = [
   {cube: "ipeds_finance_financials", drilldowns: "University", measures: "Endowment Value"},
   {cube: "ipeds_admissions", drilldowns: "University", measures: "Applicants Total,Admissions Total"}
 ] as const;
-/** Change it when `computeFigures` changes what it returns, so the shared copies of the old code are not read. */
-const FORMAT = 1;
 
 /** What Tesseract says, shared between workers; the states are counted from it in each one. */
 type UniversityData = Omit<UniversityFigures, "states">;
@@ -131,8 +129,10 @@ const withStates = new WeakMap<UniversityData, UniversityFigures>();
  * (30 s without Redis).
  */
 export async function getUniversityFigures(): Promise<UniversityFigures> {
+  const code = lookupCodeVersion("universities");
   const data = await sharedLookup<UniversityData>({
-    key: sharedLookupKey("universities", [FORMAT, QUERIES]),
+    key: sharedLookupKey("universities", [code, QUERIES]),
+    shared: code !== undefined,
     label: "University figures",
     compute: computeFigures,
     encode: d => ({years: d.years, byId: Object.fromEntries(d.byId)}),

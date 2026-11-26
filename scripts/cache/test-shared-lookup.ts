@@ -11,6 +11,7 @@
  *    expires, then one computes it again.
  * 5. A worker that dies holding the lock: the others take over once the lock expires.
  * 6. Without Redis, each worker computes it, as before.
+ * 7. Without a code version (no generator manifest), the same: nothing is read from Redis or stored.
  *
  * It writes only its own keys (`lookup:test-<id>…`, a made-up cube tag) and removes them at the end.
  */
@@ -36,6 +37,7 @@ async function child() {
   const mode = process.env.TEST_MODE ?? "ok";
   const value = await sharedLookup<Value>({
     key: sharedLookupKey(`test-${id}`, 1),
+    shared: process.env.TEST_SHARED !== "0",
     label: `test lookup (${process.pid})`,
     compute: async () => {
       appendFileSync(process.env.TEST_COUNT_FILE!, "x");
@@ -140,6 +142,13 @@ async function main() {
     const noRedis = computes();
     values = await runWorkers(3, {...env, REDIS_URL: ""});
     check("without Redis each worker computes", computes() === noRedis + 3 && values.every(v => v.n === 42), `${computes() - noRedis} computation(s)`);
+
+    // 7. no code version: kept out of Redis even though one holds the value
+    await redis.del(`lock:${key}`);
+    const unversioned = computes();
+    values = await runWorkers(3, {...env, TEST_SHARED: "0"});
+    check("without a code version each worker computes", computes() === unversioned + 3 && values.every(v => v.n === 42) && (await redis.exists(`lock:${key}`)) === 0,
+      `${computes() - unversioned} computation(s), no lock taken`);
   }
   finally {
     await redis.del(key, `lock:${key}`, tag);

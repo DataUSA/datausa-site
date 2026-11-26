@@ -13,7 +13,7 @@
 import {MEASURES, type LandingMeasure, type MeasureKey} from "@/content/landing/levels";
 import {fetchData, fetchJsonRaw, tesseractDataUrl} from "@/lib/api/tesseract";
 import {currentScope} from "@/lib/api/upstream-scope";
-import {sharedLookup, sharedLookupKey} from "@/lib/cache/shared-lookup";
+import {lookupCodeVersion, sharedLookup, sharedLookupKey} from "@/lib/cache/shared-lookup";
 import {getUniversityFigures, type UniversityFigures} from "@/lib/dimensions/universities";
 
 export interface LevelFigures {
@@ -102,12 +102,6 @@ async function universityFigures(key: UniversityKey): Promise<LevelFigures> {
   return level;
 }
 
-/**
- * What a lookup holds, and how it is read from Tesseract: change it when `query` or `load` change
- * what they return, so that the shared copies made by the old code are not read.
- */
-const FORMAT = 1;
-
 interface StoredFigures {y: number | null; py: number | null; v: Record<string, number>; p: Record<string, number>}
 
 const encodeFigures = (f: LevelFigures): StoredFigures => ({y: f.year, py: f.previousYear, v: Object.fromEntries(f.values), p: Object.fromEntries(f.previous)});
@@ -119,8 +113,11 @@ const decodeFigures = (stored: unknown): LevelFigures => {
 export function getLevelFigures(hierarchy: string, key: MeasureKey): Promise<LevelFigures> {
   if (hierarchy === "University" && (key === "enrollment" || key === "endowment" || key === "acceptance")) return universityFigures(key);
   const m = MEASURES[key];
+  // the code version covers this module and `MEASURES`: a change to either reads no old copy
+  const code = lookupCodeVersion("levels");
   return sharedLookup({
-    key: sharedLookupKey(`level:${hierarchy}:${key}`, [FORMAT, m.cube, m.measure, m.include ?? null, m.time ?? null, m.lag ?? null]),
+    key: sharedLookupKey(`level:${hierarchy}:${key}`, [code, m.cube, m.measure, m.include ?? null, m.time ?? null, m.lag ?? null]),
+    shared: code !== undefined,
     label: `${hierarchy} ${m.phrase}`,
     compute: () => load(hierarchy, m),
     encode: encodeFigures,

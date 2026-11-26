@@ -20,11 +20,18 @@
  * - **Memory**: each worker keeps the value for an hour and checks the purge counters of its cubes
  *   every 30 s, so a purge reaches every worker within that time.
  *
- * Without Redis (not configured, down, or its circuit breaker open) each worker computes the value
- * itself, through Next's data cache, and keeps it for an hour (30 s when part of it failed).
+ * - **Keyed by the code that builds it**: the generator manifest hashes the modules of each family
+ *   of lookups (`sharedLookups` in `scripts/cache/build-manifest.ts`), so a deploy that changes how
+ *   a lookup is queried or parsed reads none of the copies the old code stored. Nobody has to
+ *   remember to bump a version.
+ *
+ * Without Redis (not configured, down, or its circuit breaker open), or without a manifest to key it
+ * by, each worker computes the value itself, through Next's data cache, and keeps it for an hour
+ * (30 s when part of it failed).
  */
 import {createHash, randomUUID} from "node:crypto";
 import {noteFailure, noteTags, withUpstreamScope} from "@/lib/api/upstream-scope";
+import {generatorManifest} from "@/lib/cache/manifest";
 import {redisClient, redisConfigured, withRedis} from "@/lib/cache/redis";
 import {EPOCH_KEY, epochSnapshot, storeEntries} from "@/lib/cache/store";
 import {scopeTags} from "@/lib/cache/values";
@@ -32,6 +39,8 @@ import {scopeTags} from "@/lib/cache/values";
 export interface SharedLookupSpec<T> {
   /** Redis key, from `sharedLookupKey`. */
   key: string;
+  /** False keeps the value out of Redis (no code version to key it by): each worker computes it. */
+  shared?: boolean;
   /** Name in the logs ("Place population"). */
   label: string;
   /** Builds the value. Upstream failures inside it are noted by the fetch helpers (`upstream-scope.ts`). */
@@ -62,6 +71,16 @@ const VALUE_READ_SIZE = 200;
 /** How long a lookup waits for a worker's first connection to Redis, rather than querying without it. */
 const CONNECT_WAIT_MS = 2000;
 const FAILED_PREFIX = "failed|";
+
+/**
+ * The version of the code behind a family of lookups (`levels`, `universities`), from the generator
+ * manifest; undefined without one, and the lookup then stays out of Redis: a stored copy must never
+ * be read by code it was not built with. Not part of `GeneratorManifest` on purpose: `manifest.ts` is
+ * hashed into the attribute versions, and editing it would re-key every member's attributes.
+ */
+export function lookupCodeVersion(family: string): string | undefined {
+  return (generatorManifest() as {sharedLookups?: Record<string, string>} | null)?.sharedLookups?.[family];
+}
 
 /**
  * The key of a lookup: its name (no `|`: tag sets list entries as `<key>|<owner>`) and a hash of
@@ -116,7 +135,7 @@ export function sharedLookup<T>(spec: SharedLookupSpec<T>): Promise<T> {
   }
   // set before anything is awaited: concurrent callers in this worker share the load
   const entry: Held = {value: Promise.resolve(), expires: now + MEMORY_MS, checkedAt: now};
-  entry.value = (redisConfigured() ? loadShared(spec) : computeHere(spec)).then(
+  entry.value = (redisConfigured() && spec.shared !== false ? loadShared(spec) : computeHere(spec)).then(
     loaded => {
       if (loaded.retryMs !== undefined) entry.expires = Date.now() + loaded.retryMs;
       entry.tags = loaded.tags;
