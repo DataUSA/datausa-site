@@ -10,6 +10,8 @@
 import {civicOfficials, type CivicType} from "@/content/reports/geo/civic";
 import napcs2sctg from "@/content/shared/data/nacps2sctg.json";
 import {fetchData, TESSERACT_URL, type FetchResult} from "@/lib/api/tesseract";
+import {noteTags} from "@/lib/api/upstream-scope";
+import {TAG_DIMENSIONS} from "@/lib/cache/tags";
 import {sctgNames} from "@/lib/content/lookups";
 import {getImage, getMember, getProfiles, getMembers, type MemberRow} from "@/lib/dimensions/db";
 import {geoNeighbors, similarGeographies} from "@/lib/dimensions/similar";
@@ -42,6 +44,9 @@ export async function fetchLegacyEndpoint(url: string, attrs: Variables): Promis
   const started = performance.now();
   const {path, query} = parse(url);
   void attrs;
+  // Every answer reads the dimensions database (names, slugs); the upstream requests it makes are
+  // noted by the data client, so a cached answer is tagged with every cube it read.
+  noteTags([TAG_DIMENSIONS]);
 
   // GET /api/search?id=<id>&dimension=<dimension>  (also slug=, pslug=, cubeName=, levels=)
   if (path === "/api/search") {

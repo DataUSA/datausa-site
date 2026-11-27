@@ -21,7 +21,6 @@ const viz: VizDefinition = (variables, {libs, formatters}) => {
     }
     return d.Party;
   }
-  console.log(`${tesseract}tesseract/data?${hierarchyElectionSubTemp}=${stateElectionIdTemp}&cube=Data_USA_President_election&debug=false&drilldowns=Year,Candidate,Party,${hierarchyElectionSubTemp}&measures=Candidate+Votes,Total+Votes&parents=false&sparse=false`,)
   return {
     aggs: {
       "Party ID": (arr: any, acc: any) => acc(arr[0])
@@ -60,10 +59,14 @@ const viz: VizDefinition = (variables, {libs, formatters}) => {
         .entries(data)
         .map((group: any) => {
       
+          // numbers set explicitly: penn's `merge` keeps a value once when every row has the same one
+          // (the year, the combined total), so dividing by the row count broke the shares and the
+          // time axis on areas that span several states (QA DIFF-001)
           const obj = merge(group.values);
-          obj["Total Votes"] = obj["Total Votes"] / group.values.length 
+          obj["Candidate Votes"] = sum(group.values, (d: any) => Number(d["Candidate Votes"]) || 0);
+          obj["Total Votes"] = group.values[0]["Total Votes"];
+          obj.Year = group.values[0].Year;
           obj.Share = obj["Candidate Votes"] / obj["Total Votes"] * 100;
-          obj.Year = obj.Year / group.values.length 
    
           return obj;
         })

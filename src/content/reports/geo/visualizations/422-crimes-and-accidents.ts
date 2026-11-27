@@ -30,6 +30,7 @@ const viz: VizDefinition = (variables, {formatters, swap}) => {
   const lenData = lenVariables[selector];
 
   const factor = 1;
+  const hasValue = (v: any) => v !== null && v !== undefined && v !== "" && Number.isFinite(Number(v));
 
   const dataURL: string = `${tesseract}tesseract/data?cube=county_health_ranking&include=${hierarchy}:${id}&drilldowns=${hierarchy},Year&measures=${measure},${measure} CI Low,${measure} CI High`
 
@@ -40,9 +41,11 @@ const viz: VizDefinition = (variables, {formatters, swap}) => {
         const data = resp.data;
         return data.filter((d: any) => d[measure]);
       },
+      // Rows without CI values (all of Violent Crime) collapse the band onto the line instead of
+      // drawing a path with NaN coordinates (console errors on every county).
       confidence: [
-        (d: any) => d[`${measure} CI Low`], 
-        (d: any) => d[`${measure} CI High`], 
+        (d: any) => hasValue(d[`${measure} CI Low`]) ? d[`${measure} CI Low`] : d[measure],
+        (d: any) => hasValue(d[`${measure} CI High`]) ? d[`${measure} CI High`] : d[measure],
        ],
       confidenceConfig: {
           fillOpacity: 0.3,

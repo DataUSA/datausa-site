@@ -5,6 +5,7 @@
  *  - `/profile/:slug/:id` and embeds: legacy crosswalk and raw-id redirects answer 308; unknown
  *    profiles, members or sections are rewritten to a static 404 route.
  *  - `/about/classifications/:dimension/:hierarchy`: unknown levels get the same 404.
+ *  - the landing pages (`/locations/counties/massachusetts`): unknown levels and states get it too.
  *
  * Runs on the Node.js runtime (Next 16 default), so it can read the SQLite dimensions database
  * directly; lookups are indexed primary-key reads.
@@ -13,6 +14,8 @@ import {NextResponse, type NextRequest} from "next/server";
 import {getTemplate} from "@/content/registry";
 import {memberTotalsByHierarchy} from "@/lib/dimensions/db";
 import {resolveReportUrl} from "@/lib/reports/resolve";
+import {LANDING_FAMILIES} from "@/content/landing/levels";
+import {resolveLanding} from "@/lib/landing/resolve";
 
 const NOT_FOUND_ROUTE = "/report-not-found";
 
@@ -26,6 +29,8 @@ function hasClassification(dimension: string, hierarchy: string): boolean {
   }
   return classificationLevels.has(`${dimension}\u0000${hierarchy}`);
 }
+
+const LANDING = new Set(LANDING_FAMILIES.map(f => f.slug));
 
 function decode(segment: string): string {
   try {
@@ -55,6 +60,14 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
+  if (LANDING.has(parts[0])) {
+    // the level a family opens on has the family's address: its own redirects there
+    const family = LANDING_FAMILIES.find(f => f.slug === parts[0]);
+    if (parts.length === 2 && family?.home === parts[1]) return NextResponse.redirect(new URL(`/${family.slug}${search}`, request.url), 308);
+    if (!resolveLanding(parts[0], parts.slice(1))) return NextResponse.rewrite(new URL(NOT_FOUND_ROUTE, request.url));
+    return NextResponse.next();
+  }
+
   if (parts[0] === "about" && parts[1] === "classifications" && parts.length === 4) {
     if (!hasClassification(parts[2], parts[3])) return NextResponse.rewrite(new URL(NOT_FOUND_ROUTE, request.url));
   }
@@ -62,5 +75,9 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/profile/:slug/:id", "/profile/:slug/:id/:sslug/:tslug", "/about/classifications/:dimension/:hierarchy"]
+  matcher: [
+    "/profile/:slug/:id", "/profile/:slug/:id/:sslug/:tslug", "/about/classifications/:dimension/:hierarchy",
+    // the landing pages (`LANDING_FAMILIES`; the matcher must be written out, it is read at build time)
+    "/locations/:path+", "/industries/:path+", "/occupations/:path+", "/degrees/:path+", "/universities/:path+", "/products/:path+"
+  ]
 };

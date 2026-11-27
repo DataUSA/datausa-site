@@ -23,6 +23,14 @@ compose-*.yaml
 build.sh
 deploy.sh
 
+# on a server checkout: Redis's data folder when bind-mounted here (owned by the Redis container's
+# user, so unreadable to the build), cache dumps, and the warm UI's runs
+data/redis/
+*.rdb
+*.zip
+warm-runs/
+*.bak
+
 .DS_Store
 .vscode
 *.tsbuildinfo

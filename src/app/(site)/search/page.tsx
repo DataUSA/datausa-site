@@ -8,6 +8,7 @@ import {svgSymbolMarkup} from "@/lib/inline-svg";
 import {SEARCH_DIMENSIONS} from "@/content/search/dimensions";
 import {pageImage, social, staticMetadata} from "@/lib/seo/metadata";
 import {familyByDimension, inSentence, levelPlural, searchPath, SITE_NAME} from "@/lib/seo/site";
+import {levelLandingPath} from "@/content/landing/levels";
 import {SearchPageClient} from "./SearchPageClient";
 import "./search.css";
 
@@ -22,7 +23,7 @@ function first(value: string | string[] | undefined): string {
 
 /**
  * Three kinds of search URL: the bare page, a browsable level (`?dimension=Geography&hierarchy=County`,
- * a landing page in its own right with a self-canonical URL) and typed queries, which are kept out
+ * whose canonical URL is the level's landing page, `/locations/counties`) and typed queries, which are kept out
  * of the index (their titles would echo whatever was typed) and point at what they filter. A list of
  * universities in one state or in another ranking (`&state=04000US25&rank=endowment`) is a landing
  * page too, named after both.
@@ -53,7 +54,9 @@ export async function generateMetadata({searchParams}: {searchParams: SearchPara
     metadata = {
       title,
       description,
-      alternates: {canonical: path},
+      // a level has a landing page of its own (`/locations/counties`) with this list, a map and
+      // rankings: that page is the one to index, and this listing points at it
+      alternates: {canonical: (level && levelLandingPath(dimension, level)) || path},
       ...(pending ? {robots: {index: false, follow: true}} : {}),
       ...social({title, description, path, image: pageImage("search", level ? {dimension, hierarchy: level} : {dimension}), imageAlt: `${title} | ${SITE_NAME}`})
     };

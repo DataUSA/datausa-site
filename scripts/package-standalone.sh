@@ -14,6 +14,8 @@ rm -rf .next/standalone/.next/static .next/standalone/public
 cp -R .next/static .next/standalone/.next/static
 cp -R public .next/standalone/public
 cp data/dimensions.sqlite .next/standalone/data/dimensions.sqlite
+# versions of the cached generator outputs (src/lib/cache/manifest.ts)
+cp data/generator-manifest.json .next/standalone/data/generator-manifest.json
 # fonts read at request time by the /og share-image routes (src/lib/og/assets.ts)
 rm -rf .next/standalone/assets
 cp -R assets .next/standalone/assets

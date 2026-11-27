@@ -8,7 +8,7 @@ Status: proposed 2026-10-09 after Phase 1 discovery (`docs/discovery.md`); updat
 - Any valid report URL renders on first request after a deploy: no build-time enumeration, no warm-up crawl.
 - SEO-critical content (title, hero stats, about narrative, metadata, links) is in the server HTML.
 - Charts are client islands mounting `@d3plus/core` 4.7 charts through our own small renderer (`src/components/viz/ChartRenderer.tsx`), loaded lazily per section.
-- Deploy = `next build` + PM2 cluster behind the existing Nginx/Cloudflare; no CMS database at runtime.
+- Deploy = `next build` + PM2 cluster behind the existing Nginx; no CMS database at runtime. One cache: generator outputs in Redis, outside the deploy cycle.
 
 ## Stack (pinned, see `package.json`)
 
@@ -38,7 +38,8 @@ src/
     pages/                 home, about, glossary… (TS/Markdown)
     registry.ts            typed map profile slug → template (static imports)
   lib/
-    api/tesseract.ts       typed client: URL normalisation, fetch, parse, `use cache` + cacheTag
+    api/tesseract.ts       typed client: URL normalisation, fetch, parse, `use cache` + cacheTag (non-report callers)
+    cache/                 the generator cache in Redis: keys, tags, purge, warmer (see "Generator cache")
     api/geoservice.ts
     dimensions/            SQLite access: resolveMember, search, images, parents, similar
     reports/               engine: attrs → generators → materializers → prepare sections (allowed, selectors, template swap)
@@ -50,7 +51,7 @@ src/
 scripts/legacy-export/     extract.ts (CMS → candidate TS files + manifest), build-dimensions.ts (JSONL → SQLite)
 scripts/topojson/          build.sh (Census boundary files → public/topojson/PUMA.json, Districts.json)
 scripts/school-districts/  build.sh (Census boundary files → public/topojson/SchoolDistrict_<state>.json + data/school-districts.jsonl)
-data/                      members.jsonl, images.jsonl (versioned export), members-additions.jsonl (hand-added members), school-districts.jsonl (built from Census files) → dimensions.sqlite (built, gitignored)
+data/                      members.jsonl, images.jsonl (versioned export), members-additions.jsonl (hand-added members), school-districts.jsonl (built from Census files), gazetteer.tsv (land areas and interior points, built from Census files) → dimensions.sqlite (built, gitignored)
 public/                    icons, images, topojson (only files referenced by content), fonts
 ```
 
@@ -76,26 +77,229 @@ The `variables` namespace is dynamic by nature (1,794 keys for Massachusetts), s
 ## Request flow for `/profile/geo/massachusetts`
 
 1. **Route** `app/profile/[slug]/[id]/page.tsx` (dynamic, no `generateStaticParams`). Unknown profile slug → 404. Member lookup via SQLite (`resolveMember`): slug or raw id; raw id → 301 to the slug URL (as today). Hidden members → 404.
-2. **Attributes** (`content/reports/geo/attributes.ts`): breadcrumbs (geoservice intersects + SQLite names + population threshold via a cached Tesseract lookup), `stateDataID`, `pumsID`, election ids, colour maps, hosts. Cached per member (`use cache`, tag `dimensions`).
-3. **Generators**: the engine evaluates each `api(attrs)`, dedupes URLs, fetches them in parallel through `lib/api/tesseract.ts` (`use cache`, `cacheLife` "data", `cacheTag("tesseract")`), then runs the `logic` functions in generator order. Failures yield `{}` like Canon (status recorded for diagnostics).
+2. **Attributes** (`content/reports/geo/attributes.ts`): breadcrumbs (geoservice intersects + SQLite names + population threshold via a cached Tesseract lookup), `stateDataID`, `pumsID`, election ids, colour maps, hosts. Cached per member in Redis (only when complete), tagged with what they read.
+3. **Generators**: the engine evaluates each `api(attrs)`, groups generators by URL, reads every output from the generator cache in one `MGET`, fetches only the URLs of missing outputs (at most `API_MAX_CONCURRENCY` at a time), runs their `logic`, stores the successes, and merges all outputs in template order. Failures yield `{}` like Canon; the failed generators and the reason are recorded, and an incomplete render is logged.
 4. **Materializers** run in order on the accumulated variables.
 5. **Prepare**: selectors resolved from `searchParams` (validated against options, else default), `allowed` evaluated, Grouping visibility cascaded, text templates swapped. Output: a `PreparedReport` (plain data) used by server components.
 6. **Render**: server components render Nav, Hero (title, subtitle, stats), Subnav (static markup; a small client enhancer tracks scroll), About (breadcrumbs, photo credit, narrative), Groupings → Topics (title, subtitles, stats, descriptions, sources). Each visualization becomes `<VizIsland id sectionSlug/>` — a client component that lazy-loads only that viz module, reads the report's variables from a once-serialised context (only keys the page's vizzes actually use, per the manifest), builds the d3plus config, and renders with `@d3plus/react` when it nears the viewport (`IntersectionObserver`, reserved height). Selector changes update URL search params and re-render the affected topic client-side (templates for selector-bearing topics are passed to the client; the rest stays server-only).
 7. **Comparison** (`?compare=`) runs the engine for both members in parallel and renders paired columns server-side.
 8. **Metadata**: `generateMetadata` reuses the prepared hero/about text for `<title>`, description, canonical, Open Graph image (legacy image host).
 
-All of this happens per request with no page-level cache: the expensive parts (Tesseract responses, dimension lookups, attribute resolution) are cached with tags and lifetimes, so a cold request is correct and a warm one is fast. Nginx `proxy_cache` and Cloudflare in front remain optional accelerators.
+All of this happens per request with no page-level cache: the expensive part (generator outputs, attributes, lookups) is cached in Redis by cube, so a cold request is correct and a warm one is fast (a state in about 0.3 s of engine time). Nothing caches HTML.
 
 ## Caching and invalidation
 
+**A page request.** Reports are assembled from cached generator outputs; nothing caches whole pages.
+
+```mermaid
+flowchart TB
+  B["Browser"] -->|"1. request"| S["Site"]
+  S -->|"2. read"| R[("Redis")]
+  S -->|"3. only missing"| T[("Tesseract")]
+  S -->|"4. store"| R
+  B -.->|"charts"| T
+```
+
+1. The browser asks for a report, for example `/profile/geo/texas`.
+2. The site reads all the report's generator outputs from Redis in one round trip.
+3. Only if some are missing, it fetches just those generators' queries from Tesseract.
+4. It stores the new outputs, tagged by the cube each one read, and returns the page.
+
+The page's charts (dotted line) query Tesseract from the browser and are not cached here.
+
+**What fills and clears the cache.**
+
+```mermaid
+flowchart LR
+  V["Visits"] -->|"miss: compute"| R[("Redis")]
+  W["Warm UI"] -->|"fill missing"| R
+  P["Data release"] -->|"purge cubes"| R
+  D["Deploy"] -.->|"new keys"| R
+```
+
+- **Visits** compute and store any output that is missing.
+- **The warm** fills outputs ahead of visitors, only those that are missing. It uses the same engine as
+  the site and asks Tesseract for many members per request (see "Batched warmer").
+- **A data release** purges the changed cubes: every output that read them is deleted.
+- **A deploy** deletes nothing: changed generators get new keys, and the old entries expire.
+- **No host in any key**: the cache can be warmed against one API server and read by a site that uses
+  another, as long as both carry the same data (see "Generator cache").
+
 | Layer | Mechanism | Lifetime | Invalidation |
 |---|---|---|---|
-| Tesseract/geoservice responses | `use cache` in `lib/api/*` with `cacheTag("tesseract")` / `("geoservice")` | `cacheLife` profile `data` (stale 1 d, revalidate 7 d, expire 30 d) | `POST /api/revalidate` (secret) → `revalidateTag` after a dataset release; or restart |
+| Generator outputs, member attributes, lookup tables | Redis, shared by every worker and host (`src/lib/cache/`) | until purged (30-day TTL as a safety net) | purge by cube after a release (`npm run cache:purge -- --cubes …` or `POST /api/revalidate {"cubes": […]}`); a deploy only for the generators whose code changed |
+| Other server data (home page, dataset pages, latest figures) | `use cache` in each worker, tags `tesseract` / `geoservice` / `external-data` | `cacheLife` profiles | `POST /api/revalidate {"tags": […]}` (one worker) or `pm2 reload` |
 | Dimension lookups (SQLite) | in-process, synchronous | n/a | rebuild `data/dimensions.sqlite` + restart |
 | Content | module code | deploy | git push → build → `pm2 reload` |
-| Full page | none in Next; Nginx/Cloudflare optional | 30 min at edge | existing purge procedures |
+| Full page | none | n/a | n/a |
 
-PM2 cluster workers each hold their own `use cache` store (Next's default in-memory/file handler). This is correct without coordination; a shared handler (Redis) is documented as an optional upgrade if duplicate upstream requests become a measurable cost.
+### Generator cache
+
+Each entry is the output of one generator for one member, as JSON:
+
+```
+gen:<generator id>:<generator version>:<hash of the URL without its host>:<hash of the attributes given to the generator>
+```
+
+- **Version** (`data/generator-manifest.json`, built by `npm run build:manifest` before `next build`):
+  a hash of the generator's module and an engine hash covering `src/lib/content/libs.ts`,
+  `src/content/formatters`, `src/lib/reports/generator-run.ts` (slug injection and the logic call),
+  URL normalisation and the `data/*.jsonl` inputs of the dimensions database, with the locked
+  versions of the packages they import. Editing one generator changes only its key; editing shared
+  code changes all of them. The manifest hashes source text and data, never the build (no build id,
+  git sha or file times), so a deploy that changes no generator keeps every entry readable, and two
+  builds of the same commit give identical manifests (`build-manifest.ts --check`). Generators that
+  call in-process `/api/...` endpoints also carry the hash of `legacy-endpoints.ts` and what it imports.
+- **URL, without its host**: the Tesseract and geoservice base URLs are replaced by placeholders
+  (`{tesseract}/data.jsonrecords?…`, `hostFree` in `src/lib/cache/generator-cache.ts`). Keys never
+  contain a host, so a cache warmed against one API server (api-penn.datausa.io) serves a site that
+  reads another (api.datausa.io), and changing the API's hostname keeps the cache. The condition is
+  that both servers carry the same data: which data an entry holds is tracked by its cube tags and
+  the release purges, not by the host. Environments with different data must not share a Redis.
+- **Attributes**: everything the logic reads besides the response (a state's parents change its
+  key), except the `tesseract` and `geoservice` base URLs. Cached member attributes (`attrs:…`) and
+  lookup tables (`lookup:…`) leave the host out of their keys too; attributes are stored without the
+  two URLs, and the deployment's own are added back when they are read. The member id is stored in the value and in the tag sets, for tracing and the warmer.
+- **Tags**: the entry is added to `cube:<name>` for the cube its URL reads (`cube=` or a path-style
+  `/cubes/<name>`), `tag:geoservice` for geoservice URLs. In-process endpoints are tagged with every
+  cube they read plus `tag:dimensions`; the tags come from what the computation actually fetched
+  (`src/lib/api/upstream-scope.ts`), and an output whose reads cannot all be mapped is not stored
+  (`scripts/cache/check-tags.mjs` renders the states and top counties and fails on any).
+- **Only successes are stored**: a 2xx response with nothing failing underneath, logic that did not
+  throw and returned an object or nothing, an output that survives the JSON round trip (`undefined`,
+  `NaN` and the infinities are kept exactly, as markers; anything else that would change is reported
+  and left uncached), and a generator not in `UNCACHED_GENERATORS`
+  (`src/lib/cache/generator-cache.ts`: the four that read the calendar year, plus any ids in
+  `GENERATOR_CACHE_SKIP`).
+- **Failures are remembered, not stored**: a group that failed leaves a `failed|…` mark in its
+  `lock:<key>`, naming the failed generators. Renders that find it answer at once (siblings from
+  their entries, the failed generators with the remembered failure) instead of querying again. The
+  mark lasts 6 h for answers a retry will not change (4xx, logic that threw, no data;
+  `GEN_CACHE_FAILED_MS`) and 10 s for timeouts and network errors. **A 5xx is never remembered**
+  (a requirement): every render that meets one retries it itself. Warm renders (the background
+  warmer and `warm:batch`) ignore marks, query again and replace or clear them, so a re-warm after a
+  data release (`--retry-failed`, `--retry-cubes`) is not held back. A changed generator or member
+  gets a new key, so a code fix is never held back either; a purge alone does not clear marks, so
+  without a re-warm a data release can take up to 6 h to fill a generator that used to fail with a
+  4xx. Before this, every view of a
+  cached page re-queried its failing generators (about 14 a page on geo reports), which limited
+  penn to about 20 pages/s in the 2026-11-09 load test.
+- **Generators that share a URL** share its response, and some of them change it for the next ones,
+  so they are computed together whenever one of them is missing, as an uncached render would.
+- **Purge-safe writes**: `cube-epoch` counts the purges of each tag. A render reads it before
+  fetching and writes its entries with a Lua script only if no tag it carries was purged since, so a
+  render in flight during a purge cannot write old data back.
+- **Coalescing**: within a worker, renders share one computation per group; across workers the first
+  takes `lock:<key>` (`SET NX PX`) and the others poll for its entries, then compute themselves if it
+  gives up. Eight simultaneous views of an uncached state send one set of queries.
+- **Shared lookups** (`src/lib/cache/shared-lookup.ts`): the level figures of the landing pages and
+  of every report's "in context" section (`src/lib/landing/data.ts`, `lookup:level:<level>:<measure>:…`)
+  and the university figures (`lookup:universities:…`) are one heavy query or a few for a whole level
+  (every place's population is a 2.5 MB answer), read by every page of the level. Building all of
+  them takes 72 queries, 44 for the "in context" sections alone. Kept only in each worker's memory,
+  every worker missed at the same moment after a deploy, a restart or a purge and sent the same
+  queries (9 workers on penn, up to 8 in flight each); without NGINX's cache, three workers were
+  enough to push the place queries past the 20 s timeout. Now one worker computes each lookup:
+  the first to miss takes `lock:<key>` and the others poll for its entry. The entry is tagged with
+  its cubes, written purge-safe and deleted by a purge like any other, so a deploy or restart reads
+  it back and a release purge refreshes it. Failures are not stored: a `failed|…` mark in the lock
+  makes the other workers answer without figures for 10 s (`LOOKUP_FAILED_MS`) instead of repeating
+  the failing queries. Each worker keeps the value in memory for an hour and compares the purge
+  counters of its cubes every 30 s, so a purge reaches every worker within that time. A worker
+  waits up to 2 s for its first connection to Redis rather than querying without it, and the lock
+  lasts 90 s (`LOOKUP_LOCK_MS`), long enough for two queries that hit the API timeout. Keys carry
+  a hash of the code that queries and parses each family (`sharedLookups` in the generator
+  manifest: `data.ts` with `MEASURES`, and `universities.ts`), so a deploy that changes either
+  reads none of the old copies, with no version to bump by hand. Without Redis, or without a
+  manifest, each worker computes its lookups as before. `REDIS_URL=… npx tsx
+  scripts/cache/test-shared-lookup.ts` checks this across processes with a stand-in lookup (no
+  Tesseract query).
+- **Redis failures never fail a page**: a read deadline (`REDIS_READ_TIMEOUT_MS`, 250 ms in production), a circuit breaker, and the render falls
+  back to computing everything (with in-process coalescing). Without `REDIS_URL` the cache is off and
+  attributes and lookups use Next's `use cache` (success-only) as before.
+- **Purge** (`src/lib/cache/purge.ts`): per tag, bump its epoch, `SSCAN` its set, delete the entries,
+  `SREM` them, queue their reports for the warmer, report the counts; unknown names are reported.
+- **Warmer** (`src/lib/cache/warmer.ts`): one leader per Redis (lock `warmer:leader`) recomputes the
+  queued reports through the same engine path, states first, then counties by population, at most
+  `WARMER_MAX_QPS` Tesseract queries a second, pausing while user renders queue upstream. After a
+  deploy that changed generator versions it queues the states and the top counties.
+- **Instrumentation**: one log line per render (hits, misses, waits, Redis time, failed generators);
+  `/api/debug/report` shows each generator's state and sends `x-gen-cache` and
+  `x-report-generators`; report pages carry `data-gen-cache` and `data-report-generators` on
+  `#Profile` (a streamed page cannot set headers).
+
+### Batched warmer
+
+`npm run warm:batch -- --plan <file>` (`scripts/cache/warm-batch.ts`, `src/lib/cache/batch-warm/`)
+fills the generator cache for a list of reports in far fewer Tesseract queries than rendering them one
+by one, and writes exactly the entries a page view would: every report still goes through the real
+engine (`loadEngine`), with the same keys, tags and purge-safe writes. Only the fetch layer differs,
+and only inside a warm run.
+
+- **Plan without fetching.** `planReport(template, attrs)` (`src/lib/reports/engine.ts`) is the
+  render's own planning (allowed generators, `g.api(attrs)`, URL groups); `upstreamUrlOf` gives the
+  URL `fetchGeneratorUrl` would send, and `planGroupKeys` (`generator-cache.ts`) the keys the render
+  reads and writes. A report whose keys all exist (or whose `warm:done:<profile>|<id>` marker matches
+  its plan and still finds every key it stored) is a full hit and is skipped: rerunning a plan resumes it.
+- **Warm scope.** The worker renders each member inside a warm scope (`src/lib/api/warm-scope.ts`,
+  AsyncLocalStorage like `upstream-scope.ts`). `fetchJsonRaw` first asks the scope for the URL; the
+  scope answers with a held response (parsed exactly as a fetched one) or nothing, and what it does
+  not answer is fetched as usual, waiting for a slot of the run's global cap. Outside a warm run the
+  scope does not exist and live renders, misses and purges are unchanged.
+- **Fetched once per run.** URLs without the member id (national, state, county, lookups read inside
+  in-process endpoints and attributes) go through the coordinator, which fetches each once for the
+  whole run and keeps it (2 GB, least recently used). Member responses are freed as soon as the
+  member is rendered. Only 2xx responses are held: a failed fetch is fetched again by the render,
+  so the failure it records is the usual one.
+- **Levels the cube lacks.** The coordinator reads `/tesseract/cubes` once. A query naming a level its
+  cube does not have (drilldowns, include/exclude keys, cut parameters) is answered without calling
+  Tesseract, with the failure Tesseract gives it. That failure is learnt from one real request per
+  (endpoint, cube, missing levels, measures) and used only if it is the "Could not find a Level
+  named …" 400; the render records it exactly as before (and, being a failure, stores nothing).
+- **Shapes and batches.** A member-keyed URL's shape is the URL with the member id replaced by `{M}`,
+  where the id is the whole value of an include entry (`include=Place:{M}`, also compound
+  `include=Health Provider:1;State County:{M}`), of a cut parameter (`University={M}`) or of the
+  `filter` of an RCA query (`complexity/rca_historical?…&filter=University:{M}`: the RCA is computed
+  over every location and the filter only keeps rows), once and nowhere else. Per member group (300 members of one level, sorted by id), each shape becomes one or
+  two queries with the ids in a list (under 6,000 characters of URL; 1,000 ids gave HTTP 414), the
+  level added to `drilldowns` when missing (at the end, else at the start), split by the level's id
+  column; the columns a single response does not have are removed, and `annotations`, `page` and
+  `columns` are rebuilt in the batch's key order. `limit=N` with a `sort` is fetched without the
+  limit and cut per member (`page.limit` and `page.total` as a single query reports them).
+  `top=`, offsets, `calcs/` and the other `complexity/` queries are not batched. Members per batch
+  are cut to keep a batched response near 4 MB.
+- **Verification gate.** Before a shape is batched in a run, the split responses of 3 members (with
+  data where the group has them) must equal their single responses byte for byte after canonical
+  JSON (the keys of `annotations` sorted, since Tesseract returns them in a different order from one
+  identical request to the next; rows, row keys and values compared as they are). Members a batch
+  does not mention get the shape's empty response only when two real single responses of such
+  members agreed (Tesseract answers an empty query with `columns: []`); otherwise they are fetched
+  alone. Verified and rejected shapes are kept in Redis under `warm:shape:<hash of profile, level and
+  shape>:<cube epoch>`, so a purge of the cube makes the next run verify again; transient rejections
+  (5xx, timeouts, no member with data yet) are kept for the run only.
+- **What the gate cannot see, handled per member.** `time=Year.latest[.N]` picks the periods among
+  the rows a query matches, so a batch answers with the group's latest periods: a member is split
+  only if it has rows in all of them; a member without rows is looked up in a presence query (the
+  batch without `time`) and gets the empty response only if it has no data at all, else it is
+  fetched alone. Tesseract orders rows tied on the `sort` column in no reproducible order, so a member
+  whose rows tie on it is fetched alone.
+- **Global cap.** All Tesseract requests of the run (workers and coordinator) share one cap: 16 at
+  first, raised by 4 every 20 s up to 50 while requests wait and nothing fails, lowered by 40% on two
+  or more 5xx/429/timeouts (a URL that keeps answering 5xx counts once, and a 5xx answered within a
+  second, a query that always fails, not at all) or a p95 above 15 s, with a
+  30 s pause after five errors. Every change is logged. `complexity/` and `calcs/` queries (10–50 s
+  each on their own) run in a lane of an eighth of the cap and are left out of the p95. Waiting
+  requests go in priority order: what renders and plans wait on, then shared, verification and
+  batches, then single queries.
+- **Geoservice.** Attributes and a few generators read the geoservice, which blocks a client that
+  sends too many requests (429 with a challenge page, for a few minutes). In a warm run its requests
+  go through the coordinator's own limiter (`--geo-rate`, default 4 a second, 4 at a time; a 429
+  halves the rate and pauses a minute), the ones without the member id (a state's neighbours) are
+  fetched once per run, and a 429 is retried three times inside the warm scope.
+- **Output.** `progress.jsonl` every 15 s (reports, upstream requests by kind, shapes, cap, rate,
+  p50/p95 per cube, Redis memory, workers' RSS and CPU), `upstream.jsonl` (every request sent),
+  `logical-*.jsonl` (every logical URL and how it was served), `shapes.jsonl`, `skips.jsonl`,
+  `summary.json`. One run at a time per Redis (`warm:batch:lock`).
 
 Every server request to a data API host waits for one of the worker's `UPSTREAM_MAX_CONCURRENCY` slots for that host (`src/lib/api/limit.ts`, default 8), on top of the per-report `API_MAX_CONCURRENCY`, so the load on Tesseract is bounded by workers × slots however many reports are rendered at once (`docs/deployment.md`, "Protecting Tesseract").
 
@@ -121,9 +325,94 @@ When production has the data:
 3. As more cubes get the level, add their sections to the template (the location report's section, its generators by id, its charts) and check each against a district, as was done for the first seven.
 4. `similarGeographies` is skipped for pending levels in `ReportPage.tsx`; check what the geoservice returns for district ids before enabling "Keep Exploring" similar places.
 
+## Landing pages and hierarchy
+
+Every report family has a hub and every level of its hierarchy a landing page; geography levels
+inside a state, and universities, have one per state as well:
+
+```
+/reports                             every family and its levels, under a search box (the nav's "Reports";
+                                     its menu lists the six hubs, a second click opens this page)
+/locations                           hub: the levels of the family, each with its largest members
+/locations/counties                  a level: map, rankings, size classes, a table of every member
+/locations/counties/massachusetts    the same for one state
+/industries/sub-sectors              a classification level: treemap, rankings, grouped directory
+```
+
+- **What is where.** `src/content/landing/levels.ts` names the pages (URL segments, headings, one
+  sentence on what the level is) and says which figures each level is compared on. A level few
+  readers know (PUMAs, metro areas) also has an `explainer` ("What is a PUMA?"), shown under the
+  page's opening sentence with a link to the Census Bureau's definition.
+  `src/lib/landing/data.ts` reads one figure for a whole level in one Tesseract query (two when the
+  measure has an earlier period to measure change from), shared by the national page, its state
+  pages and the reports' "in context" sections (see "Shared lookups" below for how workers share
+  it). `src/lib/landing/model.ts` joins the figures
+  to the members and derives the statistics, rankings and size classes;
+  `src/components/landing/` renders them. The six route files
+  (`src/app/(site)/<family>/[[...path]]/page.tsx`) only name their family.
+- **Server-rendered.** The headline sentence, statistics, rankings, size classes and the table or
+  directory are HTML: the pages need no JavaScript to be read or crawled. Sorting and paging the
+  table are links (`?sort=income&dir=asc&page=2`, a hundred rows a page) whose canonical URL is the
+  unsorted page. The map (`LevelMap`, a d3plus Geomap fed by `/api/landing/map`) and the treemap of
+  a classification level are the only client code, loaded after the page.
+- **Maps.** Levels with a national shape file are drawn member by member. Places and school
+  districts have a shape file per state only, so their national pages (and the universities page)
+  draw the states, shaded by how many members each has and linking to the state's page; their state
+  pages draw every member.
+- **County shapes** come from `Counties_2023.json` (ids in `properties.id`), which has
+  Connecticut's planning regions; `County.json` still has the eight counties the data no longer
+  reports. In a place file the state's own outline is drawn as a backdrop. Levels with state pages
+  have a state menu in the header.
+- **Universities** open on the universities themselves: `/universities` is the national page of the
+  `colleges` level (`home` in `levels.ts`), and `/universities/colleges` redirects there in the
+  proxy; state pages stay `/universities/colleges/<state>`. Nationally the map shades states by how
+  many universities each has; a state's page zooms into the state and draws each university as a
+  point sized and shaded by enrollment, with the list of its universities directly under the map.
+  Tesseract has no coordinates for universities: they come from the IPEDS institutional directory
+  (`scripts/university-locations/build.sh` → `data/university-locations.tsv` → the
+  `university_locations` table). Re-run it with the next year's file when the enrollment cube moves.
+- **Map data addresses carry a version** (`src/lib/landing/map-version.ts`): browsers keep a map's
+  data for an hour, so raise it whenever what a map address answers changes shape.
+- **Rankings of small members.** Medians and growth are ranked among geographies of at least
+  10,000 people, at both ends of the period for growth (a place redrawn from a hamlet into a town
+  did not grow). The ACS top codes ($250,001, $2,000,001) are printed as "$250,000+" and a ranking
+  whose first place is shared names no leader.
+- **Status codes and indexing.** `src/proxy.ts` answers an unknown level or state with the 404
+  route, like reports. A page is `noindex, follow` when its level is pending (school districts),
+  when it lists fewer than two members, or when no figures could be read. The sitemap
+  (`/sitemap/0.xml`) lists the hubs, the levels and the state pages with at least two members. The
+  search page's level listings (`/search?dimension=Geography&hierarchy=County`) now name the
+  landing page as their canonical URL.
+- **Containment** (which places and school districts are in a county, which counties and places in
+  a metropolitan area) is worked out when the dimensions database is built
+  (`scripts/legacy-export/geo-containment.ts` → table `geo_contains`): a child belongs to the parent
+  whose shape (`public/topojson`) contains its interior point, so a place that straddles a county
+  line is listed under one county. What lies in a state is read from the id. Land area and the
+  interior points come from the Census gazetteer (`scripts/gazetteer/build.sh` →
+  `data/gazetteer.tsv` → table `geo_facts`; 2024 vintage, re-run with the population data's
+  vintage). `gazetteer.tsv` is deliberately not a `.jsonl`: the files of that extension are hashed
+  into every generator cache key.
+- **`geo-db.ts`, not `db.ts`.** The queries on these tables live in `src/lib/dimensions/geo-db.ts`
+  with a connection of their own, because `db.ts` is in the engine closure that keys the generator
+  cache: adding a function there would re-key every cached generator.
+- **On reports** (`src/lib/reports/hierarchy.ts`, `src/components/report/Hierarchy.tsx`): the hero's
+  level pill is a context line ("County in Massachusetts", the level linked to its landing page, the
+  parent to its report), and the About section ends with the member in context: its rank among its
+  peers in its state and in the country, land area and density, its metropolitan area, and what it
+  contains (a county's places and school districts, a state's counties, places, districts and PUMAs,
+  an industry sector's sub-sectors), largest first, each a link. It reads the same level figures as
+  the landing pages, so a report sends no query of its own for it, and it is left out of comparisons.
+  The report's breadcrumb structured data follows the same trail (hub, level, level in the state).
+
 ## Rendering responsibilities
 
-Server components: everything textual. Client components: `VizIsland` (d3plus), `Options` (view data / CSV / PNG-SVG / share-embed), selector controls, Subnav scroll tracking, hero search + compare button, Prism gate form, GA consent hooks.
+Server components: everything textual. Client components: `VizIsland` (d3plus), `Options` (view data / CSV / PNG-SVG / share-embed), selector controls, Subnav scroll tracking, hero search + compare button, Prism gate form, GA consent hooks, the navigation's Reports menu
+(`ReportsMenu`) and search panel (`SearchPanel`: the magnifier, or the "s" key on any page when no
+input has the focus). The search box (`SearchBox`) is an editable combobox with list
+autocomplete (WAI-ARIA Authoring Practices): focus stays in the input, arrow keys move an
+`aria-activedescendant` highlight, Enter or a click opens a suggestion. Its keyboard, focus,
+scrolling and state behaviour is covered by browser tests: `npm run test:search` against a running
+site (`BASE_URL`, default `http://localhost:3301`).
 
 ## Images
 
@@ -131,7 +420,7 @@ Profile splash/thumb images are served by this app: `GET /api/profile/<slug>/<me
 
 ## Deployment
 
-`next build` → `.next/standalone` run by PM2 in cluster mode (`ecosystem.config.cjs`), `next start -p 3301` equivalent, Nginx proxies `/` to the cluster and serves `/_next/static` and `/public` with long cache headers. No Docker, no cache warming, no database besides the Prism submissions table. Details in `docs/deployment.md` once Phase 8 lands.
+`next build` → `.next/standalone` run by PM2 in cluster mode (`ecosystem.config.cjs`), `next start -p 3301` equivalent, Nginx proxies `/` to the cluster and serves `/_next/static` and `/public` with long cache headers. On the Docker hosts PM2 runs in the container built by `build.sh`; Redis runs in its own compose project (`compose-redis.yaml`) that deploys never touch. No database besides Redis and the Prism submissions table. Details in `docs/deployment.md` once Phase 8 lands.
 
 ## Decisions log
 
@@ -146,4 +435,4 @@ Profile splash/thumb images are served by this app: `GET /api/profile/<slug>/<me
 - **Search page** renders the first 100 results on the server (useful without JavaScript and for crawlers); filters and typing then query `/api/search` from the client and keep the URL in sync, as the legacy page did.
 - **Section redirects** (`/about`, `/about/classifications`) live in `next.config.ts` rather than in pages, so they answer 308 before any rendering.
 - **Status codes come from `src/proxy.ts`, not from the pages.** With Cache Components a report page streams its static shell before the member lookup runs, so `permanentRedirect()`/`notFound()` inside the page cannot change the HTTP status in production (the dev server masks this). The proxy resolves `/profile/:slug/:id` (and embeds, and classification levels) against the SQLite dimensions database before rendering: crosswalk and raw-id URLs answer 308, unknown members are rewritten to `/report-not-found`, a static route that renders the site's not-found page with a real 404. The pages keep their own checks as a fallback.
-- **Boot-time caches became cached functions.** The legacy server built lookup tables at startup (BLS monthly industries, OPEIDs, university URLs, SCTG names, hierarchy parents). They are now `use cache` functions in `src/lib/content/lookups.ts`, fetched on first use and refreshed with the `tesseract` tag, so a release needs no restart and startup stays instant.
+- **Boot-time caches became cached functions.** The legacy server built lookup tables at startup (BLS monthly industries, OPEIDs, university URLs, SCTG names, hierarchy parents). They are now functions in `src/lib/content/lookups.ts`, fetched on first use and kept in Redis tagged by cube (Next's `use cache` without Redis), so a release needs no restart and startup stays instant.

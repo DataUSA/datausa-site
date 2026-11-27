@@ -2,14 +2,17 @@ import {stripHTML, stripP} from "@/content/formatters";
 import {imageMember, memberImageUrl, type LoadedReport} from "@/lib/reports/load";
 import type {PreparedSection} from "@/lib/reports/engine";
 import {similarGeographies} from "@/lib/dimensions/similar";
+import {similarMembers} from "@/lib/dimensions/similar-members";
 import type {getImage} from "@/lib/dimensions/db";
 import {pictureCredit} from "@/lib/reports/images";
 import {isPendingLevel} from "@/lib/geo/levels";
+import {reportHierarchy, type ReportHierarchy} from "@/lib/reports/hierarchy";
 import {Hero} from "./Hero";
 import {Subnav} from "./Subnav";
 import {AboutSection} from "./AboutSection";
 import {GroupingSection} from "./GroupingSection";
 import {KeepExploring} from "./KeepExploring";
+import {HashScroll} from "./HashScroll";
 import {ReportProvider} from "./ReportProvider";
 import {PrismProvider} from "@/components/prism/PrismProvider";
 import {getPrismUser} from "@/lib/prism/session";
@@ -35,6 +38,8 @@ export interface ReportView {
   title: string;
   imageUrl: string;
   image?: ReturnType<typeof getImage>;
+  /** Where the member sits in its hierarchy: what it is part of, what it contains, how it ranks. */
+  hierarchy?: ReportHierarchy;
 }
 
 async function view(loaded: LoadedReport): Promise<ReportView> {
@@ -49,8 +54,15 @@ async function view(loaded: LoadedReport): Promise<ReportView> {
     groups: groupSections(report.sections),
     title: stripHTML(report.title),
     imageUrl: memberImageUrl(template.meta.slug, pictured.slug, "splash"),
-    image: await pictureCredit(template.meta.slug, member)
+    image: await pictureCredit(template.meta.slug, member),
+    hierarchy: await reportHierarchy(template.meta.slug, member, (loaded.built.variables.breadcrumbs ?? []) as {id: string; slug: string; name: string; hierarchy?: string}[])
   };
+}
+
+/** `<generators that yielded data>/<total>` of the render. */
+function generatorsSummary(loaded: LoadedReport): string {
+  const {generators, failed} = loaded.built.diagnostics;
+  return `${generators.length - failed.length}/${generators.length}`;
 }
 
 export async function ReportPage({loaded, comparison}: {loaded: LoadedReport; comparison?: LoadedReport}) {
@@ -58,7 +70,10 @@ export async function ReportPage({loaded, comparison}: {loaded: LoadedReport; co
   const profileSlug = template.meta.slug;
   const [primary, compare] = await Promise.all([view(loaded), comparison ? view(comparison) : undefined]);
   // similar places are found through the geoservice and ranked by population: neither knows a level without data
-  const similar = profileSlug === "geo" && !compare && !isPendingLevel(member.hierarchy) ? await similarGeographies(member) : [];
+  // other profiles: parents and neighbours by rank, or similar universities (QA DIFF-008)
+  const similar = compare ? []
+    : profileSlug === "geo" ? isPendingLevel(member.hierarchy) ? [] : await similarGeographies(member)
+      : await similarMembers(profileSlug, member);
   const joiner = profileSlug === "geo" ? "in" : "for";
   const hasPrism = loaded.report.sections.some(s => s.type.startsWith("Prism"));
   const prismUser = hasPrism ? await getPrismUser() : null;
@@ -71,7 +86,8 @@ export async function ReportPage({loaded, comparison}: {loaded: LoadedReport; co
       comparison={comparison ? {variables: comparison.clientVariables, selectors: comparison.report.selectors, labels: comparison.report.labels, memberSlug: comparison.member.slug} : undefined}
     >
       <PrismProvider initialUserId={prismUser?.user_id ?? null}>
-      <article id="Profile" className={`${styles.profile} ${compare ? styles.compare : ""}`}>
+      {/* completeness and generator-cache hits of the render (a page streams, so these cannot be response headers) */}
+      <article id="Profile" className={`${styles.profile} ${compare ? styles.compare : ""}`} data-report-generators={generatorsSummary(loaded)} data-gen-cache={loaded.built.diagnostics.cache ? `${loaded.built.diagnostics.cache.hits}/${loaded.built.diagnostics.cache.total}` : undefined}>
         <Hero
           reports={[primary, ...(compare ? [compare] : [])]}
           profileSlug={profileSlug}
@@ -85,6 +101,8 @@ export async function ReportPage({loaded, comparison}: {loaded: LoadedReport; co
             breadcrumbs={[loaded, ...(comparison ? [comparison] : [])].map(l => (l.built.variables.breadcrumbs ?? []) as {id: string; slug: string; name: string}[])}
             images={[primary.image, compare?.image]}
             profileSlug={profileSlug}
+            hierarchy={compare ? undefined : primary.hierarchy}
+            name={primary.title}
           />
         )}
         {primary.groups.map((group, i) => (
@@ -98,6 +116,7 @@ export async function ReportPage({loaded, comparison}: {loaded: LoadedReport; co
         ))}
         {similar.length > 0 && <KeepExploring profileSlug={profileSlug} members={similar} />}
       </article>
+      <HashScroll rootId="Profile" />
       </PrismProvider>
     </ReportProvider>
   );

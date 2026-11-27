@@ -25,14 +25,22 @@ const generator: GeneratorDefinition = {
       })
     );
 
-    data.forEach((d: any) => d["Total Votes"] = total.reduce((sum: any, d: any) => sum + d.Total, 0));
+    const grandTotal = total.reduce((sum: any, d: any) => sum + d.Total, 0);
+    data.forEach((d: any) => d["Total Votes"] = grandTotal);
     
+    // Each candidate's votes summed over the area's states, over the area's combined total. Summed
+    // explicitly: penn's `merge` keeps a value once when every row has the same one (the combined
+    // total), and gives an array when a candidate is missing from some states, which made shares
+    // over 100% and NaN on areas that span several states (QA DIFF-001).
     const nested = nest()
       .key((d: any) => d["Candidate ID"])
       .entries(data)
       .map((group: any) => {
         const obj = merge(group.values);
-        obj["Total Votes"] = obj["Total Votes"] / group.values.length 
+        obj["Candidate Votes"] = sum(group.values, (d: any) => Number(d["Candidate Votes"]) || 0);
+        obj["Total Votes"] = grandTotal;
+        obj.Candidate = group.values[0].Candidate;
+        obj["Candidate ID"] = group.values[0]["Candidate ID"];
         obj.Party = Array.from(new Set(group.values.map((d: any) => d.Party.replace(/\sParty$/g, ""))));
         return obj;
       })

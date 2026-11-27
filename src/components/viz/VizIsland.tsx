@@ -163,6 +163,12 @@ export function VizIsland({vizId, sectionSlug, profileSlug, which = "primary", t
       delete merged.cart;
       // d3plus 4 ignores fillOpacity/strokeOpacity on map paths; fold them into the colours.
       if (type === "Geomap") merged.shapeConfig = geomapShapeConfig(merged.shapeConfig);
+      // A chart that resets the fill asks for d3plus's own default fill: the colour scale's value,
+      // else a colour assigned from the `color` accessor. The theme turns that accessor off
+      // (`color: false`, so legends key on the fill), which made the default fill throw
+      // ("schema.color is not a function") and the chart never drew. Such charts get d3plus's
+      // default accessor back, the first groupBy level, as the legacy d3plus 2 charts had.
+      if (merged.color === undefined && merged.shapeConfig?.fill === FILL_RESET) merged.color = firstGroupBy(merged.groupBy);
       // The legacy stylesheet upper-cased axis titles (`.d3plus-Axis-title text`); d3plus 4 renders
       // titles as generic text nodes with no such class, so apply the transform to the config.
       for (const key of ["xConfig", "yConfig", "x2Config", "y2Config"]) {
@@ -218,6 +224,42 @@ export function VizIsland({vizId, sectionSlug, profileSlug, which = "primary", t
 
   const ok = built && built.kind === "ok" ? built : null;
   const sharedData = ok && ok.config.data !== undefined ? dataKey(ok.config.data) : null;
+
+  // A chart that reads several URLs is loaded here rather than by d3plus: d3plus loads them as one
+  // set, and one failed URL (api-penn answers some empty results with a 500) left the whole chart
+  // empty. Here a failed URL counts as an empty response and the chart draws from the others
+  // (QA DIFF-002). d3plus then gets the formatted rows; `Options` keeps the URLs.
+  const multiUrls = ok && isMultiUrl(ok.config.data) ? ok.config.data as string[] : null;
+  const multiKey = multiUrls ? dataKey(multiUrls) : null;
+  const [prefetched, setPrefetched] = useState<{key: string; resp: unknown[]} | null>(null);
+  useEffect(() => {
+    if (!multiUrls || !multiKey || prefetched?.key === multiKey) return;
+    let cancelled = false;
+    Promise.allSettled(multiUrls.map(url => fetch(url).then(res => res.ok ? res.json() : Promise.reject(new Error(`HTTP ${res.status}`)))))
+      .then(results => {
+        if (cancelled) return;
+        const resp = results.map((r, i) => {
+          if (r.status === "fulfilled") return foldResponse(r.value);
+          console.warn(`Visualization ${vizId}: ${multiUrls[i]} failed (${(r.reason as Error)?.message ?? r.reason}); drawn without it`);
+          return {data: []};
+        });
+        setPrefetched({key: multiKey, resp});
+      });
+    return () => { cancelled = true; };
+  }, [multiUrls, multiKey, prefetched, vizId]);
+  const chartConfig = useMemo<AnyRecord | null>(() => {
+    if (!ok) return null;
+    if (!multiKey) return ok.config;
+    if (prefetched?.key !== multiKey) return null;
+    const {dataFormat, ...config} = ok.config;
+    const formatted = typeof dataFormat === "function" ? dataFormat(prefetched.resp) : prefetched.resp;
+    // like d3plus: a formatter may return an object holding `data` and more config
+    if (formatted && typeof formatted === "object" && !Array.isArray(formatted)) {
+      const {data, ...more} = formatted as AnyRecord;
+      return {...config, ...more, data: data ?? []};
+    }
+    return {...config, data: formatted ?? []};
+  }, [ok, multiKey, prefetched]);
   useEffect(() => {
     if (!sharedData) return;
     const sections = sectionsByData.get(sharedData) ?? new Set<string>();
@@ -237,9 +279,9 @@ export function VizIsland({vizId, sectionSlug, profileSlug, which = "primary", t
   const [figureRef, figureSize] = useFigureSize<HTMLDivElement>(Boolean(ok && supported));
   const fontsReady = useChartFonts();
   const sizedConfig = useMemo(() => {
-    if (!ok || !figureSize || !fontsReady) return null;
-    return {...ok.config, width: figureSize.width, height: explicitHeight ?? figureSize.height};
-  }, [ok, figureSize, explicitHeight, fontsReady]);
+    if (!chartConfig || !figureSize || !fontsReady) return null;
+    return {...chartConfig, width: figureSize.width, height: explicitHeight ?? figureSize.height};
+  }, [chartConfig, figureSize, explicitHeight, fontsReady]);
 
   return (
     <div ref={ref} className={`${styles.container} ${className}`} data-viz-id={vizId}>
@@ -276,6 +318,30 @@ function dropUndated(rows: unknown, time: unknown): unknown {
     const value = d ? timeOf(d, i) : undefined;
     return value !== undefined && value !== null && value !== "";
   });
+}
+
+/** The value d3plus's `config()` reads as "restore this key's default". */
+const FILL_RESET = "D3PLUS-COMMON-RESET";
+
+/** d3plus's default `color` accessor: the first groupBy level (`id` when the chart has no groupBy). */
+function firstGroupBy(groupBy: unknown): (d: AnyRecord, i: number) => unknown {
+  const first = Array.isArray(groupBy) ? groupBy[0] : groupBy ?? "id";
+  if (typeof first === "function") return first as (d: AnyRecord, i: number) => unknown;
+  const key = String(first);
+  return (d: AnyRecord) => d[key];
+}
+
+/** Whether a chart's `data` is several URLs (loaded by the island, see `VizIsland`). */
+function isMultiUrl(data: unknown): boolean {
+  return Array.isArray(data) && data.length > 1 && data.every(d => typeof d === "string");
+}
+
+/** A response in `{headers, data: [[...]]}` form as rows, the way d3plus's loader folds it. */
+function foldResponse(value: unknown): unknown {
+  const v = value as AnyRecord | null;
+  if (!v || Array.isArray(v) || !Array.isArray(v.data) || !Array.isArray(v.headers)) return value;
+  const headers = v.headers as string[];
+  return (v.data as unknown[][]).map(row => Object.fromEntries(headers.map((h, i) => [h, row[i]])));
 }
 
 /** Legacy default: concatenate the `data` arrays of one or many responses. */

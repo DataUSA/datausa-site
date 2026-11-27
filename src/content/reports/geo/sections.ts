@@ -168,7 +168,7 @@ export const sections: SectionDefinition[] = [
       },
       {
         "id": 3,
-        "allowed": "propertyCurr",
+        "allowed": "textAboutProperty",
         "text": "<p>In {{propertyCurrYear}}, the median property value in {{nameLower}} was Salary{{propertyCurr}}, and the homeownership rate was Abbreviate{{pct_rentOwn}}%.</p>"
       },
       {
@@ -795,7 +795,7 @@ export const sections: SectionDefinition[] = [
     "descriptions": [
       {
         "id": 80,
-        "allowed": "notDistrict",
+        "allowed": "textHealthCoverage",
         "text": "<p>Abbreviate{{insuranceSome}}% of the population of {{nameLower}} has health coverage, with Abbreviate{{insuranceEmp}}% on employee plans, Abbreviate{{insuranceMedicaid}}% on Medicaid, Abbreviate{{insuranceMedicare}}% on Medicare, Abbreviate{{insuranceNon}}% on non-group plans, and Abbreviate{{insuranceOther}}% on military or VA plans.</p>"
       },
       {
@@ -825,7 +825,7 @@ export const sections: SectionDefinition[] = [
       },
       {
         "id": 466,
-        "allowed": "isNotDistrict",
+        "allowed": "textCoverageByGenderIntro",
         "text": "<p>By gender, of the total number of insured persons, growthPct{{menCoverage}} were men and growthPct{{womenCoverage}} were women.</p>"
       }
     ],
@@ -1053,12 +1053,12 @@ export const sections: SectionDefinition[] = [
     "descriptions": [
       {
         "id": 434,
-        "allowed": "always",
+        "allowed": "textCoverageByAge",
         "text": "<p>In {{lastYearCoverage_ageOption}}, insured persons according to age ranges were distributed in list{{coverageByAge}}.</p>"
       },
       {
         "id": 435,
-        "allowed": "always",
+        "allowed": "textCoverageByGender",
         "text": "<p>By gender, of the total number of insured persons, growthPct{{menCoverage}} were men and growthPct{{womenCoverage}} were women.</p>"
       },
       {
@@ -1080,7 +1080,7 @@ export const sections: SectionDefinition[] = [
     "slug": "uninsured_people",
     "type": "TextViz",
     "ordering": 21,
-    "allowed": "insuranceYearCurr",
+    "allowed": "visibleUninsuredTopic",
     "position": "default",
     "icon": "",
     "title": "<p>Uninsured People</p>",
@@ -2145,12 +2145,12 @@ export const sections: SectionDefinition[] = [
       },
       {
         "id": 19,
-        "allowed": "notNation",
+        "allowed": "visibleSenator",
         "text": "<p>{{senatorNames}} are the senators currently representing the state of {{electionState}}. In the United States, senators are elected to 6-year terms with the terms for individual senators staggered.</p>"
       },
       {
         "id": 23,
-        "allowed": "notNation",
+        "allowed": "visibleHouseText",
         "text": "<p>{{houseName}} is currently represented by {{houseMember}} in the U.S. house, and members of the House of Representives are elected to 2-year terms.</p>"
       },
       {
@@ -2970,7 +2970,7 @@ export const sections: SectionDefinition[] = [
       },
       {
         "id": 126,
-        "allowed": "always",
+        "allowed": "textGradsRaceRatio",
         "text": "<p>In {{gradsRaceYear}}, the most common race/ethnicity group awarded degrees at institutions was {{gradsRace1Name}} students. These Commas{{gradsRace1Value}} degrees mean that there were Abbreviate{{gradsRace1Ratio}} times more degrees awarded to {{gradsRace1Name}} students then the next closest race/ethnicity group, {{gradsRace2Name}}, with Commas{{gradsRace2Value}} degrees awarded.</p>"
       }
     ],

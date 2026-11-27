@@ -8,10 +8,12 @@ const generator: GeneratorDefinition = {
   name: "Election - Visible President Election",
   allowed: "always",
   api: attrs => `${attrs.tesseract}tesseract/data?${attrs.hierarchyElectionSubTemp}=${attrs.stateElectionIdTemp}&cube=Data_USA_President_election&debug=false&drilldowns=Year&measures=Candidate+Votes&parents=false&sparse=false`,
-  logic: (resp) => {
+  logic: (resp, {variables}) => {
     const data = resp.data;
 
-    const visiblePresident = data.length > 0;
+    // Areas with no state to cut by (the territories: no senators, so stateElectionIdTemp is "") get
+    // nationwide results from the API, which ignores the empty cut: hide the section (QA DIFF-005).
+    const visiblePresident = data.length > 0 && Boolean(variables.stateElectionIdTemp);
 
     return{
       visiblePresident

@@ -1,9 +1,11 @@
 # Deployment — self-hosted VM, PM2, Nginx
 
 The site is a standard Next.js 16 production build run by PM2 in cluster mode behind the existing
-Nginx reverse proxy (and Cloudflare in front of that). There is no Docker, no CMS database, no
-page generation and no cache-warming step: a fresh deploy serves any valid report URL on its
-first request.
+Nginx reverse proxy (on the Docker hosts, PM2 runs inside the container built by `build.sh`). There is
+no CMS database and no page generation: a fresh deploy serves any valid report URL on its first
+request. Nothing caches report HTML (pages are sent `private, no-store`, Nginx proxies without a
+cache and there is no CDN in front); the one cache is the shared generator cache in Redis (below),
+which lives outside the app's deploy cycle.
 
 ## Requirements
 
@@ -32,6 +34,12 @@ file in the project root at build time). See `.env.example`.
 | `API_MAX_CONCURRENCY`, `API_TIMEOUT_MS` | no | Generator fan-out tuning (defaults 12 and 20000). |
 | `UPSTREAM_MAX_CONCURRENCY` | no | Requests in flight to each data API host (Tesseract, geoservice) per worker, across every report it renders (default 8). The most a deployment sends to Tesseract at once is this times the number of workers. See "Protecting Tesseract" below. |
 | `UPSTREAM_QUEUE_TIMEOUT_MS` | no | How long a request waits for one of those slots before it is dropped and its generator yields nothing (default 30000; 0 waits without limit). |
+| `REDIS_URL` | production | The shared cache (`redis://datausa-redis:6379` in Docker, see "Shared cache (Redis)"). Unset: no shared cache, every worker computes reports from Tesseract (development, tests). |
+| `REDIS_READ_TIMEOUT_MS`, `REDIS_WRITE_TIMEOUT_MS` | no | Deadlines of cache reads and writes (code defaults 50 and 1000; a read of many keys gets the deadline per 50 keys). **Set `REDIS_READ_TIMEOUT_MS=250` in production** (see "Shared cache (Redis)"). A slow or failing Redis is skipped, never fails a page. |
+| `CACHE_TTL_DAYS` | no | Safety-net lifetime of cache entries (default 30). Purges are what invalidate. |
+| `GEN_CACHE_LOCK_MS` | no | How long a render waits for another worker computing the same generator before computing it itself (default 60000). |
+| `WARMER_ENABLED`, `WARMER_MAX_QPS`, `WARMER_DEPLOY_COUNTIES` | no | The background warmer (default on in production with `REDIS_URL`; at most 5 Tesseract queries a second; 100 counties after a deploy). |
+| `GENERATOR_CACHE_SKIP` | no | Comma-separated generator ids to recompute on every render instead of caching (added to the built-in list of clock-dependent generators). |
 | `ENABLE_DEBUG_ROUTES` | no | `true` serves `/api/debug/report` and `/api/debug/upstream` in production; for load tests only. |
 | `GA_KEYFILE`, `GA_PROPERTY_ID` | no | Google Analytics 4 service-account key (path) and property for the home page's most-viewed reports; without them the curated default tiles are shown. |
 | `PM2_INSTANCES` | no | Cluster size (default `max`). |
@@ -58,7 +66,7 @@ folders, named by its id in `data/images.jsonl`; no rebuild is needed.
 ```bash
 nvm use                      # Node 24
 npm ci
-npm run build                # prebuild builds data/dimensions.sqlite from data/*.jsonl, then next build (standalone)
+npm run build                # prebuild builds data/dimensions.sqlite and data/generator-manifest.json, then next build (standalone)
 scripts/package-standalone.sh
 pm2 start ecosystem.config.cjs --env production   # first time
 pm2 reload datausa-site                            # subsequent deploys (zero downtime)
@@ -74,15 +82,14 @@ modules only. The dimensions database is built from the versioned JSONL export i
 
 ## Nginx
 
-Keep the existing `server` block and proxy cache; replace the four Docker upstream ports with the
-PM2 cluster port:
+Keep the existing `server` block; replace the four Docker upstream ports with the PM2 cluster port.
+Nginx only proxies: report pages are not cached in front of the app.
 
 ```nginx
 upstream datausa_site { server 127.0.0.1:3301; keepalive 32; }
 
 location /_next/static/ {
   proxy_pass http://datausa_site;
-  proxy_cache_valid 200 365d;
   add_header Cache-Control "public, max-age=31536000, immutable";
 }
 
@@ -94,51 +101,25 @@ location / {
   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
   proxy_buffering off;          # streamed report HTML
   proxy_read_timeout 120s;
-  # existing proxy_cache directives can stay; report pages send Cache-Control for the edge
 }
-
-# generated share images (og:image): each costs a report run and an image render, and sends
-# Cache-Control: public, s-maxage=86400, stale-while-revalidate=604800; let the proxy cache honour it
-location /og/ { proxy_pass http://datausa_site; proxy_cache_valid 200 1d; }
-location = /api/revalidate { proxy_pass http://datausa_site; proxy_cache off; }
-location /api/prism/      { proxy_pass http://datausa_site; proxy_cache off; }
 ```
 
-**Cached HTML and crawlers.** Next.js sends report pages in two shapes. Ordinary browsers (and
-Googlebot, which runs JavaScript) get the page shell first and the `<title>`, description and share
-tags streamed afterwards, inside `<body>`. Crawlers that read only the first HTML (social previews,
-Bing, AI fetchers: the `htmlLimitedBots` list in `next.config.ts`) get the tags in `<head>`. A proxy
-cache that stores one copy per URL can therefore hand a browser's copy to a preview crawler, which
-then finds no tags in `<head>`. Wherever report HTML is cached, keep the two apart by adding the
-visitor class to the cache key:
-
-```nginx
-# http {} level; keep the pattern in step with htmlLimitedBots in next.config.ts
-map $http_user_agent $html_limited_bot {
-  default 0;
-  "~*(-Google|Google-|Slurp|DuckDuckBot|baiduspider|yandex|bingbot|BingPreview|applebot|facebookexternalhit|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|Pinterestbot|redditbot|GPTBot|ChatGPT-User|OAI-SearchBot|ClaudeBot|Claude-User|PerplexityBot|meta-external|Amazonbot|CCBot|Bytespider)" 1;
-}
-# in the location that caches report HTML
-proxy_cache_key "$scheme$host$request_uri$html_limited_bot";
-```
-
-The same applies to a Cloudflare rule that caches HTML: bypass it for these user agents, or do not
-cache report HTML there. The alternative is `htmlLimitedBots: /.*/`, which puts the tags in `<head>`
-for everyone at the cost of the page shell (the loading skeleton) waiting for the report data.
-
-Report HTML is safe to cache at the edge for the same 30 minutes as today; `Cache-Control` headers
-are set by the app. Prism and revalidation endpoints must never be cached (per-visitor cookies).
+**HTML and crawlers.** Next.js sends report pages in two shapes. Ordinary browsers (and Googlebot,
+which runs JavaScript) get the page shell first and the `<title>`, description and share tags streamed
+afterwards, inside `<body>`. Crawlers that read only the first HTML (social previews, Bing, AI
+fetchers: the `htmlLimitedBots` list in `next.config.ts`) get the tags in `<head>`. Should report HTML
+ever be cached in front of the app, the cache key must keep the two apart (the user agent class), or
+a preview crawler would get a browser's copy without tags in `<head>`.
 
 ## Protecting Tesseract
 
 A report that is not cached sends its generators' queries to Tesseract on the server: about 160 for
 a place, 30 to 55 for the other report types. Each worker sends at most `UPSTREAM_MAX_CONCURRENCY`
 requests to a host at a time, whatever the number of reports it is rendering (`src/lib/api/limit.ts`);
-the rest wait their turn, so a cold cache after a deploy makes pages slower instead of piling queries
-onto Tesseract. Size the total (workers × slots) from a load test of the Tesseract server: the
+the rest wait their turn, so a cold cache makes pages slower instead of piling queries onto Tesseract. Size the total (workers × slots) from a load test of the Tesseract server: the
 default 8 slots at about 0.3 s a query are some 25 queries a second per worker, close to the legacy
 CMS's brake of 20 a second per process. The browser's chart requests are not limited by this; they
-go to the public API host (and Cloudflare's cache in front of it) as before.
+go to the public API host directly, as before.
 
 When requests wait, each worker logs a summary per host at most every 10 seconds:
 
@@ -152,21 +133,308 @@ the site's heavier queries are what slowed. `scripts/loadtest/run.mjs` measures 
 
 With `ENABLE_DEBUG_ROUTES=true`, `GET /api/debug/upstream` returns the counters of the worker that
 answers (each PM2 worker has its own). Dropped requests leave gaps in the page that was being built;
-if they show up in the log, raise the slots (when Tesseract has room), add workers or reduce the
-traffic that reaches the app (the page cache in front of it).
+if they show up in the log, raise the slots (when Tesseract has room) or add workers.
 
-## Caching and data releases
+## Shared cache (Redis)
 
-Application data (Tesseract, geoservice, external feeds) is cached in-process with
-`use cache` + tags (`docs/architecture.md`). After a dataset release:
+Reports render from the **generator cache**: the output of each report generator for each member, in
+Redis, tagged by the cube it read (`docs/architecture.md`, "Generator cache"). Member attributes and
+the lookup tables live there too. All workers and hosts share it, it survives deploys and restarts,
+and a data release purges only the cubes it changed.
 
-1. `curl -X POST https://datausa.io/api/revalidate -H "x-revalidate-secret: $REVALIDATE_SECRET"`
-   purges the data tags on the worker that handles the request. With several PM2 workers, either
-   call it once per worker (Nginx `proxy_pass` to each port when workers listen on distinct ports),
-   or simply `pm2 reload datausa-site`, which starts fresh workers with empty caches.
-2. Purge the Nginx proxy cache / Cloudflare as today.
+**Redis is not part of the app's deploy.** It runs in its own compose project, started once per host
+and left running. `deploy.sh` and `deploy-prod.sh` never start, stop or recreate it (their
+`up --force-recreate --remove-orphans` only touches the app's project); they check that it answers
+`PING` before switching the app and stop with an error if it does not.
 
-Nothing is pre-generated, so stale entries are at most the `data` cache-life (`next.config.ts`).
+```bash
+docker network create datausa-cache                     # once per host (the deploy scripts also create it)
+docker compose -f compose-redis.yaml up -d              # once per host; REDIS_MAXMEMORY=2gb by default
+# in the app's env file:  REDIS_URL=redis://datausa-redis:6379
+```
+
+- **Persistence.** AOF (`appendfsync everysec`) plus RDB snapshots on the `datausa-redis-data` volume:
+  a Redis restart or a host reboot keeps the cache.
+- **Memory.** `maxmemory` with `volatile-lru`: entries carry a 30-day TTL and are evicted least
+  recently used; tag sets, purge counters and the warm queue have no TTL and are never evicted.
+  Measured against penn (52 states and the 10 largest counties): about 169 entries per report,
+  median entry 0.4 KB (90th percentile 1.6 KB, largest 190 KB), some 240 KB of entries and 290 KB
+  with the tag sets per report, 18 MB for those 62 reports. The 152 most visited reports take about
+  45 MB, and the default 2 GB holds some 7,000 reports.
+- **Deploys keep it.** Keys carry a version per generator computed from source text and data
+  (`data/generator-manifest.json`, `npm run build:manifest`), never from the build: a deploy that
+  changes no generator reads every entry the previous build wrote; one that changes a generator
+  recomputes only that generator (shared code: all of them). Entries of versions no longer built
+  are never read again and expire by TTL; nothing is flushed on deploy.
+- **Backups** (optional: the cache can always be recomputed from Tesseract):
+  `docker exec datausa-redis redis-cli bgsave`, then copy the volume
+  (`docker run --rm -v datausa-redis-data:/data -v "$PWD":/backup alpine tar czf /backup/redis.tgz -C /data .`).
+  Restore by extracting it into the volume with Redis stopped.
+- **Size and state.** `npm run cache:purge -- --stats` prints the key count, tags and memory;
+  `GET /api/debug/report?id=texas` (with `ENABLE_DEBUG_ROUTES=true`) shows each generator's hit or
+  miss and sends `x-gen-cache: <hits>/<total>`. Every report render logs one line with its hits,
+  misses, waits on other workers and Redis time; report pages carry the same counts in the
+  `data-gen-cache` and `data-report-generators` attributes of `#Profile` (a streamed page cannot set
+  response headers).
+- **Browsing keys (optional).** RedisInsight is defined in `compose-redis.yaml` under the `ui`
+  profile, so it never starts with Redis. It has no login and listens on `127.0.0.1:5540` only:
+  start it when needed (`docker compose -f compose-redis.yaml --profile ui up -d redisinsight`),
+  open an SSH tunnel (`ssh -L 5540:127.0.0.1:5540 <host>`, then http://localhost:5540), and stop it
+  afterwards (`docker compose -f compose-redis.yaml --profile ui stop redisinsight`). The
+  connection to `datausa-redis` is preconfigured.
+- **Redis down.** Reads time out after `REDIS_READ_TIMEOUT_MS` and a circuit breaker skips Redis for
+  30 s after five errors: pages render from Tesseract as without the cache, slower but complete.
+- **Read deadline: set `REDIS_READ_TIMEOUT_MS=250`.** The code default (50 ms per 50 keys) is too
+  tight. It covers the whole round trip as the worker sees it, including time the reply waits while
+  the worker is busy rendering. On 2026-11-06 occupation reports (44 outputs, about 300 KB) read in
+  57 to 70 ms on a busy host, missed the deadline every time, rendered from Tesseract in 12 to 20 s
+  and stored nothing, so they never became hits. At 250 ms they hit every time in about 1 s.
+  - Set it in the env file, not in the code: `src/lib/cache/redis.ts` is part of the hashes of the
+    attributes, the lookup tables and the in-process `/api/` generators (`scripts/cache/build-manifest.ts`
+    follows its imports), so editing it, even a comment, makes those cache entries stale.
+
+### Warming the whole site (batched warmer)
+
+The background warmer recomputes purged reports one at a time at `WARMER_MAX_QPS`; filling an empty
+cache that way takes days. `npm run warm:batch` (`docs/architecture.md`, "Batched warmer") renders
+a list of reports through the real engine in member groups, fetching shared URLs once, skipping
+queries for levels a cube lacks and batching member queries whose split passed the verification
+gate. Run it from a checkout of the deployed commit with the production build's manifest
+(`npm run build:manifest`, so the keys are the ones the site reads) against the Tesseract the site
+uses:
+
+```bash
+# the plan: a JSON array of {"profile": "geo", "id": "05000US25025"} (a hierarchy is optional)
+NEXT_PUBLIC_TESSERACT_URL=https://api.datausa.io/ GEOSERVICE_URL=https://geoservice.datausa.io/api/ \
+REDIS_URL=redis://<redis host>:6379 \
+  npm run warm:batch -- --plan plan.json --out /var/tmp/warm-$(date +%F) --workers 6 --cap 16 --max-cap 50 --geo-rate 8
+```
+
+- **Load on Tesseract.** All requests of the run share one cap: it starts at `--cap` (16), rises by 4
+  every 20 s up to `--max-cap` while nothing fails, and drops by 40% (pausing 30 s after five
+  errors) on 5xx, timeouts or a p95 above 15 s. Every change is logged in `events.jsonl`. The
+  site's own traffic is not counted: on a server that also serves users, keep `--max-cap` well under
+  what Tesseract takes (one penn server answered about 30 requests a second at most).
+- **Geoservice.** Geo reports read it for their attributes (parents, neighbours) and two
+  generators. It blocks a client that sends too many requests (HTTP 429 behind a challenge page, for
+  a few minutes: about 30 a second did it), so the run keeps it at `--geo-rate` a second (default 4),
+  halves the rate and pauses a minute on a 429. Reports whose attributes are already cached do not
+  call it.
+- **Redis memory.** Size `maxmemory` for the reports in the plan before starting (about 0.2–0.3 MB
+  per geo report, see the measurements in the run's `summary.json`); with `volatile-lru` an
+  undersized Redis evicts entries the run just wrote.
+- **Resuming.** Rerunning the same plan skips the reports that are already a full hit, so a run that
+  stopped can simply be started again. `--force` re-renders everything.
+- **One at a time.** A run takes `warm:batch:lock` in Redis and refuses to start if another holds it.
+- **Progress.** `progress.jsonl` (one line every 15 s: reports, requests by kind, cap and rate,
+  p50/p95 per cube, Redis memory, workers' memory and CPU); the console prints a one-line summary.
+- **Stopping.** Ctrl-C (or SIGTERM) stops the workers and frees the lock at once. Reports already
+  rendered stay in Redis, so starting the same plan again carries on from there.
+
+#### Warm UI
+`npm run warm:ui` serves a small page to start, watch and stop runs without writing a plan by hand:
+
+```bash
+NEXT_PUBLIC_TESSERACT_URL=https://api-penn.datausa.io/ REDIS_URL=redis://<redis host>:6379 \
+  npm run warm:ui -- --port 5560 --runs /var/tmp/warm-runs
+```
+
+- **Strategies.** Every run computes only outputs missing from Redis: the warmer checks each report's
+  keys and fetches only the queries of missing outputs, reading the rest from the cache. Generators
+  that failed at a report's last render are not counted as missing, since failures are never stored.
+  The four strategies differ in which reports they check and what they clear first:
+  - **Whole site:** every report of every published level. It also completes a partial warm.
+  - **Profiles and levels:** the levels you pick, with all members, the N largest by zvalue, or a
+    random share (the 10 largest always included).
+  - **Generators:** for after a generator change. Its outputs get a new version (the manifest), so
+    they count as missing, and the run computes only those, for every profile that has the
+    generator (or only the levels ticked). Tick "recompute" to delete their current outputs first and
+    refresh them without a code change. The warmer flag is `--generators 8,652`.
+  - **Cubes:** for a data release. Purges the cubes (as `npm run cache:purge` does), finds the
+    reports whose cached outputs read them (from the cubes' tag sets, read before the purge), and
+    recomputes the purged outputs. Failed generators reading those cubes are retried (`--retry-cubes`),
+    and the others are not.
+- **Settings.** Workers, cap, the lane for RCA and `calcs` queries, geoservice rate, and an option to
+  re-render reports already cached.
+- **Watch.** The page refreshes every 5 s with the run's progress, rate, cap and errors, reports done
+  per level, Redis size, the warmer's events and its `status.txt`.
+- **Stop.** Ends the run cleanly (workers stopped, lock freed).
+- **History.** Past runs stay in the runs folder (`warm-runs/` by default, git-ignored), each with its
+  plan, logs and `summary.json`; the page lists them and opens any of them.
+- **Access.** It listens on 127.0.0.1 only and has no login. On a server, open an SSH tunnel
+  (`ssh -L 5560:127.0.0.1:5560 <host>`, then http://localhost:5560) and stop it when done. Requests
+  that start or stop runs need an `X-Warm-UI` header, so another site open in the same browser cannot
+  trigger them.
+- **Memory.** A run holds the responses it shares across reports: at most `--shared-mb` (512) in the
+  main process and `--worker-shared-mb` (128) in each worker, plus about 0.5–1 GB per worker while it
+  renders. On a host without swap, start the warm container with `--oom-score-adj 500`, so that if
+  memory runs out the kernel stops the warm rather than Redis (`compose-redis.yaml` sets
+  `oom_score_adj: -500`). On 2026-11-05 an unbounded version of that buffer grew past 1 GB during a
+  university run on penn and the kernel killed Redis; it restarted from its files.
+- **Defaults.** 2 workers, cap 12–24 and 5 RCA/`calcs` queries at a time: on 2026-11-04, `pums_5`
+  started failing on api-penn above about 24 queries in flight, and penn has little memory to spare.
+  Raise them once the ClickHouse projections for `pums_5` are in place
+  (`docs/clickhouse-pums-projections.md`).
+
+#### Redis monitor and stress mode
+Two more tools in the warm UI, for load tests of the cache (and the monitor for watching warms too).
+
+**Monitor** (a card on the page; `scripts/cache/monitor.ts`). A read-only Redis sampler: every second
+it times a `PING` and an `MGET` of a fixed sample of 100 real `gen:*` keys (picked with `SCAN` at the
+start and saved as `keys.json`), and reads `INFO`. It only ever sends `INFO`, `PING`, `MGET` and
+`SCAN` (plus the client's own handshake: `CLIENT SETNAME warm-ui-monitor`); any other command is
+refused in code. The card shows ops/s, CPU, clients, memory and fragmentation, keyspace hits and
+misses, evictions, rejected connections, snapshot or AOF rewrite in progress, `latest_fork_usec`,
+`aof_delayed_fsync`, the `PING` and `MGET` p50, p95 and max over the last minute, the host's available
+memory (from `/proc/meminfo`, Linux only), and charts of each. Samples go to
+`<runs>/<time>-monitor/samples.jsonl`, one line per sample, `t` in milliseconds since the epoch
+(UTC), so they line up with a stress run's files from another machine.
+- **On the site's host, monitor only:** `--monitor-only` serves only the monitor: no warm, no stress,
+  and no Redis connection in the UI process itself. `--monitor` starts sampling at launch
+  (`--monitor-interval 1000`, `--monitor-keys 100`). Run it from a separate checkout (never the one the
+  site's image is built from), on another port than a warm UI, for example:
+  ```bash
+  git clone -b <branch> https://github.com/DataUSA/datausa-site.git ~/warm-tools && cd ~/warm-tools
+  docker run --rm --user "$(id -u):$(id -g)" -e HOME=/tmp -v "$PWD":/app -w /app node:24 npm ci
+  REDIS_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' datausa-redis)
+  docker run -d --name warm-tools-monitor --network host --oom-score-adj 500 --user "$(id -u):$(id -g)" -e HOME=/tmp \
+    -v "$PWD":/app -w /app -e REDIS_URL=redis://$REDIS_IP:6379 \
+    node:24 npm run warm:ui -- --monitor-only --monitor --port 5561 --runs /app/warm-runs
+  ```
+  Then `gcloud compute ssh "$VM_USER@$VM" --zone "$ZONE" -- -L 5561:127.0.0.1:5561 -N` and
+  http://localhost:5561. `docker stop warm-tools-monitor` ends it. Without the UI:
+  `REDIS_URL=... npm run redis:monitor -- --out <dir>`.
+- **Next to a warm:** a warm UI started with both variables shows the same card, with Start and Stop.
+
+**Stress** (a strategy; `scripts/cache/stress.ts`). Cached report pages at fixed arrival rates, an
+open model: requests start on schedule whether or not earlier ones finished, up to a cap in flight
+(requests due at the cap are dropped and counted). Each page is read to the end. **Never run it on
+the site's host**: it competes with the site for CPU. On the load machine it needs neither variable:
+`npm run warm:ui -- --port 5560` (with `data/dimensions.sqlite` built). It refuses `datausa.io` and
+`api.datausa.io`.
+- **Inputs:** the target (default https://penn.datausa.io); the stages, rising rates (pages/s,
+  seconds each, a pause between) or a spike (base rate, peak, back to base); the cap in flight and the
+  page timeout; the stop conditions; the Tesseract probe host; optionally the monitor's URL through its
+  tunnel (http://localhost:5561), polled every 5 s for the host's memory and Redis latency.
+- **The URL list** is built from the dimensions database, from the warmed levels only (no school
+  districts): each level gets its share (mostly places and counties), and within a level members are
+  drawn by size rank with weight 1/rank^skew, so states, big cities and large universities repeat.
+  "Largest only" limits a level to its N largest members. "Preview the list" shows the counts. The
+  list is saved with the run (`urls.txt`, `url-mix.json`).
+- **A cache hit** is a page whose `data-gen-cache="<hits>/<total>"` is within 5 of its total, or
+  (option) within 5 of the most hits that URL showed in the run, and above 0. The second rule is for
+  levels where some generators always fail: failures are never stored, so those pages never reach
+  their total (a large place shows `148/171` on every visit) and the site computes the failed
+  generators again on each visit.
+- **Stop conditions,** over the last 30 s once 20 requests finished: more than 2% errors (5xx,
+  timeouts, connection errors), more than 5% cache misses, more than 2% of requests dropped at the
+  cap; a Tesseract probe (one small query every 10 s) slower than 5 s or failing; the host's memory
+  below 2 GB (with the monitor URL). The run records which one stopped it, and when. "Stop now" aborts
+  every request in flight.
+- **Live:** every 2 s, over the last 10 s: pages/s sent and served, page time p50, p95 and p99, time
+  to first byte, errors, timeouts, in flight, cache-hit share, the probe, with a chart of each and the
+  current stage, and a table per finished stage.
+- **Files** in `<runs>/<time>-stress/`: `requests.jsonl` (every request: start time, stage, URL,
+  status, time to first byte, total time, bytes, hits and total, hit), `progress.jsonl`,
+  `events.jsonl` (stage boundaries, the stop and its reason), `probe.jsonl`, `summary.json` (per
+  stage), `config.json`. Times are milliseconds since the epoch (UTC).
+
+#### Running the warm UI on a Google Cloud VM
+For a VM that already runs the site (`./deploy-prod.sh`) and Redis (`compose-redis.yaml`). The host's
+Node may be too old (the project needs 24), so the warm tools run in a `node:24` container from the
+same checkout the image was built from.
+
+**Names used below** (set them for your VM):
+
+| Variable | Example | Meaning |
+|---|---|---|
+| `VM` | `penn` | Instance name |
+| `ZONE`, `PROJECT` | `<zone>`, `data-usa-174910` | Where the instance is (`gcloud compute instances list` shows the zone; omit both if `gcloud config` has them) |
+| `VM_USER` | `deploy` | The user that owns the checkout and runs Docker |
+| `APP_DIR` | `~/datausa-site-rewrite` | The checkout the running image was built from |
+
+**1. Once per checkout: install and build the generated files.** These are the same steps the image
+build runs, so the cache keys match.
+```bash
+cd "$APP_DIR"
+NODE='docker run --rm -it --network host --user '"$(id -u):$(id -g)"' -e HOME=/tmp -v '"$PWD"':/app -w /app node:24'
+$NODE npm ci
+$NODE npm run build:dimensions
+$NODE npm run build:manifest
+```
+Check that the manifest matches the one in the running image. The hashes must be equal; otherwise
+the warm writes keys the site never reads:
+```bash
+sha256sum data/generator-manifest.json
+docker exec datausa-site-prod sh -c 'sha256sum $(find / -name generator-manifest.json 2>/dev/null | grep -v node_modules | head -1)'
+```
+Repeat step 1 after every `git pull` that you also deploy.
+
+**2. Start the UI in tmux,** so it survives the SSH session:
+```bash
+tmux new -s warm            # later: tmux attach -t warm; leave with Ctrl-b d
+cd "$APP_DIR"
+# the API servers to warm against; the site's own are the simplest choice (only these two lines are read)
+export $(grep -E '^(NEXT_PUBLIC_TESSERACT_URL|GEOSERVICE_URL)=' .env | tr -d "\"'" | xargs)
+REDIS_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' datausa-redis)
+docker run --rm -it --network host --oom-score-adj 500 --user "$(id -u):$(id -g)" -e HOME=/tmp \
+  -v "$PWD":/app -w /app \
+  -e NEXT_PUBLIC_TESSERACT_URL -e GEOSERVICE_URL -e REDIS_URL=redis://$REDIS_IP:6379 \
+  node:24 npm run warm:ui -- --runs /app/warm-runs
+```
+- **Which servers.** Cache keys don't include hosts, so the warm may ask a different API host than
+  the site (for example api-penn.datausa.io for a site reading api.datausa.io), as long as both
+  carry the same data release. Reading them from the site's `.env`, as above, is the simplest.
+- **Reaching Redis.** It isn't published on the host, so the UI reaches it at its container IP.
+  Look `REDIS_IP` up again whenever Redis is recreated.
+- **Kill order.** `--oom-score-adj 500` makes the kernel stop the warm, not Redis, if memory runs
+  out.
+- **Runs folder.** Runs are kept in `$APP_DIR/warm-runs/`. To follow the newest from a shell:
+  `watch -n 5 "cat \$(ls -td $APP_DIR/warm-runs/*/ | head -1)status.txt"`.
+
+**3. From your machine, open a tunnel:**
+```bash
+gcloud compute ssh "$VM_USER@$VM" --zone "$ZONE" --project "$PROJECT" -- -L 5560:127.0.0.1:5560 -N
+```
+Then open http://localhost:5560. The header shows the Tesseract and Redis the UI is connected to; it
+should be the VM's Redis (a `172.x` container address), not a local one. If port 5560 is already
+taken on your machine (for example by a local warm UI), the tunnel only binds what's free and the
+browser can end up on the local UI: use another local port (`-L 5561:127.0.0.1:5560`, then
+http://localhost:5561).
+
+**4. Before starting a run, check memory on the VM.** Machines without swap (penn has none) don't
+slow down when memory runs out: the kernel kills a process.
+```bash
+free -g | head -2
+docker exec datausa-redis redis-cli info memory | grep -E 'used_memory_human|maxmemory_human'
+```
+Keep at least 1–2 GB available during a run: lower the workers or stop the run otherwise.
+
+**5. When done,** stop the UI with Ctrl-C in its tmux window. A run still going is stopped cleanly,
+and starting it again later carries on where it stopped.
+
+## Data releases
+
+Each release comes with the list of cubes it changed. Purge exactly those, from a checkout with
+Node (it talks to Redis directly, so it works with the site down):
+
+```bash
+REDIS_URL=redis://<redis host>:6379 npm run cache:purge -- --cubes acs_yg_total_population_5,pums_5
+# or through the site:
+curl -X POST https://datausa.io/api/revalidate -H "x-revalidate-secret: $REVALIDATE_SECRET" \
+     -H "content-type: application/json" -d '{"cubes": ["acs_yg_total_population_5"]}'
+```
+
+Each cube's entries are deleted for every worker and host at once (the counts are printed), the
+affected reports are queued, and the warmer recomputes them in the background at `WARMER_MAX_QPS`
+(states first, then counties by population, then the rest). A name the cache never saw is reported
+as unknown (exit code 2), which catches typos in the list. `{"tags": ["geoservice"]}` (or
+`--tags geoservice`) purges what came from the geoservice.
+
+What still uses Next's per-worker `use cache` (the home page tiles and map, the dataset pages, the
+COVID employment route, the latest-data figures, similar places on report pages) keeps its
+`revalidateTag` tags: `{"tags": ["tesseract"]}` and the others expire them on the worker that answers;
+`pm2 reload datausa-site` clears them on every worker. Report data is not affected by a reload.
 
 The latest-data home page (`/home-next`) reads BLS and EIA directly, not Tesseract. Its figures are
 cached for two hours (state unemployment for twelve) under the `external-data` tag, so on a release
@@ -178,6 +446,6 @@ up to two hours or purge that tag: `-d '{"tags": ["external-data"]}'`. Release d
 
 1. Deploy the new app on the VM on port 3301 next to the running Docker containers (ports 9994-9997).
 2. Validate with the regression script against the live host: `NEW_URL=http://127.0.0.1:3301 npx tsx scripts/regression/compare.ts /profile/geo/massachusetts ...`.
-3. Switch the Nginx upstream to `datausa_site`, `nginx -s reload`, purge Cloudflare.
+3. Switch the Nginx upstream to `datausa_site`, `nginx -s reload`.
 4. Keep the Docker containers stopped but present for a week; rollback is switching the upstream back and reloading Nginx.
 5. Before decommissioning the legacy VM services: keep the Prism database reachable (gap G2). The profile images are served by this app (see Report photos above).

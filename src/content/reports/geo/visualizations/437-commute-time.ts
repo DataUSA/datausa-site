@@ -44,10 +44,13 @@ const viz: VizDefinition = (variables, {libs, formatters, locale}) => {
   return {
     data: [dataURL, ...dataSimilarURLs],
     dataFormat: (resp: any) => {
-      const dataID = resp[0].data;
-      const dataSimilarArrays = resp.slice(1).map((r: any) => r.data)
+      // d3plus hands a single response object (not a one-item array) when there are no
+      // similar-geography URLs, which left resp[0] undefined and the chart empty.
+      const responses: any[] = Array.isArray(resp) ? resp : [resp];
+      const dataID = responses[0].data;
+      const dataSimilarArrays = responses.slice(1).map((r: any) => r.data);
 
-      similarHierarchies.forEach((simHier: any, i: any) => {
+      (similarHierarchies || []).forEach((simHier: any, i: any) => {
         const dataSimilar = dataSimilarArrays[i];
         if (!Array.isArray(dataSimilar)) return;
         dataSimilar.forEach((d: any) => {

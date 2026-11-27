@@ -1,0 +1,90 @@
+# The shared cache of the site (generator outputs, member attributes, lookup tables; see
+# docs/architecture.md, "Generator cache"). Its own compose project, started once and left
+# running: the app's deploy scripts never start, stop or recreate it (they `up --force-recreate
+# --remove-orphans` their own project, which would otherwise take Redis with it), they only check
+# that it answers PING before switching the app.
+#
+#   docker network create datausa-cache                 # once per host
+#   docker compose -f compose-redis.yaml up -d          # once per host
+#   docker exec datausa-redis redis-cli info memory     # size
+#   docker exec datausa-redis redis-cli bgsave          # snapshot now (see docs/deployment.md, backups)
+#   docker compose -f compose-redis.yaml --profile ui up -d redisinsight   # optional browser UI, see below
+#
+# The app containers reach it as `redis://datausa-redis:6379` on the `datausa-cache` network, so set
+# REDIS_URL=redis://datausa-redis:6379 in the app's env file. The network is external to both
+# projects (create it once: `docker network create datausa-cache`; the deploy scripts also create it
+# when missing), so neither project's `down` or `--remove-orphans` can remove it from the other.
+#
+# Persistence: AOF (fsync every second) plus RDB snapshots in the host folder ./data/redis (bind
+# mount), so a Redis restart or a host reboot keeps the cache and you can copy dump.rdb / the AOF
+# files in and out directly from the host. Memory: entries carry a TTL and are evicted
+# least-recently-used under `maxmemory`; tag sets, purge counters and the warm queue have no TTL and
+# are never evicted (`volatile-lru` only evicts keys with a TTL).
+name: datausa-redis
+
+services:
+  redis:
+    container_name: datausa-redis
+    image: redis:7.4-alpine
+    restart: always
+    command:
+      - redis-server
+      - --appendonly
+      - "yes"
+      - --appendfsync
+      - everysec
+      - --save
+      - "900 1 300 100 60 10000"
+      - --maxmemory
+      - ${REDIS_MAXMEMORY:-2gb}
+      - --maxmemory-policy
+      - volatile-lru
+    volumes:
+      - ./data/redis:/data
+    networks:
+      - datausa-cache
+    # When the host runs out of memory the kernel kills the process with the highest score; on
+    # 2026-11-05 that was Redis (1.7 GB) during a warm run on penn. A low score makes it pick
+    # something else first (a warm run started with `--oom-score-adj 500`, see docs/deployment.md).
+    oom_score_adj: -500
+    # Not published on the host: only containers on the network reach it. For a bare-PM2 deployment
+    # on the host, publish it on loopback instead:
+    # ports:
+    #   - "127.0.0.1:6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  # Optional browser UI for inspecting keys (RedisInsight), off unless the `ui` profile is asked for,
+  # so `up -d` above never starts it. It has no login: it is published on loopback only, reach it
+  # through an SSH tunnel (`ssh -L 5540:127.0.0.1:5540 <host>`, then http://localhost:5540) and stop
+  # it when done (`docker compose -f compose-redis.yaml --profile ui stop redisinsight`). The
+  # connection to datausa-redis is preconfigured. Pinned by digest; update it deliberately.
+  redisinsight:
+    container_name: datausa-redisinsight
+    image: redis/redisinsight@sha256:b5e19ee240abef6edb435871b90ff8a210995422e8e018ab61c0339d318a1f84
+    profiles: ["ui"]
+    restart: unless-stopped
+    environment:
+      - RI_REDIS_HOST=datausa-redis
+      - RI_REDIS_PORT=6379
+      - RI_REDIS_ALIAS=datausa-redis
+    ports:
+      - "127.0.0.1:5540:5540"
+    volumes:
+      - redisinsight-data:/data
+    networks:
+      - datausa-cache
+    depends_on:
+      - redis
+
+volumes:
+  # RedisInsight keeps its own state in a named volume; only the Redis dataset moved to a bind mount.
+  redisinsight-data:
+    name: datausa-redisinsight-data
+
+networks:
+  datausa-cache:
+    external: true

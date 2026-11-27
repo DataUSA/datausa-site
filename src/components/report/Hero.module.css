@@ -128,6 +128,14 @@
 :global(.splash-soc) .subtitle { background-color: var(--soc); }
 :global(.splash-soc) .subtitle::before { background-image: url("/icons/dimensions/PUMS Occupation-Splash.png"); }
 
+/* the pill as a context line: its level and parent are links, in the pill's own ink */
+.context { text-wrap: balance; }
+.context a { color: inherit !important; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.context a:hover { text-decoration-thickness: 2px; }
+@media (max-width: 800px) {
+  .context { max-width: calc(100% - 20px); }
+}
+
 /* A 22px row, as in the legacy hero: the compare button hangs 5px below its top and the search box
    that replaces it is centred on the row, overflowing it evenly, so opening it moves nothing. */
 .search {

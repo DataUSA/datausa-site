@@ -10,7 +10,15 @@ import {isPendingLevel} from "@/lib/geo/levels";
 
 export const BIG_POPULATION = 250000;
 
-/** Latest population for each geoid, grouped per summary level into one cached Tesseract query each. */
+/**
+ * Latest population for each geoid. Each level is read from the whole-level lookup
+ * (`getLevelPopulations`: one query per level, kept in the worker for an hour), so a report sends no
+ * query of its own: the per-page query below had a different id list on every page, so no cache
+ * could answer it, and the breadcrumbs and similar places of every geography report sent one.
+ * When a level's lookup is empty (its request failed), the level falls back to that per-page query,
+ * so the failure is noted in the caller's upstream scope as before and what depends on it is not
+ * stored.
+ */
 export async function getPopulations(ids: string[]): Promise<Record<string, number>> {
   const byLevel = new Map<string, string[]>();
   for (const id of Array.from(new Set(ids))) {
@@ -22,6 +30,15 @@ export async function getPopulations(ids: string[]): Promise<Record<string, numb
   }
   const out: Record<string, number> = {};
   await Promise.all(Array.from(byLevel.entries()).map(async ([level, levelIds]) => {
+    // only the report levels (whole-level lookups of zips or tracts would be large)
+    const {byId} = LOOKUP_LEVELS.has(level) ? await getLevelPopulations(level) : {byId: new Map<string, number>()};
+    if (byId.size) {
+      for (const id of levelIds) {
+        const pop = byId.get(id);
+        if (pop !== undefined) out[id] = pop;
+      }
+      return;
+    }
     const url = tesseractDataUrl({
       cube: "acs_yg_total_population_5",
       drilldowns: level,
@@ -41,6 +58,9 @@ export async function getPopulations(ids: string[]): Promise<Record<string, numb
 
 /** Geography levels that have reports and a population figure in the ACS population cube. */
 export const POPULATION_LEVELS = ["State", "County", "MSA", "PUMA", "Congressional District", "Place"] as const;
+
+/** Levels `getPopulations` reads from the whole-level lookup. */
+const LOOKUP_LEVELS: ReadonlySet<string> = new Set(["Nation", ...POPULATION_LEVELS]);
 
 export interface LevelPopulations {
   /** ACS 5-year vintage the figures belong to (the cube's latest year). */

@@ -23,6 +23,7 @@ const nextConfig: NextConfig = {
   // run JavaScript. Crawlers that read only the first HTML need the tags in <head>: Next's own list
   // (search and social previews) plus the AI and link-preview fetchers it does not know about.
   htmlLimitedBots: /[\w-]+-Google|Google-[\w-]+|Chrome-Lighthouse|Slurp|DuckDuckBot|baiduspider|yandex|sogou|bitlybot|tumblr|vkShare|quora link preview|redditbot|ia_archiver|Bingbot|BingPreview|applebot|facebookexternalhit|facebookcatalog|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|SkypeUriPreview|Yeti|googleweblight|GPTBot|ChatGPT-User|OAI-SearchBot|ClaudeBot|Claude-User|Claude-SearchBot|anthropic-ai|PerplexityBot|Perplexity-User|meta-externalagent|meta-externalfetcher|Amazonbot|CCBot|Bytespider|DuckAssistBot|MistralAI-User|cohere-ai|YouBot|PetalBot|TelegramBot|Pinterestbot|Mastodon|Iframely|Embedly|SemrushBot|AhrefsBot|MJ12bot/i,
+  experimental: {agentUpgrade: "security"},
   poweredByHeader: false,
   reactStrictMode: true,
   // Section landing URLs that only ever showed their first tab (legacy routes.jsx).
